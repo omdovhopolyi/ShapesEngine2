@@ -7,3 +7,18 @@
 [submodule "submodules/lua"]
 	path = submodules/lua
 	url = https://github.com/lua/lua.git
+[submodule "submodules/SDL_image"]
+	path = submodules/SDL_image
+	url = https://github.com/libsdl-org/SDL_image.git
+[submodule "submodules/SDL_ttf"]
+	path = submodules/SDL_ttf
+	url = https://github.com/libsdl-org/SDL_ttf.git
+[submodule "submodules/SDL_mixer"]
+	path = submodules/SDL_mixer
+	url = https://github.com/libsdl-org/SDL_mixer.git
+[submodule "submodules/sol2"]
+	path = submodules/sol2
+	url = https://github.com/ThePhD/sol2.git
+[submodule "submodules/glm"]
+	path = submodules/glm
+	url = https://github.com/g-truc/glm.git
