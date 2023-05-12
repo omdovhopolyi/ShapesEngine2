@@ -19,25 +19,26 @@ endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
-#set(ENTT_INCLUDE_NATVIS ON)
-
 add_subdirectory(submodules/SDL)
-target_link_libraries(${TARGET_NAME} SDL)
+target_link_libraries(${TARGET_NAME} SDL2)
 
-add_subdirectory(submodules/imgui)
-target_link_libraries(${TARGET_NAME} imgui)
+#add_subdirectory(submodules/imgui)
+#target_link_libraries(${TARGET_NAME} imgui)
 
-#add_subdirectory(submodules/SDL_image)
-#target_link_libraries(${TARGET_NAME} SDL_image)
+add_subdirectory(submodules/SDL_image)
+target_link_libraries(${TARGET_NAME} SDL2_image)
 
 add_subdirectory(submodules/SDL_ttf)
-target_link_libraries(${TARGET_NAME} SDL_ttf)
+target_link_libraries(${TARGET_NAME} SDL2_ttf)
 
 add_subdirectory(submodules/SDL_mixer)
-target_link_libraries(${TARGET_NAME} SDL_mixer)
+target_link_libraries(${TARGET_NAME} SDL2_mixer)
 
 add_subdirectory(submodules/glm)
 target_link_libraries(${TARGET_NAME} glm)
+
+add_subdirectory(submodules/sol2)
+target_link_libraries(${TARGET_NAME} sol2)
 
 #add_subdirectory(external/glad)
 #target_link_libraries(${TARGET_NAME} glad)
@@ -49,22 +50,21 @@ target_link_libraries(${TARGET_NAME} glm)
 #target_link_libraries(${TARGET_NAME} reactphysics3d)
 
 include_directories(src)
+
 include_directories(submodules/imgui)
 include_directories(submodules/SDL)
 include_directories(submodules/SDL_image)
 include_directories(submodules/SDL_ttf)
 include_directories(submodules/SDL_mixer)
 include_directories(submodules/glm)
-#include_directories(submodules/stb)
-#include_directories(submodules/rapidjson/include)
-#include_directories(submodules/entt/src)
-#include_directories(submodules/reactphysics3d/include)
-#include_directories(submodules/assimp/include)
-#include_directories(external/glad/include)
+include_directories(submodules/lua)
+include_directories(submodules/sol2)
 
+add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
+                ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
+        )
 
 set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-
-#add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-#	COMMAND ${CMAKE_COMMAND} -E copy_directory
-#	${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${TARGET_NAME}>/resources)
