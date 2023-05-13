@@ -4,9 +4,6 @@
 [submodule "submodules/imgui"]
 	path = submodules/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "submodules/lua"]
-	path = submodules/lua
-	url = https://github.com/lua/lua.git
 [submodule "submodules/SDL_image"]
 	path = submodules/SDL_image
 	url = https://github.com/libsdl-org/SDL_image.git
