@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.20.4 FATAL_ERROR)
+
+set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/submodules/imgui)
+
+configure_file(${IMGUI_DIR}/backends/imgui_impl_sdl2.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdl2.h COPYONLY)
+configure_file(${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdl2.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/imconfig.h ${PROJECT_SOURCE_DIR}/src/imgui/imconfig.h COPYONLY)
+configure_file(${IMGUI_DIR}/imgui_draw.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_draw.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/imgui_internal.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui_internal.h COPYONLY)
+configure_file(${IMGUI_DIR}/imgui_tables.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_tables.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/imgui_widgets.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_widgets.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/imstb_rectpack.h ${PROJECT_SOURCE_DIR}/src/imgui/imstb_rectpack.h COPYONLY)
+configure_file(${IMGUI_DIR}/imstb_textedit.h ${PROJECT_SOURCE_DIR}/src/imgui/imstb_textedit.h COPYONLY)
+configure_file(${IMGUI_DIR}/imstb_truetype.h ${PROJECT_SOURCE_DIR}/src/imgui/imstb_truetype.h COPYONLY)
+configure_file(${IMGUI_DIR}/imconfig.h ${PROJECT_SOURCE_DIR}/src/imgui/imconfig.h COPYONLY)
+configure_file(${IMGUI_DIR}/imgui.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/imgui.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui.h COPYONLY)
+configure_file(${IMGUI_DIR}/imgui_demo.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_demo.cpp COPYONLY)
