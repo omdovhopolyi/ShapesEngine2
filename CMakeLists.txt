@@ -21,11 +21,8 @@ endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
-#add_subdirectory(cmake/imgui)
-#target_link_libraries(${TARGET_NAME} imgui)
-
 add_subdirectory(submodules/SDL)
-target_link_libraries(${TARGET_NAME} SDL2)
+target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
 
 add_subdirectory(submodules/SDL_image)
 target_link_libraries(${TARGET_NAME} SDL2_image)
