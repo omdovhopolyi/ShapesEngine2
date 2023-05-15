@@ -26,12 +26,16 @@ namespace ShE
 			return;
 		}
 
+		/*SDL_DisplayMode displayMode;
+		SDL_GetCurrentDisplayMode(0, &displayMode);
+		_winHeight = (_winWidth * displayMode.h) / displayMode.w;*/
+		
 		_window = SDL_CreateWindow(
 			NULL,
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			800,
-			600,
+			_winWidth,
+			_winHeight,
 			SDL_WINDOW_BORDERLESS);
 
 		if (!_window)
@@ -46,6 +50,8 @@ namespace ShE
 			std::cerr << "Error creating renderer" << std::endl;
 			return;
 		}
+
+		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
 
 		_isRunning = true;
 	}
@@ -96,7 +102,7 @@ namespace ShE
 
 	void Game::Render()
 	{
-		SDL_SetRenderDrawColor(_renderer, 0, 255, 0, 255);
+		SDL_SetRenderDrawColor(_renderer, 123, 255, 123, 255);
 		SDL_RenderClear(_renderer);
 
 
