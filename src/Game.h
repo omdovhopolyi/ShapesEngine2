@@ -1,5 +1,8 @@
 #pragma once
 
+struct SDL_Window;
+struct SDL_Renderer;
+
 namespace ShE
 {
 	class Game
@@ -16,5 +19,10 @@ namespace ShE
 		void ProcessInput();
 		void Update();
 		void Render();
+
+	private:
+		SDL_Window* _window = nullptr;
+		SDL_Renderer* _renderer = nullptr;
+		bool _isRunning = false;
 	};
 }
