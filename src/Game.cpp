@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Game.h"
-
-#include <SDL.h>
+#include "SDL_image.h"
 #include <iostream>
+
 
 namespace ShE
 {
@@ -26,10 +26,11 @@ namespace ShE
 			return;
 		}
 
-		/*SDL_DisplayMode displayMode;
+		SDL_DisplayMode displayMode;
 		SDL_GetCurrentDisplayMode(0, &displayMode);
-		_winHeight = (_winWidth * displayMode.h) / displayMode.w;*/
-		
+		_winWidth = displayMode.w;
+		_winHeight = displayMode.h;
+
 		_window = SDL_CreateWindow(
 			NULL,
 			SDL_WINDOWPOS_CENTERED,
@@ -52,7 +53,6 @@ namespace ShE
 		}
 
 		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
-
 		_isRunning = true;
 	}
 
@@ -102,9 +102,18 @@ namespace ShE
 
 	void Game::Render()
 	{
-		SDL_SetRenderDrawColor(_renderer, 123, 255, 123, 255);
+		SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
 		SDL_RenderClear(_renderer);
 
+		SDL_Surface* surface = IMG_Load("../assets/images/tank-panther-right.png");
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
+		SDL_FreeSurface(surface);
+
+		SDL_Rect destRect = { 10, 10, 32, 32 };
+
+		SDL_RenderCopy(_renderer, texture, NULL, &destRect);
+
+		SDL_DestroyTexture(texture);
 
 		SDL_RenderPresent(_renderer);
 	}

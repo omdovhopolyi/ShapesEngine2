@@ -1,7 +1,6 @@
 #pragma once
 
-struct SDL_Window;
-struct SDL_Renderer;
+#include <SDL.h>
 
 namespace ShE
 {

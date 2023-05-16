@@ -4,6 +4,8 @@ set(TARGET_NAME ShapesEngine2)
 
 project(${TARGET_NAME})
 
+#set(CMAKE_BUILD_TYPE Debug)
+
 add_subdirectory(cmake/imgui)
 
 file (GLOB_RECURSE SRC_FILES 
@@ -20,9 +22,10 @@ foreach(source IN LISTS SRC_FILES)
 endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
-
-add_subdirectory(submodules/SDL)
-target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
+ 
+ add_subdirectory(submodules/SDL)
+ target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
+ #target_compile_options(SDL2 PUBLIC "$<$<CONFIG:DEBUG>:-g>")
 
 add_subdirectory(submodules/SDL_image)
 target_link_libraries(${TARGET_NAME} SDL2_image)
@@ -68,5 +71,12 @@ add_custom_command(
                 ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
         )
+
+add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_BINARY_DIR}/submodules/SDL_image/Debug/SDL2_imaged.dll
+                ${CMAKE_BINARY_DIR}/bin/Debug/SDL2_imaged.dll
+)
 
 set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
