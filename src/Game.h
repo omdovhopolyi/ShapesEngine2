@@ -15,6 +15,7 @@ namespace ShE
 		void Destroy();
 
 	private:
+		void Setup();
 		void ProcessInput();
 		void Update();
 		void Render();

@@ -2,6 +2,9 @@
 
 #include "Game.h"
 #include "SDL_image.h"
+#include "glm/glm.hpp"
+
+
 #include <iostream>
 
 
@@ -53,11 +56,14 @@ namespace ShE
 		}
 
 		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
+
 		_isRunning = true;
 	}
 
 	void Game::Run()
 	{
+		Setup();
+
 		while (_isRunning)
 		{
 			ProcessInput();
@@ -71,6 +77,15 @@ namespace ShE
 		SDL_DestroyRenderer(_renderer);
 		SDL_DestroyWindow(_window);
 		SDL_Quit();
+	}
+
+	glm::vec2 position;
+	glm::vec2 velocity;
+
+	void Game::Setup()
+	{
+		position = { 10.f, 20.f };
+		velocity = { 0.1f, 0.05f };
 	}
 
 	void Game::ProcessInput()
@@ -97,7 +112,7 @@ namespace ShE
 
 	void Game::Update()
 	{
-
+		position += velocity;
 	}
 
 	void Game::Render()
@@ -109,7 +124,12 @@ namespace ShE
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
 		SDL_FreeSurface(surface);
 
-		SDL_Rect destRect = { 10, 10, 32, 32 };
+		SDL_Rect destRect = { 
+			static_cast<int>(position.x),
+			static_cast<int>(position.y),
+			32, 
+			32 
+		};
 
 		SDL_RenderCopy(_renderer, texture, NULL, &destRect);
 
