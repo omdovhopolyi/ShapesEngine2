@@ -55,7 +55,7 @@ namespace ShE
 			return;
 		}
 
-		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
+		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 		_isRunning = true;
 	}
@@ -85,7 +85,7 @@ namespace ShE
 	void Game::Setup()
 	{
 		position = { 10.f, 20.f };
-		velocity = { 0.1f, 0.05f };
+		velocity = { 100.f, 0.f };
 	}
 
 	void Game::ProcessInput()
@@ -112,7 +112,17 @@ namespace ShE
 
 	void Game::Update()
 	{
-		position += velocity;
+		int timeToWait = MILLISEC_PER_FRAME - (SDL_GetTicks() - _lastUpdateTime);
+		if (timeToWait > 0)
+		{
+			SDL_Delay(timeToWait);
+		}
+		
+		float dt = (SDL_GetTicks() - _lastUpdateTime) / 1000.f;
+
+		_lastUpdateTime = SDL_GetTicks();
+
+		position += velocity * dt;
 	}
 
 	void Game::Render()
