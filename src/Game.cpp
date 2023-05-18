@@ -3,21 +3,21 @@
 #include "Game.h"
 #include "SDL_image.h"
 #include "glm/glm.hpp"
-
+#include "Logger.h"
 
 #include <iostream>
-
 
 namespace ShE
 {
 	Game::Game()
 	{
-
+		Logger::Log("Game constructor");
+		Logger::Err("Checking problems logging");
 	}
 
 	Game::~Game()
 	{
-
+		Logger::Log("Game destructor");
 	}
 
 	void Game::Initialize()
@@ -25,7 +25,7 @@ namespace ShE
 		const int result = SDL_Init(SDL_INIT_EVERYTHING);
 		if (result != 0)
 		{
-			std::cerr << "Error initializing SDL" << std::endl;
+			Logger::Err("Initializing SDL");
 			return;
 		}
 
@@ -44,14 +44,14 @@ namespace ShE
 
 		if (!_window)
 		{
-			std::cerr << "Error creating window" << std::endl;
+			Logger::Err("Error creating window");
 			return;
 		}
 
 		_renderer = SDL_CreateRenderer(_window, -1, 0);
 		if (!_renderer)
 		{
-			std::cerr << "Error creating renderer" << std::endl;
+			Logger::Err("Error creating renderer");
 			return;
 		}
 
