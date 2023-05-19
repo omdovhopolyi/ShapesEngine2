@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "SDL_image.h"
 #include "glm/glm.hpp"
-#include "Logger.h"
+#include "Logger/Logger.h"
 
 #include <iostream>
 
