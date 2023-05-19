@@ -13,14 +13,28 @@ const std::string YELLOW = "\033[33m";
 
 namespace ShE
 {
+    std::vector<LogEntry> Logger::messages;
+
     void Logger::Log(const std::string& msg)
     {
-        std::cout << GREEN << "LOG | " << PrintDateTime() << ' ' << msg << RESET << std::endl;
+        LogEntry logEntry;
+        logEntry.type = LogType::Info;
+        logEntry.message = "LOG | " + PrintDateTime() + ' ' + msg;
+
+        std::cout << GREEN << logEntry.message << RESET << std::endl;
+
+        messages.push_back(logEntry);
     }
 
     void Logger::Err(const std::string& msg)
     {
-        std::cout << RED << "ERR | " << PrintDateTime() << ' ' << msg << RESET << std::endl;
+        LogEntry logEntry;
+        logEntry.type = LogType::Error;
+        logEntry.message = "ERR | " + PrintDateTime() + ' ' + msg;
+
+        std::cout << RED << logEntry.message << RESET << std::endl;
+
+        messages.push_back(logEntry);
     }
 
     std::string Logger::PrintDateTime()
