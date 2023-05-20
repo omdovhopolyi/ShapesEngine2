@@ -6,6 +6,12 @@
 #include <iostream>
 #include <sstream>
 
+#include "spdlog/spdlog.h"
+#include <spdlog/sinks/stdout_sinks.h>
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/ringbuffer_sink.h"
+
 const std::string RESET = "\033[0m";
 const std::string RED = "\x1B[31m";
 const std::string GREEN = "\x1B[32m";
@@ -13,37 +19,30 @@ const std::string YELLOW = "\033[33m";
 
 namespace ShE
 {
-    std::vector<LogEntry> Logger::messages;
+    Logger::Logger()
+    {
+        constexpr size_t buffer_size = 8192;
+        auto ringbuffer_sink = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(buffer_size);
+        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true); // TODO filepath
+
+        _logger = std::make_unique<spdlog::logger>("logger", spdlog::sinks_init_list{ console_sink, file_sink, ringbuffer_sink });
+        _logger->set_pattern("[%Y-%m-%d %H:%M:%S.%f %z] [%^%l%$] %v");
+    }
+
+    Logger& Logger::Instance()
+    {
+        static Logger inst;
+        return inst;
+    }
 
     void Logger::Log(const std::string& msg)
     {
-        LogEntry logEntry;
-        logEntry.type = LogType::Info;
-        logEntry.message = "LOG | " + PrintDateTime() + ' ' + msg;
-
-        std::cout << GREEN << logEntry.message << RESET << std::endl;
-
-        messages.push_back(logEntry);
+        Instance().Log("{}", msg);
     }
 
     void Logger::Err(const std::string& msg)
     {
-        LogEntry logEntry;
-        logEntry.type = LogType::Error;
-        logEntry.message = "ERR | " + PrintDateTime() + ' ' + msg;
-
-        std::cout << RED << logEntry.message << RESET << std::endl;
-
-        messages.push_back(logEntry);
-    }
-
-    std::string Logger::PrintDateTime()
-    {
-        std::stringstream ss;
-        auto currentTime = std::chrono::system_clock::now();
-        std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
-        std::tm* localTime = std::localtime(&currentTime_t);
-        ss << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
-        return ss.str();
+        Instance().Err("{}", msg);
     }
 }

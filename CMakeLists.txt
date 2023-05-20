@@ -64,19 +64,24 @@ include_directories(submodules/SDL_mixer)
 include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
+include_directories(submodules/spdlog/include)
 
-add_custom_command(
+if (MSVC)
+    add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
         )
-
-add_custom_command(
+        
+    add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_BINARY_DIR}/submodules/SDL_image/Debug/SDL2_imaged.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2_imaged.dll
-)
+        )
+endif()
+
+
 
 set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)

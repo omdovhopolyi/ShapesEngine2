@@ -1,4 +1,4 @@
+consider using logger lib (SPDLog)
 create window abstraction class
 track dt (not with SDL) (constant step update and free render)
-consider using logger lib (SPDLog)
 relative path builder
