@@ -22,3 +22,6 @@
 [submodule "submodules/lua"]
 	path = submodules/lua
 	url = https://github.com/lua/lua.git
+[submodule "submodules/spdlog"]
+	path = submodules/spdlog
+	url = https://github.com/gabime/spdlog.git
