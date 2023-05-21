@@ -12,11 +12,6 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/ringbuffer_sink.h"
 
-const std::string RESET = "\033[0m";
-const std::string RED = "\x1B[31m";
-const std::string GREEN = "\x1B[32m";
-const std::string YELLOW = "\033[33m";
-
 namespace ShE
 {
     Logger::Logger()

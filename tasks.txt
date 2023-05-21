@@ -1,3 +1,5 @@
 create window abstraction class
 track dt (not with SDL) (constant step update and free render)
+rework main loop
 relative path builder
+managers provider
