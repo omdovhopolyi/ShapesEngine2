@@ -26,12 +26,19 @@ namespace ShE
         static Logger& Instance();
 
         static void Log(const std::string& msg);
+        static void Warn(const std::string& msg);
         static void Err(const std::string& msg);
 
         template<typename... Args>
         static void Log(const std::string& format, Args&& ...args)
         {
             Instance().GetLogger()->info(format, std::forward<Args>(args)...);
+        }
+
+        template<typename... Args>
+        static void Warn(const std::string& format, Args&& ...args)
+        {
+            Instance().GetLogger()->warn(format, std::forward<Args>(args)...);
         }
 
         template<typename... Args>

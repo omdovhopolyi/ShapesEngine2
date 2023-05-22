@@ -36,6 +36,11 @@ namespace ShE
         Instance().Log("{}", msg);
     }
 
+    void Logger::Warn(const std::string& msg)
+    {
+        Instance().Warn("{}", msg);
+    }
+
     void Logger::Err(const std::string& msg)
     {
         Instance().Err("{}", msg);
