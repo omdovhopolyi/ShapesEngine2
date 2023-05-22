@@ -22,10 +22,12 @@ foreach(source IN LISTS SRC_FILES)
 endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
- 
- add_subdirectory(submodules/SDL)
- target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
- #target_compile_options(SDL2 PUBLIC "$<$<CONFIG:DEBUG>:-g>")
+
+set(ENTT_INCLUDE_NATVIS ON)
+
+add_subdirectory(submodules/SDL)
+target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
+#target_compile_options(SDL2 PUBLIC "$<$<CONFIG:DEBUG>:-g>")
 
 add_subdirectory(submodules/SDL_image)
 target_link_libraries(${TARGET_NAME} SDL2_image)
@@ -65,6 +67,7 @@ include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)
+include_directories(submodules/entt/src)
 
 if (MSVC)
     add_custom_command(
