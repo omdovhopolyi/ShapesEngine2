@@ -12,7 +12,7 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/ringbuffer_sink.h"
 
-namespace ShE
+namespace shen
 {
     Logger::Logger()
     {

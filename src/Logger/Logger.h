@@ -3,9 +3,8 @@
 #include <string>
 #include <vector>
 #include "spdlog/spdlog.h"
-//#include "spdlog/sinks/ringbuffer_sink.h"
 
-namespace ShE
+namespace shen
 {
     enum class LogType
     {

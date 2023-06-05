@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-    ShE::Game game;
+    shen::Game game;
 
     game.Initialize();
     game.Run();
