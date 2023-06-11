@@ -1,13 +1,10 @@
 #pragma once
 
-#include "Utils/Singleton.h"
-
 #include <SDL.h>
 
 namespace shen
 {
     class GameWindow
-        : public Singleton<GameWindow>
     {
     public:
         bool Init();

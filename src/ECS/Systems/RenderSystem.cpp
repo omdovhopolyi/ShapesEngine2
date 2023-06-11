@@ -1,4 +1,5 @@
 #include "RenderSystem.h"
+#include "Game/ManagersProvider.h"
 #include "Game/GameWindow.h"
 #include "ECS/EcsWorld.h"
 
@@ -16,10 +17,12 @@ namespace shen
 
     void RenderSystem::Update()
     {
-		EcsWorld::Instance().Each<Transform>(
+		auto world = ManagersProvider::Instance().GetWorld();
+
+		world->Each<Transform>(
 			[](const auto entity, const auto& transform)
 		{
-			auto renderer = GameWindow::Instance().GetRenderer();
+			auto renderer = ManagersProvider::Instance().GetGameWindow()->GetRenderer();
 
 			SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
 			SDL_RenderClear(renderer);

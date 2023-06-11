@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Utils/Singleton.h"
 #include "Systems/System.h"
 
 #include <memory>
@@ -12,7 +11,6 @@
 namespace shen
 {
     class SystemsManager
-        : public Singleton<SystemsManager>
     {
     public:
         void Init();
@@ -45,5 +43,4 @@ namespace shen
         std::vector<std::unique_ptr<System>> _systems;
         std::map<std::type_index, System*> _mappedSystems;
     };
-
 }

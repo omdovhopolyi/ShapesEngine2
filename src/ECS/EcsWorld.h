@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Utils/Singleton.h"
-
 #include <entt/entt.hpp>
 
 namespace shen
@@ -9,7 +7,6 @@ namespace shen
     using Entity = entt::entity;
 
     class EcsWorld
-        : public Singleton<EcsWorld>
     {
     public:
         template<class... Types, class Func>
