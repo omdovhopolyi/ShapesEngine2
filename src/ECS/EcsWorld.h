@@ -13,7 +13,7 @@ namespace shen
     {
     public:
         template<class... Types, class Func>
-        void Each(Func& func)
+        void Each(const Func& func)
         {
             auto view = _registry.view<Types...>();
             view.each(func);

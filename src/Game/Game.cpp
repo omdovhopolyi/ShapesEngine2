@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Game.h"
-//#include "SDL_image.h"
-//#include "glm/glm.hpp"
 #include "Logger/Logger.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/EcsWorld.h"

@@ -31,7 +31,7 @@ namespace shen
             auto it = _mappedSystems.find(typeIndex);
             if (it != _mappedSystems.end())
             {
-                return it->second.get();
+                return it->second;
             }
             return nullptr;
         }

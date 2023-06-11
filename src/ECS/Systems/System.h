@@ -5,7 +5,7 @@ namespace shen
     class System
     {
     public:
-        ~System() = default;
+        virtual ~System() = default;
 
         virtual void Start() {};
         virtual void Update() {};
