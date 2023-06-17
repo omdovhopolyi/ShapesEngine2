@@ -11,7 +11,9 @@ namespace shen
 
     bool ManagersProvider::Init()
     {
-        _gameWindow.reset(new GameWindow());
+        _gameWindow = nullptr;
+        _gameWindow = std::make_unique<GameWindow>();
+
         if (_gameWindow)
         {
             if (_gameWindow->Init())
