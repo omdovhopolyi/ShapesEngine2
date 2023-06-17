@@ -34,6 +34,7 @@ namespace shen
 
     void SystemsManager::Clear()
     {
+        Logger::Log("SystemsManager::Clear");
         _systems.clear();
         _mappedSystems.clear();
     }

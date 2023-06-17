@@ -3,8 +3,7 @@
 #include "Game/Time.h"
 #include "Game/ManagersProvider.h"
 
-#include "ECS/Components/Transform.h"
-#include "ECS/Components/Velocity.h"
+#include "ECS/Components/Common.h"
 
 namespace shen
 {
@@ -13,10 +12,10 @@ namespace shen
         const auto dt = ManagersProvider::Instance().GetTime()->Dt();
         auto world = ManagersProvider::Instance().GetWorld();
 
-        world->Each<Transform, Velocity>(
-            [dt](const auto entity, auto& transform, const auto& velocity)
+        world->Each<Transform, RigidBody>(
+            [dt](const auto entity, auto& transform, const auto& rigidBody)
         {
-            transform.position += velocity.velocity * dt;
+            transform.position += rigidBody.velocity * dt;
         });
     }
 }

@@ -8,8 +8,7 @@
 #include "Time.h"
 #include "GameWindow.h"
 
-#include "ECS/Components/Transform.h"
-#include "ECS/Components/Velocity.h"
+#include "ECS/Components/Common.h"
 
 #include <iostream>
 
@@ -55,8 +54,8 @@ namespace shen
 		auto& transform = world->AddComponent<Transform>(entity);
 		transform.position = { 10.f, 20.f, 0.f };
 
-		auto& velocity = world->AddComponent<Velocity>(entity);
-		velocity.velocity = { 100.f, 0.f, 0.f };
+		auto& rigidBody = world->AddComponent<RigidBody>(entity);
+		rigidBody.velocity = { 100.f, 0.f, 0.f };
 	}
 
 	void Game::ProcessInput()

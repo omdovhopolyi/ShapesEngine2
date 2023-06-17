@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "Logger/Logger.h"
 #include <entt/entt.hpp>
 
 namespace shen
@@ -41,6 +42,7 @@ namespace shen
     template<class Comp, class... Args>
     Comp& EcsWorld::AddComponent(Entity entity, Args... args)
     {
+        Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
         return _registry.emplace<Comp>(entity._entity, std::forward<Args>(args)...);
     }
 
@@ -53,6 +55,7 @@ namespace shen
     template<class Comp>
     void EcsWorld::RemoveComponent(Entity entity)
     {
+        Logger::Log("Removing {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
         _registry.remove<Comp>(entity._entity);
     }
 

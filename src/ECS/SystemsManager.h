@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Systems/System.h"
+#include "Logger/Logger.h"
 
 #include <memory>
 #include <vector>
@@ -16,23 +17,10 @@ namespace shen
         void Init();
 
         template <class T>
-        void RegisteSystem()
-        {
-            _systems.push_back(std::make_unique<T>());
-            _mappedSystems[std::type_index(typeid(T))] = _systems.back().get();
-        }
+        void RegisteSystem();
 
         template <class T>
-        T* GetSystem() const
-        {
-            const auto typeIndex = std::type_index(typeid(T));
-            auto it = _mappedSystems.find(typeIndex);
-            if (it != _mappedSystems.end())
-            {
-                return it->second;
-            }
-            return nullptr;
-        }
+        T* GetSystem() const;
 
         void Start();
         void Update();
@@ -43,4 +31,24 @@ namespace shen
         std::vector<std::unique_ptr<System>> _systems;
         std::map<std::type_index, System*> _mappedSystems;
     };
+
+    template <class T>
+    void SystemsManager::RegisteSystem()
+    {
+        _systems.push_back(std::make_unique<T>());
+        _mappedSystems[std::type_index(typeid(T))] = _systems.back().get();
+        Logger::Log("Register {} system", typeid(T).name());
+    }
+
+    template <class T>
+    T* SystemsManager::GetSystem() const
+    {
+        const auto typeIndex = std::type_index(typeid(T));
+        auto it = _mappedSystems.find(typeIndex);
+        if (it != _mappedSystems.end())
+        {
+            return it->second;
+        }
+        return nullptr;
+    }
 }

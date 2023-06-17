@@ -9,6 +9,8 @@ namespace shen
     public:
         Entity(const entt::entity& entity);
 
+        std::uint32_t GetId() const;
+
         bool operator == (const Entity& other) { return _entity == other._entity; }
         bool operator < (const Entity& other) { return _entity < other._entity; }
 

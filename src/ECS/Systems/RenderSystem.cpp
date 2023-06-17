@@ -3,7 +3,7 @@
 #include "Game/GameWindow.h"
 #include "ECS/EcsWorld.h"
 
-#include "ECS/Components/Transform.h"
+#include "ECS/Components/Common.h"
 
 #include "SDL_image.h"
 #include <SDL.h>
