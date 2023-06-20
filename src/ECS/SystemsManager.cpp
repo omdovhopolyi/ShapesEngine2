@@ -1,11 +1,9 @@
 #include "SystemsManager.h"
-#include "SystemsRegistration.h"
 
 namespace shen
 {
     void SystemsManager::Init()
     {
-        RegisterSystems();
     }
 
     void SystemsManager::Start()

@@ -17,11 +17,11 @@ namespace shen
     Logger::Logger()
     {
         constexpr size_t buffer_size = 8192;
-        auto ringbuffer_sink = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(buffer_size);
-        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true); // TODO filepath
+        auto ringbufferSink = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(buffer_size);
+        auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true); // TODO filepath
 
-        _logger = std::make_unique<spdlog::logger>("logger", spdlog::sinks_init_list{ console_sink, file_sink, ringbuffer_sink });
+        _logger = std::make_unique<spdlog::logger>("logger", spdlog::sinks_init_list{ consoleSink, fileSink, ringbufferSink });
         _logger->set_pattern("[%Y-%m-%d %H:%M:%S.%f %z] [%^%l%$] %v");
     }
 

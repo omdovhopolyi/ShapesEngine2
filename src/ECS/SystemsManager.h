@@ -47,7 +47,7 @@ namespace shen
         auto it = _mappedSystems.find(typeIndex);
         if (it != _mappedSystems.end())
         {
-            return it->second;
+            return static_cast<T*>(it->second);
         }
         return nullptr;
     }

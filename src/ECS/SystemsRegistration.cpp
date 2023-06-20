@@ -3,7 +3,7 @@
 #include "Game/ManagersProvider.h"
 
 #include "Systems/MovementSystem.h"
-#include "Systems/RenderSystem.h"
+#include "Systems/SDLSpriteRenderSystem.h"
 
 namespace shen
 {
@@ -12,6 +12,6 @@ namespace shen
         auto manager = ManagersProvider::Instance().GetSystemsManager();
 
         manager->RegisteSystem<MovementSystem>();
-        manager->RegisteSystem<RenderSystem>();
+        manager->RegisteSystem<SDLSpriteRenderSystem>();
     }
 }

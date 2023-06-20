@@ -3,21 +3,20 @@
 #include "Game.h"
 #include "ManagersProvider.h"
 #include "Logger/Logger.h"
-#include "ECS/SystemsManager.h"
-#include "ECS/EcsWorld.h"
 #include "Time.h"
 #include "GameWindow.h"
 
+#include "ECS/SystemsManager.h"
+#include "ECS/EcsWorld.h"
+#include "ECS/SystemsRegistration.h"
 #include "ECS/Components/Common.h"
-
-#include <iostream>
+#include "ECS/Components/SDLComponents.h"
 
 namespace shen
 {
 	Game::Game()
 	{
 		Logger::Log("Game constructor");
-		Logger::Err("Checking problems logging");
 	}
 
 	Game::~Game()
@@ -48,14 +47,17 @@ namespace shen
 
 	void Game::Setup()
 	{
+		RegisterSystems();
+
 		auto world = ManagersProvider::Instance().GetWorld();
 
 		auto entity = world->CreateEntity();
-		auto& transform = world->AddComponent<Transform>(entity);
-		transform.position = { 10.f, 20.f, 0.f };
+		world->AddComponent<Transform>(entity, glm::vec3(10.f, 20.f, 0.f));
+		world->AddComponent<RigidBody>(entity, glm::vec3(100.f, 0.f, 0.f));
+		world->AddComponent<SDLSprite>(entity);
 
-		auto& rigidBody = world->AddComponent<RigidBody>(entity);
-		rigidBody.velocity = { 100.f, 0.f, 0.f };
+		auto systems = ManagersProvider::Instance().GetSystemsManager();
+		systems->Start();
 	}
 
 	void Game::ProcessInput()

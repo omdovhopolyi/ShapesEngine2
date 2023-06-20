@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class RenderSystem
+    class SDLSpriteRenderSystem
         : public System
     {
     public:
