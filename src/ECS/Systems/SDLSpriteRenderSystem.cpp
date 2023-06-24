@@ -1,6 +1,6 @@
 #include "SDLSpriteRenderSystem.h"
 #include "Game/ManagersProvider.h"
-#include "Game/GameWindow.h"
+#include "Game/SDLGameWindow.h"
 #include "ECS/EcsWorld.h"
 
 #include "ECS/Components/Common.h"
@@ -13,33 +13,38 @@ namespace shen
 {
 	void SDLSpriteRenderSystem::Start()
 	{
+		auto window = ManagersProvider::Instance().GetGameWindow();
+
+		if (_window = dynamic_cast<SDLGameWindow*>(window))
+		{
+			_renderer = _window->GetRenderer();
+		}
+
+		if (!_renderer)
+		{
+			return;
+		}
+
 		// TODO Object creation
 		
-		auto renderer = ManagersProvider::Instance().GetGameWindow()->GetRenderer();
 		auto world = ManagersProvider::Instance().GetWorld();
 
-		world->Each<SDLSprite>([renderer](const auto entity, auto& sprite)
+		world->Each<SDLSprite>([&](const auto entity, auto& sprite)
 		{
-			SDL_Surface* surface = IMG_Load("../assets/images/tank-panther-right.png");
-
-			sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
+			sprite.texture = IMG_LoadTexture(_renderer, "../assets/images/tank-panther-right.png");
 			sprite.width = 32;
 			sprite.height = 32;
-
-			SDL_FreeSurface(surface);
 		});
 	}
 
     void SDLSpriteRenderSystem::Update()
     {
 		auto world = ManagersProvider::Instance().GetWorld();
-		auto renderer = ManagersProvider::Instance().GetGameWindow()->GetRenderer();
-
 		world->Each<SDLSprite, Transform>(
-			[renderer](const auto entity, const auto& sprite, const auto& transform)
+			[&](const auto entity, const auto& sprite, const auto& transform)
 		{
-			SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
-			SDL_RenderClear(renderer);
+			SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
+			SDL_RenderClear(_renderer);
 
 			SDL_Rect destRect = {
 				static_cast<int>(transform.position.x),
@@ -48,10 +53,9 @@ namespace shen
 				sprite.height
 			};	
 
-			SDL_RenderCopy(renderer, sprite.texture, NULL, &destRect);
+			SDL_RenderCopy(_renderer, sprite.texture, NULL, &destRect);
 
-			//SDL_DestroyTexture(texture);
-			SDL_RenderPresent(renderer);
+			SDL_RenderPresent(_renderer);
 		});
     }
 

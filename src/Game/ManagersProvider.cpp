@@ -3,6 +3,7 @@
 #include "ECS/EcsWorld.h"
 #include "Time.h"
 #include "GameWindow.h"
+#include "SDLGameWindow.h"
 
 namespace shen
 {
@@ -12,7 +13,7 @@ namespace shen
     bool ManagersProvider::Init()
     {
         _gameWindow = nullptr;
-        _gameWindow = std::make_unique<GameWindow>();
+        _gameWindow = std::make_unique<SDLGameWindow>();
 
         if (_gameWindow)
         {

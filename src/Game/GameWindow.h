@@ -7,17 +7,17 @@ namespace shen
     class GameWindow
     {
     public:
-        bool Init();
-        void Destroy();
+        virtual bool Init();
+        virtual void Destroy();
 
-        // TODO
-        SDL_Window* GetWindow() const { return _window; }
-        SDL_Renderer* GetRenderer() const { return _renderer; }
+        int GetWidth() const;
+        void SetWidth(int width);
+
+        int GetHeight() const;
+        void SetHeight(int height);
 
     private:
-        SDL_Window* _window = nullptr;
-        SDL_Renderer* _renderer = nullptr;
-        int _winWidth = 800;
-        int _winHeight = 600;
+        int _width = 800;
+        int _height = 600;
     };
 }
