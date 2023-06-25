@@ -12,6 +12,8 @@
 #include "ECS/Components/Common.h"
 #include "ECS/Components/SDLComponents.h"
 
+#include "Resources/SDLTexturesManager.h"
+
 namespace shen
 {
 	Game::Game()
@@ -47,6 +49,9 @@ namespace shen
 
 	void Game::Setup()
 	{
+		auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
+		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
+
 		RegisterSystems();
 
 		auto world = ManagersProvider::Instance().GetWorld();

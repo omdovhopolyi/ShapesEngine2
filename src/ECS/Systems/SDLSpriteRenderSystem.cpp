@@ -5,6 +5,7 @@
 
 #include "ECS/Components/Common.h"
 #include "ECS/Components/SDLComponents.h"
+#include "Resources/SDLTexturesManager.h"
 
 #include "SDL_image.h"
 #include <SDL.h>
@@ -26,12 +27,12 @@ namespace shen
 		}
 
 		// TODO Object creation
-		
+		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		auto world = ManagersProvider::Instance().GetWorld();
 
 		world->Each<SDLSprite>([&](const auto entity, auto& sprite)
 		{
-			sprite.texture = IMG_LoadTexture(_renderer, "../assets/images/tank-panther-right.png");
+			sprite.texture = texturesManager->GetAsset("tank");
 			sprite.width = 32;
 			sprite.height = 32;
 		});

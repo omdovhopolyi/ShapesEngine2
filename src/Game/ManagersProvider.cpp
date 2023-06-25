@@ -26,6 +26,11 @@ namespace shen
                 _systemsManager->Init();
                 _time->Init();
 
+                for (auto& [index, assetsManager] : _resources)
+                {
+                    assetsManager->Init();
+                }
+
                 return true;
             }
         }
