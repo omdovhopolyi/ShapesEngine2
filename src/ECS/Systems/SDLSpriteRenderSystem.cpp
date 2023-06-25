@@ -42,7 +42,7 @@ namespace shen
     {
 		auto world = ManagersProvider::Instance().GetWorld();
 		world->Each<SDLSprite, Transform>(
-			[&](const auto entity, const auto& sprite, const auto& transform)
+			[&](const auto entity, const SDLSprite& sprite, const Transform& transform)
 		{
 			SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
 			SDL_RenderClear(_renderer);
@@ -50,11 +50,19 @@ namespace shen
 			SDL_Rect destRect = {
 				static_cast<int>(transform.position.x),
 				static_cast<int>(transform.position.y),
-				sprite.width,
-				sprite.height
+				static_cast<int>(sprite.width * transform.scale.x),
+				static_cast<int>(sprite.height * transform.scale.y)
 			};	
 
-			SDL_RenderCopy(_renderer, sprite.texture, NULL, &destRect);
+			SDL_RenderCopyEx(
+				_renderer,
+				sprite.texture,
+				&sprite.rect,
+				&destRect,
+				transform.GetEulerAngleZ(),
+				NULL,
+				SDL_FLIP_NONE
+			);
 
 			SDL_RenderPresent(_renderer);
 		});

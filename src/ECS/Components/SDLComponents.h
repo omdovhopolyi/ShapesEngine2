@@ -9,5 +9,6 @@ namespace shen
         SDL_Texture* texture = nullptr;
         int width = 0;
         int height = 0;
+        SDL_Rect rect;
     };
 }
