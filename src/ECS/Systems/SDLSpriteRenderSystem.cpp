@@ -44,6 +44,14 @@ namespace shen
 		SDL_RenderClear(_renderer);
 
 		auto world = ManagersProvider::Instance().GetWorld();
+
+		world->Sort<SDLSprite>([&](const Entity& left, const Entity& right)
+		{
+			const auto leftTransform = world->GetComponent<Transform>(left);
+			const auto rightTransform = world->GetComponent<Transform>(right);
+			return leftTransform.position.z < rightTransform.position.z;
+		});
+
 		world->Each<SDLSprite, Transform>(
 			[this](const auto entity, const SDLSprite& sprite, const Transform& transform)
 		{

@@ -24,6 +24,9 @@ namespace shen
         template<class Comp>
         bool HasComponent(Entity entity);
 
+        template<class Comp, class Pred>
+        void Sort(const Pred& pred);
+
         Entity CreateEntity();
         void Clear();
 
@@ -63,5 +66,11 @@ namespace shen
     bool EcsWorld::HasComponent(Entity entity)
     {
         return _registry.get<Comp>(entity._entity) != nullptr;
+    }
+
+    template<class Comp, class Pred>
+    void EcsWorld::Sort(const Pred& pred)
+    {
+        _registry.sort<Comp>(pred);
     }
 }

@@ -62,18 +62,6 @@ namespace shen
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
 
-		auto entity = world->CreateEntity();
-		world->AddComponent<Transform>(entity, glm::vec3(10.f, 20.f, 0.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
-		world->AddComponent<RigidBody>(entity, glm::vec3(100.f, 0.f, 0.f));
-		auto& sprite = world->AddComponent<SDLSprite>(entity);
-		sprite.texture = sdlTexturesManager->GetAsset("tank");
-		sprite.width = 32;
-		sprite.height = 32;
-		sprite.rect.x = 0;
-		sprite.rect.y = 0;
-		sprite.rect.w = 32;
-		sprite.rect.h = 32;
-
 		// TODO hard refactoring
 
 		std::ifstream mapFile;
@@ -126,7 +114,17 @@ namespace shen
 
 		mapFile.close();
 
-		
+		auto entity = world->CreateEntity();
+		world->AddComponent<Transform>(entity, glm::vec3(10.f, 20.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		world->AddComponent<RigidBody>(entity, glm::vec3(100.f, 0.f, 0.f));
+		auto& sprite = world->AddComponent<SDLSprite>(entity);
+		sprite.texture = sdlTexturesManager->GetAsset("tank");
+		sprite.width = 32;
+		sprite.height = 32;
+		sprite.rect.x = 0;
+		sprite.rect.y = 0;
+		sprite.rect.w = 32;
+		sprite.rect.h = 32;
 
 		auto systems = ManagersProvider::Instance().GetSystemsManager();
 		systems->Start();
