@@ -40,8 +40,8 @@ namespace shen
 
     void SDLSpriteRenderSystem::Update()
     {
-		SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
-		SDL_RenderClear(_renderer);
+		//SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
+		//SDL_RenderClear(_renderer);
 
 		auto world = ManagersProvider::Instance().GetWorld();
 

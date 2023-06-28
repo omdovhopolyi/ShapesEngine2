@@ -1,3 +1,5 @@
+#pragma once
+
 #include "AssetsManagerBase.h"
 
 #include <string>

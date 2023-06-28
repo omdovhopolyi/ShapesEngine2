@@ -2,7 +2,8 @@
 
 #include "AssetsManager.h"
 
-#include <SDL.h>
+struct SDL_Texture;
+class SDL_Renderer;
 
 namespace shen
 {
