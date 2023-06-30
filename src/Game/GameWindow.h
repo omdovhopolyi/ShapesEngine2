@@ -16,6 +16,9 @@ namespace shen
         int GetHeight() const;
         void SetHeight(int height);
 
+        virtual void BeginFrame();
+        virtual void EndFrame();
+
     private:
         int _width = 800;
         int _height = 600;

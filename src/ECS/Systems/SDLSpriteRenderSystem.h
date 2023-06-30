@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System.h"
+#include "RenderSystem.h"
 
 class SDL_Renderer;
 
@@ -9,11 +9,11 @@ namespace shen
     class SDLGameWindow;
 
     class SDLSpriteRenderSystem
-        : public System
+        : public RenderSystem
     {
     public:
         void Start() override;
-        void Update() override;
+        void Draw() override;
         void Stop() override;
 
     private:

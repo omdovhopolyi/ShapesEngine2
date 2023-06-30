@@ -25,6 +25,7 @@ namespace shen
 
         bool Init();
         void Update();
+        void Draw();
         void Clear();
 
         SystemsManager* GetSystemsManager() const;

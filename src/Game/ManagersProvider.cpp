@@ -44,6 +44,13 @@ namespace shen
         _systemsManager->Update();
     }
 
+    void ManagersProvider::Draw()
+    {
+        _gameWindow->BeginFrame();
+        _systemsManager->Draw();
+        _gameWindow->EndFrame();
+    }
+
     void ManagersProvider::Clear()
     {
         _systemsManager->Stop();

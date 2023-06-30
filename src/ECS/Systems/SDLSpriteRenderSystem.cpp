@@ -21,28 +21,11 @@ namespace shen
 			_renderer = _window->GetRenderer();
 		}
 
-		if (!_renderer)
-		{
-			return;
-		}
-
-		// TODO Object creation
-		/*auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
-		auto world = ManagersProvider::Instance().GetWorld();
-
-		world->Each<SDLSprite>([&](const auto entity, auto& sprite)
-		{
-			sprite.texture = texturesManager->GetAsset("tank");
-			sprite.width = 32;
-			sprite.height = 32;
-		});*/
+		// TODO asset(_renderer)
 	}
 
-    void SDLSpriteRenderSystem::Update()
-    {
-		//SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
-		//SDL_RenderClear(_renderer);
-
+	void SDLSpriteRenderSystem::Draw()
+	{
 		auto world = ManagersProvider::Instance().GetWorld();
 
 		world->Sort<SDLSprite>([&](const Entity& left, const Entity& right)
@@ -72,18 +55,9 @@ namespace shen
 				SDL_FLIP_NONE
 			);
 		});
-
-		SDL_RenderPresent(_renderer);
-    }
+	}
 
 	void SDLSpriteRenderSystem::Stop()
 	{
-		// TODO Object destroing
-
-		auto world = ManagersProvider::Instance().GetWorld();
-		world->Each<SDLSprite>([](const auto entity, auto& sprite)
-		{
-			SDL_DestroyTexture(sprite.texture);
-		});
 	}
 }

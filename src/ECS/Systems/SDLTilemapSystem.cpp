@@ -30,11 +30,8 @@ namespace shen
 		}
     }
 
-    void SDLTilemapSystem::Update()
-    {
-		SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
-		SDL_RenderClear(_renderer);
-
+	void SDLTilemapSystem::Draw()
+	{
 		SDL_Rect sourceRect = {
 			0,
 			0,
@@ -45,17 +42,15 @@ namespace shen
 		SDL_Rect destRect = {
 			0,
 			0,
-			_tilemapWidth * _tileScale,
-			_tilemapHeight * _tileScale
+			static_cast<int>(_tilemapWidth * _tileScale),
+			static_cast<int>(_tilemapHeight * _tileScale)
 		};	
 
 		SDL_RenderCopyEx(_renderer, _tilemapTex, &sourceRect, &destRect, 0, NULL, SDL_FLIP_NONE);
-		//SDL_RenderPresent(_renderer);
-    }
+	}
 
     void SDLTilemapSystem::Stop()
     {
-
     }
 
 	bool SDLTilemapSystem::ReadTilemap()

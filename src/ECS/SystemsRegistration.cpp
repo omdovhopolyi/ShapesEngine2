@@ -13,7 +13,8 @@ namespace shen
         auto manager = ManagersProvider::Instance().GetSystemsManager();
 
         manager->RegisteSystem<MovementSystem>();
-        manager->RegisteSystem<SDLTilemapSystem>();
-        manager->RegisteSystem<SDLSpriteRenderSystem>();
+
+        manager->RegisterRenderSystem<SDLTilemapSystem>();
+        manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
     }
 }

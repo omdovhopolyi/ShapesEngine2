@@ -103,5 +103,6 @@ namespace shen
 	void Game::Update()
 	{
 		ManagersProvider::Instance().Update();
+		ManagersProvider::Instance().Draw();
 	}
 }

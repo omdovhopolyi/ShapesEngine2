@@ -50,4 +50,15 @@ namespace shen
 		SDL_DestroyWindow(_window);
 		SDL_Quit();
 	}
+
+	void SDLGameWindow::BeginFrame()
+	{
+		SDL_SetRenderDrawColor(_renderer, 21, 21, 21, 255);
+		SDL_RenderClear(_renderer);
+	}
+
+	void SDLGameWindow::EndFrame()
+	{
+		SDL_RenderPresent(_renderer);
+	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System.h"
+#include "RenderSystem.h"
 #include <vector>
 
 class SDL_Renderer;
@@ -17,11 +17,11 @@ namespace shen
     };
 
     class SDLTilemapSystem
-        : public System
+        : public RenderSystem
     {
     public:
         void Start() override;
-        void Update() override;
+        void Draw() override;
         void Stop() override;
 
     private:

@@ -32,4 +32,14 @@ namespace shen
     {
         _height = height;
     }
+
+    void GameWindow::BeginFrame()
+    {
+
+    }
+
+    void GameWindow::EndFrame()
+    {
+
+    }
 }
