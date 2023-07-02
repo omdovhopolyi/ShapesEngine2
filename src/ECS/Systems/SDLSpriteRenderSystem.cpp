@@ -11,18 +11,6 @@
 
 namespace shen
 {
-	void SDLSpriteRenderSystem::Start()
-	{
-		auto window = ManagersProvider::Instance().GetGameWindow();
-
-		if (_window = dynamic_cast<SDLGameWindow*>(window))
-		{
-			_renderer = _window->GetRenderer();
-		}
-
-		// TODO asset(_renderer)
-	}
-
 	void SDLSpriteRenderSystem::Draw()
 	{
 		auto world = ManagersProvider::Instance().GetWorld();

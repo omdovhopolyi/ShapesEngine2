@@ -1,15 +1,12 @@
 #pragma once
 
-#include "RenderSystem.h"
+#include "SDLRenderSystem.h"
 #include <vector>
 
-class SDL_Renderer;
 struct SDL_Texture;
 
 namespace shen
 {
-    class SDLGameWindow;
-
     struct TilemapCell
     {
         int x = -1;
@@ -17,7 +14,7 @@ namespace shen
     };
 
     class SDLTilemapSystem
-        : public RenderSystem
+        : public SDLRenderSystem
     {
     public:
         void Start() override;
@@ -30,8 +27,6 @@ namespace shen
         void FillTilemapTexture();
 
     private:
-        SDLGameWindow* _window = nullptr;
-        SDL_Renderer* _renderer = nullptr;
         SDL_Texture* _tilemapTex = nullptr;
 
         std::vector<std::vector<TilemapCell>> _tilemapCells;

@@ -15,17 +15,14 @@ namespace shen
 {
     void SDLTilemapSystem::Start()
     {
-		auto window = ManagersProvider::Instance().GetGameWindow();
+		SDLRenderSystem::Start();
 
-		if (_window = dynamic_cast<SDLGameWindow*>(window))
+		if (_renderer)
 		{
-			if (_renderer = _window->GetRenderer())
+			if (ReadTilemap())
 			{
-				if (ReadTilemap())
-				{
-					CreateTilemapTexture();
-					FillTilemapTexture();
-				}
+				CreateTilemapTexture();
+				FillTilemapTexture();
 			}
 		}
     }

@@ -1,22 +1,13 @@
 #pragma once
 
-#include "RenderSystem.h"
-
-struct SDL_Renderer;
+#include "SDLRenderSystem.h"
 
 namespace shen
 {
-    class SDLGameWindow;
-
     class SDLAnimatedSpriteRenderSystem
-        : public RenderSystem
+        : public SDLRenderSystem
     {
     public:
-        void Start() override;
         void Draw() override;
-
-    private:
-        SDLGameWindow* _window = nullptr;
-        SDL_Renderer* _renderer = nullptr;
     };
 }
