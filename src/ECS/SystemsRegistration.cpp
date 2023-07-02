@@ -5,6 +5,7 @@
 #include "Systems/MovementSystem.h"
 #include "Systems/SDLTilemapSystem.h"
 #include "Systems/SDLSpriteRenderSystem.h"
+#include "Systems/SDLAnimatedSpriteSystem.h"
 
 namespace shen
 {
@@ -16,5 +17,6 @@ namespace shen
 
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
+        manager->RegisterRenderSystem<SDLAnimatedSpriteSystem>();
     }
 }

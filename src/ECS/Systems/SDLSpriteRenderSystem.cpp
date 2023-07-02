@@ -5,7 +5,6 @@
 
 #include "ECS/Components/Common.h"
 #include "ECS/Components/SDLComponents.h"
-#include "Resources/SDLTexturesManager.h"
 
 #include "SDL_image.h"
 #include <SDL.h>

@@ -61,18 +61,17 @@ namespace shen
 		auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
+		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper.png");
 
 		auto entity = world->CreateEntity();
 		world->AddComponent<Transform>(entity, glm::vec3(10.f, 20.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
 		world->AddComponent<RigidBody>(entity, glm::vec3(100.f, 0.f, 0.f));
-		auto& sprite = world->AddComponent<SDLSprite>(entity);
-		sprite.texture = sdlTexturesManager->GetAsset("tank");
-		sprite.width = 32;
-		sprite.height = 32;
-		sprite.rect.x = 0;
-		sprite.rect.y = 0;
-		sprite.rect.w = 32;
-		sprite.rect.h = 32;
+		world->AddComponent<SDLSprite>(entity, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
+
+		auto playerEntity = world->CreateEntity();
+		world->AddComponent<Transform>(playerEntity, glm::vec3(500.f, 400.f, 2.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
+		auto& anim = world->AddComponent<SDLAnimatedSprite>(playerEntity, sdlTexturesManager->GetAsset("chopper"), 32, 32, 0, 0, 32, 32);
+		anim.InitAtimation(2, 30);
 
 		auto systems = ManagersProvider::Instance().GetSystemsManager();
 		systems->Start();
