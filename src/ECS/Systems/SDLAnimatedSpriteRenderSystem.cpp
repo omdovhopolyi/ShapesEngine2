@@ -1,20 +1,37 @@
 #include "SDLAnimatedSpriteRenderSystem.h"
 #include "Game/ManagersProvider.h"
+#include "Game/Time.h"
+#include "Game/SDLGameWindow.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/SDLComponents.h"
 #include "ECS/Components/Common.h"
 
+
+#include "SDL_image.h"
+#include <SDL.h>
+
 namespace shen
 {
+	void SDLAnimatedSpriteRenderSystem::Start()
+	{
+		auto window = ManagersProvider::Instance().GetGameWindow();
+
+		if (_window = dynamic_cast<SDLGameWindow*>(window))
+		{
+			_renderer = _window->GetRenderer();
+		}
+	}
+
 	void SDLAnimatedSpriteRenderSystem::Draw()
 	{
 		auto world = ManagersProvider::Instance().GetWorld();
+		const float dt = ManagersProvider::Instance().GetTime()->Dt();
 
 		world->Each<SDLAnimatedSprite, Transform>(
-			[&](auto& entity, SDLAnimatedSprite& sprite, const Transform& transform)
+			[&](const auto entity, SDLAnimatedSprite& sprite, const Transform& transform)
 		{
 			SDL_Rect sourceRect = {
-				sprite.rect.x * frame,
+				sprite.rect.x + (sprite.rect.w * sprite.curFrame),
 				sprite.rect.y,
 				sprite.rect.w,
 				sprite.rect.h

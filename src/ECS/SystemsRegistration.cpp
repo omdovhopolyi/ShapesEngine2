@@ -5,7 +5,8 @@
 #include "Systems/MovementSystem.h"
 #include "Systems/SDLTilemapSystem.h"
 #include "Systems/SDLSpriteRenderSystem.h"
-#include "Systems/SDLAnimatedSpriteSystem.h"
+#include "Systems/SDLAnimatedSpriteUpdateSystem.h"
+#include "Systems/SDLAnimatedSpriteRenderSystem.h"
 
 namespace shen
 {
@@ -14,9 +15,10 @@ namespace shen
         auto manager = ManagersProvider::Instance().GetSystemsManager();
 
         manager->RegisteSystem<MovementSystem>();
+        manager->RegisteSystem<SDLAnimatedSpriteUpdateSystem>();
 
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
-        manager->RegisterRenderSystem<SDLAnimatedSpriteSystem>();
+        manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
     }
 }
