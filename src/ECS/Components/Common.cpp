@@ -24,4 +24,11 @@ namespace shen
     RigidBody::RigidBody(const glm::vec3& vel)
         : velocity(vel)
     {}
+
+    BoundingBox::BoundingBox(const glm::vec3& bbSize, const glm::vec3& bbOffset)
+        : size(bbSize)
+        , offset(bbOffset)
+    {
+
+    }
 }

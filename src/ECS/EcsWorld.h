@@ -27,6 +27,9 @@ namespace shen
         template<class Comp, class Pred>
         void Sort(const Pred& pred);
 
+        template<class Comp>
+        int Size() const;
+
         Entity CreateEntity();
         void Clear();
 
@@ -72,5 +75,11 @@ namespace shen
     void EcsWorld::Sort(const Pred& pred)
     {
         _registry.sort<Comp>(pred);
+    }
+
+    template<class Comp>
+    int EcsWorld::Size() const
+    {
+        return static_cast<int>(_registry.storage<Comp>().size());
     }
 }

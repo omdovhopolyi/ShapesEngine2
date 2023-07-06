@@ -23,4 +23,12 @@ namespace shen
 
         RigidBody(const glm::vec3& vel = {});
     };
+
+    struct BoundingBox
+    {
+        glm::vec3 size;
+        glm::vec3 offset;
+
+        BoundingBox(const glm::vec3& bbSize = {}, const glm::vec3& bbOffset = {});
+    };
 }

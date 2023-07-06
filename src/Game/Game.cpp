@@ -63,10 +63,17 @@ namespace shen
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
 		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper.png");
 
-		auto entity = world->CreateEntity();
-		world->AddComponent<Transform>(entity, glm::vec3(10.f, 20.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
-		world->AddComponent<RigidBody>(entity, glm::vec3(100.f, 0.f, 0.f));
-		world->AddComponent<SDLSprite>(entity, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
+		auto tank1 = world->CreateEntity();
+		world->AddComponent<Transform>(tank1, glm::vec3(10.f, 200.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		world->AddComponent<RigidBody>(tank1, glm::vec3(50.f, 0.f, 0.f));
+		world->AddComponent<SDLSprite>(tank1, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
+		world->AddComponent<BoundingBox>(tank1, glm::vec3(32, 32, 0));
+
+		auto tank2 = world->CreateEntity();
+		world->AddComponent<Transform>(tank2, glm::vec3(600.f, 200.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		world->AddComponent<RigidBody>(tank2, glm::vec3(-50.f, 0.f, 0.f));
+		world->AddComponent<SDLSprite>(tank2, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
+		world->AddComponent<BoundingBox>(tank2, glm::vec3(32, 32, 0));
 
 		auto playerEntity = world->CreateEntity();
 		world->AddComponent<Transform>(playerEntity, glm::vec3(500.f, 400.f, 2.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
