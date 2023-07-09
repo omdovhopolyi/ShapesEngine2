@@ -5,6 +5,7 @@
 #include "Systems/MovementSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SDLTilemapSystem.h"
+#include "Systems/DamageSystem.h"
 #include "Systems/SDLSpriteRenderSystem.h"
 #include "Systems/SDLAnimatedSpriteUpdateSystem.h"
 #include "Systems/SDLAnimatedSpriteRenderSystem.h"
@@ -18,6 +19,7 @@ namespace shen
         manager->RegisteSystem<MovementSystem>();
         manager->RegisteSystem<CollisionSystem>();
         manager->RegisteSystem<SDLAnimatedSpriteUpdateSystem>();
+        manager->RegisteSystem<DamageSystem>();
 
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();

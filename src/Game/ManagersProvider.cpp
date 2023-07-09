@@ -4,6 +4,7 @@
 #include "Time.h"
 #include "GameWindow.h"
 #include "SDLGameWindow.h"
+#include "Messenger/Messenger.h"
 
 namespace shen
 {
@@ -19,6 +20,7 @@ namespace shen
         {
             if (_gameWindow->Init())
             {
+                _messenger = std::make_unique<Messenger>();
                 _systemsManager = std::make_unique<SystemsManager>();
                 _world = std::make_unique<EcsWorld>();
                 _time = std::make_unique<Time>();
@@ -77,5 +79,10 @@ namespace shen
     GameWindow* ManagersProvider::GetGameWindow() const
     {
         return _gameWindow.get();
+    }
+
+    Messenger* ManagersProvider::GetMessenger() const
+    {
+        return _messenger.get();
     }
 }

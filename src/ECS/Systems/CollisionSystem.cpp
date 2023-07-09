@@ -6,6 +6,8 @@
 #include "ECS/Components/Common.h"
 #include "Game/ManagersProvider.h"
 #include "Logger/Logger.h"
+#include "Messenger/Messenger.h"
+#include "Messenger/Events/CollisionEvent.h"
 
 namespace shen
 {
@@ -49,6 +51,10 @@ namespace shen
                     a.pos.y + a.size.y >= a.pos.y)
                 {
                     Logger::Log("HIT");
+
+                    CollisionEvent event(a.entity, b.entity);
+
+                    ManagersProvider::Instance().GetMessenger()->Broadcast<CollisionEvent>(event);
                 }
             }
         }

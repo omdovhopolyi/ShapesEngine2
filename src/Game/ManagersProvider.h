@@ -15,6 +15,7 @@ namespace shen
     class Time;
     class GameWindow;
     class AssetsManagerBase;
+    class Messenger;
 
     class ManagersProvider
         : public Singleton<ManagersProvider>
@@ -32,6 +33,7 @@ namespace shen
         EcsWorld* GetWorld() const;
         Time* GetTime() const;
         GameWindow* GetGameWindow() const;
+        Messenger* GetMessenger() const;
 
         template<class T>
         T* GetOrCreateAssetsManager();
@@ -41,6 +43,7 @@ namespace shen
         std::unique_ptr<EcsWorld> _world;
         std::unique_ptr<Time> _time;
         std::unique_ptr<GameWindow> _gameWindow;
+        std::unique_ptr<Messenger> _messenger;
 
         std::map<std::type_index, std::unique_ptr<AssetsManagerBase>> _resources;
     };
