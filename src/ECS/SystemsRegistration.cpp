@@ -6,9 +6,11 @@
 #include "Systems/CollisionSystem.h"
 #include "Systems/SDLTilemapSystem.h"
 #include "Systems/DamageSystem.h"
+
 #include "Systems/SDLSpriteRenderSystem.h"
 #include "Systems/SDLAnimatedSpriteUpdateSystem.h"
 #include "Systems/SDLAnimatedSpriteRenderSystem.h"
+#include "Systems/BoundingBoxDebugSystem.h"
 
 namespace shen
 {
@@ -24,5 +26,6 @@ namespace shen
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
         manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
+        manager->RegisterRenderSystem<BoundingBoxDebugSystem>();
     }
 }

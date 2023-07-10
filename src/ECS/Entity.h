@@ -16,6 +16,8 @@ namespace shen
         bool operator == (const Entity& other) { return _entity == other._entity; }
         bool operator < (const Entity& other) { return _entity < other._entity; }
 
+        entt::entity GetEntity() const { return _entity; }
+
     private:
         entt::entity _entity;
     };

@@ -31,6 +31,8 @@ namespace shen
         int Size() const;
 
         Entity CreateEntity();
+        bool IsValid(Entity entity);
+        void DestroyEntity(Entity entity);
         void Clear();
 
     private:
