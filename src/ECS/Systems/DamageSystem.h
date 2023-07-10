@@ -2,7 +2,8 @@
 
 #include "System.h"
 
-#include "Messenger/Messenger.h"
+#include "Messenger/SubscriptionsContainer.h"
+
 
 namespace shen
 {
@@ -17,6 +18,6 @@ namespace shen
         void Update() override;
 
     private:
-        std::shared_ptr<ISubscriptionWrapper> _subscription;
+        SubcriptionsContainer _subscriptions;
     };
 }

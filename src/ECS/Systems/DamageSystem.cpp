@@ -13,16 +13,12 @@ namespace shen
 
     void DamageSystem::Subscribe()
     {
-        _subscription = std::make_shared<SubscriptionWrapper<CollisionEvent>>([this](const CollisionEvent& event)
+        _subscriptions.Subscribe<CollisionEvent>([this](const CollisionEvent& event)
         {
-            bool check = true;
         });
-
-        ManagersProvider::Instance().GetMessenger()->Subscribe<CollisionEvent>(_subscription);
     }
 
     void DamageSystem::Update()
     {
-
     }
 }

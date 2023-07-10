@@ -1,58 +1,23 @@
 #pragma once
 
-#include "Events/Event.h"
+#include "SubscriptionWrapper.h"
 
 #include <map>
 #include <typeinfo>
 #include <typeindex>
 #include <memory>
-#include <functional>
 #include <list>
 
 namespace shen
 {
-    class ISubscriptionWrapper
-    {
-    public:
-        virtual ~ISubscriptionWrapper() = default;
-
-        virtual void Execute(const Event& event) = 0;
-    };
-
-    template<class TEvent>
-    class SubscriptionWrapper
-        : public ISubscriptionWrapper
-    {
-    public:
-        using Callback = std::function<void(const TEvent&)>;
-
-        SubscriptionWrapper(const Callback& callback) : _callback(callback) {}
-
-        void Execute(const Event& event) override
-        {
-            Call(static_cast<const TEvent&>(event));
-        }
-
-    private:
-        void Call(const TEvent& event)
-        {
-            if (_callback)
-            {
-                _callback(event);
-            }
-        }
-
-    private:
-        Callback _callback = nullptr;
-    };
-
     class Messenger
     {
     public:
+        using SubscriptionWeakPtr = std::weak_ptr<ISubscriptionWrapper>;
         using SubscriptionsList = std::list<std::weak_ptr<ISubscriptionWrapper>>;
 
         template<class TEvent>
-        void Subscribe(const std::weak_ptr<ISubscriptionWrapper>& subscription)
+        void Subscribe(const SubscriptionWeakPtr& subscription)
         {
             _subsctiptions[std::type_index(typeid(TEvent))].push_back(subscription);
         }
@@ -73,11 +38,12 @@ namespace shen
             }
         }
 
+        void RemoveSubscription(std::type_index typeIndex, const SubscriptionWeakPtr& ptr);
         void Update();
         void Cleanup();
 
     private:
         std::map<std::type_index, SubscriptionsList> _subsctiptions;
-        std::vector<std::pair<std::type_index, std::weak_ptr<ISubscriptionWrapper>>> _toRemove;
+        std::vector<std::pair<std::type_index, SubscriptionWeakPtr>> _toRemove;
     };
 }
