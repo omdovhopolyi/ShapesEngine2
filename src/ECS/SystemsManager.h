@@ -18,7 +18,7 @@ namespace shen
         void Init();
 
         template<class T>
-        void RegisteSystem();
+        void RegisterSystem();
 
         template<class T>
         void RegisterRenderSystem();
@@ -39,7 +39,7 @@ namespace shen
     };
 
     template <class T>
-    void SystemsManager::RegisteSystem()
+    void SystemsManager::RegisterSystem()
     {
         _systems.push_back(std::make_unique<T>());
         _mappedSystems[std::type_index(typeid(T))] = _systems.back().get();

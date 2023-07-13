@@ -4,12 +4,25 @@
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
 
+#include "Messenger/Events/Common.h"
+
 #include <SDL.h>
 
 namespace shen
 {
+    void BoundingBoxDebugSystem::Start()
+    {
+        SDLRenderSystem::Start();
+        Subscribe();
+    }
+
     void BoundingBoxDebugSystem::Draw()
     {
+        if (!_isActivated)
+        {
+            return;
+        }
+
         auto world = ManagersProvider::Instance().GetWorld();
 
         world->Each<BoundingBox, Transform>(
@@ -28,6 +41,20 @@ namespace shen
             SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
             SDL_RenderDrawRect(_renderer, &rect);
             SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+        });
+    }
+
+    void BoundingBoxDebugSystem::Subscribe()
+    {
+        _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
+        {
+            if (event.type == KeyEventType::Up)
+            {
+                if (event.code == SDLK_d)
+                {
+                    _isActivated = !_isActivated;
+                }
+            }
         });
     }
 }

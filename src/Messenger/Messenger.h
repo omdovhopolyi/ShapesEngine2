@@ -20,7 +20,13 @@ namespace shen
         void Subscribe(const SubscriptionWeakPtr& subscription);
 
         template<class TEvent>
+        void Broadcast();
+
+        template<class TEvent>
         void Broadcast(const TEvent& event);
+
+        template<class TEvent, class ...Args>
+        void Broadcast(Args... args);
 
         void RemoveSubscription(std::type_index typeIndex, const SubscriptionWeakPtr& ptr);
         void Update();
@@ -38,6 +44,12 @@ namespace shen
     }
 
     template<class TEvent>
+    void Messenger::Broadcast()
+    {
+        Broadcast<TEvent>(TEvent{});
+    }
+
+    template<class TEvent>
     void Messenger::Broadcast(const TEvent& event)
     {
         auto it = _subsctiptions.find(std::type_index(typeid(TEvent)));
@@ -51,5 +63,12 @@ namespace shen
                 }
             }
         }
+    }
+
+    template<class TEvent, class ...Args>
+    void Messenger::Broadcast(Args... args)
+    {
+        TEvent event{ std::forward<Args>(args)... };
+        Broadcast<TEvent>(event);
     }
 }

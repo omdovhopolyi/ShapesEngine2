@@ -13,9 +13,10 @@ namespace shen
     public:
         DamageSystem();
 
-        void Subscribe();
-
+        void Start() override;
         void Update() override;
+
+        void Subscribe();
 
     private:
         SubcriptionsContainer _subscriptions;

@@ -14,6 +14,8 @@
 #include "Resources/AssetsManager.h"
 #include "Resources/SDLTexturesManager.h"
 
+#include "Messenger/Events/Common.h"
+
 #include <sstream>
 #include <fstream>
 
@@ -40,7 +42,6 @@ namespace shen
 
 		while (_isRunning)
 		{
-			ProcessInput();
 			Update();
 		}
 	}
@@ -55,6 +56,22 @@ namespace shen
 		RegisterSystems();
 
 		// TODO hard refactoring
+
+		_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
+		{
+			if (event.type == KeyEventType::Up)
+			{
+				if (event.code == SDLK_ESCAPE)
+				{
+					_isRunning = false;
+				}
+			}
+		});
+
+		_subscriptions.Subscribe<Quit>([this](const auto& event)
+		{
+			_isRunning = false;
+		});
 
 		auto world = ManagersProvider::Instance().GetWorld();
 
@@ -82,28 +99,6 @@ namespace shen
 
 		auto systems = ManagersProvider::Instance().GetSystemsManager();
 		systems->Start();
-	}
-
-	void Game::ProcessInput()
-	{
-		SDL_Event event;
-		
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				_isRunning = false;
-				break;
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_ESCAPE)
-				{
-					_isRunning = false;
-				}
-				break;
-			}
-
-		}
 	}
 
 	void Game::Update()

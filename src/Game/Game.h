@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Messenger/SubscriptionsContainer.h"
+
 namespace shen
 {
 	class Game
@@ -14,11 +16,11 @@ namespace shen
 
 	private:
 		void Setup();
-		void ProcessInput();
 		void Update();
 
 	private:
 		int _lastUpdateTime = 0;
 		bool _isRunning = false;
+		SubcriptionsContainer _subscriptions;
 	};
 }

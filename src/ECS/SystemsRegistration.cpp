@@ -6,6 +6,7 @@
 #include "Systems/CollisionSystem.h"
 #include "Systems/SDLTilemapSystem.h"
 #include "Systems/DamageSystem.h"
+#include "Systems/SDLInputSystem.h"
 
 #include "Systems/SDLSpriteRenderSystem.h"
 #include "Systems/SDLAnimatedSpriteUpdateSystem.h"
@@ -18,10 +19,11 @@ namespace shen
     {
         auto manager = ManagersProvider::Instance().GetSystemsManager();
 
-        manager->RegisteSystem<MovementSystem>();
-        manager->RegisteSystem<CollisionSystem>();
-        manager->RegisteSystem<SDLAnimatedSpriteUpdateSystem>();
-        manager->RegisteSystem<DamageSystem>();
+        manager->RegisterSystem<SDLInputSystem>();
+        manager->RegisterSystem<MovementSystem>();
+        manager->RegisterSystem<CollisionSystem>();
+        manager->RegisterSystem<SDLAnimatedSpriteUpdateSystem>();
+        manager->RegisterSystem<DamageSystem>();
 
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();

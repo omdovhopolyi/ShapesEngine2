@@ -9,7 +9,16 @@ namespace shen
     DamageSystem::DamageSystem()
         : System()
     {
+    }
+
+    void DamageSystem::Start()
+    {
         Subscribe();
+        // TODO clear subscriptions on stop
+    }
+
+    void DamageSystem::Update()
+    {
     }
 
     void DamageSystem::Subscribe()
@@ -21,9 +30,5 @@ namespace shen
             world->DestroyEntity(event.a);
             world->DestroyEntity(event.b);
         });
-    }
-
-    void DamageSystem::Update()
-    {
     }
 }
