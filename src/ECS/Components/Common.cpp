@@ -31,4 +31,6 @@ namespace shen
     {
 
     }
+
+    PlayerInput::PlayerInput() = default;
 }

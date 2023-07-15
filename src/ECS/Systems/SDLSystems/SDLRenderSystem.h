@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderSystem.h"
+#include "ECS/Systems/RenderSystem.h"
 
 struct SDL_Renderer;
 

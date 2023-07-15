@@ -1,6 +1,8 @@
 #pragma once
 
-#include "System.h"
+#include "ECS/Systems/System.h"
+#include <SDL.h>
+#include <set>
 
 namespace shen
 {
@@ -9,5 +11,8 @@ namespace shen
     {
     public:
         void Update() override;
+
+    private:
+        std::set<SDL_Keycode> _holdKeys;
     };
 }

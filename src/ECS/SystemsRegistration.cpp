@@ -4,14 +4,16 @@
 
 #include "Systems/MovementSystem.h"
 #include "Systems/CollisionSystem.h"
-#include "Systems/SDLTilemapSystem.h"
 #include "Systems/DamageSystem.h"
-#include "Systems/SDLInputSystem.h"
 
-#include "Systems/SDLSpriteRenderSystem.h"
-#include "Systems/SDLAnimatedSpriteUpdateSystem.h"
-#include "Systems/SDLAnimatedSpriteRenderSystem.h"
-#include "Systems/BoundingBoxDebugSystem.h"
+#include "Systems/SDLSystems/SDLTilemapSystem.h"
+#include "Systems/SDLSystems/SDLInputSystem.h"
+#include "Systems/PlayerInputSystem.h"
+
+#include "Systems/SDLSystems/SDLSpriteRenderSystem.h"
+#include "Systems/SDLSystems/SDLAnimatedSpriteUpdateSystem.h"
+#include "Systems/SDLSystems/SDLAnimatedSpriteRenderSystem.h"
+#include "Systems/SDLSystems/BoundingBoxDebugSystem.h"
 
 namespace shen
 {
@@ -24,6 +26,7 @@ namespace shen
         manager->RegisterSystem<CollisionSystem>();
         manager->RegisterSystem<SDLAnimatedSpriteUpdateSystem>();
         manager->RegisterSystem<DamageSystem>();
+        manager->RegisterSystem<PlayerInputSystem>();
 
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();

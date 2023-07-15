@@ -31,4 +31,10 @@ namespace shen
 
         BoundingBox(const glm::vec3& bbSize = {}, const glm::vec3& bbOffset = {});
     };
+
+    struct PlayerInput
+    {
+        glm::vec3 temp;
+        PlayerInput();
+    };
 }

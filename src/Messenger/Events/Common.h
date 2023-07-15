@@ -9,7 +9,8 @@ namespace shen
     {
         Undefined,
         Up,
-        Down
+        Down,
+        Hold
     };
 
     struct KeyEvent

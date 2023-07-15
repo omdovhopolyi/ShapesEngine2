@@ -78,7 +78,7 @@ namespace shen
 		auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
-		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper.png");
+		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper-spritesheet.png");
 
 		auto tank1 = world->CreateEntity();
 		world->AddComponent<Transform>(tank1, glm::vec3(500.f, 10.f, 1.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
@@ -93,6 +93,8 @@ namespace shen
 		world->AddComponent<BoundingBox>(tank2, glm::vec3(32, 32, 0));
 
 		auto playerEntity = world->CreateEntity();
+		world->AddComponent<PlayerInput>(playerEntity);
+		world->AddComponent<RigidBody>(playerEntity);
 		world->AddComponent<Transform>(playerEntity, glm::vec3(500.f, 400.f, 2.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
 		auto& anim = world->AddComponent<SDLAnimatedSprite>(playerEntity, sdlTexturesManager->GetAsset("chopper"), 32, 32, 0, 0, 32, 32);
 		anim.InitAtimation(2, 30);
