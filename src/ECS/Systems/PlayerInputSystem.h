@@ -2,20 +2,13 @@
 
 #include "System.h"
 #include "Messenger/SubscriptionsContainer.h"
+#include "Utils/Types.h"
+#include "Enums/Direction.h"
 
 #include <glm/glm.hpp>
 
 namespace shen
 {
-    enum class ActionType
-    {
-        Forward, // Up
-        Right,
-        Backward, // Down
-        Left,
-        Fire
-    };
-
     class PlayerInputSystem
         : public System
     {
@@ -27,6 +20,14 @@ namespace shen
 
         void Start() override;
         void Update() override;
+
+    private:
+        void InitActionsMapping();
+        void InitActionCallbacks();
+        void InitSubscriptions();
+
+        void RunActions();
+        void UpdateObjects();
 
     private:
         SubcriptionsContainer _subscriptions;

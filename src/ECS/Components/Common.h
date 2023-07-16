@@ -34,7 +34,7 @@ namespace shen
 
     struct PlayerInput
     {
-        glm::vec3 temp;
+        float speed = 50.f;
         PlayerInput();
     };
 }

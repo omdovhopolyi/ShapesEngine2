@@ -4,8 +4,6 @@
 
 namespace shen
 {
-    class SDLGameWindow;
-
     class SDLAnimatedSpriteUpdateSystem
         : public System
     {

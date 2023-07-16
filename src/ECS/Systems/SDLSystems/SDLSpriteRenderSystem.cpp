@@ -19,7 +19,7 @@ namespace shen
 		{
 			const auto leftTransform = world->GetComponent<Transform>(left);
 			const auto rightTransform = world->GetComponent<Transform>(right);
-			return leftTransform.position.z < rightTransform.position.z;
+			return leftTransform->position.z < rightTransform->position.z;
 		});
 
 		world->Each<SDLSprite, Transform>(

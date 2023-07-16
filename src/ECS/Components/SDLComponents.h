@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <glm/glm.hpp>
 
 namespace shen
 {
@@ -21,8 +22,16 @@ namespace shen
         float frameTime = 1.f;
         int numFrames = 1;
         int curFrame = 0;
-
+        
         SDLAnimatedSprite(SDL_Texture* tex, int w, int h, int sourceX, int sourceY, int sourceW, int sourceH);
         void InitAtimation(int frames, int framesPerSec);
+    };
+
+    struct SDLSpriteAnimationDirection
+    {
+        int forwardSourceOffset = 0;
+        int rightSourceOffset = 1;
+        int backwardSourceOffset = 2;
+        int leftSourceOffset = 3;
     };
 }
