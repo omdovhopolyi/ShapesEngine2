@@ -34,7 +34,11 @@ namespace shen
 
     struct PlayerInput
     {
-        float speed = 50.f;
+        float speed = 100.f;
         PlayerInput();
+    };
+
+    struct CameraTarget
+    {
     };
 }

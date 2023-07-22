@@ -1,6 +1,7 @@
 #include "SDLTilemapSystem.h"
 #include "Game/ManagersProvider.h"
 #include "Game/SDLGameWindow.h"
+#include "Game/Camera.h"
 #include "Resources/SDLTexturesManager.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
@@ -23,12 +24,17 @@ namespace shen
 			{
 				CreateTilemapTexture();
 				FillTilemapTexture();
+
+				ManagersProvider::Instance().GetCamera()->SetWorldSize(GetTilemapSize());
 			}
 		}
     }
 
 	void SDLTilemapSystem::Draw()
 	{
+		auto camera = ManagersProvider::Instance().GetCamera();
+		auto cameraPosition = camera->GetPosition();
+
 		SDL_Rect sourceRect = {
 			0,
 			0,
@@ -37,10 +43,10 @@ namespace shen
 		};
 
 		SDL_Rect destRect = {
-			0,
-			0,
-			static_cast<int>(_tilemapWidth * _tileScale),
-			static_cast<int>(_tilemapHeight * _tileScale)
+			static_cast<int>(-cameraPosition.x),
+			static_cast<int>(-cameraPosition.y),
+			static_cast<int>(_tilemapWidth),
+			static_cast<int>(_tilemapHeight)
 		};	
 
 		SDL_RenderCopyEx(_renderer, _tilemapTex, &sourceRect, &destRect, 0, NULL, SDL_FLIP_NONE);
@@ -49,6 +55,11 @@ namespace shen
     void SDLTilemapSystem::Stop()
     {
     }
+
+	glm::vec2 SDLTilemapSystem::GetTilemapSize() const
+	{
+		return glm::vec2(_tilemapWidth, _tilemapHeight);
+	}
 
 	bool SDLTilemapSystem::ReadTilemap()
 	{

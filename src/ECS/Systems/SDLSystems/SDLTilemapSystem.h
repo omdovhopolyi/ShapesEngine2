@@ -3,6 +3,8 @@
 #include "SDLRenderSystem.h"
 #include <vector>
 
+#include <glm/glm.hpp>
+
 struct SDL_Texture;
 
 namespace shen
@@ -21,6 +23,8 @@ namespace shen
         void Draw() override;
         void Stop() override;
 
+        glm::vec2 GetTilemapSize() const;
+
     private:
         bool ReadTilemap();
         void CreateTilemapTexture();
@@ -34,7 +38,7 @@ namespace shen
         // TODO config
         int _tileWidth = 32;
         int _tileHeight = 32;
-        float _tileScale = 2.f;
+        float _tileScale = 1.f;
 
         int _tilemapWidth = 0;
         int _tilemapHeight = 0;

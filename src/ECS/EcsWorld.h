@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Logger/Logger.h"
+
 #include <entt/entt.hpp>
 
 namespace shen
@@ -12,6 +13,9 @@ namespace shen
         template<class... Types, class Func>
         void Each(const Func& func);
         
+        template<class Comp>
+        void AddTag(Entity entity);
+
         template<class Comp, class... Args>
         Comp& AddComponent(Entity entity, Args... args);
 
@@ -45,6 +49,13 @@ namespace shen
     {
         auto view = _registry.view<Types...>();
         view.each(func);
+    }
+
+    template<class Comp>
+    void EcsWorld::AddTag(Entity entity)
+    {
+        Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
+        _registry.emplace<Comp>(entity._entity);
     }
 
     template<class Comp, class... Args>

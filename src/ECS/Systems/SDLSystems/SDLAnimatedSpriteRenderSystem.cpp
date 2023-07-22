@@ -2,6 +2,7 @@
 #include "Game/ManagersProvider.h"
 #include "Game/Time.h"
 #include "Game/SDLGameWindow.h"
+#include "Game/Camera.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/SDLComponents.h"
 #include "ECS/Components/Common.h"
@@ -15,7 +16,7 @@ namespace shen
 	void SDLAnimatedSpriteRenderSystem::Draw()
 	{
 		auto world = ManagersProvider::Instance().GetWorld();
-		const float dt = ManagersProvider::Instance().GetTime()->Dt();
+		auto camera = ManagersProvider::Instance().GetCamera();
 
 		world->Each<SDLAnimatedSprite, Transform>(
 			[&](const auto entity, SDLAnimatedSprite& sprite, const Transform& transform)
@@ -28,8 +29,8 @@ namespace shen
 			};
 
 			SDL_Rect destRect = {
-				static_cast<int>(transform.position.x),
-				static_cast<int>(transform.position.y),
+				static_cast<int>(transform.position.x - camera->GetPosition().x),
+				static_cast<int>(transform.position.y - camera->GetPosition().y),
 				static_cast<int>(sprite.width * transform.scale.x),
 				static_cast<int>(sprite.height * transform.scale.y)
 			};	

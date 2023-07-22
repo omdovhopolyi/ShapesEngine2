@@ -12,11 +12,11 @@ namespace shen
 			return false;
 		}
 
-		SDL_DisplayMode displayMode;
-		SDL_GetCurrentDisplayMode(0, &displayMode);
+		//SDL_DisplayMode displayMode;
+		//SDL_GetCurrentDisplayMode(0, &displayMode);
 
-		SetWidth(displayMode.w);
-		SetHeight(displayMode.h);
+		//SetWidth(displayMode.w);
+		//SetHeight(displayMode.h);
 
 		_window = SDL_CreateWindow(
 			NULL,
@@ -39,7 +39,7 @@ namespace shen
 			return false;
 		}
 
-		SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		//SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 		return true;
 	}

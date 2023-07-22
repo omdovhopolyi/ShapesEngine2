@@ -1,6 +1,7 @@
 #include "SDLSpriteRenderSystem.h"
 #include "Game/ManagersProvider.h"
 #include "Game/SDLGameWindow.h"
+#include "Game/Camera.h"
 #include "ECS/EcsWorld.h"
 
 #include "ECS/Components/Common.h"
@@ -14,6 +15,7 @@ namespace shen
 	void SDLSpriteRenderSystem::Draw()
 	{
 		auto world = ManagersProvider::Instance().GetWorld();
+		auto camera = ManagersProvider::Instance().GetCamera();
 
 		world->Sort<SDLSprite>([&](const Entity& left, const Entity& right)
 		{
@@ -23,11 +25,11 @@ namespace shen
 		});
 
 		world->Each<SDLSprite, Transform>(
-			[this](const auto entity, const SDLSprite& sprite, const Transform& transform)
+			[&](const auto entity, const SDLSprite& sprite, const Transform& transform)
 		{
 			SDL_Rect destRect = {
-				static_cast<int>(transform.position.x),
-				static_cast<int>(transform.position.y),
+				static_cast<int>(transform.position.x - camera->GetPosition().x),
+				static_cast<int>(transform.position.y - camera->GetPosition().y),
 				static_cast<int>(sprite.width * transform.scale.x),
 				static_cast<int>(sprite.height * transform.scale.y)
 			};	

@@ -10,6 +10,7 @@
 #include "Systems/SDLSystems/SDLInputSystem.h"
 #include "Systems/PlayerInputSystem.h"
 #include "Systems/SDLSystems/SDLAnimatedDirectionSpriteUpdateSystem.h"
+#include "Systems/CameraFollowSystem.h"
 
 #include "Systems/SDLSystems/SDLSpriteRenderSystem.h"
 #include "Systems/SDLSystems/SDLAnimatedSpriteUpdateSystem.h"
@@ -24,6 +25,7 @@ namespace shen
 
         manager->RegisterSystem<SDLInputSystem>();
         manager->RegisterSystem<MovementSystem>();
+        manager->RegisterSystem<CameraFollowSystem>();
         manager->RegisterSystem<CollisionSystem>();
         manager->RegisterSystem<SDLAnimatedSpriteUpdateSystem>();
         manager->RegisterSystem<SDLAnimatedDirectionSpriteUpdateSystem>();

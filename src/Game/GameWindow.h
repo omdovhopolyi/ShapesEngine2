@@ -21,6 +21,6 @@ namespace shen
 
     private:
         int _width = 800;
-        int _height = 600;
+        int _height = 640;
     };
 }

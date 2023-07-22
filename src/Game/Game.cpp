@@ -81,21 +81,22 @@ namespace shen
 		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper-spritesheet.png");
 
 		auto tank1 = world->CreateEntity();
-		world->AddComponent<Transform>(tank1, glm::vec3(500.f, 10.f, 1.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
-		world->AddComponent<RigidBody>(tank1, glm::vec3(0.f, 50.f, 0.f));
+		world->AddComponent<Transform>(tank1, glm::vec3(500.f, 10.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		world->AddComponent<RigidBody>(tank1, glm::vec3(0.f, 0.f, 0.f));
 		world->AddComponent<SDLSprite>(tank1, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
 		world->AddComponent<BoundingBox>(tank1, glm::vec3(32, 32, 0));
 
 		auto tank2 = world->CreateEntity();
-		world->AddComponent<Transform>(tank2, glm::vec3(500.f, 500.f, 1.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
-		world->AddComponent<RigidBody>(tank2, glm::vec3(0.f, -50.f, 0.f));
+		world->AddComponent<Transform>(tank2, glm::vec3(500.f, 500.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		world->AddComponent<RigidBody>(tank2, glm::vec3(0.f, 0.f, 0.f));
 		world->AddComponent<SDLSprite>(tank2, sdlTexturesManager->GetAsset("tank"), 32, 32, 0, 0, 32, 32);
 		world->AddComponent<BoundingBox>(tank2, glm::vec3(32, 32, 0));
 
 		auto playerEntity = world->CreateEntity();
 		world->AddComponent<PlayerInput>(playerEntity);
+		world->AddTag<CameraTarget>(playerEntity);
 		world->AddComponent<RigidBody>(playerEntity);
-		world->AddComponent<Transform>(playerEntity, glm::vec3(500.f, 400.f, 2.f), 0.f, glm::vec3(2.f, 2.f, 1.f));
+		world->AddComponent<Transform>(playerEntity, glm::vec3(400.f, 320.f, 2.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
 		world->AddComponent<SDLSpriteAnimationDirection>(playerEntity);
 		auto& anim = world->AddComponent<SDLAnimatedSprite>(playerEntity, sdlTexturesManager->GetAsset("chopper"), 32, 32, 0, 0, 32, 32);
 		anim.InitAtimation(2, 30);

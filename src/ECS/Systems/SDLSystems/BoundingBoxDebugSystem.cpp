@@ -1,6 +1,7 @@
 #include "BoundingBoxDebugSystem.h"
 
 #include "Game/ManagersProvider.h"
+#include "Game/Camera.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
 
@@ -24,6 +25,7 @@ namespace shen
         }
 
         auto world = ManagersProvider::Instance().GetWorld();
+        auto camera = ManagersProvider::Instance().GetCamera();
 
         world->Each<BoundingBox, Transform>(
             [&](auto entity, const BoundingBox& bb, const Transform& transform)
@@ -31,8 +33,8 @@ namespace shen
             auto origin = transform.position + bb.offset;
 
             SDL_Rect rect;
-            rect.x = origin.x;
-            rect.y = origin.y;
+            rect.x = origin.x - camera->GetPosition().x;
+            rect.y = origin.y - camera->GetPosition().y;
             rect.w = bb.size.x * transform.scale.x;
             rect.h = bb.size.y * transform.scale.y;
 
@@ -50,7 +52,7 @@ namespace shen
         {
             if (event.type == KeyEventType::Up)
             {
-                if (event.code == SDLK_d)
+                if (event.code == SDLK_f)
                 {
                     _isActivated = !_isActivated;
                 }
