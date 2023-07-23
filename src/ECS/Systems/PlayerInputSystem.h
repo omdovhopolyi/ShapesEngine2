@@ -9,6 +9,23 @@
 
 namespace shen
 {
+    /*class InputCommand
+    {
+    public:
+        InputCommand();
+        InputCommand(KeyEventType type);
+
+    protected:
+        KeyEventType _type = KeyEventType::Undefined;
+    };*/
+
+    /*struct ActionData
+    {
+        std::string key;
+        std::string type;
+        std::string actionId;
+    };*/
+
     class PlayerInputSystem
         : public System
     {
@@ -22,20 +39,25 @@ namespace shen
         void Update() override;
 
     private:
-        void InitActionsMapping();
+        //void InitActionsMapping();
         void InitActionCallbacks();
         void InitSubscriptions();
 
-        void RunActions();
         void UpdateObjects();
+
+        void ProcessEvents(std::vector<KeyCode>& toProcess, std::map<KeyCode, ActionCallback>& callbacks);
 
     private:
         SubcriptionsContainer _subscriptions;
-        std::vector<KeyCode> _toProcess;
 
-        glm::vec3 _direction = glm::vec3(0.f);
+        std::vector<KeyCode> _toProcessOnDown;
+        std::vector<KeyCode> _toProcessOnHold;
+        std::vector<KeyCode> _toProcessOnUp;
 
-        std::map<KeyCode, ActionType> _actionsMapping;
-        std::map<ActionType, ActionCallback> _actionCallbacks;
+        glm::vec3 _direction = glm::vec3(0.f); // move
+
+        std::map<KeyCode, ActionCallback> _actionsOnDown;
+        std::map<KeyCode, ActionCallback> _actionsOnHold;
+        std::map<KeyCode, ActionCallback> _actionsOnUp;
     };
 }

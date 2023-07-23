@@ -2,6 +2,10 @@
 
 namespace shen
 {
+    Transform::Transform(const glm::vec3& pos)
+        : position(pos)
+    { }
+
     Transform::Transform(const glm::vec3& pos, float angleZ, const glm::vec3& scl)
         : position(pos)
         , rotation()

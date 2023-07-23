@@ -9,6 +9,7 @@ namespace shen
         friend class EcsWorld;
 
     public:
+        Entity() = default;
         Entity(const entt::entity& entity);
 
         std::uint32_t GetId() const;
@@ -19,6 +20,6 @@ namespace shen
         entt::entity GetEntity() const { return _entity; }
 
     private:
-        entt::entity _entity;
+        entt::entity _entity = {};
     };
 }

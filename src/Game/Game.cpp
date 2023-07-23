@@ -79,6 +79,7 @@ namespace shen
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
 		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper-spritesheet.png");
+		sdlTexturesManager->LoadAsset("bullet", "../assets/images/bullet.png");
 
 		auto tank1 = world->CreateEntity();
 		world->AddComponent<Transform>(tank1, glm::vec3(500.f, 10.f, 1.f), 0.f, glm::vec3(1.f, 1.f, 1.f));

@@ -7,10 +7,11 @@ namespace shen
 {
     struct Transform
     {
-        glm::vec3 position;
-        glm::quat rotation;
-        glm::vec3 scale;
+        glm::vec3 position = glm::vec3{};
+        glm::quat rotation = glm::quat{};
+        glm::vec3 scale = glm::vec3{};
 
+        Transform(const glm::vec3& pos = {});
         Transform(const glm::vec3& pos = {}, float angleZ = 0.f, const glm::vec3& scl = {});
         Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});
 
@@ -40,5 +41,23 @@ namespace shen
 
     struct CameraTarget
     {
+    };
+
+    struct Weapon
+    {
+        bool automatic = true;
+        bool trigger = false;
+        float delay = 1.f;
+        float dt = 0.f;
+    };
+
+    struct Bullet
+    {
+        int damage = 10;
+    };
+
+    struct Health
+    {
+        int amount = 30;
     };
 }

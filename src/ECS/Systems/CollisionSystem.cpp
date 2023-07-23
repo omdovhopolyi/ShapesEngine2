@@ -53,7 +53,6 @@ namespace shen
                     Logger::Log("HIT");
 
                     CollisionEvent event(a.entity, b.entity);
-
                     ManagersProvider::Instance().GetMessenger()->Broadcast<CollisionEvent>(event);
                 }
             }

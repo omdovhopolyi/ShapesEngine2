@@ -27,8 +27,10 @@ namespace shen
         {
             auto world = ManagersProvider::Instance().GetWorld();
 
-            world->DestroyEntity(event.a);
-            world->DestroyEntity(event.b);
+            //world->DestroyEntity(event.a);
+            //world->DestroyEntity(event.b);
+
+
         });
     }
 }

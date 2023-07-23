@@ -1,6 +1,7 @@
 #include "PlayerInputSystem.h"
 
 #include "Game/ManagersProvider.h"
+#include "Resources/SDLTexturesManager.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
 #include "Logger/Logger.h"
@@ -20,82 +21,97 @@ namespace shen
 
     void PlayerInputSystem::Start()
     {
-        InitActionsMapping();
         InitActionCallbacks();
         InitSubscriptions();
     }
 
     void PlayerInputSystem::Update()
     {
-        RunActions();
-        UpdateObjects();
-    }
+        ProcessEvents(_toProcessOnDown, _actionsOnDown);
+        ProcessEvents(_toProcessOnHold, _actionsOnHold);
+        ProcessEvents(_toProcessOnUp, _actionsOnUp);
 
-    void PlayerInputSystem::InitActionsMapping()
-    {
-        _actionsMapping[static_cast<KeyCode>('w')] = ActionType::Forward;
-        _actionsMapping[static_cast<KeyCode>('d')] = ActionType::Right;
-        _actionsMapping[static_cast<KeyCode>('s')] = ActionType::Backward;
-        _actionsMapping[static_cast<KeyCode>('a')] = ActionType::Left;
-        _actionsMapping[static_cast<KeyCode>(' ')] = ActionType::Fire;
+        UpdateObjects();
     }
 
     void PlayerInputSystem::InitActionCallbacks()
     {
-        _actionCallbacks[ActionType::Forward] = [this]()
+        auto moveForward = [this]()
         {
             _direction += glm::vec3(0.f, -1.f, 0.f);
         };
 
-        _actionCallbacks[ActionType::Right] = [this]()
+        auto moveRight = [this]()
         {
             _direction += glm::vec3(1.f, 0.f, 0.f);
         };
 
-        _actionCallbacks[ActionType::Backward] = [this]()
+        auto moveBack = [this]()
         {
             _direction += glm::vec3(0.f, 1.f, 0.f);
         };
 
-        _actionCallbacks[ActionType::Left] = [this]()
+        auto moveLeft = [this]()
         {
             _direction += glm::vec3(-1.f, 0.f, 0.f);
         };
 
-        _actionCallbacks[ActionType::Fire] = [this]()
+        auto fire = [this]()
         {
-            Logger::Log("Fire");
+            auto world = ManagersProvider::Instance().GetWorld();
+            auto assetsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
+
+            Entity playerEntity;
+            glm::vec3 position{};
+
+            world->Each<PlayerInput, Transform>(
+                [&](auto entity, const PlayerInput& player, const Transform& transform)
+            {
+                playerEntity = entity;
+                position = transform.position;
+            });
+
+            if (world->IsValid(playerEntity))
+            {
+                auto bullet = world->CreateEntity();
+                world->AddComponent<Bullet>(bullet);
+                world->AddComponent<Transform>(bullet, position, 0.f, glm::vec3(1.f, 1.f, 1.f));
+                world->AddComponent<RigidBody>(bullet, glm::vec3(200.f, 0.f, 0.f));
+                world->AddComponent<SDLSprite>(bullet, assetsManager->GetAsset("bullet"), 4, 4, 0, 0, 4, 4);
+            }
         };
+
+        _actionsOnDown[static_cast<KeyCode>('w')] = moveForward;
+        _actionsOnDown[static_cast<KeyCode>('d')] = moveRight;
+        _actionsOnDown[static_cast<KeyCode>('s')] = moveBack;
+        _actionsOnDown[static_cast<KeyCode>('a')] = moveLeft;
+        _actionsOnDown[static_cast<KeyCode>(' ')] = fire;
+        
+        _actionsOnHold[static_cast<KeyCode>('w')] = moveForward;
+        _actionsOnHold[static_cast<KeyCode>('d')] = moveRight;
+        _actionsOnHold[static_cast<KeyCode>('s')] = moveBack;
+        _actionsOnHold[static_cast<KeyCode>('a')] = moveLeft;
     }
 
     void PlayerInputSystem::InitSubscriptions()
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
         {
-            if (event.type == KeyEventType::Down ||
-                event.type == KeyEventType::Hold)
+            if (event.type == KeyEventType::Down)
             {
-                _toProcess.push_back(event.code);   
+                _toProcessOnDown.push_back(event.code);
+            }
+
+            if (event.type == KeyEventType::Hold)
+            {
+                _toProcessOnHold.push_back(event.code);   
+            }
+
+            if (event.type == KeyEventType::Up)
+            {
+                _toProcessOnUp.push_back(event.code);
             }
         });
-    }
-
-    void PlayerInputSystem::RunActions()
-    {
-        for (const auto& code : _toProcess)
-        {
-            auto it = _actionsMapping.find(code);
-            if (it != _actionsMapping.end())
-            {
-                auto actionIt = _actionCallbacks.find(it->second);
-                if (actionIt != _actionCallbacks.end())
-                {
-                    actionIt->second();
-                }
-            }
-        }
-
-        _toProcess.clear();
     }
 
     void PlayerInputSystem::UpdateObjects()
@@ -116,5 +132,19 @@ namespace shen
         });
 
         _direction = glm::vec3{};
+    }
+
+    void PlayerInputSystem::ProcessEvents(std::vector<KeyCode>& toProcess, std::map<KeyCode, ActionCallback>& callbacks)
+    {
+        for (const auto& code : toProcess)
+        {
+            auto it = callbacks.find(code);
+            if (it != callbacks.end())
+            {
+                it->second();
+            }
+        }
+
+        toProcess.clear();
     }
 }
