@@ -12,12 +12,9 @@ namespace shen
     public:
         template<class... Types, class Func>
         void Each(const Func& func);
-        
-        template<class Comp>
-        void AddTag(Entity entity);
 
         template<class Comp, class... Args>
-        Comp& AddComponent(Entity entity, Args... args);
+        Comp* AddComponent(Entity entity, Args... args);
 
         template<class Comp>
         Comp* GetComponent(Entity entity);
@@ -51,18 +48,20 @@ namespace shen
         view.each(func);
     }
 
-    template<class Comp>
-    void EcsWorld::AddTag(Entity entity)
-    {
-        Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
-        _registry.emplace<Comp>(entity._entity);
-    }
-
     template<class Comp, class... Args>
-    Comp& EcsWorld::AddComponent(Entity entity, Args... args)
+    Comp* EcsWorld::AddComponent(Entity entity, Args... args)
     {
         Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
-        return _registry.emplace<Comp>(entity._entity, std::forward<Args>(args)...);
+
+        if constexpr (std::is_empty_v<Comp>)
+        {
+            _registry.emplace<Comp>(entity._entity, std::forward<Args>(args)...);
+            return nullptr;
+        }
+        else
+        {
+            return &_registry.emplace<Comp>(entity._entity, std::forward<Args>(args)...);
+        }
     }
 
     template<class Comp>
