@@ -96,7 +96,7 @@ namespace shen
 		auto playerEntity = world->CreateEntity();
 		world->AddComponent<PlayerInput>(playerEntity);
 		world->AddComponent<CameraTarget>(playerEntity);
-		world->AddComponent<RigidBody>(playerEntity);
+		world->AddComponent<RigidBody>(playerEntity, glm::vec3{}, 2.f);
 		world->AddComponent<Transform>(playerEntity, glm::vec3(400.f, 320.f, 2.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
 		world->AddComponent<SDLSpriteAnimationDirection>(playerEntity);
 		if (auto anim = world->AddComponent<SDLAnimatedSprite>(playerEntity, sdlTexturesManager->GetAsset("chopper"), 32, 32, 0, 0, 32, 32))

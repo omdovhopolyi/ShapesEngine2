@@ -13,7 +13,7 @@ namespace shen
         auto world = ManagersProvider::Instance().GetWorld();
 
         world->Each<Transform, RigidBody>(
-            [&](const auto entity, auto& transform, const auto& rigidBody)
+            [&](const auto entity, auto& transform, auto& rigidBody)
         {
             transform.position += rigidBody.velocity * dt;
         });

@@ -20,9 +20,8 @@ namespace shen
 
     struct RigidBody
     {
-        glm::vec3 velocity;
-
-        RigidBody(const glm::vec3& vel = {});
+        glm::vec3 velocity = glm::vec3{};
+        float inertia = 1.f;
     };
 
     struct BoundingBox
@@ -54,6 +53,7 @@ namespace shen
     struct Bullet
     {
         int damage = 10;
+        float time = 3.f;
     };
 
     struct Health

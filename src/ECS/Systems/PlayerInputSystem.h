@@ -5,20 +5,12 @@
 #include "Utils/Types.h"
 #include "Enums/Direction.h"
 
-#include <glm/glm.hpp>
+#include "Commands/Command.h"
+
+#include <memory>
 
 namespace shen
 {
-    /*class InputCommand
-    {
-    public:
-        InputCommand();
-        InputCommand(KeyEventType type);
-
-    protected:
-        KeyEventType _type = KeyEventType::Undefined;
-    };*/
-
     /*struct ActionData
     {
         std::string key;
@@ -30,8 +22,9 @@ namespace shen
         : public System
     {
     public:
-        using ActionCallback = std::function<void()>;
         using KeyCode = int;
+        using CommandsMap = std::map<KeyCode, std::shared_ptr<Command>>;
+        using WeakCommands = std::vector<std::weak_ptr<Command>>;
 
         PlayerInputSystem();
 
@@ -39,13 +32,12 @@ namespace shen
         void Update() override;
 
     private:
-        //void InitActionsMapping();
         void InitActionCallbacks();
         void InitSubscriptions();
 
-        void UpdateObjects();
+        void ProcessCommands(Entity entity, const WeakCommands& commands);
 
-        void ProcessEvents(std::vector<KeyCode>& toProcess, std::map<KeyCode, ActionCallback>& callbacks);
+        WeakCommands ProcessEvents(std::vector<KeyCode>& toProcess, CommandsMap& callbacks);
 
     private:
         SubcriptionsContainer _subscriptions;
@@ -54,10 +46,8 @@ namespace shen
         std::vector<KeyCode> _toProcessOnHold;
         std::vector<KeyCode> _toProcessOnUp;
 
-        glm::vec3 _direction = glm::vec3(0.f); // move
-
-        std::map<KeyCode, ActionCallback> _actionsOnDown;
-        std::map<KeyCode, ActionCallback> _actionsOnHold;
-        std::map<KeyCode, ActionCallback> _actionsOnUp;
+        CommandsMap _actionsOnDown;
+        CommandsMap _actionsOnHold;
+        CommandsMap _actionsOnUp;
     };
 }

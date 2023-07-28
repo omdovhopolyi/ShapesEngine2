@@ -7,10 +7,8 @@
 #include "Logger/Logger.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
-#include "ECS/Components/SDLComponents.h"
-#include "Utils/Math.h"
-
-#include <glm/gtx/vector_angle.hpp>
+#include "Commands/MoveCommands.h"
+#include "Commands/FireCommand.h"
 
 namespace shen
 {
@@ -27,70 +25,39 @@ namespace shen
 
     void PlayerInputSystem::Update()
     {
-        ProcessEvents(_toProcessOnDown, _actionsOnDown);
-        ProcessEvents(_toProcessOnHold, _actionsOnHold);
-        ProcessEvents(_toProcessOnUp, _actionsOnUp);
+        auto commandsOnDown = ProcessEvents(_toProcessOnDown, _actionsOnDown);
+        auto commandsOnHold = ProcessEvents(_toProcessOnHold, _actionsOnHold);
+        auto commandsOnUp = ProcessEvents(_toProcessOnUp, _actionsOnUp);
 
-        UpdateObjects();
+        std::vector<Entity> entities;
+
+        auto world = ManagersProvider::Instance().GetWorld();
+        world->Each<PlayerInput>(
+            [&](auto entity, const PlayerInput&)
+        {
+            entities.push_back(entity);
+        });
+
+        for (auto& entity : entities)
+        {
+            ProcessCommands(entity, commandsOnDown);
+            ProcessCommands(entity, commandsOnHold);
+            ProcessCommands(entity, commandsOnUp);
+        }
     }
 
     void PlayerInputSystem::InitActionCallbacks()
     {
-        auto moveForward = [this]()
-        {
-            _direction += glm::vec3(0.f, -1.f, 0.f);
-        };
+        _actionsOnDown[static_cast<KeyCode>('w')] = std::make_shared<MoveUpCommand>();
+        _actionsOnDown[static_cast<KeyCode>('d')] = std::make_shared<MoveRightCommand>();
+        _actionsOnDown[static_cast<KeyCode>('s')] = std::make_shared<MoveDownCommand>();
+        _actionsOnDown[static_cast<KeyCode>('a')] = std::make_shared<MoveLeftCommand>();
+        _actionsOnDown[static_cast<KeyCode>(' ')] = std::make_shared<FireCommand>();
 
-        auto moveRight = [this]()
-        {
-            _direction += glm::vec3(1.f, 0.f, 0.f);
-        };
-
-        auto moveBack = [this]()
-        {
-            _direction += glm::vec3(0.f, 1.f, 0.f);
-        };
-
-        auto moveLeft = [this]()
-        {
-            _direction += glm::vec3(-1.f, 0.f, 0.f);
-        };
-
-        auto fire = [this]()
-        {
-            auto world = ManagersProvider::Instance().GetWorld();
-            auto assetsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
-
-            Entity playerEntity;
-            glm::vec3 position{};
-
-            world->Each<PlayerInput, Transform>(
-                [&](auto entity, const PlayerInput& player, const Transform& transform)
-            {
-                playerEntity = entity;
-                position = transform.position;
-            });
-
-            if (world->IsValid(playerEntity))
-            {
-                auto bullet = world->CreateEntity();
-                world->AddComponent<Bullet>(bullet);
-                world->AddComponent<Transform>(bullet, position, 0.f, glm::vec3(1.f, 1.f, 1.f));
-                world->AddComponent<RigidBody>(bullet, glm::vec3(200.f, 0.f, 0.f));
-                world->AddComponent<SDLSprite>(bullet, assetsManager->GetAsset("bullet"), 4, 4, 0, 0, 4, 4);
-            }
-        };
-
-        _actionsOnDown[static_cast<KeyCode>('w')] = moveForward;
-        _actionsOnDown[static_cast<KeyCode>('d')] = moveRight;
-        _actionsOnDown[static_cast<KeyCode>('s')] = moveBack;
-        _actionsOnDown[static_cast<KeyCode>('a')] = moveLeft;
-        _actionsOnDown[static_cast<KeyCode>(' ')] = fire;
-        
-        _actionsOnHold[static_cast<KeyCode>('w')] = moveForward;
-        _actionsOnHold[static_cast<KeyCode>('d')] = moveRight;
-        _actionsOnHold[static_cast<KeyCode>('s')] = moveBack;
-        _actionsOnHold[static_cast<KeyCode>('a')] = moveLeft;
+        _actionsOnHold[static_cast<KeyCode>('w')] = std::make_shared<MoveUpCommand>();
+        _actionsOnHold[static_cast<KeyCode>('d')] = std::make_shared<MoveRightCommand>();
+        _actionsOnHold[static_cast<KeyCode>('s')] = std::make_shared<MoveDownCommand>();
+        _actionsOnHold[static_cast<KeyCode>('a')] = std::make_shared<MoveLeftCommand>();
     }
 
     void PlayerInputSystem::InitSubscriptions()
@@ -114,37 +81,32 @@ namespace shen
         });
     }
 
-    void PlayerInputSystem::UpdateObjects()
+    void PlayerInputSystem::ProcessCommands(Entity entity, const PlayerInputSystem::WeakCommands& commands)
     {
-        glm::vec3 velocity{};
-        const bool hasDirection = SquareLength(_direction) > 0.f;
-
-        if (hasDirection)
+        for (const auto& commandPtr : commands)
         {
-            _direction = glm::normalize(_direction);
+            if (auto command = commandPtr.lock())
+            {
+                command->Execute(entity);
+            }
         }
-
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<PlayerInput, RigidBody>(
-            [&](auto entity, const PlayerInput& player, RigidBody& rigidBody)
-        {
-            rigidBody.velocity = _direction * player.speed;
-        });
-
-        _direction = glm::vec3{};
     }
 
-    void PlayerInputSystem::ProcessEvents(std::vector<KeyCode>& toProcess, std::map<KeyCode, ActionCallback>& callbacks)
+    PlayerInputSystem::WeakCommands PlayerInputSystem::ProcessEvents(std::vector<KeyCode>& toProcess, PlayerInputSystem::CommandsMap& callbacks)
     {
+        PlayerInputSystem::WeakCommands commands;
+
         for (const auto& code : toProcess)
         {
             auto it = callbacks.find(code);
             if (it != callbacks.end())
             {
-                it->second();
+                commands.push_back(it->second);
             }
         }
 
         toProcess.clear();
+
+        return commands;
     }
 }
