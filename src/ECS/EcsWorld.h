@@ -84,7 +84,8 @@ namespace shen
     template<class Comp>
     bool EcsWorld::HasComponent(Entity entity)
     {
-        return _registry.try_get<Comp>(entity._entity) != nullptr;
+        auto view = _registry.view<Comp>();
+        return view.contains(entity.GetEntity());
     }
 
     template<class Comp, class Pred>

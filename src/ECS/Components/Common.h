@@ -53,11 +53,13 @@ namespace shen
     struct Bullet
     {
         int damage = 10;
-        float time = 3.f;
+        float lifeTime = 3.f;
     };
 
     struct Health
     {
         int amount = 30;
     };
+
+    struct Destroy {};
 }

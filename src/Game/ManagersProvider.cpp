@@ -6,6 +6,7 @@
 #include "SDLGameWindow.h"
 #include "Camera.h"
 #include "Messenger/Messenger.h"
+#include "Game/WeaponManager.h"
 
 namespace shen
 {
@@ -26,6 +27,7 @@ namespace shen
                 _systemsManager = std::make_unique<SystemsManager>();
                 _world = std::make_unique<EcsWorld>();
                 _time = std::make_unique<Time>();
+                _weaponManager = std::make_unique<WeaponManager>();
 
                 _camera->Init();
                 _systemsManager->Init();
@@ -92,5 +94,10 @@ namespace shen
     Camera* ManagersProvider::GetCamera() const
     {
         return _camera.get();
+    }
+
+    WeaponManager* ManagersProvider::GetWeaponManager() const
+    {
+        return _weaponManager.get();
     }
 }
