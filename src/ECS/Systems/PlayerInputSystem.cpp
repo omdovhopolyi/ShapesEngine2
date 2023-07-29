@@ -14,8 +14,7 @@ namespace shen
 {
     PlayerInputSystem::PlayerInputSystem()
         : System()
-    {
-    }
+    {}
 
     void PlayerInputSystem::Start()
     {
