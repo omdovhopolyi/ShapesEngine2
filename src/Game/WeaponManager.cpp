@@ -14,12 +14,11 @@ namespace shen
         auto world = ManagersProvider::Instance().GetWorld();
         auto assetsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 
-        direction *= 200.f;
-
         auto bullet = world->CreateEntity();
         world->AddComponent<Bullet>(bullet);
         world->AddComponent<Transform>(bullet, position, 0.f, glm::vec3(1.f, 1.f, 1.f));
         world->AddComponent<RigidBody>(bullet, direction);
+        world->AddComponent<BoundingBox>(bullet, glm::vec3(4.f, 4.f, 0.f));
         world->AddComponent<SDLSprite>(bullet, assetsManager->GetAsset("bullet"), 4, 4, 0, 0, 4, 4);
         
     }

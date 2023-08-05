@@ -22,6 +22,7 @@ namespace shen
     {
         glm::vec3 velocity = glm::vec3{};
         float inertia = 1.f;
+        glm::vec3 direction = glm::vec3{};
     };
 
     struct BoundingBox
@@ -59,6 +60,19 @@ namespace shen
     struct Health
     {
         int amount = 30;
+    };
+
+    struct SpriteAnimationDirection
+    {
+        int forwardSourceOffset = 0;
+        int rightSourceOffset = 1;
+        int backwardSourceOffset = 2;
+        int leftSourceOffset = 3;
+    };
+
+    struct Direction
+    {
+        glm::vec3 vec = glm::vec3{};
     };
 
     struct Destroy {};

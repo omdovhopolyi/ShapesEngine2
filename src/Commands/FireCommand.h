@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Command.h"
+#include <glm/glm.hpp>
 
 namespace shen
 {
@@ -9,5 +10,8 @@ namespace shen
     {
     public:
         void Execute(const Entity& entity) const override;
+
+    private:
+        float _bulletSpeed = 300.f;
     };
 }

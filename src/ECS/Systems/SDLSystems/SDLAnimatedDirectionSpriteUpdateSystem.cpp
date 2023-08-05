@@ -15,28 +15,37 @@ namespace shen
 		auto world = ManagersProvider::Instance().GetWorld();
 		const float dt = ManagersProvider::Instance().GetTime()->Dt();
 
-		world->Each<SDLSpriteAnimationDirection, SDLAnimatedSprite, RigidBody>(
-			[&](const auto entity, const SDLSpriteAnimationDirection& spriteDir, SDLAnimatedSprite& sprite, const RigidBody& rb)
+		world->Each<SpriteAnimationDirection, SDLAnimatedSprite, RigidBody>(
+			[&](const auto entity, const SpriteAnimationDirection& spriteDir, SDLAnimatedSprite& sprite, const RigidBody& rb)
 		{
-            const bool hasVelocity = SquareLength(rb.velocity);
-            if (hasVelocity)
+            const bool hasDirection = SquareLength(rb.direction);
+            if (hasDirection)
             {
-                const auto velocity2d = glm::vec2(rb.velocity.x, rb.velocity.y);
-                const float angle = glm::degrees(glm::orientedAngle(_forward, glm::normalize(velocity2d)));
+                const auto direction2d = glm::vec2(rb.direction.x, rb.direction.y);
+                const float angle = glm::degrees(glm::orientedAngle(_forward, direction2d));
 
                 int offsetCoef = spriteDir.backwardSourceOffset;
+
+                auto directionComp = world->GetOrCreateComponent<Direction>(entity);
 
                 if (_forwardAngleRange.IsInRange(angle))
                 {
                     offsetCoef = spriteDir.forwardSourceOffset;
+                    directionComp->vec = glm::vec3(0.f, -1.f, 0.f);
                 }
                 else if (_rightAngleRange.IsInRange(angle))
                 {
                     offsetCoef = spriteDir.rightSourceOffset;
+                    directionComp->vec = glm::vec3(1.f, 0.f, 0.f);
                 }
                 else if (_leftAngleRange.IsInRange(angle))
                 {
                     offsetCoef = spriteDir.leftSourceOffset;
+                    directionComp->vec = glm::vec3(-1.f, 0.f, 0.f);
+                }
+                else
+                {
+                    directionComp->vec = glm::vec3(0.f, 1.f, 0.f);
                 }
 
                 sprite.rect.y = sprite.rect.h * offsetCoef;

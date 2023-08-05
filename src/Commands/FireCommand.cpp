@@ -4,6 +4,9 @@
 #include "Game/WeaponManager.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
+#include "Utils/Types.h"
+
+#include <glm/glm.hpp>
 
 namespace shen
 {
@@ -22,7 +25,11 @@ namespace shen
                 position += bb->size / 2.f;
             }
 
-            weapon->FireBullet(position, glm::vec3(1.f, 0.f, 0.f));
+            if (auto direction = world->GetComponent<Direction>(entity))
+            {
+                const auto bulletVelocity =  glm::normalize(direction->vec) * _bulletSpeed;
+                weapon->FireBullet(position, bulletVelocity);
+            }
         }
         else
         {

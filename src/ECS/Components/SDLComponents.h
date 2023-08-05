@@ -26,12 +26,4 @@ namespace shen
         SDLAnimatedSprite(SDL_Texture* tex, int w, int h, int sourceX, int sourceY, int sourceW, int sourceH);
         void InitAtimation(int frames, int framesPerSec);
     };
-
-    struct SDLSpriteAnimationDirection
-    {
-        int forwardSourceOffset = 0;
-        int rightSourceOffset = 1;
-        int backwardSourceOffset = 2;
-        int leftSourceOffset = 3;
-    };
 }

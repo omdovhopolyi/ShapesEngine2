@@ -14,9 +14,9 @@ namespace shen
     {
         auto world = ManagersProvider::Instance().GetWorld();
         auto rb = world->GetComponent<RigidBody>(entity);
-        const float speed = 50.f;
         rb->velocity += _direction;
-        rb->velocity = glm::normalize(rb->velocity) * speed;
+        rb->direction = glm::normalize(rb->velocity);
+        rb->velocity = rb->direction * _speed;
     }
 
     MoveUpCommand::MoveUpCommand()

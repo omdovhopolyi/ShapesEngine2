@@ -19,6 +19,9 @@ namespace shen
         template<class Comp>
         Comp* GetComponent(Entity entity);
 
+        template<class Comp, class... Args>
+        Comp* GetOrCreateComponent(Entity entity, Args... args);
+
         template<class Comp>
         void RemoveComponent(Entity entity);
 
@@ -72,6 +75,19 @@ namespace shen
             return _registry.try_get<Comp>(entity._entity);
         }
         return nullptr;
+    }
+
+    template<class Comp, class... Args>
+    Comp* EcsWorld::GetOrCreateComponent(Entity entity, Args... args)
+    {
+        if (HasComponent<Comp>(entity))
+        {
+            return _registry.try_get<Comp>(entity._entity);
+        }
+        else
+        {
+            return AddComponent<Comp>(entity._entity, std::forward<Args>(args)...);
+        }
     }
 
     template<class Comp>
