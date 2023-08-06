@@ -50,8 +50,6 @@ namespace shen
                     a.pos.y <= b.pos.y + b.size.y &&
                     a.pos.y + a.size.y >= b.pos.y)
                 {
-                    Logger::Log("HIT");
-
                     CollisionEvent event(a.entity, b.entity);
                     ManagersProvider::Instance().GetMessenger()->Broadcast<CollisionEvent>(event);
                 }

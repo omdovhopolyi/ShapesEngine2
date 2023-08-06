@@ -5,7 +5,7 @@
 
 namespace shen
 {
-    class BoundingBoxDebugSystem
+    class SDLBoundingBoxDebugSystem
         : public SDLRenderSystem
     {
     public:

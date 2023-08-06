@@ -15,6 +15,7 @@ namespace shen
         std::uint32_t GetId() const;
 
         bool operator == (const Entity& other) { return _entity == other._entity; }
+        bool operator != (const Entity& other) { return _entity != other._entity; }
         bool operator < (const Entity& other) { return _entity < other._entity; }
 
         entt::entity GetEntity() const { return _entity; }

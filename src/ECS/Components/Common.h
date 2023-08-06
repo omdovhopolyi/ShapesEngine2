@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Entity.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -53,6 +54,7 @@ namespace shen
 
     struct Bullet
     {
+        Entity owner;
         int damage = 10;
         float lifeTime = 3.f;
     };
@@ -73,6 +75,16 @@ namespace shen
     struct Direction
     {
         glm::vec3 vec = glm::vec3{};
+    };
+
+    struct Tag
+    {
+        std::string tag;
+    };
+
+    struct Group
+    {
+        std::string group;
     };
 
     struct Destroy {};

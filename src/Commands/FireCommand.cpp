@@ -28,7 +28,7 @@ namespace shen
             if (auto direction = world->GetComponent<Direction>(entity))
             {
                 const auto bulletVelocity =  glm::normalize(direction->vec) * _bulletSpeed;
-                weapon->FireBullet(position, bulletVelocity);
+                weapon->FireBullet(entity, position, bulletVelocity);
             }
         }
         else

@@ -1,9 +1,8 @@
 #pragma once
 
 #include "System.h"
-
+#include "ECS/Entity.h"
 #include "Messenger/SubscriptionsContainer.h"
-
 
 namespace shen
 {
@@ -17,6 +16,9 @@ namespace shen
         void Update() override;
 
         void Subscribe();
+
+    private:
+        bool ProcessBulletHit(Entity a, Entity b) const;
 
     private:
         SubcriptionsContainer _subscriptions;

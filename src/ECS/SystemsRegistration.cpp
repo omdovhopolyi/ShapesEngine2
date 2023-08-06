@@ -18,7 +18,7 @@
 #include "Systems/SDLSystems/SDLSpriteRenderSystem.h"
 #include "Systems/SDLSystems/SDLAnimatedSpriteUpdateSystem.h"
 #include "Systems/SDLSystems/SDLAnimatedSpriteRenderSystem.h"
-#include "Systems/SDLSystems/BoundingBoxDebugSystem.h"
+#include "Systems/SDLSystems/SDLBoundingBoxDebugSystem.h"
 
 namespace shen
 {
@@ -41,6 +41,6 @@ namespace shen
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
         manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
-        manager->RegisterRenderSystem<BoundingBoxDebugSystem>();
+        manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();
     }
 }

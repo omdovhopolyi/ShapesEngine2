@@ -1,4 +1,4 @@
-#include "BoundingBoxDebugSystem.h"
+#include "SDLBoundingBoxDebugSystem.h"
 
 #include "Game/ManagersProvider.h"
 #include "Game/Camera.h"
@@ -11,13 +11,13 @@
 
 namespace shen
 {
-    void BoundingBoxDebugSystem::Start()
+    void SDLBoundingBoxDebugSystem::Start()
     {
         SDLRenderSystem::Start();
         Subscribe();
     }
 
-    void BoundingBoxDebugSystem::Draw()
+    void SDLBoundingBoxDebugSystem::Draw()
     {
         if (!_isActivated)
         {
@@ -46,7 +46,7 @@ namespace shen
         });
     }
 
-    void BoundingBoxDebugSystem::Subscribe()
+    void SDLBoundingBoxDebugSystem::Subscribe()
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
         {

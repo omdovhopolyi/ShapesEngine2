@@ -9,13 +9,13 @@
 
 namespace shen
 {
-    void WeaponManager::FireBullet(glm::vec3 position, glm::vec3 direction)
+    void WeaponManager::FireBullet(Entity owner, glm::vec3 position, glm::vec3 direction)
     {
         auto world = ManagersProvider::Instance().GetWorld();
         auto assetsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 
         auto bullet = world->CreateEntity();
-        world->AddComponent<Bullet>(bullet);
+        world->AddComponent<Bullet>(bullet, owner);
         world->AddComponent<Transform>(bullet, position, 0.f, glm::vec3(1.f, 1.f, 1.f));
         world->AddComponent<RigidBody>(bullet, direction);
         world->AddComponent<BoundingBox>(bullet, glm::vec3(4.f, 4.f, 0.f));
