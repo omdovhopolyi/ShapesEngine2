@@ -7,6 +7,7 @@ project(${TARGET_NAME})
 #set(CMAKE_BUILD_TYPE Debug)
 
 add_subdirectory(cmake/imgui)
+add_subdirectory(cmake/imgui_sdl)
 
 file (GLOB_RECURSE SRC_FILES 
     ${PROJECT_SOURCE_DIR}/src/*.h
@@ -59,6 +60,7 @@ target_link_libraries(${TARGET_NAME} sol2)
 include_directories(src)
 
 include_directories(submodules/imgui)
+include_directories(submodules/imgui_sdl)
 include_directories(submodules/SDL)
 include_directories(submodules/SDL_image)
 include_directories(submodules/SDL_ttf)

@@ -4,6 +4,8 @@ set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/submodules/imgui)
 
 configure_file(${IMGUI_DIR}/backends/imgui_impl_sdl2.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdl2.h COPYONLY)
 configure_file(${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdl2.cpp COPYONLY)
+configure_file(${IMGUI_DIR}/backends/imgui_impl_sdlrenderer2.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdlrenderer2.h COPYONLY)
+configure_file(${IMGUI_DIR}/backends/imgui_impl_sdlrenderer2.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_impl_sdlrenderer2.cpp COPYONLY)
 configure_file(${IMGUI_DIR}/imconfig.h ${PROJECT_SOURCE_DIR}/src/imgui/imconfig.h COPYONLY)
 configure_file(${IMGUI_DIR}/imgui_draw.cpp ${PROJECT_SOURCE_DIR}/src/imgui/imgui_draw.cpp COPYONLY)
 configure_file(${IMGUI_DIR}/imgui_internal.h ${PROJECT_SOURCE_DIR}/src/imgui/imgui_internal.h COPYONLY)
