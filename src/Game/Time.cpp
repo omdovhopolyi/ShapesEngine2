@@ -1,25 +1,18 @@
 #include "Time.h"
-
-// TODO
-#include <SDL.h>
+#include <chrono>
 
 namespace shen
 {
 	void Time::Init()
 	{
-
+		_lastUpdateTime = std::chrono::high_resolution_clock::now();
 	}
 
 	void Time::Update()
 	{
-		int timeToWait = MILLISEC_PER_FRAME - (SDL_GetTicks() - _lastUpdateTime);
-		if (timeToWait > 0)
-		{
-			SDL_Delay(timeToWait);
-		}
-
-		_dt = (SDL_GetTicks() - _lastUpdateTime) / 1000.f;
-		_lastUpdateTime = SDL_GetTicks();
+		auto now = std::chrono::high_resolution_clock::now();
+		_dt = std::chrono::duration_cast<std::chrono::microseconds>(now - _lastUpdateTime).count() / (1000.f * 1000.f);
+  		_lastUpdateTime = now;
 	}
 
 	float Time::Dt() const
