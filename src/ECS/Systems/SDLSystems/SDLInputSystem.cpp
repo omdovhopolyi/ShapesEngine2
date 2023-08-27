@@ -4,6 +4,14 @@
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl2.h"
+#include "imgui/imgui_impl_sdlrenderer2.h"
+
+#include "Game/ManagersProvider.h"
+#include "ECS/SystemsManager.h"
+#include "SDLBoundingBoxDebugSystem.h"
+
 namespace shen
 {
 	void SDLInputSystem::Update()
@@ -12,8 +20,17 @@ namespace shen
 		SDL_Keycode down;
 		bool needAddDownKey = false;
 
+		auto bbs = ManagersProvider::Instance().GetSystemsManager()->GetSystem<SDLBoundingBoxDebugSystem>();
+
 		while (SDL_PollEvent(&event))
 		{
+			//ImGuiIO& io = ImGui::GetIO();
+
+			if (bbs->IsActivated())
+			{
+				ImGui_ImplSDL2_ProcessEvent(&event);
+			}
+
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -38,7 +55,22 @@ namespace shen
 				ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Up, event.key.keysym.sym);
 				break;
 			}
+			/*case SDL_WINDOWEVENT:
+			{
+				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+				{
+					io.DisplaySize.x = static_cast<float>(event.window.data1);
+					io.DisplaySize.y = static_cast<float>(event.window.data2);
+				}
+			}*/
 			}
+
+			/*int mouseX, mouseY;
+			const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
+
+			io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
+			io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
+			io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);*/
 		}
 
 		for (const auto& key : _holdKeys)

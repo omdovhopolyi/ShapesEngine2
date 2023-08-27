@@ -12,6 +12,8 @@ namespace shen
         void Start() override;
         void Draw() override;
 
+        bool IsActivated() const { return _isActivated; }
+
     protected:
         void Subscribe();
 
