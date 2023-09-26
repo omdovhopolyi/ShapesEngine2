@@ -31,3 +31,6 @@
 [submodule "submodules/imgui_sdl"]
 	path = submodules/imgui_sdl
 	url = https://github.com/Tyyppi77/imgui_sdl.git
+[submodule "submodules/glew-cmake"]
+	path = submodules/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git

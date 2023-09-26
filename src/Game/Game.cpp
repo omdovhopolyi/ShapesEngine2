@@ -73,7 +73,7 @@ namespace shen
 			_isRunning = false;
 		});
 
-		auto world = ManagersProvider::Instance().GetWorld();
+		/*auto world = ManagersProvider::Instance().GetWorld();
 
 		auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
@@ -103,7 +103,7 @@ namespace shen
 		if (auto anim = world->AddComponent<SDLAnimatedSprite>(playerEntity, sdlTexturesManager->GetAsset("chopper"), 32, 32, 0, 0, 32, 32))
 		{
 			anim->InitAtimation(2, 30);
-		}
+		}*/
 
 		auto systems = ManagersProvider::Instance().GetSystemsManager();
 		systems->Start();

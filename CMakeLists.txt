@@ -25,6 +25,7 @@ endforeach()
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
 set(ENTT_INCLUDE_NATVIS ON)
+set(glew-cmake_BUILD_SHARED NO)
 
 add_subdirectory(submodules/SDL)
 target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
@@ -48,6 +49,9 @@ target_link_libraries(${TARGET_NAME} lua)
 add_subdirectory(submodules/sol2)
 target_link_libraries(${TARGET_NAME} sol2)
 
+add_subdirectory(submodules/glew-cmake)
+target_link_libraries(${TARGET_NAME} libglew_static)
+
 #add_subdirectory(external/glad)
 #target_link_libraries(${TARGET_NAME} glad)
 
@@ -70,6 +74,7 @@ include_directories(submodules/lua)
 include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)
 include_directories(submodules/entt/src)
+include_directories(submodules/glew-cmake/include)
 
 if (MSVC)
     add_custom_command(

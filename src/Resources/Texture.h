@@ -1,16 +1,18 @@
 #pragma once
 
 #include <string>
+#include <glm/glm.hpp>
 
 namespace shen
 {
     class Texture
     {
     public:
+        const std::string& GetPath() const;
+        glm::vec2 GetSize() const;
 
     private:
         std::string _path;
-        int width = 0;
-        int height = 0;
+        glm::vec2 _size;
     };
 }

@@ -27,7 +27,7 @@ namespace shen
         auto manager = ManagersProvider::Instance().GetSystemsManager();
 
         manager->RegisterSystem<SDLInputSystem>();
-        manager->RegisterSystem<MovementSystem>();
+        /*manager->RegisterSystem<MovementSystem>();
         manager->RegisterSystem<IntertiaSystem>();
         manager->RegisterSystem<PlayerInputSystem>();
         manager->RegisterSystem<BulletSystem>();
@@ -41,6 +41,6 @@ namespace shen
         manager->RegisterRenderSystem<SDLTilemapSystem>();
         manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
         manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
-        manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();
+        manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
     }
 }
