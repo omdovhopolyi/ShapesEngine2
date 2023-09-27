@@ -12,7 +12,8 @@
 #include "ECS/Components/SDLComponents.h"
 
 #include "Resources/AssetsManager.h"
-#include "Resources/SDLTexturesManager.h"
+//#include "Resources/SDLTexturesManager.h"
+#include "Resources/OpenGLTexturesManager.h"
 
 #include "Messenger/Events/Common.h"
 
@@ -72,6 +73,9 @@ namespace shen
 		{
 			_isRunning = false;
 		});
+
+		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
+		texturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 
 		/*auto world = ManagersProvider::Instance().GetWorld();
 

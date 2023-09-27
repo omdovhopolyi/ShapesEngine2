@@ -6,6 +6,8 @@ namespace shen
 {
     bool OpenGLWindow::Init()
     {
+        // TODO check errors
+
         SDL_Init(SDL_INIT_EVERYTHING);
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -25,16 +27,16 @@ namespace shen
         //glewExperimental = GL_TRUE;
         glewInit();
 
-        /* The following code is for error checking. 
-        *  If OpenGL has initialised properly, this should print 1.
-        *  Remove it in production code.
-        */
-        GLuint vertex_buffer;
-        glGenBuffers(1, &vertex_buffer);
-        /* Error checking ends here */
+        ///* The following code is for error checking. 
+        //*  If OpenGL has initialised properly, this should print 1.
+        //*  Remove it in production code.
+        //*/
+        //GLuint vertex_buffer;
+        //glGenBuffers(1, &vertex_buffer);
+        ///* Error checking ends here */
 
-        /* Freeing Memory */
-        glDeleteBuffers(1, &vertex_buffer);
+        ///* Freeing Memory */
+        //glDeleteBuffers(1, &vertex_buffer);
 
         return true;
     }

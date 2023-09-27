@@ -2,7 +2,7 @@
 #include "Game/ManagersProvider.h"
 #include "Game/SDLGameWindow.h"
 
-#include <SDL_image.h>
+//#include <SDL_image.h>
 #include <SDL.h>
 
 namespace shen
@@ -32,10 +32,10 @@ namespace shen
 
     std::pair<SDL_Texture*, bool> SDLTexturesManager::LoadAssetImpl(const std::string& path)
     {
-        if (auto texture = IMG_LoadTexture(_renderer, path.c_str()))
+        /*if (auto texture = IMG_LoadTexture(_renderer, path.c_str()))
         {
             return { texture, true };
-        }
+        }*/
 
         return { nullptr, false };
     }
