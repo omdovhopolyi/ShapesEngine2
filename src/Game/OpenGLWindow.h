@@ -20,7 +20,7 @@ namespace shen
 
     private:
         SDL_Window* _window = nullptr;
-        SDL_GLContext _gl_context = nullptr;
+        SDL_GLContext _glContext = nullptr;
         //SDL_Renderer* _renderer = nullptr;
     };
 }

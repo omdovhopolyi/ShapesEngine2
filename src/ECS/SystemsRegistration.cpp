@@ -24,23 +24,24 @@ namespace shen
 {
     void RegisterSystems()
     {
-        auto manager = ManagersProvider::Instance().GetSystemsManager();
+        if (auto manager = ManagersProvider::Instance().GetSystemsManager())
+        {
+            manager->RegisterSystem<SDLInputSystem>();
+            /*manager->RegisterSystem<MovementSystem>();
+            manager->RegisterSystem<IntertiaSystem>();
+            manager->RegisterSystem<PlayerInputSystem>();
+            manager->RegisterSystem<BulletSystem>();
+            manager->RegisterSystem<CollisionSystem>();
+            manager->RegisterSystem<DamageSystem>();
+            manager->RegisterSystem<SDLAnimatedSpriteUpdateSystem>();
+            manager->RegisterSystem<SDLAnimatedDirectionSpriteUpdateSystem>();
+            manager->RegisterSystem<CameraFollowSystem>();
+            manager->RegisterSystem<CleanupSystem>();
 
-        manager->RegisterSystem<SDLInputSystem>();
-        /*manager->RegisterSystem<MovementSystem>();
-        manager->RegisterSystem<IntertiaSystem>();
-        manager->RegisterSystem<PlayerInputSystem>();
-        manager->RegisterSystem<BulletSystem>();
-        manager->RegisterSystem<CollisionSystem>();
-        manager->RegisterSystem<DamageSystem>();
-        manager->RegisterSystem<SDLAnimatedSpriteUpdateSystem>();
-        manager->RegisterSystem<SDLAnimatedDirectionSpriteUpdateSystem>();
-        manager->RegisterSystem<CameraFollowSystem>();
-        manager->RegisterSystem<CleanupSystem>();
-
-        manager->RegisterRenderSystem<SDLTilemapSystem>();
-        manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
-        manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
-        manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
+            manager->RegisterRenderSystem<SDLTilemapSystem>();
+            manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
+            manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
+            manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
+        }
     }
 }

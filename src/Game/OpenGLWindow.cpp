@@ -1,4 +1,5 @@
 #include "OpenGLWindow.h"
+#include "Logger/Logger.h"
 
 #include <GL/glew.h>
 
@@ -8,42 +9,48 @@ namespace shen
     {
         // TODO check errors
 
-        SDL_Init(SDL_INIT_EVERYTHING);
+        const bool isOk = !SDL_Init(SDL_INIT_EVERYTHING);
+        if (!isOk)
+        {
+            Logger::Err("Error initializing SDL");
+            return false;
+        }
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 
-        _window = SDL_CreateWindow
-        (
-            "SDL Context",
-            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            800, 600,
-            SDL_WINDOW_OPENGL
-        );
+        _window = SDL_CreateWindow(
+            NULL,
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            GetWidth(),
+            GetHeight(),
+            /*SDL_WINDOW_BORDERLESS | */SDL_WINDOW_OPENGL);
 
-        _gl_context = SDL_GL_CreateContext(_window);
+        if (!_window)
+        {
+            Logger::Err("Error creating SDL window");
+            return false;
+        }
+
+        _glContext = SDL_GL_CreateContext(_window);
+
+        if (!_glContext)
+        {
+            Logger::Err("Error creating SDL gl context: {}", SDL_GetError());
+            return false;
+        }
 
         //glewExperimental = GL_TRUE;
         glewInit();
-
-        ///* The following code is for error checking. 
-        //*  If OpenGL has initialised properly, this should print 1.
-        //*  Remove it in production code.
-        //*/
-        //GLuint vertex_buffer;
-        //glGenBuffers(1, &vertex_buffer);
-        ///* Error checking ends here */
-
-        ///* Freeing Memory */
-        //glDeleteBuffers(1, &vertex_buffer);
 
         return true;
     }
 
     void OpenGLWindow::Destroy()
     {
-        SDL_GL_DeleteContext(_gl_context);
+        SDL_GL_DeleteContext(_glContext);
         SDL_DestroyWindow(_window);
         SDL_Quit();
     }
