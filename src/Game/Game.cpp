@@ -14,6 +14,7 @@
 #include "Resources/AssetsManager.h"
 //#include "Resources/SDLTexturesManager.h"
 #include "Resources/OpenGLTexturesManager.h"
+#include "Resources/ShadersManager.h"
 
 #include "Messenger/Events/Common.h"
 
@@ -77,9 +78,18 @@ namespace shen
 		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
 		texturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 
-		/*auto world = ManagersProvider::Instance().GetWorld();
+		auto shadersManager = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
+		shadersManager->LoadAsset("SimpleShader", ShadersManager::LoadParams{
+			{ "vertexPath", "../assets/shaders/simpleColor.vert" },
+			{ "fragmentPath", "../assets/shaders/simpleColor.frag" }
+		});
 
-		auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
+		auto world = ManagersProvider::Instance().GetWorld();
+
+		auto tank = world->CreateEntity();
+		world->AddComponent<Sprite>(tank, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShader");
+
+		/*auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 		sdlTexturesManager->LoadAsset("tilemap", "../assets/tilemaps/jungle.png");
 		sdlTexturesManager->LoadAsset("chopper", "../assets/images/chopper-spritesheet.png");

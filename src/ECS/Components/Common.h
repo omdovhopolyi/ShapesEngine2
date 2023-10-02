@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    class Texture;
+
     struct Transform
     {
         glm::vec3 position = glm::vec3{};
@@ -42,6 +44,17 @@ namespace shen
 
     struct CameraTarget
     {
+    };
+
+    struct Sprite
+    {
+        const Texture* texture = nullptr;
+        glm::vec2 origin;
+        glm::vec2 size;
+        std::string shader;
+        unsigned int VBO = 0;
+        unsigned int VAO = 0;
+        unsigned int EBO = 0;
     };
 
     struct Weapon

@@ -20,6 +20,8 @@
 #include "Systems/SDLSystems/SDLAnimatedSpriteRenderSystem.h"
 #include "Systems/SDLSystems/SDLBoundingBoxDebugSystem.h"
 
+#include "Systems/OpenGLSystems/OpenGLSpriteRenderSystem.h"
+
 namespace shen
 {
     void RegisterSystems()
@@ -42,6 +44,8 @@ namespace shen
             manager->RegisterRenderSystem<SDLSpriteRenderSystem>();
             manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
             manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
+
+            manager->RegisterRenderSystem<OpenGLSpriteRenderSystem>();
         }
     }
 }

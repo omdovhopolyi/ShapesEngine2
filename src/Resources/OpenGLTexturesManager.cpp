@@ -11,9 +11,9 @@ namespace shen
 {
     std::pair<std::shared_ptr<Texture>, bool> OpenGLTexturesManager::LoadAssetImpl(const std::string& path)
     {
-        unsigned int texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        unsigned int textureId;
+        glGenTextures(1, &textureId);
+        glBindTexture(GL_TEXTURE_2D, textureId);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -28,7 +28,15 @@ namespace shen
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, 0);
             stbi_image_free(data);
+
+            auto tex = std::make_shared<Texture>();
+            tex->SetId(textureId);
+            tex->SetPath(path);
+            tex->SetSize({ width, height });
+
+            return { std::move(tex), true };
         }
         else
         {

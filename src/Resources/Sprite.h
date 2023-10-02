@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    class Sprite
+    /*class Sprite
     {
     public:
         const Texture* GetTexture() const;
@@ -20,5 +20,5 @@ namespace shen
         const Texture* _texture = nullptr;
         glm::vec2 _origin;
         glm::vec2 _size;
-    };
+    };*/
 }

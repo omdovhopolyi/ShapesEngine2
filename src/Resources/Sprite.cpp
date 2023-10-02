@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    const Texture* Sprite::GetTexture() const
+    /*const Texture* Sprite::GetTexture() const
     {
         return _texture;
     }
@@ -27,5 +27,5 @@ namespace shen
     glm::vec2 Sprite::GetRT() const
     {
         return _origin + _size;
-    }
+    }*/
 }

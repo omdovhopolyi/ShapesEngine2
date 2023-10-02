@@ -52,8 +52,8 @@ target_link_libraries(${TARGET_NAME} sol2)
 add_subdirectory(submodules/glew-cmake)
 target_link_libraries(${TARGET_NAME} libglew_static)
 
-#add_subdirectory(external/glad)
-#target_link_libraries(${TARGET_NAME} glad)
+add_subdirectory(external/glad)
+target_link_libraries(${TARGET_NAME} glad)
 
 add_subdirectory(submodules/assimp)
 target_link_libraries(${TARGET_NAME} assimp)
@@ -77,6 +77,7 @@ include_directories(submodules/entt/src)
 include_directories(submodules/glew-cmake/include)
 include_directories(submodules/assimp/include)
 include_directories(submodules/stb)
+include_directories(external/glad/include)
 
 if (MSVC)
     add_custom_command(
