@@ -10,6 +10,7 @@
 #include "Systems/IntertiaSystem.h"
 #include "Systems/BulletSystem.h"
 #include "Systems/CleanupSystem.h"
+#include "Systems/CameraSystem.h"
 
 #include "Systems/SDLSystems/SDLTilemapSystem.h"
 #include "Systems/SDLSystems/SDLInputSystem.h"
@@ -29,6 +30,7 @@ namespace shen
         if (auto manager = ManagersProvider::Instance().GetSystemsManager())
         {
             manager->RegisterSystem<SDLInputSystem>();
+            manager->RegisterSystem<CameraSystem>();
             /*manager->RegisterSystem<MovementSystem>();
             manager->RegisterSystem<IntertiaSystem>();
             manager->RegisterSystem<PlayerInputSystem>();

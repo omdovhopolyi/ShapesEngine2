@@ -79,15 +79,24 @@ namespace shen
 		texturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
 
 		auto shadersManager = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-		shadersManager->LoadAsset("SimpleShader", ShadersManager::LoadParams{
-			{ "vertexPath", "../assets/shaders/simpleColor.vert" },
-			{ "fragmentPath", "../assets/shaders/simpleColor.frag" }
+		shadersManager->LoadAsset("SimpleShaderColor", ShadersManager::LoadParams{
+			{ "vertexPath", "../assets/shaders/SimpleColor.vert" },
+			{ "fragmentPath", "../assets/shaders/SimpleColor.frag" }
 		});
+
+		shadersManager->LoadAsset("SimpleShaderTex", ShadersManager::LoadParams{
+			{ "vertexPath", "../assets/shaders/SimpleTex.vert" },
+			{ "fragmentPath", "../assets/shaders/SimpleTex.frag" }
+			});
 
 		auto world = ManagersProvider::Instance().GetWorld();
 
+		auto camera = world->CreateEntity();
+		world->AddComponent<CameraComp>(camera);
+
 		auto tank = world->CreateEntity();
-		world->AddComponent<Sprite>(tank, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShader");
+		world->AddComponent<Sprite>(tank, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShaderTex");
+		world->AddComponent<Transform>(tank, glm::vec3(0.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
 
 		/*auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");

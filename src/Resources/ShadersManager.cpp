@@ -5,8 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-//#include <glad/glad.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace shen
 {
@@ -33,8 +32,8 @@ namespace shen
         std::ifstream vShaderFile;
         std::ifstream fShaderFile;
         
-        vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-        fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+        vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+        fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
         try 
         {

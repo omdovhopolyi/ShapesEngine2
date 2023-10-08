@@ -42,6 +42,16 @@ namespace shen
         PlayerInput();
     };
 
+    struct CameraComp
+    {
+        glm::vec3 position = glm::vec3(0.f);
+        glm::vec3 target = glm::vec3(0.f);
+        glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
+        float fov = 45.f;
+        glm::mat4 view = glm::mat4(1.f);
+        glm::mat4 projection = glm::mat4(1.f);
+    };
+
     struct CameraTarget
     {
     };
@@ -53,6 +63,7 @@ namespace shen
         glm::vec2 size;
         std::string shader;
         unsigned int VBO = 0;
+        unsigned int VBOUV = 0;
         unsigned int VAO = 0;
         unsigned int EBO = 0;
     };

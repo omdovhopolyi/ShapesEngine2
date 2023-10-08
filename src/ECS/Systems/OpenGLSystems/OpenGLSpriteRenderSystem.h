@@ -2,6 +2,8 @@
 
 #include "ECS/Systems/RenderSystem.h"
 
+#include <glm/glm.hpp>
+
 namespace shen
 {
     class OpenGLSpriteRenderSystem
@@ -10,5 +12,8 @@ namespace shen
     public:
         void Start() override;
         void Draw() override;
+
+    private:
+        glm::mat4 _projectionsMat;
     };
 }

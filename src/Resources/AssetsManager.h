@@ -17,6 +17,9 @@ namespace shen
         using LoadParams = std::map<std::string, std::string>;
 
     public:
+        bool Init() override { return true; }
+        void Clear() override {};
+
         virtual bool LoadAsset(const std::string& id, const LoadParams& params);
         virtual bool LoadAsset(const std::string& id, const std::string& path);
         virtual bool IsAssetLoaded(const std::string& id) const;

@@ -1,7 +1,7 @@
 #include "OpenGLWindow.h"
 #include "Logger/Logger.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace shen
 {
@@ -43,7 +43,12 @@ namespace shen
         }
 
         //glewExperimental = GL_TRUE;
-        glewInit();
+        //glewInit();
+
+        gladLoadGL();
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         return true;
     }
