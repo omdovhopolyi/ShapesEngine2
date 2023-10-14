@@ -14,9 +14,10 @@ namespace shen
         glm::quat rotation = glm::quat{};
         glm::vec3 scale = glm::vec3{};
 
+        /*Transform() = default;
         Transform(const glm::vec3& pos = {});
         Transform(const glm::vec3& pos = {}, float angleZ = 0.f, const glm::vec3& scl = {});
-        Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});
+        Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});*/
 
         float GetEulerAngleZ() const;
     };
@@ -44,7 +45,7 @@ namespace shen
 
     struct CameraComp
     {
-        glm::vec3 position = glm::vec3(0.f);
+        glm::vec3 position = glm::vec3(0.f, 0.f, 1.f);
         glm::vec3 target = glm::vec3(0.f);
         glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
         float fov = 45.f;
@@ -59,11 +60,17 @@ namespace shen
     struct Sprite
     {
         const Texture* texture = nullptr;
-        glm::vec2 origin;
+        glm::vec2 texOrigin;
+        glm::vec2 texSize;
         glm::vec2 size;
+        glm::vec2 anchor = glm::vec2(0.f);
         std::string shader;
+    };
+
+    struct Buffers
+    {
         unsigned int VBO = 0;
-        unsigned int VBOUV = 0;
+        unsigned int UV = 0;
         unsigned int VAO = 0;
         unsigned int EBO = 0;
     };

@@ -77,6 +77,7 @@ namespace shen
 
 		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
 		texturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
+		texturesManager->LoadAsset("chopper", "../assets/images/chopper.png");
 
 		auto shadersManager = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
 		shadersManager->LoadAsset("SimpleShaderColor", ShadersManager::LoadParams{
@@ -87,16 +88,49 @@ namespace shen
 		shadersManager->LoadAsset("SimpleShaderTex", ShadersManager::LoadParams{
 			{ "vertexPath", "../assets/shaders/SimpleTex.vert" },
 			{ "fragmentPath", "../assets/shaders/SimpleTex.frag" }
-			});
+		});
 
 		auto world = ManagersProvider::Instance().GetWorld();
 
 		auto camera = world->CreateEntity();
-		world->AddComponent<CameraComp>(camera);
+		auto cameraComp = world->AddComponent<CameraComp>(camera);
+		cameraComp->position = glm::vec3(0.f, 0.f, 50.f);
 
-		auto tank = world->CreateEntity();
-		world->AddComponent<Sprite>(tank, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShaderTex");
-		world->AddComponent<Transform>(tank, glm::vec3(0.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+		auto tank1 = world->CreateEntity();
+		auto sprite1 = world->AddComponent<Sprite>(tank1);
+		sprite1->texture = texturesManager->GetAsset("tank");
+		sprite1->texOrigin = glm::vec2(0);
+		sprite1->texSize = glm::vec2(32);
+		sprite1->shader = "SimpleShaderTex";
+		sprite1->anchor = glm::vec2(0.5f);
+		sprite1->size = glm::vec2(8.f);
+
+		auto transform1 = world->AddComponent<Transform>(tank1);
+		transform1->position = glm::vec3(0.f, 0.f, 0.f);
+		transform1->rotation = glm::angleAxis(glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+		transform1->scale = glm::vec3(1.f, 1.f, 1.f);
+
+		auto player = world->CreateEntity();
+		auto playerSprite = world->AddComponent<Sprite>(player);
+		playerSprite->texture = texturesManager->GetAsset("chopper");
+		playerSprite->texOrigin = glm::vec2(0);
+		playerSprite->texSize = glm::vec2(32);
+		playerSprite->shader = "SimpleShaderTex";
+		playerSprite->anchor = glm::vec2(0.5f);
+		playerSprite->size = glm::vec2(8.f);
+
+		auto playerTransform = world->AddComponent<Transform>(player);
+		playerTransform->position = glm::vec3(8.f, 0.f, 0.f);
+		playerTransform->rotation = glm::angleAxis(glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+		playerTransform->scale = glm::vec3(1.f, 1.f, 1.f);
+
+		/*auto tank1 = world->CreateEntity();
+		world->AddComponent<Sprite>(tank1, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShaderTex");
+		world->AddComponent<Transform>(tank1, glm::vec3(1.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 1.f, 1.f));
+
+		auto tank2 = world->CreateEntity();
+		world->AddComponent<Sprite>(tank2, texturesManager->GetAsset("tank"), glm::vec2(0, 0), glm::vec2(32, 32), "SimpleShaderTex");
+		world->AddComponent<Transform>(tank2, glm::vec3(0.f, 1.f, 0.f), 0.f, glm::vec3(1.f, 1.f, 1.f));*/
 
 		/*auto sdlTexturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<SDLTexturesManager>();
 		sdlTexturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
