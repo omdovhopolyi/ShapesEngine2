@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ECS/Entity.h"
+#include "Utils/Types.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -12,7 +13,7 @@ namespace shen
     {
         glm::vec3 position = glm::vec3{};
         glm::quat rotation = glm::quat{};
-        glm::vec3 scale = glm::vec3{};
+        glm::vec3 scale = glm::vec3{1.f};
 
         /*Transform() = default;
         Transform(const glm::vec3& pos = {});
@@ -60,11 +61,18 @@ namespace shen
     struct Sprite
     {
         const Texture* texture = nullptr;
-        glm::vec2 texOrigin;
-        glm::vec2 texSize;
-        glm::vec2 size;
+        Rect texRect;
+        glm::vec2 size = glm::vec2(1.f);
         glm::vec2 anchor = glm::vec2(0.f);
-        std::string shader;
+        std::string shader; // pointer to shader?
+    };
+
+    struct SpriteFrameAnimation
+    {
+        float dt = 0.f;
+        float frameTime = 1.f;
+        int curFrame = 0;
+        std::vector<Rect> frames;
     };
 
     struct Buffers

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ECS/Systems/RenderSystem.h"
+#include "Messenger/SubscriptionsContainer.h"
 
 #include <glm/glm.hpp>
 
@@ -14,6 +15,12 @@ namespace shen
         void Draw() override;
 
     private:
+        void InitSubscriptions();
+        void InitBuffers();;
+
+    private:
         glm::mat4 _projectionsMat;
+
+        SubcriptionsContainer _subscriptions;
     };
 }
