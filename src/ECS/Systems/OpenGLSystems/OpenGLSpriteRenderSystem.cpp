@@ -73,8 +73,6 @@ namespace shen
             const auto sprite = world->GetComponent<Sprite>(message.entity);
             const auto buffers = world->GetComponent<Buffers>(message.entity);
 
-            glBindVertexArray(buffers->VAO);
-
             auto texSize = sprite->texture->GetSize();
             
             const auto left = sprite->texRect.Left() / texSize.x;
@@ -90,13 +88,8 @@ namespace shen
             };
 
             glBindBuffer(GL_ARRAY_BUFFER, buffers->UV);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(UV), UV, GL_DYNAMIC_DRAW);
-
-            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), NULL);
-            glEnableVertexAttribArray(1);
-
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(UV), UV);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
         });
     }
 
@@ -137,7 +130,7 @@ namespace shen
             };
 
             glBindBuffer(GL_ARRAY_BUFFER, buffers->UV);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(UV), UV, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(UV), UV, GL_STATIC_DRAW);
 
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), NULL);
             glEnableVertexAttribArray(1);
