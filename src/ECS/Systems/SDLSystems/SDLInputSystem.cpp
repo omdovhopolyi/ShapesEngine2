@@ -1,17 +1,50 @@
 #include "SDLInputSystem.h"
 
 #include "Game/ManagersProvider.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/Editor/EditorSystem.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl2.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 namespace shen
 {
 	void SDLInputSystem::Update()
 	{
+		auto detectMod = [](const auto eventMod)
+		{
+			if (eventMod & KMOD_CTRL)
+			{
+				return KeyMode::Crtl;
+			}
+			else if (eventMod & KMOD_ALT)
+			{
+				return KeyMode::Alt;
+			}
+			else if (eventMod & KMOD_SHIFT)
+			{
+				return KeyMode::Shift;
+			}
+			else
+			{
+				return KeyMode::None;
+			}
+		};
+
 		SDL_Event event;
+
+		auto editor = ManagersProvider::Instance().GetSystemsManager()->GetSystem<EditorSystem>();
 
 		while (SDL_PollEvent(&event))
 		{
+			if (editor->IsActive())
+			{
+				ImGui_ImplSDL2_ProcessEvent(&event);
+			}
+
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -21,10 +54,12 @@ namespace shen
 			}
 			case SDL_KEYDOWN:
 			{
-				auto it = _holdKeys.find(event.key.keysym.sym);
+				auto it = _holdKeys.find(event.key.keysym.mod);
 				if (it == _holdKeys.end())
 				{
-					ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Down, event.key.keysym.sym);
+					auto mode = detectMod(event.key.keysym.sym);
+
+					ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Down, event.key.keysym.sym, mode);
 
 					_scheduledFuncs.push_back([down = event.key.keysym.sym, this]()
 					{
@@ -35,8 +70,9 @@ namespace shen
 			}
 			case SDL_KEYUP:
 			{
+				auto mode = detectMod(event.key.keysym.mod);
 				_holdKeys.erase(event.key.keysym.sym);
-				ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Up, event.key.keysym.sym);
+				ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Up, event.key.keysym.sym, mode);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -86,7 +122,7 @@ namespace shen
 
 		for (const auto& key : _holdKeys)
 		{
-			ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Hold, key);
+			ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Hold, key, KeyMode::None);
 		}
 
 		int mouseX = 0;

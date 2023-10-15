@@ -13,6 +13,8 @@
 #include "Systems/CameraSystem.h"
 #include "Systems/SpriteFrameAnimationSystem.h"
 
+#include "Systems/Editor/EditorSystem.h"
+
 #include "Systems/SDLSystems/SDLTilemapSystem.h"
 #include "Systems/SDLSystems/SDLInputSystem.h"
 #include "Systems/SDLSystems/SDLAnimatedDirectionSpriteUpdateSystem.h"
@@ -33,6 +35,7 @@ namespace shen
             manager->RegisterSystem<SDLInputSystem>();
             manager->RegisterSystem<CameraSystem>();
             manager->RegisterSystem<SpriteFrameAnimationSystem>();
+            
             /*manager->RegisterSystem<MovementSystem>();
             manager->RegisterSystem<IntertiaSystem>();
             manager->RegisterSystem<PlayerInputSystem>();
@@ -50,6 +53,7 @@ namespace shen
             manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
 
             manager->RegisterRenderSystem<OpenGLSpriteRenderSystem>();
+            manager->RegisterSystem<EditorSystem>();
         }
     }
 }

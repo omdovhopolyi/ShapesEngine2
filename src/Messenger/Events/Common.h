@@ -13,6 +13,14 @@ namespace shen
         Hold
     };
 
+    enum class KeyMode
+    {
+        None,
+        Crtl,
+        Alt,
+        Shift
+    };
+
     enum class MouseButton
     {
         None = 0,
@@ -26,8 +34,9 @@ namespace shen
     {
         KeyEventType type = KeyEventType::Undefined;
         int code = -1;
+        KeyMode mode = KeyMode::None;
 
-        KeyEvent(KeyEventType eventType, int keyCode);
+        KeyEvent(KeyEventType eventType, int keyCode, KeyMode eventMode);
     };
 
     struct MouseButtonEvent

@@ -2,9 +2,10 @@
 
 namespace shen
 {
-    KeyEvent::KeyEvent(KeyEventType eventType, int keyCode)
+    KeyEvent::KeyEvent(KeyEventType eventType, int keyCode, KeyMode eventMode)
         : type(eventType)
         , code(keyCode)
+        , mode(eventMode)
     { }
 
     MouseButtonEvent::MouseButtonEvent(KeyEventType eventType, MouseButton mouseBtn, int posX, int posY)
