@@ -1,20 +1,24 @@
 #pragma once
 
 #include "ECS/Entity.h"
+#include "Utils/Types.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 namespace shen
 {
+    class Texture;
+
     struct Transform
     {
         glm::vec3 position = glm::vec3{};
         glm::quat rotation = glm::quat{};
-        glm::vec3 scale = glm::vec3{};
+        glm::vec3 scale = glm::vec3{1.f};
 
+        /*Transform() = default;
         Transform(const glm::vec3& pos = {});
         Transform(const glm::vec3& pos = {}, float angleZ = 0.f, const glm::vec3& scl = {});
-        Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});
+        Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});*/
 
         float GetEulerAngleZ() const;
     };
@@ -40,8 +44,43 @@ namespace shen
         PlayerInput();
     };
 
+    struct CameraComp
+    {
+        glm::vec3 position = glm::vec3(0.f, 0.f, 1.f);
+        glm::vec3 target = glm::vec3(0.f);
+        glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
+        float fov = 45.f;
+        glm::mat4 view = glm::mat4(1.f);
+        glm::mat4 projection = glm::mat4(1.f);
+    };
+
     struct CameraTarget
     {
+    };
+
+    struct Sprite
+    {
+        const Texture* texture = nullptr;
+        Rect texRect;
+        glm::vec2 size = glm::vec2(1.f);
+        glm::vec2 anchor = glm::vec2(0.f);
+        std::string shader; // pointer to shader?
+    };
+
+    struct SpriteFrameAnimation
+    {
+        float dt = 0.f;
+        float frameTime = 1.f;
+        int curFrame = 0;
+        std::vector<Rect> frames;
+    };
+
+    struct Buffers
+    {
+        unsigned int VBO = 0;
+        unsigned int UV = 0;
+        unsigned int VAO = 0;
+        unsigned int EBO = 0;
     };
 
     struct Weapon

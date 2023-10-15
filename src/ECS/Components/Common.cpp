@@ -2,7 +2,7 @@
 
 namespace shen
 {
-    Transform::Transform(const glm::vec3& pos)
+    /*Transform::Transform(const glm::vec3& pos)
         : position(pos)
     { }
 
@@ -18,7 +18,7 @@ namespace shen
         : position(pos)
         , rotation(rot)
         , scale(scl)
-    {}
+    {}*/
 
     float Transform::GetEulerAngleZ() const
     {

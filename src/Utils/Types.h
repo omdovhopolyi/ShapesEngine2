@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include <glm/vec2.hpp>
 
 namespace shen
 {
@@ -104,5 +105,21 @@ namespace shen
 
     private:
         std::set<T> _valuePoints;
+    };
+
+    struct Rect
+    {
+        glm::vec2 origin = glm::vec2(0.f);
+        glm::vec2 size = glm::vec2(0.f);
+
+        float Left() const { return origin.x; }
+        float Bottom() const { return origin.y; }
+        float Right() const { return origin.x + size.x; }
+        float Top() const { return origin.y + size.y; }
+        float Width() const { return Right() - Left(); }
+        float Height() const { return Top() - Bottom(); }
+        glm::vec2 Size() const { return glm::vec2(Width(), Height()); }
+        glm::vec2 Center() const { return glm::vec2((Width() / 2.f), (Height() / 2.f)); }
+
     };
 }

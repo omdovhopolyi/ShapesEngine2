@@ -4,6 +4,7 @@
 #include "Time.h"
 #include "GameWindow.h"
 #include "SDLGameWindow.h"
+#include "OpenGLWindow.h"
 #include "Camera.h"
 #include "Messenger/Messenger.h"
 #include "Game/WeaponManager.h"
@@ -16,7 +17,8 @@ namespace shen
     bool ManagersProvider::Init()
     {
         _gameWindow = nullptr;
-        _gameWindow = std::make_unique<SDLGameWindow>();
+        //_gameWindow = std::make_unique<SDLGameWindow>();
+        _gameWindow = std::make_unique<OpenGLWindow>();
 
         if (_gameWindow)
         {

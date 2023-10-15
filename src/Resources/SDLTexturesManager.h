@@ -8,7 +8,7 @@ class SDL_Renderer;
 namespace shen
 {
     class SDLTexturesManager final
-        : public AssetsManager<SDL_Texture*>
+        : public AssetsManager<SDL_Texture*, SDL_Texture*>
     {
     public:
         bool Init() override;

@@ -8,7 +8,7 @@
 #include "ECS/Components/Common.h"
 
 
-#include "SDL_image.h"
+//#include "SDL_image.h"
 #include <SDL.h>
 
 namespace shen
