@@ -12,7 +12,6 @@
 #include "ECS/Components/SDLComponents.h"
 
 #include "Resources/AssetsManager.h"
-//#include "Resources/SDLTexturesManager.h"
 #include "Resources/OpenGLTexturesManager.h"
 #include "Resources/ShadersManager.h"
 

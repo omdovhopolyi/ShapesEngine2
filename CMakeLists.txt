@@ -27,6 +27,10 @@ target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 set(ENTT_INCLUDE_NATVIS ON)
 set(glew-cmake_BUILD_SHARED NO)
 
+set(BOX2D_BUILD_UNIT_TESTS OFF)
+set(BOX2D_BUILD_TESTBED OFF)
+
+
 add_subdirectory(submodules/SDL)
 target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
 #target_compile_options(SDL2 PUBLIC "$<$<CONFIG:DEBUG>:-g>")
@@ -58,6 +62,9 @@ target_link_libraries(${TARGET_NAME} glad)
 add_subdirectory(submodules/assimp)
 target_link_libraries(${TARGET_NAME} assimp)
 
+add_subdirectory(submodules/box2d)
+target_link_libraries(${TARGET_NAME} box2d)
+
 #add_subdirectory(submodules/reactphysics3d)
 #target_link_libraries(${TARGET_NAME} reactphysics3d)
 
@@ -78,6 +85,7 @@ include_directories(submodules/glew-cmake/include)
 include_directories(submodules/assimp/include)
 include_directories(submodules/stb)
 include_directories(external/glad/include)
+include_directories(submodules/box2d/include)
 
 if (MSVC)
     add_custom_command(
@@ -92,6 +100,13 @@ if (MSVC)
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_BINARY_DIR}/submodules/SDL_image/Debug/SDL2_imaged.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2_imaged.dll
+        )
+
+        add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_BINARY_DIR}/submodules/box2D/bin/Debug/box2dd.dll
+                ${CMAKE_BINARY_DIR}/bin/Debug/box2dd.dll
         )
 endif()
 

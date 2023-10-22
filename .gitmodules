@@ -40,3 +40,9 @@
 [submodule "submodules/stb"]
 	path = submodules/stb
 	url = https://github.com/nothings/stb.git
+[submodule "submodules/box2d"]
+	path = submodules/box2d
+	url = https://github.com/erincatto/box2d.git
+[submodule "submodules/bezier"]
+	path = submodules/bezier
+	url = https://github.com/oysteinmyrmo/bezier.git
