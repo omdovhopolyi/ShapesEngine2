@@ -8,6 +8,7 @@ project(${TARGET_NAME})
 
 add_subdirectory(cmake/imgui)
 add_subdirectory(cmake/imgui_sdl)
+add_subdirectory(cmake/tinyxml2)
 
 file (GLOB_RECURSE SRC_FILES 
     ${PROJECT_SOURCE_DIR}/src/*.h
@@ -30,10 +31,10 @@ set(glew-cmake_BUILD_SHARED NO)
 set(BOX2D_BUILD_UNIT_TESTS OFF)
 set(BOX2D_BUILD_TESTBED OFF)
 
+set(BEZIER_TESTS OFF)
 
 add_subdirectory(submodules/SDL)
 target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
-#target_compile_options(SDL2 PUBLIC "$<$<CONFIG:DEBUG>:-g>")
 
 #add_subdirectory(submodules/SDL_image)
 #target_link_libraries(${TARGET_NAME} SDL2_image)
@@ -65,6 +66,9 @@ target_link_libraries(${TARGET_NAME} assimp)
 add_subdirectory(submodules/box2d)
 target_link_libraries(${TARGET_NAME} box2d)
 
+add_subdirectory(submodules/bezier)
+target_link_libraries(${TARGET_NAME} bezier)
+
 #add_subdirectory(submodules/reactphysics3d)
 #target_link_libraries(${TARGET_NAME} reactphysics3d)
 
@@ -86,6 +90,7 @@ include_directories(submodules/assimp/include)
 include_directories(submodules/stb)
 include_directories(external/glad/include)
 include_directories(submodules/box2d/include)
+include_directories(submodules/bezier)
 
 if (MSVC)
     add_custom_command(
