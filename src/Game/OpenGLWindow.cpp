@@ -43,6 +43,8 @@ namespace shen
             return false;
         }
 
+        //SDL_GL_MakeCurrent(_window, _glContext);
+
         gladLoadGL();
 
         glEnable(GL_BLEND);

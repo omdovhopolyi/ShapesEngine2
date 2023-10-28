@@ -24,5 +24,8 @@ namespace shen
         bool _isInited = false;
         bool _isActive = false;
         SubcriptionsContainer _subscriptions;
+
+        bool _demo = false;
+        bool _test = false;
     };
 }

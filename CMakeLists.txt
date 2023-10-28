@@ -4,8 +4,6 @@ set(TARGET_NAME ShapesEngine2)
 
 project(${TARGET_NAME})
 
-#set(CMAKE_BUILD_TYPE Debug)
-
 add_subdirectory(cmake/imgui)
 add_subdirectory(cmake/imgui_sdl)
 add_subdirectory(cmake/tinyxml2)
@@ -26,7 +24,7 @@ endforeach()
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
 set(ENTT_INCLUDE_NATVIS ON)
-set(glew-cmake_BUILD_SHARED NO)
+set(glew-cmake_BUILD_SHARED OFF)
 
 set(BOX2D_BUILD_UNIT_TESTS OFF)
 set(BOX2D_BUILD_TESTBED OFF)
@@ -100,13 +98,6 @@ if (MSVC)
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
         )
         
-    add_custom_command(
-        TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_BINARY_DIR}/submodules/SDL_image/Debug/SDL2_imaged.dll
-                ${CMAKE_BINARY_DIR}/bin/Debug/SDL2_imaged.dll
-        )
-
         add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy

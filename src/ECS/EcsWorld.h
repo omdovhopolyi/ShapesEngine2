@@ -13,6 +13,9 @@ namespace shen
         template<class... Types, class Func>
         void Each(const Func& func);
 
+        template<class... Types>
+        Entity GetFirst();
+
         template<class Comp, class... Args>
         Comp* AddComponent(Entity entity, Args... args);
 
@@ -21,6 +24,8 @@ namespace shen
 
         template<class Comp, class... Args>
         Comp* GetOrCreateComponent(Entity entity, Args... args);
+
+        std::vector<std::string> GetAllComponents(Entity entity);
 
         template<class Comp>
         void RemoveComponent(Entity entity);
@@ -49,6 +54,13 @@ namespace shen
     {
         auto view = _registry.view<Types...>();
         view.each(func);
+    }
+
+    template<class... Types>
+    Entity EcsWorld::GetFirst()
+    {
+        auto view = _registry.view<Types...>();
+        return view.front();
     }
 
     template<class Comp, class... Args>

@@ -3,6 +3,9 @@
 #include "Game/ManagersProvider.h"
 #include "Game/OpenGLWindow.h"
 
+#include "ECS/EcsWorld.h"
+#include "ECS/Components/Common.h"
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl2.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -31,16 +34,47 @@ namespace shen
 
         ImGui::NewFrame();
 
-        bool demo = true;
-        ImGui::ShowDemoWindow(&demo);
+        ImGui::Begin("Editor");
 
-        /*ImGui::Begin("Text1");
-        ImGui::Text("Text 1 Text 1 Text 1 Text 1 Text 1 ");
+        if (ImGui::Button("Demo"))
+        {
+            _demo = true;
+        }
+
+        if (ImGui::Button("Test window"))
+        {
+            _test = true;
+        }
+
         ImGui::End();
 
-        ImGui::Begin("Text2");
-        ImGui::Text("Text 2 Text 2 Text 2 Text 2 Text 2 ");
-        ImGui::End();*/
+        if (_demo)
+        {
+            ImGui::ShowDemoWindow(&_demo);
+        }
+
+        if (_test)
+        {
+            std::string components;
+
+            auto world = ManagersProvider::Instance().GetWorld();
+            auto entity = world->GetFirst<SpriteFrameAnimation>();
+
+            if (world->IsValid(entity))
+            {
+                auto componentsIds = world->GetAllComponents(entity);
+
+                for (const auto& compId : componentsIds)
+                {
+                    components += compId;
+                    components += "\n";
+                }
+            }
+
+            ImGui::Begin("Test window", &_test);
+            ImGui::Text(components.c_str());
+            ImGui::End();
+        }
 
         ImGui::Render();
         glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
@@ -48,8 +82,6 @@ namespace shen
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        ImGui::EndFrame();
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -108,6 +140,9 @@ namespace shen
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        io.ConfigViewportsNoAutoMerge = true;
+
+        ImGui::StyleColorsDark();
 
         ImGuiStyle& style = ImGui::GetStyle();
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -117,7 +152,7 @@ namespace shen
         }
 
         ImGui_ImplSDL2_InitForOpenGL(window->GetWindow(), window->GetContext());
-        ImGui_ImplOpenGL3_Init("#version 330");
+        ImGui_ImplOpenGL3_Init("#version 130");
 
         _isInited = true;
     }
