@@ -1,0 +1,5 @@
+<?xml version = "1.0"?>
+<items>
+   <item id="SimpleShaderColor" vertex="../assets/shaders/SimpleColor.vert" fragment="../assets/shaders/SimpleColor.frag"/>
+   <item id="SimpleShaderTex" vertex="../assets/shaders/SimpleTex.vert" fragment="../assets/shaders/SimpleTex.frag"/>
+</items>

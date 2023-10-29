@@ -13,5 +13,8 @@ namespace shen
 
     protected:
         std::pair<std::shared_ptr<Texture>, bool> LoadAssetImpl(const std::string& path) override;
+
+    private:
+        void LoadFromXml();
     };
 }

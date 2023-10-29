@@ -75,8 +75,6 @@ namespace shen
 		});
 
 		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
-		texturesManager->LoadAsset("tank", "../assets/images/tank-panther-right.png");
-		texturesManager->LoadAsset("chopper", "../assets/images/chopper.png");
 
 		auto shadersManager = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
 		shadersManager->LoadAsset("SimpleShaderColor", ShadersManager::LoadParams{

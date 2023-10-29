@@ -6,12 +6,14 @@
 #include "stb_image.h"
 
 #include <glad/glad.h>
+#include <tinyxml2/tinyxml2.h>
 
 namespace shen
 {
     bool OpenGLTexturesManager::Init()
     {
         stbi_set_flip_vertically_on_load(true);
+        LoadFromXml();
         return true;
     }
 
@@ -51,5 +53,40 @@ namespace shen
         }
 
         return { nullptr, false };
+    }
+
+    void OpenGLTexturesManager::LoadFromXml()
+    {
+        tinyxml2::XMLDocument doc;
+
+        const auto error = doc.LoadFile("../assets/configs/textures.xml");
+        if (error != tinyxml2::XML_SUCCESS)
+        {
+            // assert
+            return;
+        }
+
+        if (auto elements = doc.FirstChildElement("items"))
+        {
+            auto element = elements->FirstChildElement("item");
+            while (element)
+            {
+                const auto idAttr = element->FindAttribute("id");
+                const auto pathAttr = element->FindAttribute("path");
+
+                if (!idAttr || !pathAttr)
+                {
+                    // assert
+                    continue;
+                }
+
+                const auto id = idAttr->Value();
+                const auto path = pathAttr->Value();
+
+                LoadAsset(id, path);
+
+                element = element->NextSiblingElement();
+            }
+        }
     }
 }
