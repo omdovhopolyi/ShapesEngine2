@@ -6,22 +6,29 @@
 #include <sstream>
 
 #include <glad/glad.h>
+#include <tinyxml2/tinyxml2.h>
 
 namespace shen
 {
     // TODO Refactor
+
+    bool ShadersManager::Init()
+    {
+        LoadFromXml();
+        return true;
+    }
 
     std::pair<std::unique_ptr<Shader>, bool> ShadersManager::LoadAssetImpl(const LoadParams& params)
     {
         std::string vertexPath;
         std::string fragmentPath;
 
-        if (auto it = params.find("vertexPath"); it != params.end())
+        if (auto it = params.find("vertex"); it != params.end())
         {
             vertexPath = it->second;
         }
 
-        if (auto it = params.find("fragmentPath"); it != params.end())
+        if (auto it = params.find("fragment"); it != params.end())
         {
             fragmentPath = it->second;
         }
@@ -108,6 +115,46 @@ namespace shen
             {
                 glGetProgramInfoLog(shaderId, 1024, NULL, infoLog);
                 Logger::Err("ERROR::PROGRAM_LINKING_ERROR of type: {}\n{}\n\n", type, infoLog);
+            }
+        }
+    }
+
+    void ShadersManager::LoadFromXml()
+    {
+        tinyxml2::XMLDocument doc;
+
+        const auto error = doc.LoadFile("../assets/configs/shaders.xml");
+        if (error != tinyxml2::XML_SUCCESS)
+        {
+            // assert
+            return;
+        }
+
+        if (auto elements = doc.FirstChildElement("items"))
+        {
+            auto element = elements->FirstChildElement("item");
+            while (element)
+            {
+                const auto idAttr = element->FindAttribute("id");
+                const auto vertexAttr = element->FindAttribute("vertex");
+                const auto fragmentAttr = element->FindAttribute("fragment");
+
+                if (!idAttr || !vertexAttr || !fragmentAttr)
+                {
+                    // assert
+                    continue;
+                }
+
+                const auto id = idAttr->Value();
+                const auto vertexPath = vertexAttr->Value();
+                const auto fragmentPath = fragmentAttr->Value();
+
+                LoadAsset("SimpleShaderTex", ShadersManager::LoadParams {
+                    { "vertex", vertexPath },
+                    { "fragment", fragmentPath }
+                });
+
+                element = element->NextSiblingElement();
             }
         }
     }
