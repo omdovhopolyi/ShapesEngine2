@@ -76,17 +76,6 @@ namespace shen
 
 		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
 
-		/*auto shadersManager = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-		shadersManager->LoadAsset("SimpleShaderColor", ShadersManager::LoadParams{
-			{ "vertexPath", "../assets/shaders/SimpleColor.vert" },
-			{ "fragmentPath", "../assets/shaders/SimpleColor.frag" }
-		});
-
-		shadersManager->LoadAsset("SimpleShaderTex", ShadersManager::LoadParams{
-			{ "vertexPath", "../assets/shaders/SimpleTex.vert" },
-			{ "fragmentPath", "../assets/shaders/SimpleTex.frag" }
-		});*/
-
 		auto world = ManagersProvider::Instance().GetWorld();
 
 		auto camera = world->CreateEntity();
