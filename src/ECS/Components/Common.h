@@ -4,6 +4,7 @@
 #include "Utils/Types.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <tinyxml2/tinyxml2.h>
 
 namespace shen
 {
@@ -15,12 +16,10 @@ namespace shen
         glm::quat rotation = glm::quat{};
         glm::vec3 scale = glm::vec3{1.f};
 
-        /*Transform() = default;
-        Transform(const glm::vec3& pos = {});
-        Transform(const glm::vec3& pos = {}, float angleZ = 0.f, const glm::vec3& scl = {});
-        Transform(const glm::vec3& pos = {}, const glm::quat& rot = {}, const glm::vec3& scl = {});*/
-
         float GetEulerAngleZ() const;
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct RigidBody
@@ -44,7 +43,7 @@ namespace shen
         PlayerInput();
     };
 
-    struct CameraComp
+    struct Camera
     {
         glm::vec3 position = glm::vec3(0.f, 0.f, 1.f);
         glm::vec3 target = glm::vec3(0.f);
@@ -52,6 +51,9 @@ namespace shen
         float fov = 45.f;
         glm::mat4 view = glm::mat4(1.f);
         glm::mat4 projection = glm::mat4(1.f);
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct CameraTarget
@@ -65,14 +67,20 @@ namespace shen
         glm::vec2 size = glm::vec2(1.f);
         glm::vec2 anchor = glm::vec2(0.f);
         std::string shader; // pointer to shader?
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct SpriteFrameAnimation
     {
-        float dt = 0.f;
-        float frameTime = 1.f;
-        int curFrame = 0;
         std::vector<Rect> frames;
+        float frameTime = 1.f;
+        float dt = 0.f;
+        int curFrame = 0;
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct Buffers

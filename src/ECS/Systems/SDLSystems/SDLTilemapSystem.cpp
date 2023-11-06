@@ -25,15 +25,15 @@ namespace shen
 				CreateTilemapTexture();
 				FillTilemapTexture();
 
-				ManagersProvider::Instance().GetCamera()->SetWorldSize(GetTilemapSize());
+				//ManagersProvider::Instance().GetCamera()->SetWorldSize(GetTilemapSize());
 			}
 		}
     }
 
 	void SDLTilemapSystem::Draw()
 	{
-		auto camera = ManagersProvider::Instance().GetCamera();
-		auto cameraPosition = camera->GetPosition();
+		//auto camera = ManagersProvider::Instance().GetCamera();
+		//auto cameraPosition = camera->GetPosition();
 
 		SDL_Rect sourceRect = {
 			0,
@@ -42,12 +42,14 @@ namespace shen
 			_tilemapHeight
 		};
 
-		SDL_Rect destRect = {
+		SDL_Rect destRect;
+
+		/*SDL_Rect destRect = {
 			static_cast<int>(-cameraPosition.x),
 			static_cast<int>(-cameraPosition.y),
 			static_cast<int>(_tilemapWidth),
 			static_cast<int>(_tilemapHeight)
-		};	
+		};*/	
 
 		SDL_RenderCopyEx(_renderer, _tilemapTex, &sourceRect, &destRect, 0, NULL, SDL_FLIP_NONE);
 	}

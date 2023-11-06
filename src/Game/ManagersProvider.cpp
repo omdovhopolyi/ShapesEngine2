@@ -5,9 +5,10 @@
 #include "GameWindow.h"
 #include "SDLGameWindow.h"
 #include "OpenGLWindow.h"
-#include "Camera.h"
+//#include "Camera.h"
 #include "Messenger/Messenger.h"
 #include "Game/WeaponManager.h"
+#include "Game/MapLoader.h"
 
 namespace shen
 {
@@ -24,14 +25,14 @@ namespace shen
         {
             if (_gameWindow->Init())
             {
-                _camera = std::make_unique<Camera>();
                 _messenger = std::make_unique<Messenger>();
                 _systemsManager = std::make_unique<SystemsManager>();
                 _world = std::make_unique<EcsWorld>();
                 _time = std::make_unique<Time>();
+                _mapLoader = std::make_unique<MapLoader>();
                 _weaponManager = std::make_unique<WeaponManager>();
 
-                _camera->Init();
+                _mapLoader->RegisterLoaders();
                 _systemsManager->Init();
                 _time->Init();
 
@@ -93,9 +94,9 @@ namespace shen
         return _messenger.get();
     }
 
-    Camera* ManagersProvider::GetCamera() const
+    MapLoader* ManagersProvider::GetMapLoader() const
     {
-        return _camera.get();
+        return _mapLoader.get();
     }
 
     WeaponManager* ManagersProvider::GetWeaponManager() const

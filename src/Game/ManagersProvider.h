@@ -16,8 +16,8 @@ namespace shen
     class GameWindow;
     class AssetsManagerBase;
     class Messenger;
-    class Camera;
     class WeaponManager;
+    class MapLoader;
 
     class ManagersProvider
         : public Singleton<ManagersProvider>
@@ -36,7 +36,7 @@ namespace shen
         Time* GetTime() const;
         GameWindow* GetGameWindow() const;
         Messenger* GetMessenger() const;
-        Camera* GetCamera() const;
+        MapLoader* GetMapLoader() const;
         WeaponManager* GetWeaponManager() const;
 
         template<class T>
@@ -48,8 +48,8 @@ namespace shen
         std::unique_ptr<Time> _time;
         std::unique_ptr<GameWindow> _gameWindow;
         std::unique_ptr<Messenger> _messenger;
-        std::unique_ptr<Camera> _camera;
         std::unique_ptr<WeaponManager> _weaponManager;
+        std::unique_ptr<MapLoader> _mapLoader;
 
         std::map<std::type_index, std::unique_ptr<AssetsManagerBase>> _resources;
     };

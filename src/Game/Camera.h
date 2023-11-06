@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class Camera
+    /*class Camera
     {
     public:
         void Init();
@@ -31,5 +31,5 @@ namespace shen
         glm::vec2 _worldSize;
         glm::vec2 _boundsTL;
         glm::vec2 _boundsBR;
-    };
+    };*/
 }

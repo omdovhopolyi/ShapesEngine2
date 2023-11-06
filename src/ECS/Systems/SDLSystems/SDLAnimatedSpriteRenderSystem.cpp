@@ -16,12 +16,12 @@ namespace shen
 	void SDLAnimatedSpriteRenderSystem::Draw()
 	{
 		auto world = ManagersProvider::Instance().GetWorld();
-		auto camera = ManagersProvider::Instance().GetCamera();
+		//auto camera = ManagersProvider::Instance().GetCamera();
 
 		world->Each<SDLAnimatedSprite, Transform>(
 			[&](const auto entity, SDLAnimatedSprite& sprite, const Transform& transform)
 		{
-			SDL_Rect sourceRect = {
+			/*SDL_Rect sourceRect = {
 				sprite.rect.x + (sprite.rect.w * sprite.curFrame),
 				sprite.rect.y,
 				sprite.rect.w,
@@ -43,7 +43,7 @@ namespace shen
 				transform.GetEulerAngleZ(),
 				NULL,
 				SDL_FLIP_NONE
-			);
+			);*/
 		});
 	}
 }

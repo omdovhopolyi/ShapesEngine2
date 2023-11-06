@@ -23,14 +23,14 @@ namespace shen
 		auto world = ManagersProvider::Instance().GetWorld();
         auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
 
-        const CameraComp* cameraComp = nullptr;
+        const Camera* camera = nullptr;
 
-        world->Each<CameraComp>([&](auto entity, const CameraComp& camera)
+        world->Each<Camera>([&](auto entity, const Camera& comp)
         {
-            cameraComp = &camera;
+            camera = &comp;
         });
 
-        if (!cameraComp)
+        if (!camera)
         {
             return;
         }
@@ -53,8 +53,8 @@ namespace shen
                 model = glm::scale(model, size);
 
                 shader->SetUniform("model", model);
-                shader->SetUniform("view", cameraComp->view);
-                shader->SetUniform("projection", cameraComp->projection);
+                shader->SetUniform("view", camera->view);
+                shader->SetUniform("projection", camera->projection);
 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, sprite.texture->GetId());

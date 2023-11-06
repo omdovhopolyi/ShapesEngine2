@@ -14,8 +14,8 @@ namespace shen
     {
         auto world = ManagersProvider::Instance().GetWorld();
 
-        world->Each<CameraComp>(
-            [&](auto entity, CameraComp& camera)
+        world->Each<Camera>(
+            [&](auto entity, Camera& camera)
         {
             camera.view = glm::lookAt(camera.position, camera.target, camera.up);
             camera.projection = glm::perspective(glm::radians(camera.fov), 800.f / 640.f, 0.1f, 1000.0f);

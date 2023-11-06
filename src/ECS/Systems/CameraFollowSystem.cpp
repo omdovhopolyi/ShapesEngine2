@@ -11,12 +11,12 @@ namespace shen
     void CameraFollowSystem::Update()
     {
         auto world = ManagersProvider::Instance().GetWorld();
-        auto camera = ManagersProvider::Instance().GetCamera();
+        //auto camera = ManagersProvider::Instance().GetCamera();
 
         world->Each<CameraTarget, Transform>(
             [&](auto entity, const Transform& transform)
         {
-            camera->LookAt(transform.position);
+            //camera->LookAt(transform.position);
         });
     }
 }

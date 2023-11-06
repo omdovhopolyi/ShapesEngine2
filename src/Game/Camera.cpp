@@ -5,7 +5,7 @@
 
 namespace shen
 {
-    void Camera::Init()
+    /*void Camera::Init()
     {
         auto window = ManagersProvider::Instance().GetGameWindow();
         
@@ -91,5 +91,5 @@ namespace shen
         {
             _position.y = _worldSize.y + _boundsBR.y - _size.y;
         }
-    }
+    }*/
 }
