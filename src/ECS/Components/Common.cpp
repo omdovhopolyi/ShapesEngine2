@@ -68,6 +68,18 @@ namespace shen
 
     }
 
+    void Color::Load(Entity entity, const tinyxml2::XMLElement* element)
+    {
+        auto comp = ManagersProvider::Instance().GetWorld()->AddComponent<Color>(entity);
+
+        comp->rgba = LoadColor("color", element) / 255.f;
+    }
+
+    void Color::Save(Entity entity, tinyxml2::XMLElement* element)
+    {
+
+    }
+
     void SpriteFrameAnimation::Load(Entity entity, const tinyxml2::XMLElement* element)
     {
         auto comp = ManagersProvider::Instance().GetWorld()->AddComponent<SpriteFrameAnimation>(entity);

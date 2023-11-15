@@ -12,6 +12,7 @@ namespace shen
 		RegisterLoader<Camera>("camera");
 		RegisterLoader<Transform>("transform");
 		RegisterLoader<SpriteFrameAnimation>("spriteFrameAnimation");
+        RegisterLoader<Color>("color");
     }
 
 	void MapLoader::LoadMap(const std::string& mapId)

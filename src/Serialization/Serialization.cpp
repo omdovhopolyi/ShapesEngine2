@@ -93,6 +93,7 @@ namespace shen
         return defaultVal;
     }
 
+
     Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def/* = {}*/)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
@@ -128,6 +129,38 @@ namespace shen
         }
 
         return rect;
+    }
+
+    glm::vec4 LoadColor(const std::string& id, const tinyxml2::XMLElement* element, glm::vec4 defaultVal/* = glm::vec4(0.f)*/)
+    {
+        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        {
+            glm::vec4 result = glm::vec4(0.f);
+
+            if (const auto xAttrib = childElement->FindAttribute("r"))
+            {
+                result.x = xAttrib->IntValue();
+            }
+
+            if (const auto yAttrib = childElement->FindAttribute("g"))
+            {
+                result.y = yAttrib->IntValue();
+            }
+
+            if (const auto zAttrib = childElement->FindAttribute("b"))
+            {
+                result.z = zAttrib->IntValue();
+            }
+
+            if (const auto zAttrib = childElement->FindAttribute("a"))
+            {
+                result.w = zAttrib->IntValue();
+            }
+
+            return result;
+        }
+
+        return defaultVal;
     }
 
     Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)

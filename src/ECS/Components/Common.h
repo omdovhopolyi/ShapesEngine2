@@ -72,6 +72,14 @@ namespace shen
         static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
+    struct Color
+    {
+        glm::vec4 rgba = glm::vec4(255.f);
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
+    };
+
     struct SpriteFrameAnimation
     {
         std::vector<Rect> frames;

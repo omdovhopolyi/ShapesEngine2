@@ -16,9 +16,11 @@ namespace shen
 
     glm::vec2 LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, glm::vec2 defaultVal = glm::vec2(0.f));
     glm::vec3 LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.f));
-
+    
     Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def = {});
     Rect LoadRect(const tinyxml2::XMLElement* element);
+
+    glm::vec4 LoadColor(const std::string& id, const tinyxml2::XMLElement* element, glm::vec4 defaultVal = glm::vec4(0.f));
 
     Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* elemnt);
     std::vector<Rect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element);

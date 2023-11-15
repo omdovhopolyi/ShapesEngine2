@@ -13,7 +13,8 @@ namespace shen
         void SetId(unsigned int id) { _id = id; }
         unsigned int GetId() const { return _id; }
 
-        void SetUniform(const std::string& uniformId, const glm::vec2& UV);
+        void SetUniform(const std::string& uniformId, const glm::vec2& vec);
+        void SetUniform(const std::string& uniformId, const glm::vec4& vec);
         void SetUniform(const std::string& uniformId, const glm::mat4& mat);
 
     private:

@@ -22,6 +22,9 @@
             <rect x="32" y="0" w="32" h="32"/>
          </frames>
       </component>
+      <component type="color">
+         <color r="0" g="255" b="0" a="125"/>
+      </component>
    </entity>
    <entity>
       <component type="sprite">

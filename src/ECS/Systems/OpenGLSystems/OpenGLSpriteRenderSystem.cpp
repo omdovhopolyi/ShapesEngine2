@@ -49,12 +49,17 @@ namespace shen
                 model = glm::translate(model, glm::vec3(sprite.anchor.x * size.x, sprite.anchor.y * size.y, 0.f));
                 model = glm::rotate(model, glm::radians(transform.GetEulerAngleZ()), glm::vec3(0.f, 0.f, 1.f));
                 model = glm::translate(model, glm::vec3(-sprite.anchor.x * size.x, -sprite.anchor.y * size.y, 0.f));
-                
+
                 model = glm::scale(model, size);
 
                 shader->SetUniform("model", model);
                 shader->SetUniform("view", camera->view);
                 shader->SetUniform("projection", camera->projection);
+
+                if (auto color = world->GetComponent<Color>(entity))
+                {
+                    shader->SetUniform("color", color->rgba);
+                }
 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, sprite.texture->GetId());
