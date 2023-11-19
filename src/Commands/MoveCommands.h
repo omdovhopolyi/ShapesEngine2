@@ -15,7 +15,7 @@ namespace shen
 
     protected:
         glm::vec3 _direction = glm::vec3{};
-        float _speed = 50.f;
+        float _speed = 1.f;
     };
 
     class MoveUpCommand

@@ -13,6 +13,8 @@ namespace shen
 		RegisterLoader<Transform>("transform");
 		RegisterLoader<SpriteFrameAnimation>("spriteFrameAnimation");
         RegisterLoader<Color>("color");
+        RegisterLoader<PlayerInput>("playerInput");
+        RegisterLoader<RigidBody>("rigidBody");
     }
 
 	void MapLoader::LoadMap(const std::string& mapId)

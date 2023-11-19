@@ -5,12 +5,14 @@
 
 namespace shen
 {
-    enum class KeyEventType
+    enum class InputEventType
     {
         Undefined,
         Up,
         Down,
-        Hold
+        Hold,
+        MouseMove,
+        Scroll
     };
 
     enum class KeyMode
@@ -23,31 +25,32 @@ namespace shen
 
     enum class MouseButton
     {
-        None = 0,
-        Left = 1,
-        Middle = 2,
-        Right = 3
+        None,
+        Left,
+        Middle,
+        Right
     };
 
     struct KeyEvent
         : Event
     {
-        KeyEventType type = KeyEventType::Undefined;
+        InputEventType type = InputEventType::Undefined;
         int code = -1;
         KeyMode mode = KeyMode::None;
 
-        KeyEvent(KeyEventType eventType, int keyCode, KeyMode eventMode);
+        KeyEvent(InputEventType eventType, int keyCode, KeyMode keyMode);
     };
 
     struct MouseButtonEvent
         : Event
     {
-        KeyEventType type = KeyEventType::Undefined;
+        InputEventType type = InputEventType::Undefined;
         MouseButton button = MouseButton::None;
+        KeyMode mode = KeyMode::None;
         int x = 0;
         int y = 0;
 
-        MouseButtonEvent(KeyEventType eventType, MouseButton mouseBtn, int posX, int posY);
+        MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, KeyMode keyMode, int posX, int posY);
     };
 
     struct MouseMoveEvent
@@ -57,8 +60,9 @@ namespace shen
         int y = 0;
         int dx = 0;
         int dy = 0;
+        KeyMode mode = KeyMode::None;
 
-        MouseMoveEvent(int posX, int posY, int diffX, int diffY);
+        MouseMoveEvent(int posX, int posY, int diffX, int diffY, KeyMode keyMode);
     };
 
     struct Quit : Event

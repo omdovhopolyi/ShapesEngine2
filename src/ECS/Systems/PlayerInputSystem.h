@@ -2,6 +2,7 @@
 
 #include "System.h"
 #include "Messenger/SubscriptionsContainer.h"
+#include "Messenger/Events/Common.h"
 #include "Utils/Types.h"
 #include "Enums/Direction.h"
 
@@ -11,19 +12,25 @@
 
 namespace shen
 {
-    /*struct ActionData
+    struct InputData
     {
-        std::string key;
-        std::string type;
-        std::string actionId;
-    };*/
+        int keyCode = -1;
+        MouseButton mouseButton = MouseButton::None;
+        InputEventType type = InputEventType::Undefined;
+        KeyMode mode = KeyMode::None;
+        int x = 0;
+        int y = 0;
+
+        friend bool operator < (const InputData& left, const InputData& right);
+        friend bool operator == (const InputData& left, const InputData& right);
+    };
 
     class PlayerInputSystem
         : public System
     {
     public:
-        using KeyCode = int;
-        using CommandsMap = std::map<KeyCode, std::shared_ptr<Command>>;
+        using InputCode = int;
+        using CommandsMap = std::map<InputCode, std::shared_ptr<Command>>;
         using WeakCommands = std::vector<std::weak_ptr<Command>>;
 
         PlayerInputSystem();
@@ -31,23 +38,13 @@ namespace shen
         void Start() override;
         void Update() override;
 
-    private:
-        void InitActionCallbacks();
+    protected:
+        virtual void InitActionCallbacks();
         void InitSubscriptions();
-
-        void ProcessCommands(Entity entity, const WeakCommands& commands);
-
-        WeakCommands ProcessEvents(std::vector<KeyCode>& toProcess, CommandsMap& callbacks);
-
-    private:
+    protected:
         SubcriptionsContainer _subscriptions;
 
-        std::vector<KeyCode> _toProcessOnDown;
-        std::vector<KeyCode> _toProcessOnHold;
-        std::vector<KeyCode> _toProcessOnUp;
-
-        CommandsMap _actionsOnDown;
-        CommandsMap _actionsOnHold;
-        CommandsMap _actionsOnUp;
+        std::map<InputData, std::shared_ptr<Command>> _actions;
+        std::vector<Command*> _toProcess;
     };
 }

@@ -35,10 +35,11 @@ namespace shen
             manager->RegisterSystem<SDLInputSystem>();
             manager->RegisterSystem<CameraSystem>();
             manager->RegisterSystem<SpriteFrameAnimationSystem>();
-            
-            /*manager->RegisterSystem<MovementSystem>();
             manager->RegisterSystem<IntertiaSystem>();
             manager->RegisterSystem<PlayerInputSystem>();
+            manager->RegisterSystem<MovementSystem>();
+            
+            /*
             manager->RegisterSystem<BulletSystem>();
             manager->RegisterSystem<CollisionSystem>();
             manager->RegisterSystem<DamageSystem>();

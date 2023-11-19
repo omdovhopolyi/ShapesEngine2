@@ -12,6 +12,36 @@
 
 namespace shen
 {
+    bool operator < (const InputData& left, const InputData& right)
+    {
+        if (left.keyCode != right.keyCode)
+        {
+            return left.keyCode < right.keyCode;
+        }
+        if (left.mouseButton != right.mouseButton)
+        {
+            return left.mouseButton < right.mouseButton;
+        }
+        if (left.type != right.type)
+        {
+            return left.type < right.type;
+        }
+        if (left.mode != right.mode)
+        {
+            return left.mode < right.mode;
+        }
+
+        return false;
+    }
+
+    bool operator == (const InputData& left, const InputData& right)
+    {
+        return (left.keyCode == right.keyCode &&
+            left.mouseButton == right.mouseButton &&
+            left.type == right.type &&
+            left.mode == right.mode);
+    }
+
     PlayerInputSystem::PlayerInputSystem()
         : System()
     {}
@@ -24,10 +54,6 @@ namespace shen
 
     void PlayerInputSystem::Update()
     {
-        auto commandsOnDown = ProcessEvents(_toProcessOnDown, _actionsOnDown);
-        auto commandsOnHold = ProcessEvents(_toProcessOnHold, _actionsOnHold);
-        auto commandsOnUp = ProcessEvents(_toProcessOnUp, _actionsOnUp);
-
         std::vector<Entity> entities;
 
         auto world = ManagersProvider::Instance().GetWorld();
@@ -39,73 +65,84 @@ namespace shen
 
         for (auto& entity : entities)
         {
-            ProcessCommands(entity, commandsOnDown);
-            ProcessCommands(entity, commandsOnHold);
-            ProcessCommands(entity, commandsOnUp);
+            for (auto command : _toProcess)
+            {
+                command->Execute(entity);
+            }
         }
+
+        _toProcess.clear();
     }
 
     void PlayerInputSystem::InitActionCallbacks()
     {
-        _actionsOnDown[static_cast<KeyCode>('w')] = std::make_shared<MoveUpCommand>();
-        _actionsOnDown[static_cast<KeyCode>('d')] = std::make_shared<MoveRightCommand>();
-        _actionsOnDown[static_cast<KeyCode>('s')] = std::make_shared<MoveDownCommand>();
-        _actionsOnDown[static_cast<KeyCode>('a')] = std::make_shared<MoveLeftCommand>();
-        _actionsOnDown[static_cast<KeyCode>(' ')] = std::make_shared<FireCommand>();
+        _actions[{ 
+            static_cast<int>('w'),
+            MouseButton::None,
+            InputEventType::Hold,
+            KeyMode::None
+        }] = std::make_shared<MoveUpCommand>();
 
-        _actionsOnHold[static_cast<KeyCode>('w')] = std::make_shared<MoveUpCommand>();
-        _actionsOnHold[static_cast<KeyCode>('d')] = std::make_shared<MoveRightCommand>();
-        _actionsOnHold[static_cast<KeyCode>('s')] = std::make_shared<MoveDownCommand>();
-        _actionsOnHold[static_cast<KeyCode>('a')] = std::make_shared<MoveLeftCommand>();
+        _actions[{ 
+            static_cast<int>('d'),
+            MouseButton::None,
+            InputEventType::Hold,
+            KeyMode::None
+        }] = std::make_shared<MoveRightCommand>();
+
+        _actions[{ 
+            static_cast<int>('s'),
+            MouseButton::None,
+            InputEventType::Hold,
+            KeyMode::None
+        }] = std::make_shared<MoveDownCommand>();
+
+        _actions[{ 
+            static_cast<int>('a'),
+            MouseButton::None,
+            InputEventType::Hold,
+            KeyMode::None
+        }] = std::make_shared<MoveLeftCommand>();
+
+        _actions[{ 
+            static_cast<int>(' '),
+            MouseButton::None,
+            InputEventType::Down,
+            KeyMode::None
+        }] = std::make_shared<FireCommand>();
     }
 
     void PlayerInputSystem::InitSubscriptions()
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
         {
-            if (event.type == KeyEventType::Down)
-            {
-                _toProcessOnDown.push_back(event.code);
-            }
+            InputData inputEvent;
+            inputEvent.keyCode = event.code;
+            inputEvent.type = event.type;
+            inputEvent.mode = event.mode;
 
-            if (event.type == KeyEventType::Hold)
+            if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcessOnHold.push_back(event.code);   
-            }
-
-            if (event.type == KeyEventType::Up)
-            {
-                _toProcessOnUp.push_back(event.code);
+                _toProcess.push_back(it->second.get());
             }
         });
-    }
 
-    void PlayerInputSystem::ProcessCommands(Entity entity, const PlayerInputSystem::WeakCommands& commands)
-    {
-        for (const auto& commandPtr : commands)
+        _subscriptions.Subscribe<MouseButtonEvent>([&](const MouseButtonEvent& event)
         {
-            if (auto command = commandPtr.lock())
+            InputData inputEvent;
+            inputEvent.mouseButton = event.button;
+            inputEvent.type = event.type;
+            inputEvent.mode = event.mode;
+
+            if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                command->Execute(entity);
+                _toProcess.push_back(it->second.get());
             }
-        }
-    }
+        });
 
-    PlayerInputSystem::WeakCommands PlayerInputSystem::ProcessEvents(std::vector<KeyCode>& toProcess, PlayerInputSystem::CommandsMap& callbacks)
-    {
-        PlayerInputSystem::WeakCommands commands;
-
-        for (const auto& code : toProcess)
+        _subscriptions.Subscribe<MouseMoveEvent>([&](const MouseMoveEvent& event)
         {
-            auto it = callbacks.find(code);
-            if (it != callbacks.end())
-            {
-                commands.push_back(it->second);
-            }
-        }
 
-        toProcess.clear();
-
-        return commands;
+        });
     }
 }

@@ -35,6 +35,14 @@ namespace shen
 		};
 
 		SDL_Event event;
+		Uint8 justPressedMouseButton{};
+		SDL_Keycode justPressedKey = SDLK_UNKNOWN;
+		const auto currentMode = detectMod(SDL_GetModState());
+		const auto keysArray = SDL_GetKeyboardState(NULL);
+
+		int mouseX = 0;
+		int mouseY = 0;
+		const auto mouseState = SDL_GetMouseState(&mouseX, &mouseY);
 
 		auto editor = ManagersProvider::Instance().GetSystemsManager()->GetSystem<EditorSystem>();
 
@@ -54,25 +62,20 @@ namespace shen
 			}
 			case SDL_KEYDOWN:
 			{
-				auto it = _holdKeys.find(event.key.keysym.mod);
-				if (it == _holdKeys.end())
+				const bool isAlreadyPressed = keysArray[event.key.keysym.scancode];
+				if (!isAlreadyPressed)
 				{
-					auto mode = detectMod(event.key.keysym.sym);
-
-					ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Down, event.key.keysym.sym, mode);
-
-					_scheduledFuncs.push_back([down = event.key.keysym.sym, this]()
-					{
-						_holdKeys.insert(down);
-					});
+					auto mode = detectMod(event.key.keysym.mod);
+					ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(InputEventType::Down, event.key.keysym.sym, mode);
+					justPressedKey = event.key.keysym.sym;
 				}
+
 				break;
 			}
 			case SDL_KEYUP:
 			{
 				auto mode = detectMod(event.key.keysym.mod);
-				_holdKeys.erase(event.key.keysym.sym);
-				ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Up, event.key.keysym.sym, mode);
+				ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(InputEventType::Up, event.key.keysym.sym, mode);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -81,36 +84,35 @@ namespace shen
 					event.motion.x,
 					event.motion.y,
 					event.motion.xrel,
-					event.motion.yrel
+					event.motion.yrel,
+					currentMode
 				);
 				break;
 			}
 			case SDL_MOUSEBUTTONDOWN:
 			{
-				auto it = _holdMouseButtons.find(event.button.button);
-				if (it == _holdMouseButtons.end())
+				const bool isAlreadyPressed = (mouseState & event.button.button);
+				if (!isAlreadyPressed)
 				{
+					justPressedMouseButton = event.button.button;
+
 					ManagersProvider::Instance().GetMessenger()->Broadcast<MouseButtonEvent>(
-						KeyEventType::Down,
+						InputEventType::Down,
 						static_cast<MouseButton>(event.button.button),
+						currentMode,
 						event.button.x,
 						event.button.y
 					);
-
-					_scheduledFuncs.push_back([btnIndex = event.button.button, this]()
-					{
-						_holdMouseButtons.insert(btnIndex);
-					});
 				}
+
 				break;
 			}
 			case SDL_MOUSEBUTTONUP:
 			{
-				_holdMouseButtons.erase(event.button.button);
-
 				ManagersProvider::Instance().GetMessenger()->Broadcast<MouseButtonEvent>(
-					KeyEventType::Up,
+					InputEventType::Up,
 					static_cast<MouseButton>(event.button.button),
+					currentMode,
 					event.button.x,
 					event.button.y
 				);
@@ -120,30 +122,37 @@ namespace shen
 			}
 		}
 
-		for (const auto& key : _holdKeys)
+		for (int i = 0; i < SDL_NUM_SCANCODES; i++)
 		{
-			ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(KeyEventType::Hold, key, KeyMode::None);
+			const auto isHolding = keysArray[i];
+			if (isHolding)
+			{
+				const auto key = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
+
+				if (key != SDLK_UNKNOWN && key != justPressedKey)
+				{
+					ManagersProvider::Instance().GetMessenger()->Broadcast<KeyEvent>(InputEventType::Hold, key, currentMode);
+				}
+			}
 		}
 
-		int mouseX = 0;
-		int mouseY = 0;
-		SDL_GetMouseState(&mouseX, &mouseY);
-
-		for (const auto& mouseBtnIndex : _holdMouseButtons)
+		for (int i = 1; i <= sizeof(mouseState)*8; ++i)
 		{
-			ManagersProvider::Instance().GetMessenger()->Broadcast<MouseButtonEvent>(
-				KeyEventType::Hold,
-				static_cast<MouseButton>(mouseBtnIndex),
-				mouseX, 
-				mouseY
-			);
-		}
+			const auto mouseButton = SDL_BUTTON(i);
+			const bool isHolding = (mouseState & mouseButton);
+			const bool justPressed = (mouseButton == justPressedMouseButton);
+			const bool needBroadcast = (isHolding && !justPressed);
 
-		for (const auto& func : _scheduledFuncs)
-		{
-			func();
+			if (needBroadcast)
+			{
+				ManagersProvider::Instance().GetMessenger()->Broadcast<MouseButtonEvent>(
+					InputEventType::Hold,
+					static_cast<MouseButton>(i),
+					currentMode,
+					mouseX, 
+					mouseY
+				);
+			}
 		}
-
-		_scheduledFuncs.clear();
 	}
 }

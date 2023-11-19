@@ -13,14 +13,16 @@ namespace shen
     void MoveCommand::Execute(const Entity& entity) const
     {
         auto world = ManagersProvider::Instance().GetWorld();
-        auto rb = world->GetComponent<RigidBody>(entity);
-        rb->velocity += _direction;
-        rb->direction = glm::normalize(rb->velocity);
-        rb->velocity = rb->direction * _speed;
+        if (auto rb = world->GetComponent<RigidBody>(entity))
+        {
+            rb->velocity += _direction;
+            rb->direction = glm::normalize(rb->velocity);
+            rb->velocity = rb->direction * _speed;
+        }
     }
 
     MoveUpCommand::MoveUpCommand()
-        : MoveCommand(glm::vec3(0.f, -1.f, 0.f))
+        : MoveCommand(glm::vec3(0.f, 1.f, 0.f))
     { }
 
     MoveRightCommand::MoveRightCommand()
@@ -28,7 +30,7 @@ namespace shen
     { }
 
     MoveDownCommand::MoveDownCommand()
-        : MoveCommand(glm::vec3(0.f, 1.f, 0.f))
+        : MoveCommand(glm::vec3(0.f, -1.f, 0.f))
     { }
 
     MoveLeftCommand::MoveLeftCommand()

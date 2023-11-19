@@ -36,5 +36,7 @@
          <position x="-1" y="0" z="0"/>
          <rotation val="0"/>
       </component>
+      <component type="playerInput"/>
+      <component type="rigidBody"/>
    </entity>
 </items>

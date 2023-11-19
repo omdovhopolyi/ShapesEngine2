@@ -102,7 +102,7 @@ namespace shen
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
         {
-            if (event.type == KeyEventType::Up)
+            if (event.type == InputEventType::Up)
             {
                 if (event.code == static_cast<int>('e') && event.mode == KeyMode::Crtl)
                 {

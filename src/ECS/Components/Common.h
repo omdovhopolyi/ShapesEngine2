@@ -25,8 +25,11 @@ namespace shen
     struct RigidBody
     {
         glm::vec3 velocity = glm::vec3{};
-        float inertia = 1.f;
+        float inertia = 100.f;
         glm::vec3 direction = glm::vec3{};
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct BoundingBox
@@ -39,8 +42,10 @@ namespace shen
 
     struct PlayerInput
     {
-        float speed = 100.f;
-        PlayerInput();
+        float speed = 0.01f;
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 
     struct Camera

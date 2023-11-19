@@ -35,7 +35,25 @@ namespace shen
     {
     }
 
-    PlayerInput::PlayerInput() = default;
+    void RigidBody::Load(Entity entity, const tinyxml2::XMLElement* element)
+    {
+        ManagersProvider::Instance().GetWorld()->AddComponent<RigidBody>(entity);
+    }
+
+    void RigidBody::Save(Entity entity, tinyxml2::XMLElement* element)
+    {
+
+    }
+
+    void PlayerInput::Load(Entity entity, const tinyxml2::XMLElement* element)
+    {
+        ManagersProvider::Instance().GetWorld()->AddComponent<PlayerInput>(entity);
+    }
+
+    void PlayerInput::Save(Entity entity, tinyxml2::XMLElement* element)
+    {
+
+    }
 
     void Camera::Load(Entity entity, const tinyxml2::XMLElement* element)
     {

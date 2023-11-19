@@ -5,6 +5,8 @@
 
 #include "ECS/Components/Common.h"
 
+#include "Logger/Logger.h"
+
 namespace shen
 {
     void MovementSystem::Update()
@@ -16,6 +18,7 @@ namespace shen
             [&](const auto entity, auto& transform, auto& rigidBody)
         {
             transform.position += rigidBody.velocity * dt;
+            //Logger::Log("Velocity {} {}", rigidBody.velocity.x, rigidBody.velocity.y);
         });
     }
 }

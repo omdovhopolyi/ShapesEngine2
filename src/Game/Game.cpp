@@ -57,7 +57,7 @@ namespace shen
 	{
 		RegisterSystems();
 
-		_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
+		/*_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
 		{
 			if (event.type == KeyEventType::Up)
 			{
@@ -66,7 +66,7 @@ namespace shen
 					_isRunning = false;
 				}
 			}
-		});
+		});*/
 
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
