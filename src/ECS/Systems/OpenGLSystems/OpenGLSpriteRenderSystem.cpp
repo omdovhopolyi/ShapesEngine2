@@ -56,16 +56,20 @@ namespace shen
                 shader->SetUniform("view", camera->view);
                 shader->SetUniform("projection", camera->projection);
 
+                glm::vec4 rgba = glm::vec4(1.f);
+
                 if (auto color = world->GetComponent<Color>(entity))
                 {
-                    shader->SetUniform("color", color->rgba);
+                    rgba = color->rgba;
                 }
+
+                shader->SetUniform("color", rgba);
 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, sprite.texture->GetId());
 
                 glBindVertexArray(buffers.VAO);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
 		});
     }
