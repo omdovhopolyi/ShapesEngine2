@@ -52,12 +52,12 @@ namespace shen
 
             if (const auto xAttrib = childElement->FindAttribute("x"))
             {
-                result.x = xAttrib->IntValue();
+                result.x = xAttrib->FloatValue();
             }
 
             if (const auto yAttrib = childElement->FindAttribute("y"))
             {
-                result.y = yAttrib->IntValue();
+                result.y = yAttrib->FloatValue();
             }
 
             return result;
@@ -74,17 +74,17 @@ namespace shen
 
             if (const auto xAttrib = childElement->FindAttribute("x"))
             {
-                result.x = xAttrib->IntValue();
+                result.x = xAttrib->FloatValue();
             }
 
             if (const auto yAttrib = childElement->FindAttribute("y"))
             {
-                result.y = yAttrib->IntValue();
+                result.y = yAttrib->FloatValue();
             }
 
             if (const auto zAttrib = childElement->FindAttribute("z"))
             {
-                result.z = zAttrib->IntValue();
+                result.z = zAttrib->FloatValue();
             }
 
             return result;
