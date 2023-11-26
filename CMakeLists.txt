@@ -40,8 +40,8 @@ target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
 add_subdirectory(submodules/SDL_ttf)
 target_link_libraries(${TARGET_NAME} SDL2_ttf)
 
-add_subdirectory(submodules/SDL_mixer)
-target_link_libraries(${TARGET_NAME} SDL2_mixer)
+#add_subdirectory(submodules/SDL_mixer)
+#target_link_libraries(${TARGET_NAME} SDL2_mixer)
 
 add_subdirectory(submodules/glm)
 target_link_libraries(${TARGET_NAME} glm)
@@ -77,7 +77,7 @@ include_directories(submodules/imgui_sdl)
 include_directories(submodules/SDL)
 #include_directories(submodules/SDL_image)
 include_directories(submodules/SDL_ttf)
-include_directories(submodules/SDL_mixer)
+#include_directories(submodules/SDL_mixer)
 include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
@@ -106,6 +106,6 @@ if (MSVC)
         )
 endif()
 
-
+add_compile_definitions(_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
 
 set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
