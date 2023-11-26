@@ -10,7 +10,7 @@ namespace shen
         : _direction(dir)
     { }
 
-    void MoveCommand::Execute(const Entity& entity) const
+    void MoveCommand::Execute(const Entity& entity, const CommandContext&) const
     {
         auto world = ManagersProvider::Instance().GetWorld();
         if (auto rb = world->GetComponent<RigidBody>(entity))

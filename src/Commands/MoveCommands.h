@@ -11,7 +11,7 @@ namespace shen
     public:
         MoveCommand(const glm::vec3& dir = glm::vec3{});
 
-        void Execute(const Entity& entity) const override;
+        void Execute(const Entity& entity, const CommandContext&) const override;
 
     protected:
         glm::vec3 _direction = glm::vec3{};

@@ -10,7 +10,7 @@
 
 namespace shen
 {
-    void FireCommand::Execute(const Entity& entity) const
+    void FireCommand::Execute(const Entity& entity, const CommandContext&) const
     {
         auto world = ManagersProvider::Instance().GetWorld();
         auto weapon = ManagersProvider::Instance().GetWeaponManager();
