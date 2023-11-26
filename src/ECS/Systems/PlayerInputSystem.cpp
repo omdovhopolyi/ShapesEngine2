@@ -9,10 +9,11 @@
 #include "ECS/Components/Common.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
+#include "Commands/RotateCommand.h"
 
 namespace shen
 {
-    bool operator < (const InputData& left, const InputData& right)
+    bool operator < (const InputType& left, const InputType& right)
     {
         if (left.keyCode != right.keyCode)
         {
@@ -34,7 +35,7 @@ namespace shen
         return false;
     }
 
-    bool operator == (const InputData& left, const InputData& right)
+    bool operator == (const InputType& left, const InputType& right)
     {
         return (left.keyCode == right.keyCode &&
             left.mouseButton == right.mouseButton &&
@@ -65,9 +66,9 @@ namespace shen
 
         for (auto& entity : entities)
         {
-            for (auto command : _toProcess)
+            for (auto& [command, context] : _toProcess)
             {
-                command->Execute(entity);
+                command->Execute(entity, context);
             }
         }
 
@@ -76,6 +77,8 @@ namespace shen
 
     void PlayerInputSystem::InitActionCallbacks()
     {
+        // TODO config
+
         _actions[{ 
             static_cast<int>('w'),
             MouseButton::None,
@@ -104,45 +107,62 @@ namespace shen
             KeyMode::None
         }] = std::make_shared<MoveLeftCommand>();
 
-        _actions[{ 
+        /*_actions[{ 
             static_cast<int>(' '),
             MouseButton::None,
             InputEventType::Down,
             KeyMode::None
-        }] = std::make_shared<FireCommand>();
+        }] = std::make_shared<FireCommand>();*/
+
+        _actions[{ 
+            -1,
+            MouseButton::None,
+            InputEventType::MouseMove,
+            KeyMode::None
+        }] = std::make_shared<RotateCommand>();
     }
 
     void PlayerInputSystem::InitSubscriptions()
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
         {
-            InputData inputEvent;
+            InputType inputEvent;
             inputEvent.keyCode = event.code;
             inputEvent.type = event.type;
             inputEvent.mode = event.mode;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back(it->second.get());
+                _toProcess.push_back({ it->second.get(), {} });
             }
         });
 
         _subscriptions.Subscribe<MouseButtonEvent>([&](const MouseButtonEvent& event)
         {
-            InputData inputEvent;
+            InputType inputEvent;
             inputEvent.mouseButton = event.button;
             inputEvent.type = event.type;
             inputEvent.mode = event.mode;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back(it->second.get());
+                _toProcess.push_back({ it->second.get(), {} });
             }
         });
 
         _subscriptions.Subscribe<MouseMoveEvent>([&](const MouseMoveEvent& event)
         {
+            InputType inputEvent;
+            inputEvent.type = InputEventType::MouseMove;
 
+            CommandContext context;
+            context.x = event.x;
+            context.y = event.y;
+
+            if (auto it = _actions.find(inputEvent); it != _actions.end())
+            {
+                _toProcess.push_back({ it->second.get(), context });
+            }
         });
     }
 }

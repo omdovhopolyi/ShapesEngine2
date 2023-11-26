@@ -12,17 +12,15 @@
 
 namespace shen
 {
-    struct InputData
+    struct InputType
     {
         int keyCode = -1;
         MouseButton mouseButton = MouseButton::None;
         InputEventType type = InputEventType::Undefined;
         KeyMode mode = KeyMode::None;
-        int x = 0;
-        int y = 0;
 
-        friend bool operator < (const InputData& left, const InputData& right);
-        friend bool operator == (const InputData& left, const InputData& right);
+        friend bool operator < (const InputType& left, const InputType& right);
+        friend bool operator == (const InputType& left, const InputType& right);
     };
 
     class PlayerInputSystem
@@ -44,7 +42,7 @@ namespace shen
     protected:
         SubcriptionsContainer _subscriptions;
 
-        std::map<InputData, std::shared_ptr<Command>> _actions;
-        std::vector<Command*> _toProcess;
+        std::map<InputType, std::shared_ptr<Command>> _actions;
+        std::vector<std::pair<Command*, CommandContext>> _toProcess;
     };
 }
