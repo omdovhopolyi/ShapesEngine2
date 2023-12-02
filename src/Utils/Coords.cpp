@@ -48,8 +48,14 @@ namespace shen
 
         if (auto transform = world->GetComponent<Transform>(entity))
         {
-            // TODO handle sprite anchor
-            result = transform->position;
+            glm::vec3 anchorOffset{};
+
+            if (auto sprite = world->GetComponent<Sprite>(entity))
+            {
+                anchorOffset = glm::vec3(sprite->size, 0.f) * glm::vec3(sprite->anchor, 0.f);
+            }
+
+            result = transform->position + anchorOffset;
         }
 
         return result;

@@ -20,8 +20,11 @@ namespace shen
             auto objectWorldPos = ObjectWorldPosition2D(entity);
             auto direction = glm::normalize(mouseWorldPos - objectWorldPos);
 
-            const float angle = glm::degrees(glm::orientedAngle(glm::vec2(1.f, 0.f), direction));
-            transform.rotation = glm::angleAxis(glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
+            static glm::vec3 up{ 0.f, 0.f, 1.f };
+            static glm::vec2 right{ 1.f, 0.f };
+
+            const float angle = glm::degrees(glm::orientedAngle(right, direction));
+            transform.rotation = glm::angleAxis(glm::radians(angle), up);
         });
         
     }
