@@ -79,7 +79,7 @@ namespace shen
         comp->texRect = LoadRect("rect", element);
         comp->size = LoadVec2("size", element, comp->size);
         comp->anchor = LoadVec2("anchor", element);
-        comp->shader = LoadStr("shader", element);
+        comp->shader = LoadShaderPtr("shader", element);
     }
 
     void Sprite::Save(Entity entity, tinyxml2::XMLElement* element)

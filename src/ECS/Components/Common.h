@@ -9,6 +9,7 @@
 namespace shen
 {
     class Texture;
+    class Shader;
 
     struct Transform
     {
@@ -72,7 +73,7 @@ namespace shen
         Rect texRect;
         glm::vec2 size = glm::vec2(1.f);
         glm::vec2 anchor = glm::vec2(0.f);
-        std::string shader; // pointer to shader?
+        Shader* shader = nullptr; // pointer to shader?
 
         static void Load(Entity entity, const tinyxml2::XMLElement* element);
         static void Save(Entity entity, tinyxml2::XMLElement* element);

@@ -20,10 +20,9 @@ namespace shen
 
     void OpenGLSpriteRenderSystem::Draw()
     {
-		auto world = ManagersProvider::Instance().GetWorld();
-        auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-
         const Camera* camera = nullptr;
+
+		auto world = ManagersProvider::Instance().GetWorld();
 
         world->Each<Camera>([&](auto entity, const Camera& comp)
         {
@@ -38,9 +37,9 @@ namespace shen
         world->Each<Sprite, Buffers, Transform>(
             [&](const auto entity, const Sprite& sprite, const Buffers& buffers, const Transform& transform)
         {
-            if (auto shader = shaders->GetAsset(sprite.shader))
+            if (sprite.shader)
             {
-                shader->Use();
+                sprite.shader->Use();
 
                 auto model = glm::translate(glm::mat4(1.f), transform.position);
 
@@ -52,9 +51,9 @@ namespace shen
 
                 model = glm::scale(model, size);
 
-                shader->SetUniform("model", model);
-                shader->SetUniform("view", camera->view);
-                shader->SetUniform("projection", camera->projection);
+                sprite.shader->SetUniform("model", model);
+                sprite.shader->SetUniform("view", camera->view);
+                sprite.shader->SetUniform("projection", camera->projection);
 
                 glm::vec4 rgba = glm::vec4(1.f);
 

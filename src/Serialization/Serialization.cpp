@@ -2,6 +2,7 @@
 
 #include "Game/ManagersProvider.h"
 #include "Resources/OpenGLTexturesManager.h"
+#include "Resources/ShadersManager.h"
 
 namespace shen
 {
@@ -165,13 +166,30 @@ namespace shen
 
     Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
     {
+        auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
+        Texture* texture = nullptr;
+
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
                 const auto textureId = attrib->Value();
-                auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
-                return texturesManager->GetAsset(textureId);
+                texture = texturesManager->GetAsset(textureId);
+            }
+        }
+
+        return texture ? texture : texturesManager->GetAsset("Empty");
+    }
+
+    Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
+    {
+        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        {
+            if (const auto attrib = childElement->FindAttribute("val"))
+            {
+                const auto shaderId = attrib->Value();
+                auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
+                return shaders->GetAsset(shaderId);
             }
         }
 
