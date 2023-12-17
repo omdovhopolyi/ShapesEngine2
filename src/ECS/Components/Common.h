@@ -68,6 +68,7 @@ namespace shen
     struct Sprite
     {
         const Texture* texture = nullptr;
+        const Texture* mask = nullptr;
         Rect texRect;
         glm::vec2 size = glm::vec2(1.f);
         glm::vec2 anchor = glm::vec2(0.f);

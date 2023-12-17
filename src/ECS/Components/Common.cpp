@@ -75,6 +75,7 @@ namespace shen
         auto comp = ManagersProvider::Instance().GetWorld()->AddComponent<Sprite>(entity);
 
         comp->texture = LoadTexturePtr("texture", element);
+        comp->mask = LoadTexturePtr("mask", element);
         comp->texRect = LoadRect("rect", element);
         comp->size = LoadVec2("size", element, comp->size);
         comp->anchor = LoadVec2("anchor", element);

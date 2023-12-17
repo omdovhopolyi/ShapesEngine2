@@ -14,6 +14,7 @@ namespace shen
     {
         stbi_set_flip_vertically_on_load(true);
         LoadFromXml();
+        CreateEmptyTexture();
         return true;
     }
 
@@ -35,7 +36,6 @@ namespace shen
         if (unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0))
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height , 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-            //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, 0);
             stbi_image_free(data);
@@ -88,5 +88,29 @@ namespace shen
                 element = element->NextSiblingElement();
             }
         }
+    }
+
+    void OpenGLTexturesManager::CreateEmptyTexture()
+    {
+        unsigned int textureId;
+        glGenTextures(1, &textureId);
+        glBindTexture(GL_TEXTURE_2D, textureId);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);	
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        unsigned char data[] = { 0 };
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        auto tex = std::make_shared<Texture>();
+        tex->SetId(textureId);
+        tex->SetSize({ 1, 1 });
+
+        _assets["Empty"] = std::move(std::move(tex));
     }
 }

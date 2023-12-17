@@ -5,6 +5,7 @@ in vec2 uv;
 in vec4 clr;
 
 uniform sampler2D tex;
+uniform sampler2D mask;
 
 void main()
 {

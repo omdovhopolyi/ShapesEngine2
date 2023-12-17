@@ -16,5 +16,6 @@ namespace shen
 
     private:
         void LoadFromXml();
+        void CreateEmptyTexture();
     };
 }

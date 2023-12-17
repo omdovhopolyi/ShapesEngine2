@@ -63,10 +63,19 @@ namespace shen
                     rgba = color->rgba;
                 }
 
-                shader->SetUniform("color", rgba);
+                sprite.shader->SetUniform("color", rgba);
 
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, sprite.texture->GetId());
+                if (sprite.texture)
+                {
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, sprite.texture->GetId());
+                }
+
+                if (sprite.mask)
+                {
+                    glActiveTexture(GL_TEXTURE1);
+                    glBindTexture(GL_TEXTURE_2D, sprite.mask->GetId());
+                }
 
                 glBindVertexArray(buffers.VAO);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -81,6 +90,11 @@ namespace shen
             auto world = ManagersProvider::Instance().GetWorld();
             const auto sprite = world->GetComponent<Sprite>(message.entity);
             const auto buffers = world->GetComponent<Buffers>(message.entity);
+
+            if (!sprite->texture)
+            {
+                return;
+            }
 
             auto texSize = sprite->texture->GetSize();
             
@@ -109,6 +123,11 @@ namespace shen
         world->Each<Sprite>(
             [&](const auto entity, Sprite& sprite)
         {
+            if (!sprite.texture)
+            {
+                return;
+            }
+
             auto buffers = world->AddComponent<Buffers>(entity);
 
             glGenVertexArrays(1, &buffers->VAO);
