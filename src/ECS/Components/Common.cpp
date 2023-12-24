@@ -80,6 +80,11 @@ namespace shen
         comp->size = LoadVec2("size", element, comp->size);
         comp->anchor = LoadVec2("anchor", element);
         comp->shader = LoadShaderPtr("shader", element);
+
+        if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
+        {
+            comp->spriteType = static_cast<SpriteType>(EnumFromString(SpriteTypeStr, LoadStr("spriteType", element)));
+        }
     }
 
     void Sprite::Save(Entity entity, tinyxml2::XMLElement* element)

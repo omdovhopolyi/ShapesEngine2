@@ -2,6 +2,8 @@
 
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
+#include "Enums/EnumUtils.h"
+#include "Enums/SpriteTypeEnum.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <tinyxml2/tinyxml2.h>
@@ -73,7 +75,8 @@ namespace shen
         Rect texRect;
         glm::vec2 size = glm::vec2(1.f);
         glm::vec2 anchor = glm::vec2(0.f);
-        Shader* shader = nullptr; // pointer to shader?
+        Shader* shader = nullptr;
+        SpriteType spriteType = SpriteType::OneType;
 
         static void Load(Entity entity, const tinyxml2::XMLElement* element);
         static void Save(Entity entity, tinyxml2::XMLElement* element);
