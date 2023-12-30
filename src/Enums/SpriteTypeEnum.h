@@ -1,18 +1,11 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include "EnumMacro.h"
 
 namespace shen
 {
-    enum class SpriteType
-    {
+    SHEN_ENUM(SpriteType,
         OneType,
         AnotherType
-    };
-
-    static std::vector<std::string> SpriteTypeStr = {
-        "Type",
-        "AnotherType"
-    };
+    )
 }
