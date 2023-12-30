@@ -10,6 +10,7 @@
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
+#include "Resources/InputCommandsManager.h"
 
 namespace shen
 {
@@ -77,49 +78,7 @@ namespace shen
 
     void PlayerInputSystem::InitActionCallbacks()
     {
-        // TODO config
-
-        _actions[{ 
-            static_cast<int>('w'),
-            MouseButton::None,
-            InputEventType::Hold,
-            KeyMode::None
-        }] = std::make_shared<MoveUpCommand>();
-
-        _actions[{ 
-            static_cast<int>('d'),
-            MouseButton::None,
-            InputEventType::Hold,
-            KeyMode::None
-        }] = std::make_shared<MoveRightCommand>();
-
-        _actions[{ 
-            static_cast<int>('s'),
-            MouseButton::None,
-            InputEventType::Hold,
-            KeyMode::None
-        }] = std::make_shared<MoveDownCommand>();
-
-        _actions[{ 
-            static_cast<int>('a'),
-            MouseButton::None,
-            InputEventType::Hold,
-            KeyMode::None
-        }] = std::make_shared<MoveLeftCommand>();
-
-        /*_actions[{ 
-            static_cast<int>(' '),
-            MouseButton::None,
-            InputEventType::Down,
-            KeyMode::None
-        }] = std::make_shared<FireCommand>();*/
-
-        _actions[{ 
-            -1,
-            MouseButton::None,
-            InputEventType::MouseMove,
-            KeyMode::None
-        }] = std::make_shared<RotateCommand>();
+        LoadConfig();
     }
 
     void PlayerInputSystem::InitSubscriptions()
@@ -164,5 +123,58 @@ namespace shen
                 _toProcess.push_back({ it->second.get(), context });
             }
         });
+    }
+
+    void PlayerInputSystem::LoadConfig()
+    {
+        auto commandsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<InputCommandsManager>();
+
+        tinyxml2::XMLDocument doc;
+
+        const auto error = doc.LoadFile("../assets/configs/input.xml");
+        if (error != tinyxml2::XML_SUCCESS)
+        {
+            // assert
+            return;
+        }
+
+        if (auto elements = doc.FirstChildElement("items"))
+        {
+            auto element = elements->FirstChildElement("item");
+            while (element)
+            {
+                InputType inputType;
+
+                if (const auto keyAttr = element->FindAttribute("key"))
+                {
+                    inputType.keyCode = static_cast<int>(*keyAttr->Value());
+                }
+
+                if (const auto mouseBtnAttr = element->FindAttribute("mouseBtn"))
+                {
+                    inputType.mouseButton = MouseButtonEnum.FromString(mouseBtnAttr->Value());
+                }
+
+                if (const auto inputEventTypeAttr = element->FindAttribute("inputEventType"))
+                {
+                    inputType.type = InputEventTypeEnum.FromString(inputEventTypeAttr->Value());
+                }
+
+                if (const auto modeAttr = element->FindAttribute("mode"))
+                {
+                    inputType.mode = KeyModeEnum.FromString(modeAttr->Value());
+                }
+
+                if (const auto commandAttr = element->FindAttribute("command"))
+                {
+                    const auto commandId = commandAttr->Value();
+                    auto command = commandsManager->GetAsset(commandId);
+
+                    _actions[inputType] = std::move(command);
+                }
+                
+                element = element->NextSiblingElement();
+            }
+        }
     }
 }

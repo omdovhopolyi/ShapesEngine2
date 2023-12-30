@@ -7,9 +7,29 @@
 
 namespace shen
 {
-    MoveCommand::MoveCommand(const glm::vec3& dir/* = glm::vec2{}*/)
+    MoveCommand::MoveCommand(const glm::vec3& dir)
         : _direction(dir)
     { }
+
+    void MoveCommand::SetDirection(const glm::vec3& dir)
+    {
+        _direction = dir;
+    }
+
+    const glm::vec3 MoveCommand::GetDirection() const
+    {
+        return _direction;
+    }
+
+    void MoveCommand::SetSpeed(float speed)
+    {
+        _speed = speed;
+    }
+
+    float MoveCommand::GetSpeed() const
+    {
+        return _speed;
+    }
 
     void MoveCommand::Execute(const Entity& entity, const CommandContext&) const
     {
@@ -31,20 +51,4 @@ namespace shen
             //Logger::Log("velocity x: {}, y: {}", rb->velocity.x, rb->velocity.y);
         }
     }
-
-    MoveUpCommand::MoveUpCommand()
-        : MoveCommand(glm::vec3(0.f, 1.f, 0.f))
-    { }
-
-    MoveRightCommand::MoveRightCommand()
-        : MoveCommand(glm::vec3(1.f, 0.f, 0.f))
-    { }
-
-    MoveDownCommand::MoveDownCommand()
-        : MoveCommand(glm::vec3(0.f, -1.f, 0.f))
-    { }
-
-    MoveLeftCommand::MoveLeftCommand()
-        : MoveCommand(glm::vec3(-1.f, 0.f, 0.f))
-    { }
 }

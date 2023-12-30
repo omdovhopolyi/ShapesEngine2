@@ -5,6 +5,9 @@
 #include "Messenger/Events/Common.h"
 #include "Utils/Types.h"
 #include "Enums/Direction.h"
+#include "Enums/MouseButtonEnum.h"
+#include "Enums/InputEventTypeEnum.h"
+#include "Enums/KeyModeEnum.h"
 
 #include "Commands/Command.h"
 
@@ -39,6 +42,8 @@ namespace shen
     protected:
         virtual void InitActionCallbacks();
         void InitSubscriptions();
+        void LoadConfig();
+
     protected:
         SubcriptionsContainer _subscriptions;
 

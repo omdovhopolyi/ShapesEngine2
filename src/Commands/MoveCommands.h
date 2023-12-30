@@ -2,6 +2,7 @@
 
 #include "Command.h"
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace shen
 {
@@ -9,40 +10,19 @@ namespace shen
         : public Command
     {
     public:
-        MoveCommand(const glm::vec3& dir = glm::vec3{});
+        MoveCommand() = default;
+        MoveCommand(const glm::vec3& dir);
+
+        void SetDirection(const glm::vec3& dir);
+        const glm::vec3 GetDirection() const;
+
+        void SetSpeed(float speed);
+        float GetSpeed() const;
 
         void Execute(const Entity& entity, const CommandContext&) const override;
 
     protected:
         glm::vec3 _direction = glm::vec3{};
         float _speed = 1.f;
-    };
-
-    class MoveUpCommand
-        : public MoveCommand
-    {
-    public:
-        MoveUpCommand();
-    };
-
-    class MoveRightCommand
-        : public MoveCommand
-    {
-    public:
-        MoveRightCommand();
-    };
-
-    class MoveDownCommand
-        : public MoveCommand
-    {
-    public:
-        MoveDownCommand();
-    };
-
-    class MoveLeftCommand
-        : public MoveCommand
-    {
-    public:
-        MoveLeftCommand();
     };
 }

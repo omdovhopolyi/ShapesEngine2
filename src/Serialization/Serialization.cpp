@@ -49,19 +49,7 @@ namespace shen
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
-            glm::vec2 result = glm::vec2(0.f);
-
-            if (const auto xAttrib = childElement->FindAttribute("x"))
-            {
-                result.x = xAttrib->FloatValue();
-            }
-
-            if (const auto yAttrib = childElement->FindAttribute("y"))
-            {
-                result.y = yAttrib->FloatValue();
-            }
-
-            return result;
+            return LoadVec2(childElement, defaultVal);
         }
 
         return defaultVal;
@@ -71,29 +59,50 @@ namespace shen
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
-            glm::vec3 result = glm::vec3(0.f);
-
-            if (const auto xAttrib = childElement->FindAttribute("x"))
-            {
-                result.x = xAttrib->FloatValue();
-            }
-
-            if (const auto yAttrib = childElement->FindAttribute("y"))
-            {
-                result.y = yAttrib->FloatValue();
-            }
-
-            if (const auto zAttrib = childElement->FindAttribute("z"))
-            {
-                result.z = zAttrib->FloatValue();
-            }
-
-            return result;
+            return LoadVec3(childElement, defaultVal);
         }
 
         return defaultVal;
     }
 
+    glm::vec2 LoadVec2(const tinyxml2::XMLElement* element, glm::vec2 defaultVal/* = glm::vec2(0.f)*/)
+    {
+        glm::vec2 result = glm::vec2(0.f);
+
+        if (const auto xAttrib = element->FindAttribute("x"))
+        {
+            result.x = xAttrib->FloatValue();
+        }
+
+        if (const auto yAttrib = element->FindAttribute("y"))
+        {
+            result.y = yAttrib->FloatValue();
+        }
+
+        return result;
+    }
+
+    glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = glm::vec3(0.f)*/)
+    {
+        glm::vec3 result = glm::vec3(0.f);
+
+        if (const auto xAttrib = element->FindAttribute("x"))
+        {
+            result.x = xAttrib->FloatValue();
+        }
+
+        if (const auto yAttrib = element->FindAttribute("y"))
+        {
+            result.y = yAttrib->FloatValue();
+        }
+
+        if (const auto zAttrib = element->FindAttribute("z"))
+        {
+            result.z = zAttrib->FloatValue();
+        }
+
+        return result;
+    }
 
     Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def/* = {}*/)
     {

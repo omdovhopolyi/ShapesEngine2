@@ -83,7 +83,7 @@ namespace shen
 
         if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
         {
-            comp->spriteType = static_cast<SpriteType>(EnumFromString(SpriteTypeStr, LoadStr("spriteType", element)));
+            comp->spriteType = SpriteTypeEnum.FromString(LoadStr("spriteType", element));
         }
     }
 

@@ -1,0 +1,8 @@
+<?xml version = "1.0"?>
+<items>
+    <item key="w" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveUpCommand"/>
+    <item key="d" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveRightCommand"/>
+    <item key="s" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveDownCommand"/>
+    <item key="a" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveLeftCommand"/>
+    <item mouseBtn="None" inputEventType="MouseMove" mode="None" command="RotateCommand"/>
+</items>
