@@ -2,35 +2,12 @@
 
 #include "Event.h"
 #include "ECS/Entity.h"
+#include "Enums/InputEventTypeEnum.h"
+#include "Enums/KeyModeEnum.h"
+#include "Enums/MouseButtonEnum.h"
 
 namespace shen
 {
-    enum class InputEventType
-    {
-        Undefined,
-        Up,
-        Down,
-        Hold,
-        MouseMove,
-        Scroll
-    };
-
-    enum class KeyMode
-    {
-        None,
-        Crtl,
-        Alt,
-        Shift
-    };
-
-    enum class MouseButton
-    {
-        None,
-        Left,
-        Middle,
-        Right
-    };
-
     struct KeyEvent
         : Event
     {
