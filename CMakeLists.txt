@@ -23,6 +23,8 @@ endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
+set(SDL_TEST OFF CACHE BOOL "" FORCE)
+
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
 set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 
