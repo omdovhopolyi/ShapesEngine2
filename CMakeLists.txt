@@ -100,15 +100,25 @@ if (MSVC)
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
+                COMMENT "Copying SDL2d.dll"
         )
         
-        add_custom_command(
+    add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_BINARY_DIR}/submodules/box2D/bin/Debug/box2dd.dll
                 ${CMAKE_BINARY_DIR}/bin/Debug/box2dd.dll
+                COMMENT "Copying box2dd.dll"
         )
 endif()
+
+add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                ${PROJECT_SOURCE_DIR}/assets
+                ${PROJECT_BINARY_DIR}/bin/Debug/assets
+                COMMENT "Copying assets"
+        )
 
 add_compile_definitions(_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
 
