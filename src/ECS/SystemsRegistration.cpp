@@ -12,6 +12,7 @@
 #include "Systems/CleanupSystem.h"
 #include "Systems/CameraSystem.h"
 #include "Systems/SpriteFrameAnimationSystem.h"
+#include "Systems/PhysicsBox2DSystem.h"
 
 #include "Systems/Editor/EditorSystem.h"
 
@@ -37,6 +38,7 @@ namespace shen
             manager->RegisterSystem<SpriteFrameAnimationSystem>();
             manager->RegisterSystem<IntertiaSystem>();
             manager->RegisterSystem<PlayerInputSystem>();
+            manager->RegisterSystem<PhysicsBox2DSystem>();
             manager->RegisterSystem<MovementSystem>();
             
             /*

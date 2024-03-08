@@ -8,6 +8,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include <tinyxml2/tinyxml2.h>
 
+struct b2Body;
+
 namespace shen
 {
     class Texture;
@@ -153,4 +155,9 @@ namespace shen
     };
 
     struct Destroy {};
+    
+    struct Box2DBody
+    {
+        b2Body* body = nullptr;
+    };
 }
