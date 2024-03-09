@@ -41,14 +41,11 @@ namespace shen
             {
                 sprite.shader->Use();
 
-                auto model = glm::translate(glm::mat4(1.f), transform.position);
-
                 glm::vec3 size = glm::vec3(sprite.size, 1.f) * transform.scale;
 
-                model = glm::translate(model, glm::vec3(sprite.anchor.x * size.x, sprite.anchor.y * size.y, 0.f));
+                auto model = glm::translate(glm::mat4(1.f), transform.position);
                 model = glm::rotate(model, glm::radians(transform.GetEulerAngleZ()), glm::vec3(0.f, 0.f, 1.f));
                 model = glm::translate(model, glm::vec3(-sprite.anchor.x * size.x, -sprite.anchor.y * size.y, 0.f));
-
                 model = glm::scale(model, size);
 
                 sprite.shader->SetUniform("model", model);

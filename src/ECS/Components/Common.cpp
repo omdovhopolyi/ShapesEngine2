@@ -116,4 +116,16 @@ namespace shen
     {
         
     }
+
+    void Box2DBody::Load(Entity entity, const tinyxml2::XMLElement* element)
+    {
+        auto comp = ManagersProvider::Instance().GetWorld()->AddComponent<Box2DBody>(entity);
+
+        comp->type = LoadInt("type", element);
+    }
+
+    void Box2DBody::Save(Entity entity, tinyxml2::XMLElement* element)
+    {
+
+    }
 }

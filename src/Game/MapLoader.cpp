@@ -15,6 +15,7 @@ namespace shen
         RegisterLoader<Color>("color");
         RegisterLoader<PlayerInput>("playerInput");
         RegisterLoader<RigidBody>("rigidBody");
+        RegisterLoader<Box2DBody>("box2DBody");
     }
 
 	void MapLoader::LoadMap(const std::string& mapId)

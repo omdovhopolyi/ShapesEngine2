@@ -55,7 +55,7 @@ namespace shen
                 anchorOffset = glm::vec3(sprite->size, 0.f) * glm::vec3(sprite->anchor, 0.f);
             }
 
-            result = transform->position + anchorOffset;
+            //result = transform->position + anchorOffset;
         }
 
         return result;

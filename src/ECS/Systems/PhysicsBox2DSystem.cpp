@@ -17,26 +17,28 @@ namespace shen
 
         auto gameWorld = ManagersProvider::Instance().GetWorld();
 
-        gameWorld->Each<Sprite, Transform>(
-            [&](const auto entity, Sprite& sprite, Transform& transform)
+        gameWorld->Each<Sprite, Box2DBody, Transform>(
+            [&](const auto entity, Sprite& sprite, Box2DBody& body, Transform& transform)
             {
                 const auto pos = transform.position;
 
-                glm::vec3 size = glm::vec3(sprite.size, 1.f) * transform.scale;
+                // TODO define body size config
+                const auto size = glm::vec3(sprite.size, 0.f) * transform.scale;
+                const auto anchorOffset = size * glm::vec3(sprite.anchor, 0.f);
 
                 b2BodyDef bodyDef;
-                bodyDef.type = b2_dynamicBody;
-                bodyDef.position.Set(pos.x, pos.y);
+                bodyDef.type = static_cast<b2BodyType>(body.type);
+                bodyDef.position.Set(pos.x/* - anchorOffset.x*/, pos.y/* - anchorOffset.y*/);
+                bodyDef.angle = glm::radians(transform.GetEulerAngleZ());
                 auto dynamicBody = _world->CreateBody(&bodyDef);
 
-                auto bodyHolder = gameWorld->AddComponent<Box2DBody>(entity);
-                bodyHolder->body = dynamicBody;
+                body.body = dynamicBody;
 
                 b2PolygonShape dynamicBox;
-                dynamicBox.SetAsBox(size.x, size.y);
+                dynamicBox.SetAsBox(size.x / 2.f, size.y / 2.f);
                 b2FixtureDef fixtureDef;
                 fixtureDef.shape = &dynamicBox;
-                fixtureDef.density = 1.0f;  // Density affects mass
+                fixtureDef.density = 1.0f;
                 dynamicBody->CreateFixture(&fixtureDef);
             });
     }
@@ -45,32 +47,27 @@ namespace shen
     {
         const auto dt = ManagersProvider::Instance().GetTime()->Dt();
 
-        //float32 timeStep = 1.0f / 60.0f;  // 60Hz
+        //float timeStep = 1.0f / 60.0f;  // 60Hz
         int32 velocityIterations = 6;
         int32 positionIterations = 2;
         _world->Step(dt, velocityIterations, positionIterations);
 
         auto gameWorld = ManagersProvider::Instance().GetWorld();
 
-        gameWorld->Each<Box2DBody, Transform>(
-            [&](const auto entity, Box2DBody& bodyHolder, Transform& transform)
+        gameWorld->Each<Box2DBody, Sprite, Transform>(
+            [&](const auto entity, Box2DBody& bodyHolder, Sprite& sprite, Transform& transform)
             {
-                const auto position = bodyHolder.body->GetPosition();
+                auto position = bodyHolder.body->GetPosition();
                 const auto angle = bodyHolder.body->GetAngle();
 
+                glm::vec3 size = glm::vec3(sprite.size, 0.f) * transform.scale;
+                position.x += size.x * (sprite.anchor.x - 0.5f);
+                position.y += size.y * (sprite.anchor.y - 0.5f);
+                
                 static glm::vec3 up{ 0.f, 0.f, 1.f };
                 transform.position = glm::vec3(position.x, position.y, 0.f);
-                transform.rotation = glm::angleAxis(glm::radians(angle), up);
+                transform.rotation = glm::angleAxis(angle, up);
             });
-
-        //for (b2Body* body = world.GetBodyList(); body; body = body->GetNext()) {
-        //    // Get position and rotation
-        //    b2Vec2 position = body->GetPosition();
-        //    float32 angle = body->GetAngle();
-
-        //    // Render the object using position and angle
-        //    renderObject(position.x, position.y, angle);
-        //}
     }
 
     void PhysicsBox2DSystem::Stop()

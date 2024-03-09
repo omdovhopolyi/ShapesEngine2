@@ -2,7 +2,7 @@
 <items>
    <entity>
       <component type="camera">
-         <position x="0" y="0" z="5"/>
+         <position x="0" y="0" z="20"/>
       </component>
    </entity>
    <entity>
@@ -10,9 +10,10 @@
          <texture val="chopper"/>
          <rect x="0" y="0" w="32" h="32"/>
          <shader val="SimpleShaderTex"/>
+         <anchor x="0.5" y="0.5"/>
       </component>
       <component type="transform">
-         <position x="1" y="0" z="0"/>
+         <position x="-2" y="5" z="0"/>
          <rotation val="0"/>
       </component>
       <component type="spriteFrameAnimation">
@@ -25,6 +26,9 @@
       <component type="color">
          <color r="0" g="255" b="0" a="125"/>
       </component>
+      <component type="box2DBody">
+         <type val="2"/>
+      </component>
    </entity>
    <entity>
       <component type="sprite">
@@ -32,12 +36,50 @@
          <rect x="0" y="0" w="32" h="32"/>
          <shader val="SimpleShaderTex"/>
          <anchor x="0.5" y="0.5"/>
+         <size x="10" y="1"/>
       </component>
       <component type="transform">
-         <position x="-1" y="0" z="0"/>
+         <position x="5" y="-2" z="0"/>
+         <rotation val="20"/>
+      </component>
+      <!--<component type="playerInput"/>-->
+      <component type="rigidBody"/>
+      <component type="box2DBody">
+         <type val="0"/>
+      </component>
+   </entity>
+   <entity>
+      <component type="sprite">
+         <texture val="tank"/>
+         <rect x="0" y="0" w="32" h="32"/>
+         <shader val="SimpleShaderTex"/>
+         <anchor x="0.5" y="0.5"/>
+         <size x="10" y="1"/>
+      </component>
+      <component type="transform">
+         <position x="-3" y="0" z="0"/>
+         <rotation val="-35"/>
+      </component>
+      <!--<component type="playerInput"/>-->
+      <component type="rigidBody"/>
+      <component type="box2DBody">
+         <type val="0"/>
+      </component>
+   </entity>
+   <entity>
+      <component type="sprite">
+         <texture val="tank"/>
+         <rect x="0" y="0" w="32" h="32"/>
+         <shader val="SimpleShaderTex"/>
+         <anchor x="0.5" y="0.5"/>
+         <size x="0.1" y="0.1"/>
+      </component>
+      <component type="transform">
+         <position x="0" y="0" z="0"/>
          <rotation val="0"/>
       </component>
-      <component type="playerInput"/>
-      <component type="rigidBody"/>
+      <component type="color">
+         <color r="255" g="0" b="0" a="255"/>
+      </component>
    </entity>
 </items>

@@ -158,6 +158,10 @@ namespace shen
     
     struct Box2DBody
     {
+        int type = 0; // TODO type enum
         b2Body* body = nullptr;
+
+        static void Load(Entity entity, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, tinyxml2::XMLElement* element);
     };
 }
