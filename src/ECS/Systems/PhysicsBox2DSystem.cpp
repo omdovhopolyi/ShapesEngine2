@@ -15,6 +15,9 @@ namespace shen
             return;
         }
 
+        _collisionListener = std::make_unique<CollisionListener>();
+        _world->SetContactListener(_collisionListener.get());
+
         auto gameWorld = ManagersProvider::Instance().GetWorld();
 
         gameWorld->Each<Sprite, Box2DBody, Transform>(
