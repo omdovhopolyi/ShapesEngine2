@@ -22,7 +22,7 @@ namespace shen
     {
         //TODO rework. Temporary implementation
 
-        auto world = ManagersProvider::Instance().GetWorld();
+        /*auto world = ManagersProvider::Instance().GetWorld();
         const int amount = world->Size<BoundingBox>();
 
         std::vector<ObjectData> objects;
@@ -54,6 +54,6 @@ namespace shen
                     ManagersProvider::Instance().GetMessenger()->Broadcast<CollisionEvent>(event);
                 }
             }
-        }
+        }*/
     }
 }

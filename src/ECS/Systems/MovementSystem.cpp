@@ -4,8 +4,11 @@
 #include "Game/ManagersProvider.h"
 
 #include "ECS/Components/Common.h"
+#include "ECS/Components/Physics.h"
 
 #include "Logger/Logger.h"
+
+#include <box2d/box2d.h>
 
 namespace shen
 {
@@ -14,11 +17,10 @@ namespace shen
         const auto dt = ManagersProvider::Instance().GetTime()->Dt();
         auto world = ManagersProvider::Instance().GetWorld();
 
-        world->Each<Transform, RigidBody>(
-            [&](const auto entity, auto& transform, auto& rigidBody)
+        world->Each<Mover, RigidBody>(
+            [&](const auto entity, Mover& mover, RigidBody& rb)
         {
-            transform.position += rigidBody.velocity * dt;
-            //Logger::Log("Velocity {} {}", rigidBody.velocity.x, rigidBody.velocity.y);
+            rb.body->ApplyForceToCenter({ mover.velocity.x, mover.velocity.y }, true);
         });
     }
 }

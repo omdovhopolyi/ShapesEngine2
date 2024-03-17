@@ -9,7 +9,7 @@ namespace shen
 {
     void BulletSystem::Update()
     {
-        auto world = ManagersProvider::Instance().GetWorld();
+        /*auto world = ManagersProvider::Instance().GetWorld();
         auto dt = ManagersProvider::Instance().GetTime();
 
         world->Each<Bullet>([&](auto entity, Bullet& bullet)
@@ -19,6 +19,6 @@ namespace shen
             {
                 world->AddComponent<Destroy>(entity);
             }
-        });
+        });*/
     }
 }

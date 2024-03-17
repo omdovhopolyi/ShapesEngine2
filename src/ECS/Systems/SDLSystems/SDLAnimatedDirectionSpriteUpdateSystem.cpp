@@ -12,10 +12,10 @@ namespace shen
 {
 	void SDLAnimatedDirectionSpriteUpdateSystem::Update()
 	{
-		auto world = ManagersProvider::Instance().GetWorld();
+		/*auto world = ManagersProvider::Instance().GetWorld();
 		const float dt = ManagersProvider::Instance().GetTime()->Dt();
 
-		world->Each<SpriteAnimationDirection, SDLAnimatedSprite, RigidBody>(
+		world->Each<SpriteAnimationDirection, SDLAnimatedSprite, Mover>(
 			[&](const auto entity, const SpriteAnimationDirection& spriteDir, SDLAnimatedSprite& sprite, const RigidBody& rb)
 		{
             const bool hasDirection = SquareLength(rb.direction);
@@ -50,6 +50,6 @@ namespace shen
 
                 sprite.rect.y = sprite.rect.h * offsetCoef;
             }
-		});
+		});*/
 	}
 }

@@ -12,28 +12,28 @@ namespace shen
 {
     void FireCommand::Execute(const Entity& entity, const CommandContext&) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
-        auto weapon = ManagersProvider::Instance().GetWeaponManager();
-        
-        if (auto transform = world->GetComponent<Transform>(entity))
-        {
-            auto position = transform->position;
+        //auto world = ManagersProvider::Instance().GetWorld();
+        //auto weapon = ManagersProvider::Instance().GetWeaponManager();
+        //
+        //if (auto transform = world->GetComponent<Transform>(entity))
+        //{
+        //    auto position = transform->position;
 
-            if (auto bb = world->GetComponent<BoundingBox>(entity))
-            {
-                position += bb->offset;
-                position += bb->size / 2.f;
-            }
+        //    if (auto bb = world->GetComponent<BoundingBox>(entity))
+        //    {
+        //        position += bb->offset;
+        //        position += bb->size / 2.f;
+        //    }
 
-            if (auto direction = world->GetComponent<Direction>(entity))
-            {
-                const auto bulletVelocity =  glm::normalize(direction->vec) * _bulletSpeed;
-                weapon->FireBullet(entity, position, bulletVelocity);
-            }
-        }
-        else
-        {
-            // assert
-        }
+        //    if (auto direction = world->GetComponent<Direction>(entity))
+        //    {
+        //        const auto bulletVelocity =  glm::normalize(direction->vec) * _bulletSpeed;
+        //        weapon->FireBullet(entity, position, bulletVelocity);
+        //    }
+        //}
+        //else
+        //{
+        //    // assert
+        //}
     }
 }
