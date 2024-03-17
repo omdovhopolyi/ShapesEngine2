@@ -12,9 +12,6 @@ struct b2Body;
 
 namespace shen
 {
-    class Texture;
-    class Shader;
-
     struct Transform
     {
         glm::vec3 position = glm::vec3{};
@@ -23,34 +20,26 @@ namespace shen
 
         float GetEulerAngleZ() const;
 
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
     };
 
-    struct RigidBody
+    struct Mover
     {
         glm::vec3 velocity = glm::vec3{};
         float inertia = 100.f;
         glm::vec3 direction = glm::vec3{};
 
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
-    };
-
-    struct BoundingBox
-    {
-        glm::vec3 size;
-        glm::vec3 offset;
-
-        BoundingBox(const glm::vec3& bbSize = {}, const glm::vec3& bbOffset = {});
+        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
     };
 
     struct PlayerInput
     {
         float speed = 0.01f;
 
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
     };
 
     struct Camera
@@ -62,81 +51,12 @@ namespace shen
         glm::mat4 view = glm::mat4(1.f);
         glm::mat4 projection = glm::mat4(1.f);
 
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
     };
 
     struct CameraTarget
     {
-    };
-
-    struct Sprite
-    {
-        const Texture* texture = nullptr;
-        const Texture* mask = nullptr;
-        Rect texRect;
-        glm::vec2 size = glm::vec2(1.f);
-        glm::vec2 anchor = glm::vec2(0.f);
-        Shader* shader = nullptr;
-        SpriteType spriteType = SpriteType::OneType;
-
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
-    };
-
-    struct Color
-    {
-        glm::vec4 rgba = glm::vec4(255.f);
-
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
-    };
-
-    struct SpriteFrameAnimation
-    {
-        std::vector<Rect> frames;
-        float frameTime = 1.f;
-        float dt = 0.f;
-        int curFrame = 0;
-
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
-    };
-
-    struct Buffers
-    {
-        unsigned int VBO = 0;
-        unsigned int UV = 0;
-        unsigned int VAO = 0;
-        unsigned int EBO = 0;
-    };
-
-    struct Weapon
-    {
-        bool automatic = true;
-        bool trigger = false;
-        float delay = 1.f;
-        float dt = 0.f;
-    };
-
-    struct Bullet
-    {
-        Entity owner;
-        int damage = 10;
-        float lifeTime = 3.f;
-    };
-
-    struct Health
-    {
-        int amount = 30;
-    };
-
-    struct SpriteAnimationDirection
-    {
-        int forwardSourceOffset = 0;
-        int rightSourceOffset = 1;
-        int backwardSourceOffset = 2;
-        int leftSourceOffset = 3;
     };
 
     struct Direction
@@ -155,13 +75,4 @@ namespace shen
     };
 
     struct Destroy {};
-    
-    struct Box2DBody
-    {
-        int type = 0; // TODO type enum
-        b2Body* body = nullptr;
-
-        static void Load(Entity entity, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, tinyxml2::XMLElement* element);
-    };
 }

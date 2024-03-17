@@ -11,6 +11,7 @@ namespace shen
     class Texture;
     class Shader;
 
+    bool LoadBool(const std::string& id, const tinyxml2::XMLElement* element, bool defaultVal = false);
     int LoadInt(const std::string& id, const tinyxml2::XMLElement* element, int defaultVal = 0);
     float LoadFloat(const std::string& id, const tinyxml2::XMLElement* element, float defaultVal = 0.f);
     std::string LoadStr(const std::string& id, const tinyxml2::XMLElement* element, const std::string& defaultVal = {});

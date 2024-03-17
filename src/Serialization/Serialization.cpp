@@ -6,6 +6,19 @@
 
 namespace shen
 {
+    bool LoadBool(const std::string& id, const tinyxml2::XMLElement* element, bool defaultVal/* = false*/)
+    {
+        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        {
+            if (const auto attrib = childElement->FindAttribute("val"))
+            {
+                return attrib->BoolValue();
+            }
+        }
+
+        return defaultVal;
+    }
+
     int LoadInt(const std::string& id, const tinyxml2::XMLElement* element, int defaultVal/* = 0*/)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
