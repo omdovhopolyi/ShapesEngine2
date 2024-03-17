@@ -34,7 +34,7 @@ namespace shen
     void MoveCommand::Execute(const Entity& entity, const CommandContext&) const
     {
         auto world = ManagersProvider::Instance().GetWorld();
-        if (auto rb = world->GetComponent<RigidBody>(entity))
+        if (auto rb = world->GetComponent<Mover>(entity))
         {
             rb->velocity += _direction;
 
@@ -46,9 +46,6 @@ namespace shen
             }
 
             rb->velocity = rb->direction * _speed;
-
-            //Logger::Log("direcion x: {}, y: {}", rb->direction.x, rb->direction.y);
-            //Logger::Log("velocity x: {}, y: {}", rb->velocity.x, rb->velocity.y);
         }
     }
 }
