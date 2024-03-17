@@ -4,7 +4,7 @@
 #include "Game/OpenGLWindow.h"
 
 #include "ECS/EcsWorld.h"
-#include "ECS/Components/Common.h"
+#include "ECS/Components/Render.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl2.h"

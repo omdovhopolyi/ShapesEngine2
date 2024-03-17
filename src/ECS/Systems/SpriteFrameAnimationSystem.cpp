@@ -2,7 +2,7 @@
 #include "Game/ManagersProvider.h"
 #include "Game/Time.h"
 #include "ECS/EcsWorld.h"
-#include "ECS/Components/Common.h"
+#include "ECS/Components/Render.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"
 

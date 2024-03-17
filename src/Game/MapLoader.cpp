@@ -2,6 +2,8 @@
 
 #include "Game/ManagersProvider.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Components/Physics.h"
+#include "ECS/Components/Render.h"
 #include "ECS/EcsWorld.h"
 
 namespace shen
@@ -15,7 +17,7 @@ namespace shen
         RegisterLoader<Color>("color");
         RegisterLoader<PlayerInput>("playerInput");
         RegisterLoader<RigidBody>("rigidBody");
-        RegisterLoader<Box2DBody>("box2DBody");
+        RegisterLoader<Mover>("mover");
     }
 
 	void MapLoader::LoadMap(const std::string& mapId)

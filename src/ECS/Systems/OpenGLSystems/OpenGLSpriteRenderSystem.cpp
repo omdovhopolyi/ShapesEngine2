@@ -2,6 +2,7 @@
 #include "Game/ManagersProvider.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Components/Render.h"
 #include "Resources/Texture.h"
 #include "Resources/ShadersManager.h"
 #include "Messenger/Events/Rendering.h"
@@ -44,6 +45,7 @@ namespace shen
                 glm::vec3 size = glm::vec3(sprite.size, 1.f) * transform.scale;
 
                 auto model = glm::translate(glm::mat4(1.f), transform.position);
+
                 model = glm::rotate(model, glm::radians(transform.GetEulerAngleZ()), glm::vec3(0.f, 0.f, 1.f));
                 model = glm::translate(model, glm::vec3(-sprite.anchor.x * size.x, -sprite.anchor.y * size.y, 0.f));
                 model = glm::scale(model, size);

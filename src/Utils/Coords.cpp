@@ -4,6 +4,7 @@
 #include "Game/GameWindow.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Components/Render.h"
 
 namespace shen
 {
