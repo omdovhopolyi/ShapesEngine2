@@ -8,11 +8,11 @@ namespace shen
 {
     void IntertiaSystem::Update()
     {
-        /*auto world = ManagersProvider::Instance().GetWorld();
+        auto world = ManagersProvider::Instance().GetWorld();
 
         world->Each<Mover>([&](auto entity, Mover& mover)
         {
             mover.velocity /= mover.inertia;
-        });*/
+        });
     }
 }

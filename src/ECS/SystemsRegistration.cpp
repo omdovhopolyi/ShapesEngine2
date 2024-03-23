@@ -3,6 +3,7 @@
 #include "Game/ManagersProvider.h"
 
 #include "Systems/MovementSystem.h"
+#include "Systems/RotationSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/DamageSystem.h"
 #include "Systems/PlayerInputSystem.h"
@@ -36,10 +37,11 @@ namespace shen
             manager->RegisterSystem<SDLInputSystem>();
             manager->RegisterSystem<CameraSystem>();
             manager->RegisterSystem<SpriteFrameAnimationSystem>();
-            manager->RegisterSystem<IntertiaSystem>();
             manager->RegisterSystem<PlayerInputSystem>();
             manager->RegisterSystem<PhysicsBox2DSystem>();
             manager->RegisterSystem<MovementSystem>();
+            manager->RegisterSystem<RotationSystem>();
+            manager->RegisterSystem<IntertiaSystem>();
             
             /*
             manager->RegisterSystem<BulletSystem>();

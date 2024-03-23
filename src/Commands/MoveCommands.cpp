@@ -36,16 +36,7 @@ namespace shen
         auto world = ManagersProvider::Instance().GetWorld();
         if (auto rb = world->GetComponent<Mover>(entity))
         {
-            rb->velocity += _direction;
-
-            const auto result = glm::epsilonEqual(rb->velocity, glm::vec3{ 0.f }, std::numeric_limits<float>::epsilon());
-
-            if (result != glm::bvec3{ true })
-            {
-                rb->direction = glm::normalize(rb->velocity);
-            }
-
-            rb->velocity = rb->direction * _speed;
+            rb->velocity += _direction * _speed;
         }
     }
 }

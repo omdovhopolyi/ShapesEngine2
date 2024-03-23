@@ -37,6 +37,11 @@ namespace shen
 
     }
 
+    float Rotator::GetEulerAngleZ() const
+    {
+        return glm::degrees(glm::eulerAngles(rotation).z);
+    }
+
     void PlayerInput::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
     {
         world->AddComponent<PlayerInput>(entity);

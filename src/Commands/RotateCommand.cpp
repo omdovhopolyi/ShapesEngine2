@@ -13,19 +13,22 @@ namespace shen
     void RotateCommand::Execute(const Entity& entity, const CommandContext& context) const
     {
         auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<PlayerInput, Transform>([&](auto entity, const PlayerInput&, Transform& transform)
-        {
-            auto mouseScreenPos = glm::vec2(context.x, context.y);
-            glm::vec2 mouseWorldPos = ScreenToWorld(mouseScreenPos);
-            auto objectWorldPos = ObjectWorldPosition2D(entity);
-            auto direction = glm::normalize(mouseWorldPos - objectWorldPos);
+        auto rotator = world->GetOrCreateComponent<Rotator>(entity);
 
-            static glm::vec3 up{ 0.f, 0.f, 1.f };
-            static glm::vec2 right{ 1.f, 0.f };
+        auto mouseScreenPos = glm::vec2(context.x, context.y);
+        glm::vec3 mouseWorldPos = ScreenToWorld(mouseScreenPos);
 
-            const float angle = glm::degrees(glm::orientedAngle(right, direction));
-            transform.rotation = glm::angleAxis(glm::radians(angle), up);
-        });
-        
+        Logger::Log("Mouse world pos {} {} {}", mouseWorldPos.x, mouseWorldPos.y, mouseWorldPos.z);
+
+        glm::vec2 mouseWorldPos2D = mouseWorldPos;
+
+        auto objectWorldPos = ObjectWorldPosition2D(entity);
+        auto direction = glm::normalize(mouseWorldPos2D - objectWorldPos);
+
+        static glm::vec3 up{ 0.f, 0.f, 1.f };
+        static glm::vec2 right{ 1.f, 0.f };
+
+        const float angle = glm::degrees(glm::orientedAngle(right, direction));
+        rotator->rotation = glm::angleAxis(glm::radians(angle), up);        
     }
 }

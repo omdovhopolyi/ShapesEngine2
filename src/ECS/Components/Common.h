@@ -34,6 +34,13 @@ namespace shen
         static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
     };
 
+    struct Rotator
+    {
+        glm::quat rotation = glm::quat{};
+
+        float GetEulerAngleZ() const;
+    };
+
     struct PlayerInput
     {
         float speed = 0.01f;
@@ -48,6 +55,8 @@ namespace shen
         glm::vec3 target = glm::vec3(0.f);
         glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
         float fov = 45.f;
+        float nearPlane = 0.1f;
+        float farPlane = 100.f;
         glm::mat4 view = glm::mat4(1.f);
         glm::mat4 projection = glm::mat4(1.f);
 
