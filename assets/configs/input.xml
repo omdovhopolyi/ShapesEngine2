@@ -5,4 +5,9 @@
     <item key="s" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveDownCommand"/>
     <item key="a" mouseBtn="None" inputEventType="Hold" mode="None" command="MoveLeftCommand"/>
     <item mouseBtn="None" inputEventType="MouseMove" mode="None" command="RotateCommand"/>
+
+    <item key="i" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveUpCommand"/>
+    <item key="l" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveRightCommand"/>
+    <item key="k" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveDownCommand"/>
+    <item key="j" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveLeftCommand"/>
 </items>

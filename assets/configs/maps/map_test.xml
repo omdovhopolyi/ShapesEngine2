@@ -2,7 +2,7 @@
 <items>
    <entity>
       <component type="camera">
-         <position x="0" y="0" z="20"/>
+         <position x="0" y="0" z="9"/>
       </component>
    </entity>
    <entity>
@@ -13,7 +13,7 @@
          <anchor x="0.5" y="0.5"/>
       </component>
       <component type="transform">
-         <position x="-2" y="5" z="0"/>
+         <position x="-2" y="3" z="0"/>
          <rotation val="0"/>
       </component>
       <component type="spriteFrameAnimation">

@@ -5,12 +5,12 @@
 
 namespace shen
 {
-    class MoveCommand
+    class CameraMoveCommand
         : public Command
     {
     public:
-        MoveCommand() = default;
-        MoveCommand(const glm::vec3& dir);
+        CameraMoveCommand() = default;
+        CameraMoveCommand(const glm::vec3& dir);
 
         void SetDirection(const glm::vec3& dir);
         const glm::vec3 GetDirection() const;
@@ -25,3 +25,4 @@ namespace shen
         float _speed = 1.f;
     };
 }
+

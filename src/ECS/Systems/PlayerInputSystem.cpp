@@ -69,7 +69,10 @@ namespace shen
         {
             for (auto& [command, context] : _toProcess)
             {
-                command->Execute(entity, context);
+                if (command)
+                {
+                    command->Execute(entity, context);
+                }
             }
         }
 
