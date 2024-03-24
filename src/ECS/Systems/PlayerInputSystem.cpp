@@ -126,6 +126,21 @@ namespace shen
                 _toProcess.push_back({ it->second.get(), context });
             }
         });
+
+        _subscriptions.Subscribe<MouseWheelEvent>([&](const MouseWheelEvent& event)
+        {
+            InputType inputEvent;
+            inputEvent.type = InputEventType::Scroll;
+            inputEvent.mode = event.mode;
+
+            CommandContext context;
+            context.y = event.scroll;
+
+            if (auto it = _actions.find(inputEvent); it != _actions.end())
+            {
+                _toProcess.push_back({ it->second.get(), context });
+            }
+        });
     }
 
     void PlayerInputSystem::LoadConfig()

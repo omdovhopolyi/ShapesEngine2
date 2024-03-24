@@ -119,6 +119,17 @@ namespace shen
 
 				break;
 			}
+			case SDL_MOUSEWHEEL:
+			{
+				ManagersProvider::Instance().GetMessenger()->Broadcast<MouseWheelEvent>(
+					event.wheel.mouseX,
+					event.wheel.mouseY,
+					event.wheel.y,
+					currentMode
+				);
+
+				break;
+			}
 			}
 		}
 

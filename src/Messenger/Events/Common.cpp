@@ -30,4 +30,13 @@ namespace shen
     { 
         //Logger::Log("Mouse move");
     }
+
+    MouseWheelEvent::MouseWheelEvent(int posX, int posY, int scrl, KeyMode keyMode)
+        : x(posX)
+        , y(posY)
+        , scroll(scrl)
+        , mode(keyMode)
+    {
+        Logger::Log("Mouse wheel scroll");
+    }
 }

@@ -42,6 +42,17 @@ namespace shen
         MouseMoveEvent(int posX, int posY, int diffX, int diffY, KeyMode keyMode);
     };
 
+    struct MouseWheelEvent
+        : Event
+    {
+        int x = 0;
+        int y = 0;
+        int scroll = 0;
+        KeyMode mode = KeyMode::None;
+
+        MouseWheelEvent(int posX, int posY, int scrl, KeyMode keyMode);
+    };
+
     struct Quit : Event
     {
     };

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CameraMoveCommand.h"
 #include "ECS/EcsWorld.h"
 #include "ECS/Components/Common.h"

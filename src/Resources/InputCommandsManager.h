@@ -20,6 +20,7 @@ namespace shen
         static std::shared_ptr<Command> LoadMoveCommand(const tinyxml2::XMLElement* element);
         static std::shared_ptr<Command> LoadRotateCommand(const tinyxml2::XMLElement* element);
         static std::shared_ptr<Command> LoadCameraMoveCommand(const tinyxml2::XMLElement* element);
+        static std::shared_ptr<Command> LoadCameraZoomCommand(const tinyxml2::XMLElement* element);
 
     private:
         std::map<std::string, std::function<std::shared_ptr<Command>(const tinyxml2::XMLElement* element)>> _loaders;

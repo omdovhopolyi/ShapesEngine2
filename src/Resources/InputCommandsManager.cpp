@@ -2,6 +2,7 @@
 #include "Commands/MoveCommands.h"
 #include "Commands/RotateCommand.h"
 #include "Commands/CameraMoveCommand.h"
+#include "Commands/CameraZoomCommand.h"
 #include "Serialization/Serialization.h"
 
 #include <tinyxml2/tinyxml2.h>
@@ -20,6 +21,7 @@ namespace shen
         _loaders["MoveCommand"] = InputCommandsManager::LoadMoveCommand;
         _loaders["RotateCommand"] = InputCommandsManager::LoadRotateCommand;
         _loaders["CameraMoveCommand"] = InputCommandsManager::LoadCameraMoveCommand;
+        _loaders["CameraZoomCommand"] = InputCommandsManager::LoadCameraZoomCommand;
     }
 
     void InputCommandsManager::LoadFromXml()
@@ -90,6 +92,18 @@ namespace shen
         }
 
         command->SetDirection(LoadVec3(element));
+
+        return command;
+    }
+
+    std::shared_ptr<Command> InputCommandsManager::LoadCameraZoomCommand(const tinyxml2::XMLElement* element)
+    {
+        auto command = std::make_shared<CameraZoomCommand>();
+
+        if (const auto speedAttr = element->FindAttribute("speed"))
+        {
+            command->SetSpeed(speedAttr->FloatValue());
+        }
 
         return command;
     }

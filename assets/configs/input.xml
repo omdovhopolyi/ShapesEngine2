@@ -10,4 +10,6 @@
     <item key="l" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveRightCommand"/>
     <item key="k" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveDownCommand"/>
     <item key="j" mouseBtn="None" inputEventType="Hold" mode="None" command="CameraMoveLeftCommand"/>
+
+    <item mouseBtn="None" inputEventType="Scroll" mode="None" command="CameraZoomCommand"/>
 </items>
