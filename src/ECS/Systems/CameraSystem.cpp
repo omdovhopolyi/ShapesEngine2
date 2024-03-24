@@ -14,12 +14,13 @@ namespace shen
     {
         auto world = ManagersProvider::Instance().GetWorld();
 
-        world->Each<Camera>(
-            [&](auto entity, Camera& camera)
+        world->Each<Camera>([&](auto entity, Camera& camera)
         {
+            camera.target.x = camera.position.x;
+            camera.target.y = camera.position.y;
+
             camera.view = glm::lookAt(camera.position, camera.target, camera.up);
             camera.projection = glm::perspective(glm::radians(camera.fov), 800.f / 640.f, camera.nearPlane, camera.farPlane);
-            //camera.projection = glm::ortho(0.0f, 800.0f, 640.0f, 0.f, -100.f, 100.0f);
         });
     }
 }
