@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.h"
+#include <glm/glm.hpp>
 
 namespace shen
 {
@@ -8,6 +9,10 @@ namespace shen
         : public System
     {
     public:
+        void Start() override;
         void Update() override;
+
+    private:
+        glm::vec2 _viewportSize;
     };
 }

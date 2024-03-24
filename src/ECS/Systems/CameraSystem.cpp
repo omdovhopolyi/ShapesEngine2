@@ -4,12 +4,19 @@
 #include "ECS/Components/Common.h"
 
 #include "Game/ManagersProvider.h"
+#include "Game/GameWindow.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace shen
 {
+    void CameraSystem::Start()
+    {
+        auto window = ManagersProvider::Instance().GetGameWindow();
+        _viewportSize = { window->GetWidth(), window->GetHeight() };
+    }
+
     void CameraSystem::Update()
     {
         auto world = ManagersProvider::Instance().GetWorld();
@@ -20,7 +27,7 @@ namespace shen
             camera.target.y = camera.position.y;
 
             camera.view = glm::lookAt(camera.position, camera.target, camera.up);
-            camera.projection = glm::perspective(glm::radians(camera.fov), 800.f / 640.f, camera.nearPlane, camera.farPlane);
+            camera.projection = glm::perspective(glm::radians(camera.fov), _viewportSize.x / _viewportSize.y, camera.nearPlane, camera.farPlane);
         });
     }
 }
