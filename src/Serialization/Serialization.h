@@ -31,4 +31,6 @@ namespace shen
     std::vector<Rect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element);
 
     Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element);
+
+    std::vector<std::string> LoadVecStr(const std::string& id, const tinyxml2::XMLElement* element);
 }

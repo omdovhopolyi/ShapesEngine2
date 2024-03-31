@@ -234,4 +234,25 @@ namespace shen
 
         return result;
     }
+
+    std::vector<std::string> LoadVecStr(const std::string& id, const tinyxml2::XMLElement* element)
+    {
+        std::vector<std::string> result;
+
+        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        {
+            auto arrayElement = childElement->FirstChildElement("item");
+            while (arrayElement)
+            {
+                if (const auto attrib = childElement->FindAttribute("val"))
+                {
+                    result.push_back(attrib->Value());
+                }
+
+                arrayElement = arrayElement->NextSiblingElement();
+            }
+        }
+
+        return result;
+    }
 }

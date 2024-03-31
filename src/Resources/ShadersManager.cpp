@@ -149,7 +149,7 @@ namespace shen
                 const auto vertexPath = vertexAttr->Value();
                 const auto fragmentPath = fragmentAttr->Value();
 
-                LoadAsset("SimpleShaderTex", ShadersManager::LoadParams {
+                LoadAsset(id, ShadersManager::LoadParams {
                     { "vertex", vertexPath },
                     { "fragment", fragmentPath }
                 });

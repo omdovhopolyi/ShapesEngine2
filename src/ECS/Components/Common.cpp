@@ -44,7 +44,9 @@ namespace shen
 
     void PlayerInput::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
     {
-        world->AddComponent<PlayerInput>(entity);
+        auto comp = world->AddComponent<PlayerInput>(entity);
+
+        comp->commandTypes = LoadVecStr("array", element);
     }
 
     void PlayerInput::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)

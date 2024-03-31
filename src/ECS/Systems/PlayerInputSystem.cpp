@@ -56,16 +56,16 @@ namespace shen
 
     void PlayerInputSystem::Update()
     {
-        std::vector<Entity> entities;
+        std::vector<std::pair<Entity, const PlayerInput*>> entities;
 
         auto world = ManagersProvider::Instance().GetWorld();
         world->Each<PlayerInput>(
-            [&](auto entity, const PlayerInput&)
+            [&](auto entity, const PlayerInput& input)
         {
-            entities.push_back(entity);
+            entities.push_back({ entity, &input });
         });
 
-        for (auto& entity : entities)
+        for (auto& [entity, input] : entities)
         {
             for (auto& [command, context] : _toProcess)
             {

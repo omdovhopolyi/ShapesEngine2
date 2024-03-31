@@ -16,11 +16,9 @@ namespace shen
 
     private:
         void InitSubscriptions();
-        void InitBuffers();;
+        void InitBuffers();
 
     private:
-        glm::mat4 _projectionsMat;
-
         SubcriptionsContainer _subscriptions;
     };
 }

@@ -43,7 +43,7 @@ namespace shen
 
     struct PlayerInput
     {
-        float speed = 0.01f;
+        std::vector<std::string> commandTypes;
 
         static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
         static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);

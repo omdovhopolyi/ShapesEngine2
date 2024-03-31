@@ -55,6 +55,7 @@ namespace shen
                 if (auto it = _loaders.find(type); it != _loaders.end())
                 {
                     auto command = it->second(element);
+                    command->SetType(type);
                     _assets[id] = std::move(command);
                 }
 
