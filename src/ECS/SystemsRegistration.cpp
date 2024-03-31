@@ -27,6 +27,7 @@
 #include "Systems/SDLSystems/SDLBoundingBoxDebugSystem.h"
 
 #include "Systems/OpenGLSystems/OpenGLSpriteRenderSystem.h"
+#include "Systems/OpenGLSystems/OpenGLGridRenderSystem.h"
 
 namespace shen
 {
@@ -57,6 +58,7 @@ namespace shen
             manager->RegisterRenderSystem<SDLAnimatedSpriteRenderSystem>();
             manager->RegisterRenderSystem<SDLBoundingBoxDebugSystem>();*/
 
+            manager->RegisterRenderSystem<OpenGLGridRenderSystem>();
             manager->RegisterRenderSystem<OpenGLSpriteRenderSystem>();
             manager->RegisterSystem<EditorSystem>();
         }

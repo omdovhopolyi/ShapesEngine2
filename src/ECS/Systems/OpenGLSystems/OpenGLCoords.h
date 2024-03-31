@@ -17,4 +17,12 @@ namespace shen
         0, 1, 3,
         1, 2, 3
     };
+
+    static constexpr float gridPlane[] =
+    {
+        -10.f, -10.f, 0.f,
+        10.f, -10.f, 0.f,
+        10.f, 10.f, 0.f,
+        -10.f, 10.f, 0.f
+    };
 }

@@ -23,4 +23,9 @@ namespace shen
     {
         glUniformMatrix4fv(glGetUniformLocation(_id, uniformId.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
+
+    void Shader::SetUniform(const std::string& uniformId, float val)
+    {
+        glUniform1f(glGetUniformLocation(_id, uniformId.c_str()), val);
+    }
 }
