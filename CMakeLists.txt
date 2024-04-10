@@ -35,6 +35,9 @@ set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
   
 set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
+add_subdirectory(submodules/SFML)
+target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
+
 add_subdirectory(submodules/SDL)
 target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
 
@@ -79,6 +82,7 @@ include_directories(src)
 include_directories(submodules/imgui)
 #include_directories(submodules/imgui_sdl)
 include_directories(submodules/SDL)
+include_directories(submodules/SFML)
 #include_directories(submodules/SDL_image)
 include_directories(submodules/SDL_ttf)
 #include_directories(submodules/SDL_mixer)
