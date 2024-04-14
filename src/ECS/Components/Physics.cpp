@@ -1,10 +1,10 @@
 #include "Physics.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "Serialization/Serialization.h"
 
 namespace shen
 {
-    void RigidBody::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void RigidBody::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<RigidBody>(entity);
 
@@ -13,7 +13,7 @@ namespace shen
         comp->sensor = LoadBool("sensor", element, comp->sensor);
     }
 
-    void RigidBody::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void RigidBody::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }

@@ -1,7 +1,7 @@
 #include "PhysicsBox2DSystem.h"
 #include "Game/Time.h"
 #include "Game/ManagersProvider.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace shen
-{
-    void RegisterSystems();
-}
+//namespace shen
+//{
+//    void RegisterSystems();
+//}

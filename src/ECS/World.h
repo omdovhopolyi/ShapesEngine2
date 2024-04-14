@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    class EcsWorld
+    class World
     {
     public:
         template<class... Types, class Func>
@@ -50,21 +50,21 @@ namespace shen
 
 
     template<class... Types, class Func>
-    void EcsWorld::Each(const Func& func)
+    void World::Each(const Func& func)
     {
         auto view = _registry.view<Types...>();
         view.each(func);
     }
 
     template<class... Types>
-    Entity EcsWorld::GetFirst()
+    Entity World::GetFirst()
     {
         auto view = _registry.view<Types...>();
         return view.front();
     }
 
     template<class Comp, class... Args>
-    Comp* EcsWorld::AddComponent(Entity entity, Args... args)
+    Comp* World::AddComponent(Entity entity, Args... args)
     {
         Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
 
@@ -80,7 +80,7 @@ namespace shen
     }
 
     template<class Comp>
-    Comp* EcsWorld::GetComponent(Entity entity)
+    Comp* World::GetComponent(Entity entity)
     {
         if (HasComponent<Comp>(entity))
         {
@@ -90,7 +90,7 @@ namespace shen
     }
 
     template<class Comp, class... Args>
-    Comp* EcsWorld::GetOrCreateComponent(Entity entity, Args... args)
+    Comp* World::GetOrCreateComponent(Entity entity, Args... args)
     {
         if (HasComponent<Comp>(entity))
         {
@@ -103,27 +103,27 @@ namespace shen
     }
 
     template<class Comp>
-    void EcsWorld::RemoveComponent(Entity entity)
+    void World::RemoveComponent(Entity entity)
     {
         Logger::Log("Removing {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
         _registry.remove<Comp>(entity._entity);
     }
 
     template<class Comp>
-    bool EcsWorld::HasComponent(Entity entity)
+    bool World::HasComponent(Entity entity)
     {
         auto view = _registry.view<Comp>();
         return view.contains(entity.GetEntity());
     }
 
     template<class Comp, class Pred>
-    void EcsWorld::Sort(const Pred& pred)
+    void World::Sort(const Pred& pred)
     {
         _registry.sort<Comp>(pred);
     }
 
     template<class Comp>
-    int EcsWorld::Size() const
+    int World::Size() const
     {
         return static_cast<int>(_registry.storage<Comp>().size());
     }

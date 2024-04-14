@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ECS/Systems/RenderSystem.h"
+#include "ECS/Systems/BaseSystems/RenderSystem.h"
 #include "Messenger/SubscriptionsContainer.h"
 
 #include <glm/glm.hpp>
 
 namespace shen
 {
-    class OpenGLSpriteRenderSystem
+    /*class OpenGLSpriteRenderSystem
         : public RenderSystem
     {
     public:
@@ -20,5 +20,5 @@ namespace shen
 
     private:
         SubcriptionsContainer _subscriptions;
-    };
+    };*/
 }

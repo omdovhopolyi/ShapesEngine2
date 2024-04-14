@@ -1,5 +1,5 @@
 #include "RotationSystem.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "Game/Time.h"
 #include "Game/ManagersProvider.h"
 #include "ECS/Components/Common.h"

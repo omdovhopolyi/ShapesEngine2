@@ -1,7 +1,7 @@
 #include "CameraZoomCommand.h"
 #include "Game/ManagersProvider.h"
 #include "Game/Time.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 
 namespace shen

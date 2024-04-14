@@ -1,8 +1,8 @@
-#include "EcsWorld.h"
+#include "World.h"
 
 namespace shen
 {
-    std::vector<std::string> EcsWorld::GetAllComponents(Entity entity)
+    std::vector<std::string> World::GetAllComponents(Entity entity)
     {
         std::vector<std::string> result;
 
@@ -19,22 +19,22 @@ namespace shen
         return result;
     }
 
-    Entity EcsWorld::CreateEntity()
+    Entity World::CreateEntity()
     {
         return { _registry.create() };
     }
 
-    bool EcsWorld::IsValid(Entity entity)
+    bool World::IsValid(Entity entity)
     {
         return _registry.valid(entity.GetEntity());
     }
 
-    void EcsWorld::DestroyEntity(Entity entity)
+    void World::DestroyEntity(Entity entity)
     {
         _registry.destroy(entity.GetEntity());
     }
 
-    void EcsWorld::Clear()
+    void World::Clear()
     {
         _registry.clear();
     }

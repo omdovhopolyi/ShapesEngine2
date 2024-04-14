@@ -4,7 +4,7 @@
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 #include "ECS/Components/Render.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 
 namespace shen
 {

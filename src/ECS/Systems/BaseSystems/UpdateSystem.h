@@ -4,10 +4,10 @@
 
 namespace shen
 {
-    class BulletSystem
+    class UpdateSystem
         : public System
     {
     public:
-        void Update() override;
+        virtual void Update() {}
     };
 }

@@ -1,6 +1,6 @@
 #include "Common.h"
 #include "Serialization/Serialization.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 
 namespace shen
 {
@@ -9,7 +9,7 @@ namespace shen
         return glm::degrees(glm::eulerAngles(rotation).z);
     }
 
-    void Transform::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Transform::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<Transform>(entity);
 
@@ -22,17 +22,17 @@ namespace shen
         
     }
 
-    void Transform::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Transform::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void Mover::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Mover::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         world->AddComponent<Mover>(entity);
     }
 
-    void Mover::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Mover::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }
@@ -42,19 +42,19 @@ namespace shen
         return glm::degrees(glm::eulerAngles(rotation).z);
     }
 
-    void PlayerInput::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void PlayerInput::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<PlayerInput>(entity);
 
         comp->commandTypes = LoadVecStr("array", element);
     }
 
-    void PlayerInput::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void PlayerInput::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void Camera::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Camera::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<Camera>(entity);
 
@@ -64,7 +64,7 @@ namespace shen
         comp->fov = LoadFloat("fov", element, comp->fov);
     }
 
-    void Camera::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Camera::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }

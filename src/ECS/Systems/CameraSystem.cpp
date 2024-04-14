@@ -1,9 +1,8 @@
 #include "CameraSystem.h"
 
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 
-#include "Game/ManagersProvider.h"
 #include "Game/GameWindow.h"
 
 #include <glad/glad.h>
@@ -13,13 +12,13 @@ namespace shen
 {
     void CameraSystem::Start()
     {
-        auto window = ManagersProvider::Instance().GetGameWindow();
-        _viewportSize = { window->GetWidth(), window->GetHeight() };
+        /*auto window = ManagersProvider::Instance().GetGameWindow();
+        _viewportSize = { window->GetWidth(), window->GetHeight() };*/
     }
 
     void CameraSystem::Update()
     {
-        auto world = ManagersProvider::Instance().GetWorld();
+        /*auto world = ManagersProvider::Instance().GetWorld();
 
         world->Each<Camera>([&](auto entity, Camera& camera)
         {
@@ -28,6 +27,6 @@ namespace shen
 
             camera.view = glm::lookAt(camera.position, camera.target, camera.up);
             camera.projection = glm::perspective(glm::radians(camera.fov), _viewportSize.x / _viewportSize.y, camera.nearPlane, camera.farPlane);
-        });
+        });*/
     }
 }

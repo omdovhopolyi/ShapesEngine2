@@ -1,17 +1,19 @@
 #pragma once
 
-#include "BaseSystem.h"
-
 namespace shen
 {
+    class SystemsManager;
+
     class System
-        : public BaseSystem
     {
     public:
         virtual ~System() = default;
 
+        virtual void Init(SystemsManager* systems);
         virtual void Start() {};
-        virtual void Update() {};
         virtual void Stop() {};
+
+    protected:
+        SystemsManager* _systems = nullptr;
     };
 }

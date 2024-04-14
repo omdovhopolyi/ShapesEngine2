@@ -2,7 +2,7 @@
 
 #include "Game/ManagersProvider.h"
 #include "Game/GameWindow.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Render.h"
 #include "Math.h"

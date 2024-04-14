@@ -1,7 +1,7 @@
 #include "SpriteFrameAnimationSystem.h"
 #include "Game/ManagersProvider.h"
 #include "Game/Time.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Render.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"

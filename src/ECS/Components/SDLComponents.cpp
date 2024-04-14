@@ -2,7 +2,7 @@
 
 namespace shen
 {
-    SDLSprite::SDLSprite(SDL_Texture* tex, int w, int h, int sourceX, int sourceY, int sourceW, int sourceH)
+    /*SDLSprite::SDLSprite(SDL_Texture* tex, int w, int h, int sourceX, int sourceY, int sourceW, int sourceH)
         : texture(tex)
         , width(w)
         , height(h)
@@ -22,5 +22,5 @@ namespace shen
     {
         numFrames = frames;
         frameTime = 1.f / framesPerSec;
-    }
+    }*/
 }

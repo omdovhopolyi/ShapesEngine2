@@ -1,10 +1,10 @@
 #pragma once
 
-#include "BaseSystems/UpdateSystem.h"
+#include "ECS/Systems/BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
-    class IntertiaSystem
+    class SfmlInputSyste
         : public UpdateSystem
     {
     public:

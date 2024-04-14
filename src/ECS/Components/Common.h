@@ -20,8 +20,8 @@ namespace shen
 
         float GetEulerAngleZ() const;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Mover
@@ -30,8 +30,8 @@ namespace shen
         float inertia = 100.f;
         glm::vec3 direction = glm::vec3{};
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Rotator
@@ -45,8 +45,8 @@ namespace shen
     {
         std::vector<std::string> commandTypes;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Camera
@@ -60,8 +60,8 @@ namespace shen
         glm::mat4 view = glm::mat4(1.f);
         glm::mat4 projection = glm::mat4(1.f);
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct CameraTarget

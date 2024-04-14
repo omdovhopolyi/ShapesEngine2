@@ -4,10 +4,10 @@
 
 namespace shen
 {
-    class CollisionSystem
+    class RenderSystem
         : public System
     {
     public:
-        void Update() override;
+        virtual void Draw() {}
     };
 }

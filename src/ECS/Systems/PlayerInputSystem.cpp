@@ -5,7 +5,7 @@
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
 #include "Logger/Logger.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
@@ -45,7 +45,7 @@ namespace shen
     }
 
     PlayerInputSystem::PlayerInputSystem()
-        : System()
+        : UpdateSystem()
     {}
 
     void PlayerInputSystem::Start()

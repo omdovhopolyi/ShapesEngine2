@@ -1,20 +1,20 @@
 #include "SDLInputSystem.h"
 
-#include "Game/ManagersProvider.h"
-#include "ECS/SystemsManager.h"
-#include "ECS/Systems/Editor/EditorSystem.h"
-#include "Messenger/Messenger.h"
-#include "Messenger/Events/Common.h"
-
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_sdl2.h"
-#include "imgui/imgui_impl_opengl3.h"
+//#include "Game/ManagersProvider.h"
+//#include "ECS/SystemsManager.h"
+//#include "ECS/Systems/Editor/EditorSystem.h"
+//#include "Messenger/Messenger.h"
+//#include "Messenger/Events/Common.h"
+//
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_sdl2.h"
+//#include "imgui/imgui_impl_opengl3.h"
 
 namespace shen
 {
-	void SDLInputSystem::Update()
-	{
-		auto detectMod = [](const auto eventMod)
+	//void SDLInputSystem::Update()
+	//{
+		/*auto detectMod = [](const auto eventMod)
 		{
 			if (eventMod & KMOD_CTRL)
 			{
@@ -164,6 +164,6 @@ namespace shen
 					mouseY
 				);
 			}
-		}
-	}
+		}*/
+	//}
 }

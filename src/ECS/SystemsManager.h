@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Systems/System.h"
-#include "Systems/RenderSystem.h"
+#include "ECS/World.h"
+#include "Systems/BaseSystems/System.h"
+#include "Systems/Basesystems/RenderSystem.h"
+#include "Systems/BaseSystems/UpdateSystem.h"
 #include "Logger/Logger.h"
 
 #include <memory>
@@ -12,16 +14,15 @@
 
 namespace shen
 {
+    class Game;
+
     class SystemsManager
     {
     public:
-        void Init();
+        void Init(Game* game);
 
         template<class T>
         void RegisterSystem();
-
-        template<class T>
-        void RegisterRenderSystem();
 
         template <class T>
         T* GetSystem() const;
@@ -32,32 +33,44 @@ namespace shen
         void Stop();
         void Clear();
 
+        World& GetWorld() { return _world; }
+
     private:
-        std::vector<std::unique_ptr<System>> _systems;
+        std::vector<std::unique_ptr<System>> _simpleSystems;
+        std::vector<std::unique_ptr<UpdateSystem>> _updateSystems;
         std::vector<std::unique_ptr<RenderSystem>> _renderSystems;
-        std::map<std::type_index, BaseSystem*> _mappedSystems;
+        std::map<std::type_index, System*> _mappedSystems;
+        std::vector<System*> _registrationOrderedSystems;
+        World _world;
+        Game* _game = nullptr;
     };
 
     template <class T>
     void SystemsManager::RegisterSystem()
     {
-        _systems.push_back(std::make_unique<T>());
-        _mappedSystems[std::type_index(typeid(T))] = _systems.back().get();
-        Logger::Log("Register {} system", typeid(T).name());
-    }
-
-    template<class T>
-    void SystemsManager::RegisterRenderSystem()
-    {
-        if (std::is_base_of_v<RenderSystem, T>)
+        if constexpr (std::is_base_of_v<RenderSystem, T>)
         {
             _renderSystems.push_back(std::make_unique<T>());
+            _renderSystems.back()->Init(this);
             _mappedSystems[std::type_index(typeid(T))] = _renderSystems.back().get();
+            _registrationOrderedSystems.push_back(_renderSystems.back().get());
             Logger::Log("Register {} render system", typeid(T).name());
+        }
+        else if constexpr (std::is_base_of_v<UpdateSystem, T>)
+        {
+            _updateSystems.push_back(std::make_unique<T>());
+            _updateSystems.back()->Init(this);
+            _mappedSystems[std::type_index(typeid(T))] = _updateSystems.back().get();
+            _registrationOrderedSystems.push_back(_renderSystems.back().get());
+            Logger::Log("Register {} update system", typeid(T).name());
         }
         else
         {
-            // TODO assert
+            _simpleSystems.push_back(std::make_unique<T>());
+            _simpleSystems.back()->Init(this);
+            _mappedSystems[std::type_index(typeid(T))] = _updateSystems.back().get();
+            _registrationOrderedSystems.push_back(_renderSystems.back().get());
+            Logger::Log("Register {} simple system", typeid(T).name());
         }
     }
 

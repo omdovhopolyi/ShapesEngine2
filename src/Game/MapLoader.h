@@ -9,12 +9,12 @@
 
 namespace shen
 {
-    class EcsWorld;
+    class World;
 
     struct LoadSaveFuncs
     {
-        std::function<void(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)> loadFunc;
-        std::function<void(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)> saveFunc;
+        std::function<void(Entity entity, World* world, const tinyxml2::XMLElement* element)> loadFunc;
+        std::function<void(Entity entity, World* world, tinyxml2::XMLElement* element)> saveFunc;
     };
 
     class MapLoader

@@ -1,10 +1,10 @@
 #include "Render.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "Serialization/Serialization.h"
 
 namespace shen
 {
-    void Sprite::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Sprite::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<Sprite>(entity);
 
@@ -21,24 +21,24 @@ namespace shen
         }
     }
 
-    void Sprite::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Sprite::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void Color::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Color::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<Color>(entity);
 
         comp->rgba = LoadColor("color", element) / 255.f;
     }
 
-    void Color::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Color::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void SpriteFrameAnimation::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
     {
         auto comp = world->AddComponent<SpriteFrameAnimation>(entity);
 
@@ -46,7 +46,7 @@ namespace shen
         comp->frames = LoadVectorRect("frames", element);
     }
 
-    void SpriteFrameAnimation::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
     {
 
     }

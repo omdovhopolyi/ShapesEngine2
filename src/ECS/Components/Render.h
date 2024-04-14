@@ -23,16 +23,16 @@ namespace shen
         Shader* shader = nullptr;
         SpriteType spriteType = SpriteType::OneType;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Color
     {
         glm::vec4 rgba = glm::vec4(255.f);
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct SpriteFrameAnimation
@@ -42,8 +42,8 @@ namespace shen
         float dt = 0.f;
         int curFrame = 0;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Buffers

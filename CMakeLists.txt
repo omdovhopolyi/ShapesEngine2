@@ -4,6 +4,8 @@ set(TARGET_NAME ShapesEngine2)
 
 project(${TARGET_NAME})
 
+set(BUILD_SHARED_LIBS FALSE)
+
 add_subdirectory(cmake/imgui)
 #add_subdirectory(cmake/imgui_sdl)
 add_subdirectory(cmake/tinyxml2)
@@ -23,7 +25,7 @@ endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
-set(SDL_TEST OFF CACHE BOOL "" FORCE)
+#set(SDL_TEST OFF CACHE BOOL "" FORCE)
 
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
 set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
@@ -36,19 +38,7 @@ set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
 set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(submodules/SFML)
-target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
-
-add_subdirectory(submodules/SDL)
-target_link_libraries(${TARGET_NAME} SDL2 SDL2main)
-
-#add_subdirectory(submodules/SDL_image)
-#target_link_libraries(${TARGET_NAME} SDL2_image)
-
-add_subdirectory(submodules/SDL_ttf)
-target_link_libraries(${TARGET_NAME} SDL2_ttf)
-
-#add_subdirectory(submodules/SDL_mixer)
-#target_link_libraries(${TARGET_NAME} SDL2_mixer)
+target_link_libraries(${TARGET_NAME} sfml-graphics)
 
 add_subdirectory(submodules/glm)
 target_link_libraries(${TARGET_NAME} glm)
@@ -81,16 +71,12 @@ include_directories(src)
 
 include_directories(submodules/imgui)
 #include_directories(submodules/imgui_sdl)
-include_directories(submodules/SDL)
 include_directories(submodules/SFML)
-#include_directories(submodules/SDL_image)
-include_directories(submodules/SDL_ttf)
-#include_directories(submodules/SDL_mixer)
 include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)
-include_directories(submodules/entt/src)
+include_directories(submodules/entt/src)  
 include_directories(submodules/glew-cmake/include)
 include_directories(submodules/assimp/include)
 include_directories(submodules/stb)
@@ -98,23 +84,23 @@ include_directories(external/glad/include)
 include_directories(submodules/box2d/include)
 include_directories(submodules/bezier)
 
-if (MSVC)
-    add_custom_command(
-        TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
-                ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
-                COMMENT "Copying SDL2d.dll"
-        )
+#if (MSVC)
+#    add_custom_command(
+#        TARGET ${TARGET_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy
+#                ${CMAKE_BINARY_DIR}/submodules/SDL/Debug/SDL2d.dll
+#                ${CMAKE_BINARY_DIR}/bin/Debug/SDL2d.dll
+#                COMMENT "Copying SDL2d.dll"
+#        )
         
-    add_custom_command(
-        TARGET ${TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_BINARY_DIR}/submodules/box2D/bin/Debug/box2dd.dll
-                ${CMAKE_BINARY_DIR}/bin/Debug/box2dd.dll
-                COMMENT "Copying box2dd.dll"
-        )
-endif()
+#    add_custom_command(
+#        TARGET ${TARGET_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy
+#                ${CMAKE_BINARY_DIR}/submodules/box2D/bin/Debug/box2dd.dll
+#                ${CMAKE_BINARY_DIR}/bin/Debug/box2dd.dll
+#                COMMENT "Copying box2dd.dll"
+#        )
+#endif()
 
 add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD

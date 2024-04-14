@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 #include "Game/CollisionListener.h"
 #include <box2d/box2d.h>
 #include <memory>
@@ -8,7 +8,7 @@
 namespace shen
 {
     class PhysicsBox2DSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         void Start() override;

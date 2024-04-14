@@ -1,12 +1,12 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 #include <glm/glm.hpp>
 
 namespace shen
 {
     class CameraSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         void Start() override;

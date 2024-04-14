@@ -1,6 +1,6 @@
 #include "RotateCommand.h"
 
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Game/ManagersProvider.h"
 #include "Logger/Logger.h"

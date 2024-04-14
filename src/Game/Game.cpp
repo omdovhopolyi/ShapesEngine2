@@ -7,16 +7,20 @@
 #include "MapLoader.h"
 
 #include "ECS/SystemsManager.h"
-#include "ECS/EcsWorld.h"
-#include "ECS/SystemsRegistration.h"
+
+
 #include "ECS/Components/Common.h"
-#include "ECS/Components/SDLComponents.h"
+
 
 #include "Resources/AssetsManager.h"
-#include "Resources/OpenGLTexturesManager.h"
+
 #include "Resources/ShadersManager.h"
 
 #include "Messenger/Events/Common.h"
+
+#include "ECS/Systems/TimeSystem.h"
+#include "ECS/Systems/Sfml/SfmlInputSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 
 #include <sstream>
 #include <fstream>
@@ -35,7 +39,22 @@ namespace shen
 
 	void Game::Initialize()
 	{
-		_isRunning = ManagersProvider::Instance().Init();
+		_systems.Init(this);
+		_systems.RegisterSystem<TimeSystem>();
+		_systems.RegisterSystem<SfmlInputSyste>();
+		_systems.RegisterSystem<SfmlGameWindowSystem>();
+
+		/*_systems->RegisterSystem<SDLInputSystem>();
+		_systems->RegisterSystem<CameraSystem>();
+		_systems->RegisterSystem<SpriteFrameAnimationSystem>();
+		_systems->RegisterSystem<PlayerInputSystem>();
+		_systems->RegisterSystem<PhysicsBox2DSystem>();
+		_systems->RegisterSystem<MovementSystem>();
+		_systems->RegisterSystem<RotationSystem>();
+		_systems->RegisterSystem<IntertiaSystem>();
+
+		_systems->RegisterRenderSystem<OpenGLGridRenderSystem>();
+		_systems->RegisterRenderSystem<OpenGLSpriteRenderSystem>();*/
 	}
 
 	void Game::Run()
@@ -50,41 +69,30 @@ namespace shen
 
 	void Game::Destroy()
 	{
-		ManagersProvider::Instance().Clear();
+		_systems.Clear();
+		_resources.Clear();
 	}
 
 	void Game::Setup()
 	{
-		RegisterSystems();
+		_systems.Start();
 
-		/*_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
-		{
-			if (event.type == KeyEventType::Up)
-			{
-				if (event.code == SDLK_ESCAPE)
-				{
-					_isRunning = false;
-				}
-			}
-		});*/
+		//RegisterSystems();
 
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
 			_isRunning = false;
 		});
 
-		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
+		/*auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
 
 		auto mapLoader = ManagersProvider::Instance().GetMapLoader();
-		mapLoader->LoadMap("map_test");
-
-		auto systems = ManagersProvider::Instance().GetSystemsManager();
-		systems->Start();
+		mapLoader->LoadMap("map_test");*/
 	}
 
 	void Game::Update()
 	{
-		ManagersProvider::Instance().Update();
-		ManagersProvider::Instance().Draw();
+		_systems.Update();
+		_systems.Draw();
 	}
 }

@@ -8,7 +8,7 @@ struct b2Body;
 
 namespace shen
 {
-    class EcsWorld;
+    class World;
 
     struct RigidBody
     {
@@ -18,8 +18,8 @@ namespace shen
 
         b2Body* body = nullptr;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(Entity entity, World* world, const tinyxml2::XMLElement* element);
+        static void Save(Entity entity, World* world, tinyxml2::XMLElement* element);
     };
 
     struct Collision

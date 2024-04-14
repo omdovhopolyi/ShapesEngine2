@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 #include "Messenger/SubscriptionsContainer.h"
 #include "Messenger/Events/Common.h"
 #include "Utils/Types.h"
@@ -27,7 +27,7 @@ namespace shen
     };
 
     class PlayerInputSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         using InputCode = int;

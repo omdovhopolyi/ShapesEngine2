@@ -1,11 +1,11 @@
 #pragma once
 
-#include <SDL.h>
+//#include <SDL.h>
 #include <glm/glm.hpp>
 
 namespace shen
 {
-    struct SDLSprite
+    /*struct SDLSprite
     {
         SDL_Texture* texture = nullptr;
         int width = 0;
@@ -25,5 +25,5 @@ namespace shen
         
         SDLAnimatedSprite(SDL_Texture* tex, int w, int h, int sourceX, int sourceY, int sourceW, int sourceH);
         void InitAtimation(int frames, int framesPerSec);
-    };
+    };*/
 }
