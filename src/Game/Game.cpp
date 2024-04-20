@@ -1,23 +1,16 @@
-
 #include "Game.h"
-#include "ManagersProvider.h"
+#include "ECS/SystemsManager.h"
+#include "Resources/ResourcesManager.h"
 #include "Logger/Logger.h"
 #include "Time.h"
 #include "GameWindow.h"
 #include "MapLoader.h"
-
 #include "ECS/SystemsManager.h"
-
-
 #include "ECS/Components/Common.h"
-
-
 #include "Resources/AssetsManager.h"
-
 #include "Resources/ShadersManager.h"
-
 #include "Messenger/Events/Common.h"
-
+#include "ECS/Systems/ResourcesManagerHolderSystem.h"
 #include "ECS/Systems/TimeSystem.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
@@ -39,10 +32,16 @@ namespace shen
 
 	void Game::Initialize()
 	{
-		_systems.Init(this);
-		_systems.RegisterSystem<TimeSystem>();
-		_systems.RegisterSystem<SfmlInputSyste>();
-		_systems.RegisterSystem<SfmlGameWindowSystem>();
+		_systems = std::make_unique<SystemsManager>();
+		_resources = std::make_unique<ResourcesManager>();
+
+		_systems->Init(this);
+		_systems->RegisterSystem<ResourcesManagerHolderSystem>(_resources.get());
+		_systems->RegisterSystem<TimeSystem>();
+		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<SfmlGameWindowSystem>();
+
+		_isRunning = true;
 
 		/*_systems->RegisterSystem<SDLInputSystem>();
 		_systems->RegisterSystem<CameraSystem>();
@@ -69,13 +68,13 @@ namespace shen
 
 	void Game::Destroy()
 	{
-		_systems.Clear();
-		_resources.Clear();
+		_systems->Clear();
+		_resources->Clear();
 	}
 
 	void Game::Setup()
 	{
-		_systems.Start();
+		_systems->Start();
 
 		//RegisterSystems();
 
@@ -92,7 +91,7 @@ namespace shen
 
 	void Game::Update()
 	{
-		_systems.Update();
-		_systems.Draw();
+		_systems->Update();
+		_systems->Draw();
 	}
 }

@@ -1,7 +1,7 @@
 #include "PhysicsBox2DSystem.h"
-#include "Game/Time.h"
-#include "Game/ManagersProvider.h"
 #include "ECS/World.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/TimeSystem.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 
@@ -16,12 +16,12 @@ namespace shen
             return;
         }
 
-        _collisionListener = std::make_unique<CollisionListener>();
+        _collisionListener = std::make_unique<CollisionListener>(&_systems->GetWorld());
         _world->SetContactListener(_collisionListener.get());
 
-        auto gameWorld = ManagersProvider::Instance().GetWorld();
+        auto& gameWorld = _systems->GetWorld();
 
-        gameWorld->Each<RigidBody, Transform>(
+        gameWorld.Each<RigidBody, Transform>(
             [&](const auto& entity, RigidBody& rb, Transform& transform)
             {
                 const auto size = glm::vec3(rb.size, 0.f) * transform.scale;
@@ -49,15 +49,14 @@ namespace shen
 
     void PhysicsBox2DSystem::Update()
     {
-        const auto dt = ManagersProvider::Instance().GetTime()->Dt();
+        auto& gameWorld = _systems->GetWorld();
+        auto time = _systems->GetSystem<TimeSystem>();
 
         int32 velocityIterations = 6;
         int32 positionIterations = 2;
-        _world->Step(dt, velocityIterations, positionIterations);
+        _world->Step(time->Dt(), velocityIterations, positionIterations);
 
-        auto gameWorld = ManagersProvider::Instance().GetWorld();
-
-        gameWorld->Each<RigidBody, Transform>(
+        gameWorld.Each<RigidBody, Transform>(
             [&](const auto entity, RigidBody& rb, Transform& transform)
             {
                 auto position = rb.body->GetPosition();

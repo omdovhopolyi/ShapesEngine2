@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils/Singleton.h"
 #include "SubscriptionWrapper.h"
 
 #include <map>
@@ -11,6 +12,7 @@
 namespace shen
 {
     class Messenger
+        : public Singleton<Messenger>
     {
     public:
         using SubscriptionWeakPtr = std::weak_ptr<ISubscriptionWrapper>;

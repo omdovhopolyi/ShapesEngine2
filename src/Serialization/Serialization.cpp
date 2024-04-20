@@ -1,8 +1,6 @@
 #include "Serialization.h"
 
-#include "Game/ManagersProvider.h"
-#include "Resources/OpenGLTexturesManager.h"
-#include "Resources/ShadersManager.h"
+//#include "Resources/ShadersManager.h"
 
 namespace shen
 {
@@ -188,7 +186,9 @@ namespace shen
 
     Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
     {
-        auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
+        return nullptr;
+
+        /*auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
         Texture* texture = nullptr;
 
         if (const auto childElement = element->FirstChildElement(id.c_str()))
@@ -200,12 +200,12 @@ namespace shen
             }
         }
 
-        return texture ? texture : texturesManager->GetAsset("Empty");
+        return texture ? texture : texturesManager->GetAsset("Empty");*/
     }
 
     Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        /*if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -213,7 +213,7 @@ namespace shen
                 auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
                 return shaders->GetAsset(shaderId);
             }
-        }
+        }*/
 
         return nullptr;
     }

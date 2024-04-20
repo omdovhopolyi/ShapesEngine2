@@ -4,6 +4,6 @@ namespace shen
 {
     void System::Init(SystemsManager* systems)
     {
-        _allSystems = systems;
+        _systems = systems;
     }
 }

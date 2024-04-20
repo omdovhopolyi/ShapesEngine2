@@ -8,7 +8,7 @@ namespace shen
 {
     void CameraFollowSystem::Update()
     {
-        auto& world = _allSystems->GetWorld();
+        auto& world = _systems->GetWorld();
 
         world.Each<CameraTarget, Transform>(
             [&](auto entity, const Transform& transform)

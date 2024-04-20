@@ -3,10 +3,8 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 
-#include "Game/GameWindow.h"
-
-#include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
+//#include <glad/glad.h>
+//#include <glm/gtc/matrix_transform.hpp>
 
 namespace shen
 {

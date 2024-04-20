@@ -1,6 +1,5 @@
 #include "MapLoader.h"
 
-#include "Game/ManagersProvider.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 #include "ECS/Components/Render.h"
@@ -35,7 +34,7 @@ namespace shen
 
         if (auto elements = doc.FirstChildElement("items"))
         {
-            auto world = ManagersProvider::Instance().GetWorld();
+            /*auto world = ManagersProvider::Instance().GetWorld();
 
             auto elementEntity = elements->FirstChildElement("entity");
             while (elementEntity)
@@ -59,7 +58,7 @@ namespace shen
                 }
                 
                 elementEntity = elementEntity->NextSiblingElement();
-            }
+            }*/
         }
 	}
 }

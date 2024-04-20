@@ -9,8 +9,8 @@ namespace shen
     void CleanupSystem::Update()
     {
         std::vector<Entity> toDestroy;
-        auto& world = _allSystems->GetWorld();
 
+        auto& world = _systems->GetWorld();
         world.Each<Destroy>([&](auto entity)
         {
             toDestroy.push_back(entity);

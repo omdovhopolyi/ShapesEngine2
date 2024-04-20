@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class SfmlInputSyste
+    class SfmlInputSystem
         : public UpdateSystem
     {
     public:

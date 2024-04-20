@@ -2,7 +2,7 @@
 
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
-#include "Game/ManagersProvider.h"
+//#include "Game/ManagersProvider.h"
 #include "Logger/Logger.h"
 #include "Utils/Coords.h"
 
@@ -12,7 +12,7 @@ namespace shen
 {
     void RotateCommand::Execute(const Entity& entity, const CommandContext& context) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
+        /*auto world = ManagersProvider::Instance().GetWorld();
         auto rotator = world->GetOrCreateComponent<Rotator>(entity);
 
         auto mouseScreenPos = glm::vec2(context.x, context.y);
@@ -29,6 +29,6 @@ namespace shen
         static glm::vec2 right{ 1.f, 0.f };
 
         const float angle = glm::degrees(glm::orientedAngle(right, direction));
-        rotator->rotation = glm::angleAxis(glm::radians(angle), up);        
+        rotator->rotation = glm::angleAxis(glm::radians(angle), up);        */
     }
 }

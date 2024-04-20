@@ -6,7 +6,7 @@ project(${TARGET_NAME})
 
 set(BUILD_SHARED_LIBS FALSE)
 
-add_subdirectory(cmake/imgui)
+#add_subdirectory(cmake/imgui)
 #add_subdirectory(cmake/imgui_sdl)
 add_subdirectory(cmake/tinyxml2)
 
@@ -69,7 +69,7 @@ target_link_libraries(${TARGET_NAME} bezier)
 
 include_directories(src)
 
-include_directories(submodules/imgui)
+#include_directories(submodules/imgui)
 #include_directories(submodules/imgui_sdl)
 include_directories(submodules/SFML)
 include_directories(submodules/glm)

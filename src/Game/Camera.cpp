@@ -1,8 +1,5 @@
 #include "Camera.h"
 
-#include "ManagersProvider.h"
-#include "GameWindow.h"
-
 namespace shen
 {
     /*void Camera::Init()

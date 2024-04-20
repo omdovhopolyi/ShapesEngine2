@@ -2,7 +2,7 @@
 
 namespace shen
 {
-    void SfmlInputSyste::Update()
+    void SfmlInputSystem::Update()
     {
 
     }

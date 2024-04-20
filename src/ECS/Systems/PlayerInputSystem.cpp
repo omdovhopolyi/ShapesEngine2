@@ -1,15 +1,15 @@
 #include "PlayerInputSystem.h"
-
-#include "Game/ManagersProvider.h"
-#include "Resources/SDLTexturesManager.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
 #include "Logger/Logger.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/ResourcesManagerHolderSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
+#include "Resources/ResourcesManager.h"
 #include "Resources/InputCommandsManager.h"
 
 namespace shen
@@ -58,9 +58,8 @@ namespace shen
     {
         std::vector<std::pair<Entity, const PlayerInput*>> entities;
 
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<PlayerInput>(
-            [&](auto entity, const PlayerInput& input)
+        auto& world = _systems->GetWorld();
+        world.Each<PlayerInput>([&](auto entity, const PlayerInput& input)
         {
             entities.push_back({ entity, &input });
         });
@@ -145,8 +144,10 @@ namespace shen
 
     void PlayerInputSystem::LoadConfig()
     {
-        auto commandsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<InputCommandsManager>();
-
+        auto resourcesManagerHolder = _systems->GetSystem<ResourcesManagerHolderSystem>();
+        auto resourcesManager = resourcesManagerHolder->GetResourcesManager();
+        auto commandsManager = resourcesManager->GetOrCreateAssetsManager<InputCommandsManager>();
+        
         tinyxml2::XMLDocument doc;
 
         const auto error = doc.LoadFile("../assets/configs/input.xml");

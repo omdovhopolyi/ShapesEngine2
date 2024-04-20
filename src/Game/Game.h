@@ -1,11 +1,15 @@
 #pragma once
 
-#include "ECS/SystemsManager.h"
-#include "Resources/ResourcesManager.h"
+//#include "ECS/SystemsManager.h"
+//#include "Resources/ResourcesManager.h"
 #include "Messenger/SubscriptionsContainer.h"
+#include <memory>
 
 namespace shen
 {
+	class SystemsManager;
+	class ResourcesManager;
+
 	class Game
 	{
 	public:
@@ -24,7 +28,7 @@ namespace shen
 		int _lastUpdateTime = 0;
 		bool _isRunning = false;
 		SubcriptionsContainer _subscriptions;
-		SystemsManager _systems;
-		ResourcesManager _resources;
+		std::unique_ptr<SystemsManager> _systems;
+		std::unique_ptr<ResourcesManager> _resources;
 	};
 }

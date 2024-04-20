@@ -1,6 +1,6 @@
 #include "MoveCommands.h"
 
-#include "Game/ManagersProvider.h"
+//#include "Game/ManagersProvider.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Logger/Logger.h"
@@ -33,10 +33,10 @@ namespace shen
 
     void MoveCommand::Execute(const Entity& entity, const CommandContext&) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
+        /*auto world = ManagersProvider::Instance().GetWorld();
         if (auto rb = world->GetComponent<Mover>(entity))
         {
             rb->velocity += _direction * _speed;
-        }
+        }*/
     }
 }
