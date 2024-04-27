@@ -9,5 +9,9 @@ namespace shen
     {
     public:
         void Update() override;
+
+    private:
+        int _lastMouseXPos = -1;
+        int _lastMouseYPos = -1;
     };
 }

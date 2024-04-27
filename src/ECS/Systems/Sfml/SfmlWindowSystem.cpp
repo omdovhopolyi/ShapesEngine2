@@ -1,7 +1,5 @@
 #include "SfmlWindowSystem.h"
 
-
-
 namespace shen
 {
     void SfmlGameWindowSystem::Start()
@@ -13,5 +11,10 @@ namespace shen
     {
         _window->close();
         _window = nullptr;
+    }
+
+    sf::Window* SfmlGameWindowSystem::GetWindow() const
+    {
+        return _window.get();
     }
 }

@@ -28,10 +28,6 @@ namespace shen
         {
             return left.type < right.type;
         }
-        if (left.mode != right.mode)
-        {
-            return left.mode < right.mode;
-        }
 
         return false;
     }
@@ -41,7 +37,9 @@ namespace shen
         return (left.keyCode == right.keyCode &&
             left.mouseButton == right.mouseButton &&
             left.type == right.type &&
-            left.mode == right.mode);
+            left.alt == right.alt &&
+            left.shift == right.shift &&
+            left.ctrl == right.ctrl);
     }
 
     PlayerInputSystem::PlayerInputSystem()
@@ -90,7 +88,9 @@ namespace shen
             InputType inputEvent;
             inputEvent.keyCode = event.code;
             inputEvent.type = event.type;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
@@ -103,7 +103,9 @@ namespace shen
             InputType inputEvent;
             inputEvent.mouseButton = event.button;
             inputEvent.type = event.type;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
@@ -115,6 +117,9 @@ namespace shen
         {
             InputType inputEvent;
             inputEvent.type = InputEventType::MouseMove;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
             context.x = event.x;
@@ -130,7 +135,9 @@ namespace shen
         {
             InputType inputEvent;
             inputEvent.type = InputEventType::Scroll;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
             context.y = event.scroll;
@@ -179,9 +186,19 @@ namespace shen
                     inputType.type = InputEventTypeEnum.FromString(inputEventTypeAttr->Value());
                 }
 
-                if (const auto modeAttr = element->FindAttribute("mode"))
+                if (const auto modeAttr = element->FindAttribute("alt"))
                 {
-                    inputType.mode = KeyModeEnum.FromString(modeAttr->Value());
+                    inputType.alt = modeAttr->BoolValue();
+                }
+
+                if (const auto modeAttr = element->FindAttribute("shift"))
+                {
+                    inputType.shift = modeAttr->BoolValue();
+                }
+
+                if (const auto modeAttr = element->FindAttribute("ctrl"))
+                {
+                    inputType.ctrl = modeAttr->BoolValue();
                 }
 
                 if (const auto commandAttr = element->FindAttribute("command"))

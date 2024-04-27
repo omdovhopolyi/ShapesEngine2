@@ -20,7 +20,9 @@ namespace shen
         int keyCode = -1;
         MouseButton mouseButton = MouseButton::None;
         InputEventType type = InputEventType::Undefined;
-        KeyMode mode = KeyMode::None;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
         friend bool operator < (const InputType& left, const InputType& right);
         friend bool operator == (const InputType& left, const InputType& right);

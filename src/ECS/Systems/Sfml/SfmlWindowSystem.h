@@ -1,9 +1,7 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/System.h"
-
 #include <SFML/Window.hpp>
-
 #include <memory>
 
 namespace shen
@@ -14,6 +12,8 @@ namespace shen
     public:
         void Start() override;
         void Stop() override;
+
+        sf::Window* GetWindow() const;
 
     private:
         std::unique_ptr<sf::Window> _window;
