@@ -14,6 +14,8 @@
 #include "ECS/Systems/TimeSystem.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
 
 #include <sstream>
 #include <fstream>
@@ -38,8 +40,11 @@ namespace shen
 		_systems->Init(this);
 		_systems->RegisterSystem<ResourcesManagerHolderSystem>(_resources.get());
 		_systems->RegisterSystem<TimeSystem>();
+
 		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
 		_systems->RegisterSystem<SfmlGameWindowSystem>();
+		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();
 
 		_isRunning = true;
 

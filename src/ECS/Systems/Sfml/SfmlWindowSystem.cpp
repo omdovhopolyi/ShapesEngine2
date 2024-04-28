@@ -4,7 +4,7 @@ namespace shen
 {
     void SfmlGameWindowSystem::Start()
     {
-        _window = std::make_unique<sf::Window>(sf::VideoMode(800, 600), "Shapes engine");
+        _window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "Shapes engine");
     }
 
     void SfmlGameWindowSystem::Stop()
@@ -14,6 +14,11 @@ namespace shen
     }
 
     sf::Window* SfmlGameWindowSystem::GetWindow() const
+    {
+        return _window.get();
+    }
+
+    sf::RenderWindow* SfmlGameWindowSystem::GetRenderWindow() const
     {
         return _window.get();
     }
