@@ -4,9 +4,12 @@
 
 namespace shen
 {
-    void Sprite::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
+    void Sprite::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
     {
-        auto comp = world->AddComponent<Sprite>(entity);
+        auto comp = world.AddComponent<Sprite>(entity);
+
+        /*comp->textureId = LoadStr("textureId", element);
+
 
         comp->texture = LoadTexturePtr("texture", element);
         comp->mask = LoadTexturePtr("mask", element);
@@ -18,35 +21,35 @@ namespace shen
         if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
         {
             comp->spriteType = SpriteTypeEnum.FromString(LoadStr("spriteType", element));
-        }
+        }*/
     }
 
-    void Sprite::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
+    void Sprite::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void Color::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
+    void Color::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
     {
-        auto comp = world->AddComponent<Color>(entity);
+        auto comp = world.AddComponent<Color>(entity);
 
-        comp->rgba = LoadColor("color", element) / 255.f;
+        //comp->rgba = LoadColor("color", element) / 255.f;
     }
 
-    void Color::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
+    void Color::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
     {
 
     }
 
-    void SpriteFrameAnimation::Load(Entity entity, World* world, const tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
     {
-        auto comp = world->AddComponent<SpriteFrameAnimation>(entity);
+        auto comp = world.AddComponent<SpriteFrameAnimation>(entity);
 
         comp->frameTime = LoadFloat("frameTime", element, comp->frameTime);
-        comp->frames = LoadVectorRect("frames", element);
+        //comp->frames = LoadVectorRect("frames", element);
     }
 
-    void SpriteFrameAnimation::Save(Entity entity, World* world, tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
     {
 
     }

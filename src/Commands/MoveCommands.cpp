@@ -7,16 +7,16 @@
 
 namespace shen
 {
-    MoveCommand::MoveCommand(const glm::vec3& dir)
+    MoveCommand::MoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     { }
 
-    void MoveCommand::SetDirection(const glm::vec3& dir)
+    void MoveCommand::SetDirection(const sf::Vector2f& dir)
     {
         _direction = dir;
     }
 
-    const glm::vec3 MoveCommand::GetDirection() const
+    const sf::Vector2f MoveCommand::GetDirection() const
     {
         return _direction;
     }

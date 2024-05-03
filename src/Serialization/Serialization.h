@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Utils/Types.h"
-#include <glm/glm.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <vector>
@@ -16,21 +19,21 @@ namespace shen
     float LoadFloat(const std::string& id, const tinyxml2::XMLElement* element, float defaultVal = 0.f);
     std::string LoadStr(const std::string& id, const tinyxml2::XMLElement* element, const std::string& defaultVal = {});
 
-    glm::vec2 LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, glm::vec2 defaultVal = glm::vec2(0.f));
-    glm::vec3 LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.f));
+    sf::Vector2f LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, sf::Vector2f defaultVal = sf::Vector2f());
+    //glm::vec3 LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.f));
 
-    glm::vec2 LoadVec2(const tinyxml2::XMLElement* element, glm::vec2 defaultVal = glm::vec2(0.f));
-    glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.f));
+    sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal = sf::Vector2f());
+    //glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal = glm::vec3(0.f));
     
-    Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def = {});
-    Rect LoadRect(const tinyxml2::XMLElement* element);
+    sf::FloatRect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, sf::FloatRect def = {});
+    sf::FloatRect LoadRect(const tinyxml2::XMLElement* element);
 
-    glm::vec4 LoadColor(const std::string& id, const tinyxml2::XMLElement* element, glm::vec4 defaultVal = glm::vec4(0.f));
+    sf::Color LoadColor(const std::string& id, const tinyxml2::XMLElement* element, sf::Color defaultVal = sf::Color::Red);
 
-    Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* elemnt);
-    std::vector<Rect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element);
+    sf::Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* elemnt);
+    std::vector<sf::FloatRect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element);
 
-    Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element);
+    //Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element);
 
     std::vector<std::string> LoadVecStr(const std::string& id, const tinyxml2::XMLElement* element);
 }

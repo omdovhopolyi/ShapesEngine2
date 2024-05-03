@@ -56,7 +56,7 @@ namespace shen
         return defaultVal;
     }
 
-    glm::vec2 LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, glm::vec2 defaultVal/* = {}*/)
+    sf::Vector2f LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
@@ -66,7 +66,7 @@ namespace shen
         return defaultVal;
     }
 
-    glm::vec3 LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = {}*/)
+    /*sf::Vector2f LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
@@ -74,11 +74,11 @@ namespace shen
         }
 
         return defaultVal;
-    }
+    }*/
 
-    glm::vec2 LoadVec2(const tinyxml2::XMLElement* element, glm::vec2 defaultVal/* = glm::vec2(0.f)*/)
+    sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
     {
-        glm::vec2 result = glm::vec2(0.f);
+        sf::Vector2f result;
 
         if (const auto xAttrib = element->FindAttribute("x"))
         {
@@ -93,29 +93,29 @@ namespace shen
         return result;
     }
 
-    glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = glm::vec3(0.f)*/)
-    {
-        glm::vec3 result = glm::vec3(0.f);
+    //glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = glm::vec3(0.f)*/)
+    //{
+    //    glm::vec3 result = glm::vec3(0.f);
 
-        if (const auto xAttrib = element->FindAttribute("x"))
-        {
-            result.x = xAttrib->FloatValue();
-        }
+    //    if (const auto xAttrib = element->FindAttribute("x"))
+    //    {
+    //        result.x = xAttrib->FloatValue();
+    //    }
 
-        if (const auto yAttrib = element->FindAttribute("y"))
-        {
-            result.y = yAttrib->FloatValue();
-        }
+    //    if (const auto yAttrib = element->FindAttribute("y"))
+    //    {
+    //        result.y = yAttrib->FloatValue();
+    //    }
 
-        if (const auto zAttrib = element->FindAttribute("z"))
-        {
-            result.z = zAttrib->FloatValue();
-        }
+    //    if (const auto zAttrib = element->FindAttribute("z"))
+    //    {
+    //        result.z = zAttrib->FloatValue();
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 
-    Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def/* = {}*/)
+    sf::FloatRect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, sf::FloatRect def/* = {}*/)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
@@ -125,57 +125,57 @@ namespace shen
         return def;
     }
 
-    Rect LoadRect(const tinyxml2::XMLElement* element)
+    sf::FloatRect LoadRect(const tinyxml2::XMLElement* element)
     {
-        Rect rect;
+        sf::FloatRect rect;
 
         if (const auto attrib = element->FindAttribute("x"))
         {
-            rect.origin.x = attrib->FloatValue();
+            rect.left = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("y"))
         {
-            rect.origin.y = attrib->FloatValue();
+            rect.top = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("w"))
         {
-            rect.size.x = attrib->FloatValue();
+            rect.width = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("h"))
         {
-            rect.size.y = attrib->FloatValue();
+            rect.height = attrib->FloatValue();
         }
 
         return rect;
     }
 
-    glm::vec4 LoadColor(const std::string& id, const tinyxml2::XMLElement* element, glm::vec4 defaultVal/* = glm::vec4(0.f)*/)
+    sf::Color LoadColor(const std::string& id, const tinyxml2::XMLElement* element, sf::Color defaultVal)
     {
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {
-            glm::vec4 result = glm::vec4(0.f);
+            sf::Color result;
 
             if (const auto xAttrib = childElement->FindAttribute("r"))
             {
-                result.x = xAttrib->IntValue();
+                result.r = xAttrib->IntValue();
             }
 
             if (const auto yAttrib = childElement->FindAttribute("g"))
             {
-                result.y = yAttrib->IntValue();
+                result.g = yAttrib->IntValue();
             }
 
             if (const auto zAttrib = childElement->FindAttribute("b"))
             {
-                result.z = zAttrib->IntValue();
+                result.b = zAttrib->IntValue();
             }
 
             if (const auto zAttrib = childElement->FindAttribute("a"))
             {
-                result.w = zAttrib->IntValue();
+                result.a = zAttrib->IntValue();
             }
 
             return result;
@@ -184,7 +184,7 @@ namespace shen
         return defaultVal;
     }
 
-    Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
+    sf::Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
     {
         return nullptr;
 
@@ -203,24 +203,24 @@ namespace shen
         return texture ? texture : texturesManager->GetAsset("Empty");*/
     }
 
-    Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
-    {
-        /*if (const auto childElement = element->FirstChildElement(id.c_str()))
-        {
-            if (const auto attrib = childElement->FindAttribute("val"))
-            {
-                const auto shaderId = attrib->Value();
-                auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-                return shaders->GetAsset(shaderId);
-            }
-        }*/
+    //Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
+    //{
+    //    /*if (const auto childElement = element->FirstChildElement(id.c_str()))
+    //    {
+    //        if (const auto attrib = childElement->FindAttribute("val"))
+    //        {
+    //            const auto shaderId = attrib->Value();
+    //            auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
+    //            return shaders->GetAsset(shaderId);
+    //        }
+    //    }*/
 
-        return nullptr;
-    }
+    //    return nullptr;
+    //}
 
-    std::vector<Rect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element)
+    std::vector<sf::FloatRect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element)
     {
-        std::vector<Rect> result;
+        std::vector<sf::FloatRect> result;
 
         if (const auto childElement = element->FirstChildElement(id.c_str()))
         {

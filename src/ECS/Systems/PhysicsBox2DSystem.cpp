@@ -4,6 +4,8 @@
 #include "ECS/Systems/TimeSystem.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
+#include "Utils/Math.h"
+#include <SFML/System/Vector2.hpp>
 
 namespace shen
 {
@@ -23,28 +25,30 @@ namespace shen
 
         gameWorld.Each<RigidBody, Transform>(
             [&](const auto& entity, RigidBody& rb, Transform& transform)
-            {
-                const auto size = glm::vec3(rb.size, 0.f) * transform.scale;
-                
-                b2BodyDef bodyDef;
-                bodyDef.type = static_cast<b2BodyType>(rb.type);
-                bodyDef.position.Set(transform.position.x, transform.position.y);
-                bodyDef.angle = glm::radians(transform.GetEulerAngleZ());
+        {
+            auto size = rb.size;
+            size.x *= transform.scale.x;
+            size.y *= transform.scale.y;
 
-                auto dynamicBody = _world->CreateBody(&bodyDef);
-                dynamicBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(&entity);
+            b2BodyDef bodyDef;
+            bodyDef.type = static_cast<b2BodyType>(rb.type);
+            bodyDef.position.Set(transform.position.x, transform.position.y);
+            bodyDef.angle = Radians(transform.rotation);
 
-                rb.body = dynamicBody;
+            auto dynamicBody = _world->CreateBody(&bodyDef);
+            dynamicBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(&entity);
 
-                b2PolygonShape dynamicBox;
-                dynamicBox.SetAsBox(size.x / 2.f, size.y / 2.f);
-                b2FixtureDef fixtureDef;
-                fixtureDef.shape = &dynamicBox;
-                fixtureDef.density = 1.f;
-                fixtureDef.isSensor = rb.sensor;
+            rb.body = dynamicBody;
 
-                dynamicBody->CreateFixture(&fixtureDef);
-            });
+            b2PolygonShape dynamicBox;
+            dynamicBox.SetAsBox(size.x / 2.f, size.y / 2.f);
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &dynamicBox;
+            fixtureDef.density = 1.f;
+            fixtureDef.isSensor = rb.sensor;
+
+            dynamicBody->CreateFixture(&fixtureDef);
+        });
     }
 
     void PhysicsBox2DSystem::Update()
@@ -58,14 +62,13 @@ namespace shen
 
         gameWorld.Each<RigidBody, Transform>(
             [&](const auto entity, RigidBody& rb, Transform& transform)
-            {
-                auto position = rb.body->GetPosition();
-                const auto angle = rb.body->GetAngle();
+        {
+            auto position = rb.body->GetPosition();
+            const auto angle = rb.body->GetAngle();
 
-                static glm::vec3 up{ 0.f, 0.f, 1.f };
-                transform.position = glm::vec3(position.x, position.y, 0.f);
-                transform.rotation = glm::angleAxis(angle, up);
-            });
+            transform.position = sf::Vector2f(position.x, position.y);
+            transform.rotation = angle;
+        });
     }
 
     void PhysicsBox2DSystem::Stop()

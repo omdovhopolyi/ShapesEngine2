@@ -6,17 +6,17 @@
 
 namespace shen
 {
-    CameraMoveCommand::CameraMoveCommand(const glm::vec3& dir)
+    CameraMoveCommand::CameraMoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     {
     }
 
-    void CameraMoveCommand::SetDirection(const glm::vec3& dir)
+    void CameraMoveCommand::SetDirection(const sf::Vector2f& dir)
     {
         _direction = dir;
     }
 
-    const glm::vec3 CameraMoveCommand::GetDirection() const
+    const sf::Vector2f& CameraMoveCommand::GetDirection() const
     {
         return _direction;
     }

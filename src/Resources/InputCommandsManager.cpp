@@ -73,7 +73,7 @@ namespace shen
             command->SetSpeed(speedAttr->FloatValue());
         }
 
-        command->SetDirection(LoadVec3(element));
+        command->SetDirection(LoadVec2(element));
 
         return command;
     }
@@ -92,7 +92,7 @@ namespace shen
             command->SetSpeed(speedAttr->FloatValue());
         }
 
-        command->SetDirection(LoadVec3(element));
+        command->SetDirection(LoadVec2(element));
 
         return command;
     }

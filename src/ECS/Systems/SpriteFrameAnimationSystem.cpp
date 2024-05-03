@@ -30,9 +30,9 @@ namespace shen
 
 			if (animation.curFrame != prevFrame)
 			{
-				sprite.texRect = animation.frames[animation.curFrame];
+				//sprite.texRect = animation.frames[animation.curFrame];
 
-				Messenger::Instance().Broadcast<UpdateTexRect>(entity, sprite.texRect);
+				//Messenger::Instance().Broadcast<UpdateTexRect>(entity, sprite.texRect);
 			}
 		});
     }

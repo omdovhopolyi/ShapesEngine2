@@ -1,7 +1,8 @@
 #pragma once
 
 #include "BaseSystems/UpdateSystem.h"
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace shen
 {
@@ -13,6 +14,6 @@ namespace shen
         void Update() override;
 
     private:
-        glm::vec2 _viewportSize;
+        sf::Vector2f _viewportSize;
     };
 }

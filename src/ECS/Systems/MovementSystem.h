@@ -9,6 +9,5 @@ namespace shen
     {
     public:
         void Update() override;
-        
     };
 }

@@ -1,4 +1,5 @@
 #include "Math.h"
+#include <glm/glm.hpp>
 
 namespace shen
 {
@@ -25,5 +26,15 @@ namespace shen
         }
 
         return worldPos;
+    }
+
+    float Radians(float degrees)
+    {
+        return glm::radians(degrees);
+    }
+
+    float Degrees(float radians)
+    {
+        return glm::degrees(radians);
     }
 }
