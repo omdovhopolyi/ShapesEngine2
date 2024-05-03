@@ -26,7 +26,6 @@ endforeach()
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
-set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 
 set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "" FORCE)
 set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "" FORCE)
@@ -38,23 +37,11 @@ set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(submodules/SFML)
 target_link_libraries(${TARGET_NAME} sfml-graphics)
 
-#add_subdirectory(submodules/glm)
-#target_link_libraries(${TARGET_NAME} glm)
-
 add_subdirectory(cmake/lua)
 target_link_libraries(${TARGET_NAME} lua)
 
 add_subdirectory(submodules/sol2)
 target_link_libraries(${TARGET_NAME} sol2)
-
-add_subdirectory(submodules/glew-cmake)
-target_link_libraries(${TARGET_NAME} libglew_static)
-
-add_subdirectory(external/glad)
-target_link_libraries(${TARGET_NAME} glad)
-
-add_subdirectory(submodules/assimp)
-target_link_libraries(${TARGET_NAME} assimp)
 
 add_subdirectory(submodules/box2d)
 target_link_libraries(${TARGET_NAME} box2d)
@@ -67,15 +54,10 @@ include_directories(src)
 #include_directories(submodules/imgui)
 #include_directories(submodules/imgui_sdl)
 include_directories(submodules/SFML)
-#include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)
-include_directories(submodules/entt/src)  
-include_directories(submodules/glew-cmake/include)
-include_directories(submodules/assimp/include)
-include_directories(submodules/stb)
-include_directories(external/glad/include)
+include_directories(submodules/entt/src)
 include_directories(submodules/box2d/include)
 include_directories(submodules/bezier)
 
