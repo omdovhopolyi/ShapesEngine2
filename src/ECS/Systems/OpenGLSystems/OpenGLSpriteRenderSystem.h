@@ -3,8 +3,6 @@
 #include "ECS/Systems/BaseSystems/RenderSystem.h"
 #include "Messenger/SubscriptionsContainer.h"
 
-#include <glm/glm.hpp>
-
 namespace shen
 {
     /*class OpenGLSpriteRenderSystem

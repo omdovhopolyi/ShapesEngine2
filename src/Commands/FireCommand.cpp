@@ -6,8 +6,6 @@
 #include "ECS/Components/Common.h"
 #include "Utils/Types.h"
 
-#include <glm/glm.hpp>
-
 namespace shen
 {
     void FireCommand::Execute(const Entity& entity, const CommandContext&) const

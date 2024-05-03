@@ -25,8 +25,6 @@ endforeach()
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
 
-#set(SDL_TEST OFF CACHE BOOL "" FORCE)
-
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
 set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 
@@ -40,8 +38,8 @@ set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(submodules/SFML)
 target_link_libraries(${TARGET_NAME} sfml-graphics)
 
-add_subdirectory(submodules/glm)
-target_link_libraries(${TARGET_NAME} glm)
+#add_subdirectory(submodules/glm)
+#target_link_libraries(${TARGET_NAME} glm)
 
 add_subdirectory(cmake/lua)
 target_link_libraries(${TARGET_NAME} lua)
@@ -64,15 +62,12 @@ target_link_libraries(${TARGET_NAME} box2d)
 add_subdirectory(submodules/bezier)
 target_link_libraries(${TARGET_NAME} bezier)
 
-#add_subdirectory(submodules/reactphysics3d)
-#target_link_libraries(${TARGET_NAME} reactphysics3d)
-
 include_directories(src)
 
 #include_directories(submodules/imgui)
 #include_directories(submodules/imgui_sdl)
 include_directories(submodules/SFML)
-include_directories(submodules/glm)
+#include_directories(submodules/glm)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)

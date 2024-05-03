@@ -2,11 +2,8 @@
 
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
-//#include "Game/ManagersProvider.h"
 #include "Logger/Logger.h"
 #include "Utils/Coords.h"
-
-#include <glm/gtx/vector_angle.hpp>
 
 namespace shen
 {

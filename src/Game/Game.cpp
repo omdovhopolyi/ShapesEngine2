@@ -3,7 +3,6 @@
 #include "Resources/ResourcesManager.h"
 #include "Logger/Logger.h"
 #include "Time.h"
-#include "GameWindow.h"
 #include "MapLoader.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Components/Common.h"

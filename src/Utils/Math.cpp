@@ -1,9 +1,11 @@
 #include "Math.h"
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace shen
 {
-    float SquareLength(const glm::vec3& vec)
+    /*float SquareLength(const glm::vec3& vec)
     {
         return glm::dot(vec, vec);
     }
@@ -11,9 +13,9 @@ namespace shen
     bool FloatEqual(float val1, float val2, float epsilon)
     {
         return glm::abs(val1 - val2) < epsilon;
-    }
+    }*/
 
-    glm::vec3 PlaneVectorIntersect(const glm::vec3& planePoint, const glm::vec3& planeNorm, const glm::vec3& rayOrigin, const glm::vec3& rayDirection)
+    /*glm::vec3 PlaneVectorIntersect(const glm::vec3& planePoint, const glm::vec3& planeNorm, const glm::vec3& rayOrigin, const glm::vec3& rayDirection)
     {
         glm::vec3 worldPos = glm::vec3(0.f);
 
@@ -26,15 +28,15 @@ namespace shen
         }
 
         return worldPos;
-    }
+    }*/
 
     float Radians(float degrees)
     {
-        return glm::radians(degrees);
+        return degrees * M_PI / 180.f;
     }
 
     float Degrees(float radians)
     {
-        return glm::degrees(radians);
+        return radians * 180.f / M_PI;
     }
 }
