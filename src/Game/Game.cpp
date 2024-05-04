@@ -16,6 +16,8 @@
 #include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
 
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+
 #include <sstream>
 #include <fstream>
 
@@ -37,6 +39,7 @@ namespace shen
 		_resources = std::make_unique<ResourcesManager>();
 
 		_systems->Init(this);
+		_systems->RegisterSystem<SfmlTexturesCollection>();
 		_systems->RegisterSystem<ResourcesManagerHolderSystem>(_resources.get());
 		_systems->RegisterSystem<TimeSystem>();
 
