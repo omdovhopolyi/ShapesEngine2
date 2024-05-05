@@ -9,7 +9,9 @@
 #include "Resources/AssetsManager.h"
 #include "Resources/ShadersManager.h"
 #include "Messenger/Events/Common.h"
-#include "ECS/Systems/ResourcesManagerHolderSystem.h"
+#include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/PlayerInputSystem.h"
+//#include "ECS/Systems/ResourcesManagerHolderSystem.h"
 #include "ECS/Systems/TimeSystem.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
@@ -40,10 +42,13 @@ namespace shen
 
 		_systems->Init(this);
 		_systems->RegisterSystem<SfmlTexturesCollection>();
-		_systems->RegisterSystem<ResourcesManagerHolderSystem>(_resources.get());
-		_systems->RegisterSystem<TimeSystem>();
 
+		//_systems->RegisterSystem<ResourcesManagerHolderSystem>(_resources.get());
+		_systems->RegisterSystem<TimeSystem>();
+		_systems->RegisterSystem<InputCommandsCollection>();
 		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<PlayerInputSystem>();
+
 		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
 		_systems->RegisterSystem<SfmlGameWindowSystem>();
 		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();

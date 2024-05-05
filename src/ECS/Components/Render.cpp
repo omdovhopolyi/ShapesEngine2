@@ -4,10 +4,8 @@
 
 namespace shen
 {
-    void Sprite::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void Sprite::Load(Sprite& component, Serialization& serialization)
     {
-        auto comp = world.AddComponent<Sprite>(entity);
-
         /*comp->textureId = LoadStr("textureId", element);
 
 
@@ -24,32 +22,28 @@ namespace shen
         }*/
     }
 
-    void Sprite::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void Sprite::Save(Serialization& serialization)
     {
 
     }
 
-    void Color::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void Color::Load(Color& component, Serialization& serialization)
     {
-        auto comp = world.AddComponent<Color>(entity);
-
         //comp->rgba = LoadColor("color", element) / 255.f;
     }
 
-    void Color::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void Color::Save(Serialization& serialization)
     {
 
     }
 
-    void SpriteFrameAnimation::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, Serialization& serialization)
     {
-        auto comp = world.AddComponent<SpriteFrameAnimation>(entity);
-
-        comp->frameTime = LoadFloat("frameTime", element, comp->frameTime);
+        component.frameTime = serialization.LoadFloat("frameTime", component.frameTime);
         //comp->frames = LoadVectorRect("frames", element);
     }
 
-    void SpriteFrameAnimation::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Save(Serialization& serialization)
     {
 
     }

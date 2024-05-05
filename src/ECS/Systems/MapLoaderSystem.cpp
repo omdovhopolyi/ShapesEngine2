@@ -63,7 +63,7 @@ namespace shen
 
                         if (auto it = _functions.find(type); it != _functions.end())
                         {
-                            it->second.loadFunc(entity, world, elementComponent);
+                            it->second.loadFunc(entity, elementComponent);
                         }
                     }
 

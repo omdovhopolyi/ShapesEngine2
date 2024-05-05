@@ -11,6 +11,8 @@ struct b2Body;
 
 namespace shen
 {
+    class Serialization;
+
     struct Transform
     {
         sf::Vector2f origin;
@@ -18,8 +20,8 @@ namespace shen
         sf::Vector2f scale;
         float rotation = 0.f;
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(Transform& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct Mover
@@ -28,8 +30,8 @@ namespace shen
         /*glm::vec3 velocity = glm::vec3{};
         glm::vec3 direction = glm::vec3{};*/
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(Mover& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct Rotator
@@ -44,8 +46,8 @@ namespace shen
     {
         std::vector<std::string> commandTypes;
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(PlayerInput& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct Camera
@@ -59,8 +61,8 @@ namespace shen
         glm::mat4 view = glm::mat4(1.f);
         glm::mat4 projection = glm::mat4(1.f);*/
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(Camera& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct CameraTarget

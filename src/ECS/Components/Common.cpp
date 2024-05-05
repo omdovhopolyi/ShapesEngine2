@@ -4,31 +4,23 @@
 
 namespace shen
 {
-    /*float Transform::GetEulerAngleZ() const
+    void Transform::Load(Transform& component, Serialization& serialization)
     {
-        return glm::degrees(glm::eulerAngles(rotation).z);
-    }*/
-
-    void Transform::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
-    {
-        auto comp = world.AddComponent<Transform>(entity);
-
-        comp->position = LoadVec2("position", element);
-        comp->rotation = LoadFloat("rotation", element);
-        comp->scale = LoadVec2("scale", element, comp->scale);
+        component.position = serialization.LoadVec2("position");
+        component.rotation = serialization.LoadFloat("rotation");
+        component.scale = serialization.LoadVec2("scale", component.scale);
     }
 
-    void Transform::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void Transform::Save(Serialization& serialization)
     {
 
     }
 
-    void Mover::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void Mover::Load(Mover& component, Serialization& serialization)
     {
-        world.AddComponent<Mover>(entity);
     }
 
-    void Mover::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void Mover::Save(Serialization& serialization)
     {
 
     }
@@ -38,23 +30,21 @@ namespace shen
         return glm::degrees(glm::eulerAngles(rotation).z);
     }*/
 
-    void PlayerInput::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void PlayerInput::Load(PlayerInput& component, Serialization& serialization)
     {
-        auto comp = world.AddComponent<PlayerInput>(entity);
-
-        comp->commandTypes = LoadVecStr("array", element);
+        component.commandTypes = serialization.LoadVecStr("array");
     }
 
-    void PlayerInput::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void PlayerInput::Save(Serialization& serialization)
     {
 
     }
 
-    void Camera::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void Camera::Load(Camera& component, Serialization& serialization)
     {
     }
 
-    void Camera::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void Camera::Save(Serialization& serialization)
     {
 
     }

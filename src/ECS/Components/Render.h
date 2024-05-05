@@ -8,21 +8,23 @@
 
 namespace shen
 {
+    class Serialization;
+
     struct Sprite
     {
         std::string textureId;
         sf::Sprite sprite;
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(Sprite& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct Color
     {
         sf::Color color;
         
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(Color& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct SpriteFrameAnimation
@@ -32,7 +34,7 @@ namespace shen
         float dt = 0.f;
         int curFrame = 0;
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(SpriteFrameAnimation& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 }

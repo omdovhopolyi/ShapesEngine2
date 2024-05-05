@@ -9,7 +9,7 @@ struct b2Body;
 
 namespace shen
 {
-    class World;
+    class Serialization;
 
     struct RigidBody
     {
@@ -19,8 +19,8 @@ namespace shen
 
         b2Body* body = nullptr;
 
-        static void Load(Entity entity, World& world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, World& world, tinyxml2::XMLElement* element);
+        static void Load(RigidBody& component, Serialization& serialization);
+        static void Save(Serialization& serialization);
     };
 
     struct Collision

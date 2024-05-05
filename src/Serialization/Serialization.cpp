@@ -1,12 +1,18 @@
 #include "Serialization.h"
-
-//#include "Resources/ShadersManager.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 
 namespace shen
 {
-    bool LoadBool(const std::string& id, const tinyxml2::XMLElement* element, bool defaultVal/* = false*/)
+    Serialization::Serialization(SystemsManager* systems, tinyxml2::XMLElement* element)
+        : _systems(systems)
+        , _element(element)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+    }
+
+    bool Serialization::LoadBool(const std::string& id, bool defaultVal/* = false*/)
+    {
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -17,9 +23,9 @@ namespace shen
         return defaultVal;
     }
 
-    int LoadInt(const std::string& id, const tinyxml2::XMLElement* element, int defaultVal/* = 0*/)
+    int Serialization::LoadInt(const std::string& id, int defaultVal/* = 0*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -30,9 +36,9 @@ namespace shen
         return defaultVal;
     }
 
-    float LoadFloat(const std::string& id, const tinyxml2::XMLElement* element, float defaultVal/* = 0.f*/)
+    float Serialization::LoadFloat(const std::string& id, float defaultVal/* = 0.f*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -43,9 +49,9 @@ namespace shen
         return defaultVal;
     }
 
-    std::string LoadStr(const std::string& id, const tinyxml2::XMLElement* element, const std::string& defaultVal/* = {}*/)
+    std::string Serialization::LoadStr(const std::string& id, const std::string& defaultVal/* = {}*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -56,9 +62,9 @@ namespace shen
         return defaultVal;
     }
 
-    sf::Vector2f LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
+    sf::Vector2f Serialization::LoadVec2(const std::string& id, sf::Vector2f defaultVal)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             return LoadVec2(childElement, defaultVal);
         }
@@ -66,17 +72,7 @@ namespace shen
         return defaultVal;
     }
 
-    /*sf::Vector2f LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
-    {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
-        {
-            return LoadVec3(childElement, defaultVal);
-        }
-
-        return defaultVal;
-    }*/
-
-    sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
+    sf::Vector2f Serialization::LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
     {
         sf::Vector2f result;
 
@@ -93,31 +89,9 @@ namespace shen
         return result;
     }
 
-    //glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = glm::vec3(0.f)*/)
-    //{
-    //    glm::vec3 result = glm::vec3(0.f);
-
-    //    if (const auto xAttrib = element->FindAttribute("x"))
-    //    {
-    //        result.x = xAttrib->FloatValue();
-    //    }
-
-    //    if (const auto yAttrib = element->FindAttribute("y"))
-    //    {
-    //        result.y = yAttrib->FloatValue();
-    //    }
-
-    //    if (const auto zAttrib = element->FindAttribute("z"))
-    //    {
-    //        result.z = zAttrib->FloatValue();
-    //    }
-
-    //    return result;
-    //}
-
-    sf::FloatRect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, sf::FloatRect def/* = {}*/)
+    sf::FloatRect Serialization::LoadRect(const std::string& id, sf::FloatRect def/* = {}*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             return LoadRect(childElement);
         }
@@ -125,7 +99,7 @@ namespace shen
         return def;
     }
 
-    sf::FloatRect LoadRect(const tinyxml2::XMLElement* element)
+    sf::FloatRect Serialization::LoadRect(const tinyxml2::XMLElement* element)
     {
         sf::FloatRect rect;
 
@@ -152,9 +126,9 @@ namespace shen
         return rect;
     }
 
-    sf::Color LoadColor(const std::string& id, const tinyxml2::XMLElement* element, sf::Color defaultVal)
+    sf::Color Serialization::LoadColor(const std::string& id, sf::Color defaultVal)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             sf::Color result;
 
@@ -184,45 +158,29 @@ namespace shen
         return defaultVal;
     }
 
-    sf::Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
+    sf::Texture* Serialization::LoadTexturePtr(const std::string& id)
     {
-        return nullptr;
-
-        /*auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
-        Texture* texture = nullptr;
-
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
                 const auto textureId = attrib->Value();
-                texture = texturesManager->GetAsset(textureId);
+
+                if (auto textures = _systems->GetSystem<SfmlTexturesCollection>())
+                {
+                    return textures->GetTexture(textureId);
+                }
             }
         }
 
-        return texture ? texture : texturesManager->GetAsset("Empty");*/
+        return nullptr;
     }
 
-    //Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
-    //{
-    //    /*if (const auto childElement = element->FirstChildElement(id.c_str()))
-    //    {
-    //        if (const auto attrib = childElement->FindAttribute("val"))
-    //        {
-    //            const auto shaderId = attrib->Value();
-    //            auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-    //            return shaders->GetAsset(shaderId);
-    //        }
-    //    }*/
-
-    //    return nullptr;
-    //}
-
-    std::vector<sf::FloatRect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element)
+    std::vector<sf::FloatRect> Serialization::LoadVectorRect(const std::string& id)
     {
         std::vector<sf::FloatRect> result;
 
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             auto rectElement = childElement->FirstChildElement("rect");
             while (rectElement)
@@ -235,11 +193,11 @@ namespace shen
         return result;
     }
 
-    std::vector<std::string> LoadVecStr(const std::string& id, const tinyxml2::XMLElement* element)
+    std::vector<std::string> Serialization::LoadVecStr(const std::string& id)
     {
         std::vector<std::string> result;
 
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             auto arrayElement = childElement->FirstChildElement("item");
             while (arrayElement)

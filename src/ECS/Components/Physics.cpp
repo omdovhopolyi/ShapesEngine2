@@ -4,16 +4,14 @@
 
 namespace shen
 {
-    void RigidBody::Load(Entity entity, World& world, const tinyxml2::XMLElement* element)
+    void RigidBody::Load(RigidBody& component, Serialization& serialization)
     {
-        auto comp = world.AddComponent<RigidBody>(entity);
-
-        comp->type = LoadInt("type", element);
-        comp->size = LoadVec2("size", element, comp->size);
-        comp->sensor = LoadBool("sensor", element, comp->sensor);
+        component.type = serialization.LoadInt("type");
+        component.size = serialization.LoadVec2("size", component.size);
+        component.sensor = serialization.LoadBool("sensor", component.sensor);
     }
 
-    void RigidBody::Save(Entity entity, World& world, tinyxml2::XMLElement* element)
+    void RigidBody::Save(Serialization& serialization)
     {
 
     }

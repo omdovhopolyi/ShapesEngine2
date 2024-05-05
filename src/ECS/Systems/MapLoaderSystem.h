@@ -2,6 +2,8 @@
 
 #include "BaseSystems/System.h"
 #include "ECS/Entity.h"
+#include "ECS/SystemsManager.h"
+#include "Serialization/Serialization.h"
 #include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <map>
@@ -9,12 +11,10 @@
 
 namespace shen
 {
-    class World;
-
     struct LoadSaveFuncs
     {
-        std::function<void(Entity entity, World& world, const tinyxml2::XMLElement* element)> loadFunc;
-        std::function<void(Entity entity, World& world, tinyxml2::XMLElement* element)> saveFunc;
+        std::function<void(Entity, tinyxml2::XMLElement*)> loadFunc;
+        std::function<void(Serialization&)> saveFunc;
     };
 
     class MapLoaderSystem
@@ -38,6 +38,16 @@ namespace shen
     template<class T>
     void MapLoaderSystem::RegisterLoader(const std::string& id)
     {
-        _functions[id] = { T::Load, T::Save };
+        auto& functions = _functions[id];
+
+        functions.loadFunc = [&](Entity entity, tinyxml2::XMLElement* element)
+        {
+            auto& world = _systems->GetWorld();
+            auto comp = world.AddComponent<T>(entity);
+            Serialization serialization(_systems, element);
+            T::Load(*comp, serialization);
+        };
+
+        functions.saveFunc = T::Save;
     }
 }
