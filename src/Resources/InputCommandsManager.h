@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    class InputCommandsManager final
+    /*class InputCommandsManager final
         : public AssetsManager<std::shared_ptr<Command>, std::shared_ptr<Command>>
     {
     public:
@@ -24,5 +24,5 @@ namespace shen
 
     private:
         std::map<std::string, std::function<std::shared_ptr<Command>(const tinyxml2::XMLElement* element)>> _loaders;
-    };
+    };*/
 }

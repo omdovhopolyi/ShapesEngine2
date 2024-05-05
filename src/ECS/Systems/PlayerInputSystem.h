@@ -49,7 +49,7 @@ namespace shen
     protected:
         SubcriptionsContainer _subscriptions;
 
-        std::map<InputType, std::shared_ptr<Command>> _actions;
+        std::map<InputType, Command*> _actions;
         std::vector<std::pair<Command*, CommandContext>> _toProcess;
     };
 }

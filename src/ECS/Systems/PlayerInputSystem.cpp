@@ -5,6 +5,7 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/SystemsManager.h"
+#include "ECS/Systems/InputCommandsCollection.h"
 #include "ECS/Systems/ResourcesManagerHolderSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
@@ -94,7 +95,7 @@ namespace shen
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), {} });
+                _toProcess.push_back({ it->second, {} });
             }
         });
 
@@ -109,7 +110,7 @@ namespace shen
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), {} });
+                _toProcess.push_back({ it->second, {} });
             }
         });
 
@@ -127,7 +128,7 @@ namespace shen
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), context });
+                _toProcess.push_back({ it->second, context });
             }
         });
 
@@ -144,16 +145,18 @@ namespace shen
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), context });
+                _toProcess.push_back({ it->second, context });
             }
         });
     }
 
     void PlayerInputSystem::LoadConfig()
     {
-        auto resourcesManagerHolder = _systems->GetSystem<ResourcesManagerHolderSystem>();
+        auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
+
+        /*auto resourcesManagerHolder = _systems->GetSystem<ResourcesManagerHolderSystem>();
         auto resourcesManager = resourcesManagerHolder->GetResourcesManager();
-        auto commandsManager = resourcesManager->GetOrCreateAssetsManager<InputCommandsManager>();
+        auto commandsManager = resourcesManager->GetOrCreateAssetsManager<InputCommandsManager>();*/
         
         tinyxml2::XMLDocument doc;
 
@@ -204,9 +207,9 @@ namespace shen
                 if (const auto commandAttr = element->FindAttribute("command"))
                 {
                     const auto commandId = commandAttr->Value();
-                    auto command = commandsManager->GetAsset(commandId);
+                    auto command = inputCommandsCollection->GetCommandById(commandId);
 
-                    _actions[inputType] = std::move(command);
+                    _actions[inputType] = command;
                 }
                 
                 element = element->NextSiblingElement();
