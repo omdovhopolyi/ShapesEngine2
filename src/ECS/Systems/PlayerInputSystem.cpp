@@ -6,12 +6,9 @@
 #include "ECS/Components/Common.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/InputCommandsCollection.h"
-#include "ECS/Systems/ResourcesManagerHolderSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
-#include "Resources/ResourcesManager.h"
-#include "Resources/InputCommandsManager.h"
 #include "Utils/Assert.h"
 
 namespace shen
