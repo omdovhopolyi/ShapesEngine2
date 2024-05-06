@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    void SfmlWindowEndFrameSystem::Update()
+    void SfmlWindowEndFrameSystem::Draw()
     {
         if (auto window = _systems->GetSystem<SfmlGameWindowSystem>())
         {

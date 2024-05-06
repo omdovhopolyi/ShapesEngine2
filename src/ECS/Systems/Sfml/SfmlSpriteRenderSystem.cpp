@@ -15,7 +15,6 @@ namespace shen
 
         world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
         {
-            sprite.sprite.setOrigin(transform.origin);
             sprite.sprite.setPosition(transform.position);
             sprite.sprite.setRotation(transform.rotation);
             sprite.sprite.setScale(transform.scale);

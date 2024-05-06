@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ECS/Systems/BaseSystems/UpdateSystem.h"
+#include "ECS/Systems/BaseSystems/RenderSystem.h"
 
 namespace shen
 {
     class SfmlWindowEndFrameSystem
-        : public UpdateSystem
+        : public RenderSystem
     {
     public:
-        void Update() override;
+        void Draw() override;
     };
 }
