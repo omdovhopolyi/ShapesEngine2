@@ -1,4 +1,5 @@
 #include "SfmlTexturesCollection.h"
+#include "Utils/Assert.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <tinyxml2/tinyxml2.h>
 
@@ -37,12 +38,13 @@ namespace shen
             }
             else
             {
+                Assert(false, "[SfmlTexturesCollection::LoadTexture] Texture insertion has failed");
                 // TODO assert log
                 return nullptr;
             }
         }
 
-        // TODO assert log
+        Assert(false, "[SfmlTexturesCollection::LoadTexture] Texture creation has failed");
         return nullptr;
     }
 
@@ -79,7 +81,7 @@ namespace shen
         const auto error = doc.LoadFile(fileName.c_str());
         if (error != tinyxml2::XML_SUCCESS)
         {
-            // TODO assert
+            Assert(error != tinyxml2::XML_SUCCESS, "[SfmlTexturesCollection::LoadTexturesPaths] Can not read textures path file");
             return;
         }
 
@@ -91,9 +93,15 @@ namespace shen
                 const auto idAttr = element->FindAttribute("id");
                 const auto pathAttr = element->FindAttribute("path");
 
-                if (!idAttr || !pathAttr)
+                if (!idAttr)
                 {
-                    // TODO assert
+                    Assert(!idAttr, "[SfmlTexturesCollection::LoadTexturesPaths] No 'id' in paths list");
+                    continue;
+                }
+
+                if (!pathAttr)
+                {
+                    Assert(!pathAttr, "[SfmlTexturesCollection::LoadTexturesPaths] No 'path' in paths list");
                     continue;
                 }
 

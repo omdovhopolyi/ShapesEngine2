@@ -23,7 +23,7 @@ foreach(source IN LISTS SRC_FILES)
     source_group("${source_path}" FILES "${source}")
 endforeach()
 
-target_compile_features(${TARGET_NAME} PUBLIC cxx_std_17)
+target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
 

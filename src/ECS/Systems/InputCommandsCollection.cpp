@@ -4,6 +4,7 @@
 #include "Commands/RotateCommand.h"
 #include "Commands/CameraMoveCommand.h"
 #include "Commands/CameraZoomCommand.h"
+#include "Utils/Assert.h"
 
 namespace shen
 {
@@ -47,7 +48,7 @@ namespace shen
         const auto error = doc.LoadFile("../assets/configs/commands.xml");
         if (error != tinyxml2::XML_SUCCESS)
         {
-            // assert
+            Assert(error != tinyxml2::XML_SUCCESS, "[InputCommandsCollection::LoadFromXml] Can not read commands.xml");
             return;
         }
 
@@ -59,9 +60,15 @@ namespace shen
                 const auto typeAttr = element->FindAttribute("type");
                 const auto idAttr = element->FindAttribute("id");
 
-                if (!typeAttr || !idAttr)
+                if (!typeAttr)
                 {
-                    // assert
+                    Assert(!typeAttr, "[InputCommandsCollection::LoadFromXml] No 'type' attribute in command");
+                    continue;
+                }
+
+                if (!idAttr)
+                {
+                    Assert(!idAttr, "[InputCommandsCollection::LoadFromXml] No 'id' attribute in command");
                     continue;
                 }
 

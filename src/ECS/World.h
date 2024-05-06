@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 #include "Logger/Logger.h"
-
+#include <format>
 #include <entt/entt.hpp>
 
 namespace shen
@@ -66,7 +66,7 @@ namespace shen
     template<class Comp, class... Args>
     Comp* World::AddComponent(Entity entity, Args... args)
     {
-        Logger::Log("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
+        Logger::Log(std::format("Adding {} compoenent to entity {}", typeid(Comp).name(), entity.GetId()));
 
         if constexpr (std::is_empty_v<Comp>)
         {
@@ -105,7 +105,7 @@ namespace shen
     template<class Comp>
     void World::RemoveComponent(Entity entity)
     {
-        Logger::Log("Removing {} compoenent to entity {}", typeid(Comp).name(), entity.GetId());
+        Logger::Log(std::format("Removing {} compoenent to entity {}", typeid(Comp).name(), entity.GetId()));
         _registry.remove<Comp>(entity._entity);
     }
 

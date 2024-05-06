@@ -11,6 +11,7 @@
 #include <map>
 #include <typeinfo>
 #include <typeindex>
+#include <format>
 
 namespace shen
 {
@@ -57,17 +58,17 @@ namespace shen
         if constexpr (std::is_base_of_v<RenderSystem, T>)
         {
             _renderSystems.push_back(std::move(system));
-            Logger::Log("Register {} render system", typeid(T).name());
+            Logger::Log(std::format("Register {} render system", typeid(T).name()));
         }
         else if constexpr (std::is_base_of_v<UpdateSystem, T>)
         {
             _updateSystems.push_back(std::move(system));
-            Logger::Log("Register {} update system", typeid(T).name());
+            Logger::Log(std::format("Register {} update system", typeid(T).name()));
         }
         else
         {
             _simpleSystems.push_back(std::move(system));
-            Logger::Log("Register {} simple system", typeid(T).name());
+            Logger::Log(std::format("Register {} simple system", typeid(T).name()));
         }
     }
 

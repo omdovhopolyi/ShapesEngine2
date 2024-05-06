@@ -44,7 +44,7 @@ namespace shen
         }
         else
         {
-            // TODO assert
+            //Assert(false, "[AssetsManager::LoadAsset] Can not load asset '" + id + "'");
             return false;
         }
     }

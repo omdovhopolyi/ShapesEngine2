@@ -5,6 +5,7 @@
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 #include "Utils/Math.h"
+#include "Utils/Assert.h"
 #include <SFML/System/Vector2.hpp>
 
 namespace shen
@@ -14,7 +15,7 @@ namespace shen
         _world = std::make_unique<b2World>(b2Vec2(0.f, 0.f/*-9.8f*/));
         if (!_world)
         {
-            // Assert
+            Assert(!_world, "[PhysicsBox2DSystem::Start] Can not create b2World");
             return;
         }
 

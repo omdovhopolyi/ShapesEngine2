@@ -12,6 +12,7 @@
 #include "Commands/RotateCommand.h"
 #include "Resources/ResourcesManager.h"
 #include "Resources/InputCommandsManager.h"
+#include "Utils/Assert.h"
 
 namespace shen
 {
@@ -163,7 +164,7 @@ namespace shen
         const auto error = doc.LoadFile("../assets/configs/input.xml");
         if (error != tinyxml2::XML_SUCCESS)
         {
-            // assert
+            Assert(error != tinyxml2::XML_SUCCESS, "[PlayerInputSystem::LoadConfig] Can not read 'input.xml");
             return;
         }
 

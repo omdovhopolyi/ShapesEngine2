@@ -10,7 +10,7 @@ namespace shen
         , shift(shiftMode)
         , ctrl(ctrlMode)
     {
-        Logger::Log("Key {}", static_cast<char>(keyCode));
+        //Logger::Log("Key {}", static_cast<char>(keyCode));
     }
 
     MouseButtonEvent::MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, int posX, int posY, bool altMode, bool shiftMode, bool ctrlMode)
@@ -22,7 +22,7 @@ namespace shen
         , shift(shiftMode)
         , ctrl(ctrlMode)
     {
-        Logger::Log("Mouse button");
+        //Logger::Log("Mouse button");
     }
 
     MouseMoveEvent::MouseMoveEvent(int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode)
@@ -34,7 +34,7 @@ namespace shen
         , shift(shiftMode)
         , ctrl(ctrlMode)
     { 
-        Logger::Log("Mouse move");
+        //Logger::Log("Mouse move");
     }
 
     MouseWheelEvent::MouseWheelEvent(int posX, int posY, int scrl, bool altMode, bool shiftMode, bool ctrlMode)
@@ -45,6 +45,6 @@ namespace shen
         , shift(shiftMode)
         , ctrl(ctrlMode)
     {
-        Logger::Log("Mouse wheel scroll");
+        //Logger::Log("Mouse wheel scroll");
     }
 }

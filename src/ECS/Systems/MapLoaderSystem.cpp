@@ -5,6 +5,7 @@
 #include "ECS/Components/Physics.h"
 #include "ECS/Components/Render.h"
 #include "ECS/World.h"
+#include "Utils/Assert.h"
 
 namespace shen
 {
@@ -41,7 +42,7 @@ namespace shen
         const auto error = doc.LoadFile(filePath.c_str());
         if (error != tinyxml2::XML_SUCCESS)
         {
-            // assert
+            Assert(error != tinyxml2::XML_SUCCESS, std::format("[MapLoaderSystem::LoadMap] Can not read '{}' map xml", mapId));
             return;
         }
 
