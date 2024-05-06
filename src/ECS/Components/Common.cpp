@@ -25,11 +25,6 @@ namespace shen
 
     }
 
-    /*float Rotator::GetEulerAngleZ() const
-    {
-        return glm::degrees(glm::eulerAngles(rotation).z);
-    }*/
-
     void PlayerInput::Load(PlayerInput& component, Serialization& serialization)
     {
         component.commandTypes = serialization.LoadVecStr("array");
@@ -42,6 +37,10 @@ namespace shen
 
     void Camera::Load(Camera& component, Serialization& serialization)
     {
+        component.position = serialization.LoadVec2("position");
+        component.viewport = serialization.LoadFloatRect("viewport");
+        component.zoom = serialization.LoadFloat("zoom", component.zoom);
+        component.rotation = serialization.LoadFloat("rotation");
     }
 
     void Camera::Save(Serialization& serialization)

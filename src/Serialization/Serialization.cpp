@@ -89,17 +89,17 @@ namespace shen
         return result;
     }
 
-    sf::FloatRect Serialization::LoadRect(const std::string& id, sf::FloatRect def/* = {}*/)
+    sf::FloatRect Serialization::LoadFloatRect(const std::string& id, sf::FloatRect def/* = {}*/)
     {
         if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
-            return LoadRect(childElement);
+            return LoadFloatRect(childElement);
         }
 
         return def;
     }
 
-    sf::FloatRect Serialization::LoadRect(const tinyxml2::XMLElement* element)
+    sf::FloatRect Serialization::LoadFloatRect(const tinyxml2::XMLElement* element)
     {
         sf::FloatRect rect;
 
@@ -121,6 +121,43 @@ namespace shen
         if (const auto attrib = element->FindAttribute("h"))
         {
             rect.height = attrib->FloatValue();
+        }
+
+        return rect;
+    }
+
+    sf::IntRect Serialization::LoadIntRect(const std::string& id, sf::IntRect def/* = {}*/)
+    {
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
+        {
+            return LoadIntRect(childElement);
+        }
+
+        return def;
+    }
+
+    sf::IntRect Serialization::LoadIntRect(const tinyxml2::XMLElement* element)
+    {
+        sf::IntRect rect;
+
+        if (const auto attrib = element->FindAttribute("x"))
+        {
+            rect.left = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("y"))
+        {
+            rect.top = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("w"))
+        {
+            rect.width = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("h"))
+        {
+            rect.height = attrib->IntValue();
         }
 
         return rect;
@@ -176,16 +213,16 @@ namespace shen
         return nullptr;
     }
 
-    std::vector<sf::FloatRect> Serialization::LoadVectorRect(const std::string& id)
+    std::vector<sf::IntRect> Serialization::LoadVectorRect(const std::string& id)
     {
-        std::vector<sf::FloatRect> result;
+        std::vector<sf::IntRect> result;
 
         if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             auto rectElement = childElement->FirstChildElement("rect");
             while (rectElement)
             {
-                result.push_back(LoadRect(rectElement));
+                result.push_back(LoadIntRect(rectElement));
                 rectElement = rectElement->NextSiblingElement();
             }
         }

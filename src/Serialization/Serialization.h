@@ -25,13 +25,16 @@ namespace shen
         sf::Vector2f LoadVec2(const std::string& id, sf::Vector2f defaultVal = sf::Vector2f());
         sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal = sf::Vector2f());
         
-        sf::FloatRect LoadRect(const std::string& id, sf::FloatRect def = {});
-        sf::FloatRect LoadRect(const tinyxml2::XMLElement* element);
+        sf::FloatRect LoadFloatRect(const std::string& id, sf::FloatRect def = {});
+        sf::FloatRect LoadFloatRect(const tinyxml2::XMLElement* element);
+
+        sf::IntRect LoadIntRect(const std::string& id, sf::IntRect def = {});
+        sf::IntRect LoadIntRect(const tinyxml2::XMLElement* element);
 
         sf::Color LoadColor(const std::string& id, sf::Color defaultVal = sf::Color::Red);
 
         sf::Texture* LoadTexturePtr(const std::string& id);
-        std::vector<sf::FloatRect> LoadVectorRect(const std::string& id);
+        std::vector<sf::IntRect> LoadVectorRect(const std::string& id);
 
         std::vector<std::string> LoadVecStr(const std::string& id);
 

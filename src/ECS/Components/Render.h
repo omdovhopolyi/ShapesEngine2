@@ -12,7 +12,6 @@ namespace shen
 
     struct Sprite
     {
-        std::string textureId;
         sf::Sprite sprite;
 
         static void Load(Sprite& component, Serialization& serialization);

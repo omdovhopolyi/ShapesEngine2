@@ -6,20 +6,16 @@ namespace shen
 {
     void Sprite::Load(Sprite& component, Serialization& serialization)
     {
-        /*comp->textureId = LoadStr("textureId", element);
-
-
-        comp->texture = LoadTexturePtr("texture", element);
-        comp->mask = LoadTexturePtr("mask", element);
-        comp->texRect = LoadRect("rect", element);
-        comp->size = LoadVec2("size", element, comp->size);
-        comp->anchor = LoadVec2("anchor", element);
-        comp->shader = LoadShaderPtr("shader", element);
-
-        if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
+        if (auto texture = serialization.LoadTexturePtr("texture"))
         {
-            comp->spriteType = SpriteTypeEnum.FromString(LoadStr("spriteType", element));
-        }*/
+            auto rect = serialization.LoadIntRect("rect");
+            auto anchor = serialization.LoadVec2("anchor");
+            auto size = serialization.LoadVec2("size");
+
+            component.sprite.setTexture(*texture);
+            component.sprite.setTextureRect(rect);
+            component.sprite.setOrigin(anchor);
+        }
     }
 
     void Sprite::Save(Serialization& serialization)
@@ -29,7 +25,7 @@ namespace shen
 
     void Color::Load(Color& component, Serialization& serialization)
     {
-        //comp->rgba = LoadColor("color", element) / 255.f;
+        component.color = serialization.LoadColor("color");
     }
 
     void Color::Save(Serialization& serialization)
@@ -40,7 +36,7 @@ namespace shen
     void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, Serialization& serialization)
     {
         component.frameTime = serialization.LoadFloat("frameTime", component.frameTime);
-        //comp->frames = LoadVectorRect("frames", element);
+        component.frames = serialization.LoadVectorRect("frames");
     }
 
     void SpriteFrameAnimation::Save(Serialization& serialization)

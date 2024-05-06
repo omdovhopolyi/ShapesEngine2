@@ -27,7 +27,7 @@ namespace shen
     {
         auto texture = std::make_unique<sf::Texture>();
 
-        if (texture->loadFromFile("image.png"))
+        if (texture->loadFromFile(fileName))
         {
             auto texturePtr = texture.get();
 
@@ -55,7 +55,9 @@ namespace shen
             return it->second.get();
         }
         
-        return LoadTexture(textureId, "");    
+        const auto& texturePath = GetTexturePath(textureId);
+
+        return LoadTexture(textureId, texturePath);    
     }
 
     void SfmlTexturesCollection::RemoveTexture(const std::string& id)

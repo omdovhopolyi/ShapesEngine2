@@ -12,7 +12,7 @@ namespace shen
     void MapLoaderSystem::Init(SystemsManager* systems)
     {
         System::Init(systems);
-
+        RegisterLoaders();
         // TODO subscriptions
     }
 
