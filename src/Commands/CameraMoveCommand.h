@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Command.h"
-//#include <glm/glm.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace shen
@@ -19,7 +18,7 @@ namespace shen
         void SetSpeed(float speed);
         float GetSpeed() const;
 
-        void Execute(const Entity& entity, const CommandContext&) const override;
+        void Execute(const CommandContext& context) const override;
 
     protected:
         sf::Vector2f _direction;

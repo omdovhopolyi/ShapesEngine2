@@ -5,7 +5,7 @@
 namespace shen
 {
     SHEN_ENUM(MouseButton,
-        None = -1,
+        None,
         Left,
         Middle,
         Right

@@ -62,6 +62,43 @@ namespace shen
         return defaultVal;
     }
 
+    bool Serialization::LoadBoolAttr(const std::string& id, bool defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->BoolValue();
+        }
+        return defaultVal;
+    }
+
+    int Serialization::LoadIntAttr(const std::string& id, int defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->IntValue();
+        }
+        return defaultVal;
+    }
+
+    float Serialization::LoadFloatAttr(const std::string& id, float defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->FloatValue();
+        }
+        return defaultVal;
+    }
+
+    std::string Serialization::LoadStrAttr(const std::string& id, const std::string& defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->Value();
+        }
+
+        return defaultVal;
+    }
+
     sf::Vector2f Serialization::LoadVec2(const std::string& id, sf::Vector2f defaultVal)
     {
         if (const auto childElement = _element->FirstChildElement(id.c_str()))

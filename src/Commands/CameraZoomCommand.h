@@ -13,7 +13,7 @@ namespace shen
         void SetSpeed(float speed);
         float GetSpeed() const;
 
-        void Execute(const Entity& entity, const CommandContext& context) const override;
+        void Execute(const CommandContext& context) const override;
 
     protected:
         float _speed = 1.f;

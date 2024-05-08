@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    void RotateCommand::Execute(const Entity& entity, const CommandContext& context) const
+    void RotateCommand::Execute(const CommandContext& context) const
     {
         /*auto world = ManagersProvider::Instance().GetWorld();
         auto rotator = world->GetOrCreateComponent<Rotator>(entity);

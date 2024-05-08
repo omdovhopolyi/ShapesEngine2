@@ -6,6 +6,7 @@
 #include "Enums/SpriteTypeEnum.h"
 #include <tinyxml2/tinyxml2.h>
 #include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/View.hpp>
 
 struct b2Body;
 
@@ -48,10 +49,8 @@ namespace shen
 
     struct Camera
     {
-        sf::Vector2f position;
-        sf::FloatRect viewport;
-        float zoom = 1.f;
-        float rotation = 0.f;
+        sf::View view;
+        bool needUpdate = true;
 
         static void Load(Camera& component, Serialization& serialization);
         static void Save(Serialization& serialization);

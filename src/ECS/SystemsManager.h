@@ -16,6 +16,7 @@
 namespace shen
 {
     class Game;
+    class TimeSystem;
 
     class SystemsManager
     {
@@ -35,7 +36,7 @@ namespace shen
         void Clear();
 
         World& GetWorld() { return _world; }
-
+        TimeSystem& GetTime() { return *_timeSystem; }
 
     private:
         std::vector<std::unique_ptr<System>> _simpleSystems;
@@ -43,6 +44,7 @@ namespace shen
         std::vector<std::unique_ptr<RenderSystem>> _renderSystems;
         std::map<std::type_index, System*> _mappedSystems;
         std::vector<System*> _registrationOrderedSystems;
+        TimeSystem* _timeSystem = nullptr;
         World _world;
         Game* _game = nullptr;
     };
@@ -54,6 +56,11 @@ namespace shen
         system->Init(this);
         _mappedSystems[std::type_index(typeid(T))] = system.get();
         _registrationOrderedSystems.push_back(system.get());
+
+        if constexpr (std::is_base_of_v<TimeSystem, T>)
+        {
+            _timeSystem = system.get();
+        }
 
         if constexpr (std::is_base_of_v<RenderSystem, T>)
         {

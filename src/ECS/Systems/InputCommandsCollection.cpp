@@ -98,11 +98,11 @@ namespace shen
     std::unique_ptr<Command> InputCommandsCollection::LoadMoveCommand(Serialization& serialization)
     {
         auto command = std::make_unique<MoveCommand>();
-        command->SetSpeed(serialization.LoadFloat("speed"));
+        command->SetSpeed(serialization.LoadFloatAttr("speed"));
 
         sf::Vector2f direction;
-        direction.x = serialization.LoadFloat("x");
-        direction.y = serialization.LoadFloat("y");
+        direction.x = serialization.LoadFloatAttr("x");
+        direction.y = serialization.LoadFloatAttr("y");
 
         command->SetDirection(direction);
 
@@ -117,11 +117,11 @@ namespace shen
     std::unique_ptr<Command> InputCommandsCollection::LoadCameraMoveCommand(Serialization& serialization)
     {
         auto command = std::make_unique<CameraMoveCommand>();
-        command->SetSpeed(serialization.LoadFloat("speed"));
+        command->SetSpeed(serialization.LoadFloatAttr("speed"));
 
         sf::Vector2f direction;
-        direction.x = serialization.LoadFloat("x");
-        direction.y = serialization.LoadFloat("y");
+        direction.x = serialization.LoadFloatAttr("x");
+        direction.y = serialization.LoadFloatAttr("y");
 
         command->SetDirection(direction);
 
@@ -131,7 +131,7 @@ namespace shen
     std::unique_ptr<Command> InputCommandsCollection::LoadCameraZoomCommand(Serialization& serialization)
     {
         auto command = std::make_unique<CameraZoomCommand>();
-        command->SetSpeed(serialization.LoadFloat("speed"));
+        command->SetSpeed(serialization.LoadFloatAttr("speed"));
         return command;
     }
 }

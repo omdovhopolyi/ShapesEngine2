@@ -8,6 +8,6 @@ namespace shen
         : public Command
     {
     public:
-        void Execute(const Entity& entity, const CommandContext& context) const override;
+        void Execute(const CommandContext& context) const override;
     };
 }

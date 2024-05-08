@@ -1,7 +1,6 @@
 #include "CameraZoomCommand.h"
-//#include "Game/ManagersProvider.h"
-//#include "Game/Time.h"
 #include "ECS/World.h"
+#include "ECS/Systems/TimeSystem.h"
 #include "ECS/Components/Common.h"
 
 namespace shen
@@ -16,16 +15,23 @@ namespace shen
         return _speed;
     }
 
-    void CameraZoomCommand::Execute(const Entity& entity, const CommandContext& context) const
+    void CameraZoomCommand::Execute(const CommandContext& context) const
     {
-        /*auto time = ManagersProvider::Instance().GetTime();
-
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<Camera>([&](const auto entity, Camera& camera)
+        if (auto it = context.vars.find("var"); it != context.vars.end())
+        {
+            if (auto scrollVal = std::any_cast<float>(&it->second))
             {
-                const auto dir = glm::normalize(glm::vec3{ 0.f, 0.f, -context.y });
-                camera.position += (dir * _speed * time->Dt());
-            });*/
+                auto& time = context.systems->GetTime();
+                auto& world = context.systems->GetWorld();
+
+                world.Each<Camera>([&](const auto entity, Camera& camera)
+                {
+                    const auto zoom = *scrollVal * _speed * time.Dt();
+                    camera.view.zoom(zoom);
+                    camera.needUpdate = true;
+                });
+            }
+        }
     }
 }
 

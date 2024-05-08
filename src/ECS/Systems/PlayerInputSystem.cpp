@@ -6,6 +6,7 @@
 #include "ECS/Components/Common.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
@@ -33,7 +34,7 @@ namespace shen
 
     bool operator == (const InputType& left, const InputType& right)
     {
-        return (left.keyCode == right.keyCode &&
+        return (left.keyCode == right.keyCode && left.keyCode > -1 &&
             left.mouseButton == right.mouseButton &&
             left.type == right.type &&
             left.alt == right.alt &&
@@ -67,7 +68,10 @@ namespace shen
             {
                 if (command)
                 {
-                    command->Execute(entity, context);
+                    context.entity = entity;
+                    context.systems = _systems;
+
+                    command->Execute(context);
                 }
             }
         }
@@ -121,8 +125,7 @@ namespace shen
             inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.x = event.x;
-            context.y = event.y;
+            context.vars.insert({ "pos", sf::Vector2f(event.x, event.y) });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
@@ -139,7 +142,7 @@ namespace shen
             inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.y = event.scroll;
+            context.vars.insert({ "val", event.scroll });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
@@ -151,11 +154,8 @@ namespace shen
     void PlayerInputSystem::LoadConfig()
     {
         auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
+        auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
 
-        /*auto resourcesManagerHolder = _systems->GetSystem<ResourcesManagerHolderSystem>();
-        auto resourcesManager = resourcesManagerHolder->GetResourcesManager();
-        auto commandsManager = resourcesManager->GetOrCreateAssetsManager<InputCommandsManager>();*/
-        
         tinyxml2::XMLDocument doc;
 
         const auto error = doc.LoadFile("../assets/configs/input.xml");
@@ -174,7 +174,7 @@ namespace shen
 
                 if (const auto keyAttr = element->FindAttribute("key"))
                 {
-                    inputType.keyCode = static_cast<int>(*keyAttr->Value());
+                    inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(*keyAttr->Value()));
                 }
 
                 if (const auto mouseBtnAttr = element->FindAttribute("mouseBtn"))

@@ -1,30 +1,25 @@
 #include "CameraSystem.h"
-
 #include "ECS/World.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 #include "ECS/Components/Common.h"
-
-//#include <glad/glad.h>
-//#include <glm/gtc/matrix_transform.hpp>
+#include <SFML/Graphics/View.hpp>
 
 namespace shen
 {
-    void CameraSystem::Start()
-    {
-        /*auto window = ManagersProvider::Instance().GetGameWindow();
-        _viewportSize = { window->GetWidth(), window->GetHeight() };*/
-    }
-
     void CameraSystem::Update()
     {
-        /*auto world = ManagersProvider::Instance().GetWorld();
+        auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>();
+        auto window = windowSystem->GetRenderWindow();
+        auto& world = _systems->GetWorld();
 
-        world->Each<Camera>([&](auto entity, Camera& camera)
+        world.Each<Camera>([&](auto entity, Camera& camera)
         {
-            camera.target.x = camera.position.x;
-            camera.target.y = camera.position.y;
-
-            camera.view = glm::lookAt(camera.position, camera.target, camera.up);
-            camera.projection = glm::perspective(glm::radians(camera.fov), _viewportSize.x / _viewportSize.y, camera.nearPlane, camera.farPlane);
-        });*/
+            if (camera.needUpdate)
+            {
+                camera.needUpdate = false;
+                window->setView(camera.view);
+            }
+        });
     }
 }

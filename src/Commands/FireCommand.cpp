@@ -1,14 +1,11 @@
 #include "FireCommand.h"
-
-//#include "Game/ManagersProvider.h"
-//#include "Game/WeaponManager.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Utils/Types.h"
 
 namespace shen
 {
-    void FireCommand::Execute(const Entity& entity, const CommandContext&) const
+    void FireCommand::Execute(const CommandContext&) const
     {
         //auto world = ManagersProvider::Instance().GetWorld();
         //auto weapon = ManagersProvider::Instance().GetWeaponManager();

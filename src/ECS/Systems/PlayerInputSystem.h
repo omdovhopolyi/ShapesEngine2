@@ -45,7 +45,7 @@ namespace shen
         virtual void InitActionCallbacks();
         void InitSubscriptions();
         void LoadConfig();
-
+        
     protected:
         SubcriptionsContainer _subscriptions;
 

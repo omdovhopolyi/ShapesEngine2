@@ -22,6 +22,11 @@ namespace shen
         float LoadFloat(const std::string& id, float defaultVal = 0.f);
         std::string LoadStr(const std::string& id, const std::string& defaultVal = {});
 
+        bool LoadBoolAttr(const std::string& id, bool defaultVal = false);
+        int LoadIntAttr(const std::string& id, int defaultVal = 0);
+        float LoadFloatAttr(const std::string& id, float defaultVal = 0.f);
+        std::string LoadStrAttr(const std::string& id, const std::string& defaultVal = {});
+
         sf::Vector2f LoadVec2(const std::string& id, sf::Vector2f defaultVal = sf::Vector2f());
         sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal = sf::Vector2f());
         

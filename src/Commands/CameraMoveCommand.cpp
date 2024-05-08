@@ -1,8 +1,7 @@
 #include "CameraMoveCommand.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
-//#include "Game/ManagersProvider.h"
-//#include "Game/Time.h"
+#include "ECS/Systems/TimeSystem.h"
 
 namespace shen
 {
@@ -31,15 +30,17 @@ namespace shen
         return _speed;
     }
 
-    void CameraMoveCommand::Execute(const Entity& entity, const CommandContext&) const
+    void CameraMoveCommand::Execute(const CommandContext& context) const
     {
-        /*auto time = ManagersProvider::Instance().GetTime();
+        auto& world = context.systems->GetWorld();
+        auto& time = context.systems->GetTime();
 
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<Camera>([&](const auto entity, Camera& camera)
-            {
-                camera.position += (_direction * _speed * time->Dt());
-            });*/
+        world.Each<Camera>([&](const auto entity, Camera& camera)
+        {
+            const auto offset = _direction * _speed * time.Dt();
+            camera.view.move(offset);
+            camera.needUpdate = true;
+        });
     }
 }
 
