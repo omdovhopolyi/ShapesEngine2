@@ -21,12 +21,11 @@ namespace shen
         {
             if (auto scrollVal = std::any_cast<float>(&it->second))
             {
-                auto& time = context.systems->GetTime();
                 auto& world = context.systems->GetWorld();
 
                 world.Each<Camera>([&](const auto entity, Camera& camera)
                 {
-                    const auto zoom = *scrollVal * _speed * time.Dt();
+                    auto zoom = 1.f - (*scrollVal * _speed);
                     camera.view.zoom(zoom);
                     camera.needUpdate = true;
                 });

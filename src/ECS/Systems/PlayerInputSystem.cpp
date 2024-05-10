@@ -142,7 +142,7 @@ namespace shen
             inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.vars.insert({ "val", event.scroll });
+            context.vars.insert({ "var", event.scroll });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {

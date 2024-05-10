@@ -112,9 +112,9 @@ namespace shen
 			case sf::Event::MouseWheelScrolled:
 			{
 				Messenger::Instance().Broadcast<MouseWheelEvent>(
-					event.mouseWheel.x,
-					event.mouseWheel.y,
-					event.mouseWheel.delta,
+					event.mouseWheelScroll.x,
+					event.mouseWheelScroll.y,
+					event.mouseWheelScroll.delta,
 					alt,
 					shift,
 					ctrl

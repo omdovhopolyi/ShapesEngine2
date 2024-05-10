@@ -16,7 +16,7 @@ namespace shen
         void Execute(const CommandContext& context) const override;
 
     protected:
-        float _speed = 1.f;
+        float _speed = 0.1f;
     };
 }
 

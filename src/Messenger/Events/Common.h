@@ -53,12 +53,12 @@ namespace shen
     {
         int x = 0;
         int y = 0;
-        int scroll = 0;
+        float scroll = 0;
         bool alt = false;
         bool shift = false;
         bool ctrl = false;
 
-        MouseWheelEvent(int posX, int posY, int scrl, bool altMode, bool shiftMode, bool ctrlMode);
+        MouseWheelEvent(int posX, int posY, float scrl, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct Quit : Event

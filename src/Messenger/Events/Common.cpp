@@ -37,7 +37,7 @@ namespace shen
         //Logger::Log("Mouse move");
     }
 
-    MouseWheelEvent::MouseWheelEvent(int posX, int posY, int scrl, bool altMode, bool shiftMode, bool ctrlMode)
+    MouseWheelEvent::MouseWheelEvent(int posX, int posY, float scrl, bool altMode, bool shiftMode, bool ctrlMode)
         : x(posX)
         , y(posY)
         , scroll(scrl)
