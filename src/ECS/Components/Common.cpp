@@ -39,9 +39,12 @@ namespace shen
     {
         component.view.setCenter(serialization.LoadVec2("position"));
         component.view.setViewport(serialization.LoadFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
-        component.view.setSize(serialization.LoadVec2("size"));
         component.view.zoom(serialization.LoadFloat("zoom", 1.f));
         component.view.setRotation(serialization.LoadFloat("rotation"));
+
+        auto size = serialization.LoadVec2("size");
+        size.y *= -1;
+        component.view.setSize(size);
     }
 
     void Camera::Save(Serialization& serialization)

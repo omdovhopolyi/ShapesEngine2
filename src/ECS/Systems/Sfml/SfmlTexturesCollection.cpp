@@ -3,10 +3,14 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <tinyxml2/tinyxml2.h>
 
+
+#include <SFML/../extlibs/headers/stb_image/stb_image.h>
+
 namespace shen
 {
     void SfmlTexturesCollection::Start()
     {
+        stbi_set_flip_vertically_on_load(true);
         LoadTexturesPaths("../assets/configs/textures.xml");
     }
 

@@ -26,9 +26,8 @@ namespace shen
 
     struct Mover
     {
-        float inertia = 100.f;
-        /*glm::vec3 velocity = glm::vec3{};
-        glm::vec3 direction = glm::vec3{};*/
+        sf::Vector2f velocity;
+        sf::Vector2f direction;
 
         static void Load(Mover& component, Serialization& serialization);
         static void Save(Serialization& serialization);
