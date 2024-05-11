@@ -10,6 +10,8 @@
 
 namespace shen
 {
+    static float PxlPerMeter = 32.f;
+
     void PhysicsBox2DSystem::Start()
     {
         _world = std::make_unique<b2World>(b2Vec2(0.f, 0.f/*-9.8f*/));
@@ -28,12 +30,12 @@ namespace shen
             [&](const auto& entity, RigidBody& rb, Transform& transform)
         {
             auto size = rb.size;
-            size.x *= transform.scale.x;
-            size.y *= transform.scale.y;
+            //size.x *= transform.scale.x;
+            //size.y *= transform.scale.y;
 
             b2BodyDef bodyDef;
             bodyDef.type = static_cast<b2BodyType>(rb.type);
-            bodyDef.position.Set(transform.position.x, transform.position.y);
+            bodyDef.position.Set(transform.position.x / PxlPerMeter, transform.position.y / PxlPerMeter);
             bodyDef.angle = Radians(transform.rotation);
 
             auto dynamicBody = _world->CreateBody(&bodyDef);
@@ -43,6 +45,7 @@ namespace shen
 
             b2PolygonShape dynamicBox;
             dynamicBox.SetAsBox(size.x / 2.f, size.y / 2.f);
+
             b2FixtureDef fixtureDef;
             fixtureDef.shape = &dynamicBox;
             fixtureDef.density = 1.f;
@@ -67,8 +70,8 @@ namespace shen
             auto position = rb.body->GetPosition();
             const auto angle = rb.body->GetAngle();
 
-            transform.position = sf::Vector2f(position.x, position.y);
-            transform.rotation = angle;
+            transform.position = sf::Vector2f(position.x * PxlPerMeter, position.y * PxlPerMeter);
+            transform.rotation = Degrees(angle);
         });
     }
 

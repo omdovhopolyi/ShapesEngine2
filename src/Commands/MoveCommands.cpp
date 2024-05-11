@@ -29,12 +29,13 @@ namespace shen
         return _speed;
     }
 
-    void MoveCommand::Execute(const CommandContext&) const
+    void MoveCommand::Execute(const CommandContext& context) const
     {
-        /*auto world = ManagersProvider::Instance().GetWorld();
-        if (auto rb = world->GetComponent<Mover>(entity))
+        auto& world = context.systems->GetWorld();
+
+        if (auto rb = world.GetComponent<Mover>(context.entity))
         {
             rb->velocity += _direction * _speed;
-        }*/
+        }
     }
 }

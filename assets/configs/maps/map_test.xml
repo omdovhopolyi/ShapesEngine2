@@ -20,7 +20,7 @@
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="400" y="320"/>
+         <position x="0" y="0"/>
          <rotation val="0"/>
       </component>
       <component type="spriteFrameAnimation">
@@ -36,24 +36,24 @@
       <component type="rigidBody">
          <type val="2"/>
       </component>
-      <!--<component type="playerInput">
+      <component type="playerInput">
          <array>
             <item val="MoveCommand"/>
             <item val="RotateCommand"/>
          </array>
-      </component>-->
+      </component>
       <component type="mover"/>
    </entity>
    <entity>
       <component type="sprite">
-         <texture val="tank"/>
+         <texture val="tile"/>
          <rect x="0" y="0" w="32" h="32"/>
          <shader val="SimpleShaderTex"/>
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="100" y="100"/>
-         <rotation val="0"/>
+         <position x="350" y="60"/>
+         <rotation val="40"/>
       </component>
       <component type="rigidBody">
          <type val="2"/>
@@ -61,13 +61,14 @@
    </entity>
    <entity>
       <component type="sprite">
-         <texture val="tank"/>
+         <texture val="tile"/>
          <rect x="0" y="0" w="32" h="32"/>
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="200" y="200"/>
-         <rotation val="20"/>
+         <position x="200" y="300"/>
+         <rotation val="40"/>
+         <scale x="10" y="1"/>
       </component>
       <!--<component type="playerInput"/>-->
       <component type="rigidBody">
@@ -77,13 +78,14 @@
    </entity>
    <entity>
       <component type="sprite">
-         <texture val="tank"/>
+         <texture val="tile"/>
          <rect x="0" y="0" w="32" h="32"/>
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="200" y="10"/>
-         <rotation val="-35"/>
+         <position x="300" y="300"/>
+         <rotation val="0"/>
+         <scale x="10" y="1"/>
       </component>
       <!--<component type="playerInput"/>-->
       <component type="rigidBody">

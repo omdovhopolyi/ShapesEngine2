@@ -11,15 +11,15 @@ namespace shen
 {
     void MovementSystem::Update()
     {
-        /*auto& world = _systems->GetWorld();
+        auto& world = _systems->GetWorld();
         auto time = _systems->GetSystem<TimeSystem>();
 
-        world.Each<Mover, RigidBody>(
-            [&](const auto entity, Mover& mover, RigidBody& rb)
+        world.Each<Mover, RigidBody>([&](const auto entity, Mover& mover, RigidBody& rb)
         {
             auto force = b2Vec2(mover.velocity.x, mover.velocity.y);
             force *= time->Dt();
             rb.body->ApplyForceToCenter(force, true);
-        });*/
+            mover.velocity = {};
+        });
     }
 }

@@ -10,6 +10,8 @@
 #include "ECS/Systems/CameraSystem.h"
 #include "ECS/Systems/MapLoaderSystem.h"
 #include "ECS/Systems/TimeSystem.h"
+#include "ECS/Systems/MovementSystem.h"
+#include "ECS/Systems/PhysicsBox2DSystem.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 #include "ECS/Systems/Sfml/SfmlSpriteRenderSystem.h"
@@ -47,6 +49,8 @@ namespace shen
 		_systems->RegisterSystem<SfmlInputSystem>();
 		_systems->RegisterSystem<PlayerInputSystem>();
 		_systems->RegisterSystem<CameraSystem>();
+		_systems->RegisterSystem<PhysicsBox2DSystem>();
+		_systems->RegisterSystem<MovementSystem>();
 
 		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
 		_systems->RegisterSystem<SfmlSpriteRenderSystem>();
