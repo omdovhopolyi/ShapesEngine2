@@ -125,7 +125,7 @@ namespace shen
             inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.vars.insert({ "pos", sf::Vector2f(event.x, event.y) });
+            context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {

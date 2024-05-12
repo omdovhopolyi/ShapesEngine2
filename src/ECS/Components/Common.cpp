@@ -16,14 +16,14 @@ namespace shen
 
     }
 
-    void Mover::Load(Mover& component, Serialization& serialization)
+    /*void Mover::Load(Mover& component, Serialization& serialization)
     {
     }
 
     void Mover::Save(Serialization& serialization)
     {
 
-    }
+    }*/
 
     void PlayerInput::Load(PlayerInput& component, Serialization& serialization)
     {
@@ -41,6 +41,7 @@ namespace shen
         component.view.setViewport(serialization.LoadFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
         component.view.zoom(serialization.LoadFloat("zoom", 1.f));
         component.view.setRotation(serialization.LoadFloat("rotation"));
+        //component.view.setSize(serialization.LoadVec2("size"));
 
         auto size = serialization.LoadVec2("size");
         size.y *= -1;

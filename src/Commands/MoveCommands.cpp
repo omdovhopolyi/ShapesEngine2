@@ -33,7 +33,7 @@ namespace shen
     {
         auto& world = context.systems->GetWorld();
 
-        if (auto rb = world.GetComponent<Mover>(context.entity))
+        if (auto rb = world.GetOrCreateComponent<Mover>(context.entity))
         {
             rb->velocity += _direction * _speed;
         }

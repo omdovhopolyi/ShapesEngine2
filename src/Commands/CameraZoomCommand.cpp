@@ -17,19 +17,16 @@ namespace shen
 
     void CameraZoomCommand::Execute(const CommandContext& context) const
     {
-        if (auto it = context.vars.find("var"); it != context.vars.end())
+        if (auto scrollVal = context.GetVar<float>("var"))
         {
-            if (auto scrollVal = std::any_cast<float>(&it->second))
-            {
-                auto& world = context.systems->GetWorld();
+            auto& world = context.systems->GetWorld();
 
-                world.Each<Camera>([&](const auto entity, Camera& camera)
-                {
-                    auto zoom = 1.f - (*scrollVal * _speed);
-                    camera.view.zoom(zoom);
-                    camera.needUpdate = true;
-                });
-            }
+            world.Each<Camera>([&](const auto entity, Camera& camera)
+            {
+                auto zoom = 1.f - (*scrollVal * _speed);
+                camera.view.zoom(zoom);
+                camera.needUpdate = true;
+            });
         }
     }
 }

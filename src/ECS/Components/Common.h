@@ -28,9 +28,7 @@ namespace shen
     {
         sf::Vector2f velocity;
         sf::Vector2f direction;
-
-        static void Load(Mover& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        sf::Vector2f position;
     };
 
     struct Rotator

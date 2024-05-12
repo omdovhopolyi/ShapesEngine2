@@ -16,10 +16,13 @@ namespace shen
 
         world.Each<Mover, RigidBody>([&](const auto entity, Mover& mover, RigidBody& rb)
         {
-            auto force = b2Vec2(mover.velocity.x, mover.velocity.y);
-            force *= time->Dt();
-            rb.body->ApplyForceToCenter(force, true);
-            mover.velocity = {};
+            if (rb.body)
+            {
+                auto force = b2Vec2(mover.velocity.x, mover.velocity.y);
+                force *= time->Dt();
+                rb.body->ApplyForceToCenter(force, true);
+                mover.velocity = {};
+            }   
         });
     }
 }

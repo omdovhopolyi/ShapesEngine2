@@ -6,49 +6,49 @@
 
 namespace shen
 {
-    sf::Vector2f ScreenToWorld(const sf::Vector2f& screenPos)
-    {
-        return {};
+    //sf::Vector2f ScreenToWorld(const sf::Vector2f& screenPos)
+    //{
+    //    return {};
 
-        /*const auto window = ManagersProvider::Instance().GetGameWindow();
-        const auto world = ManagersProvider::Instance().GetWorld();
+    //    /*const auto window = ManagersProvider::Instance().GetGameWindow();
+    //    const auto world = ManagersProvider::Instance().GetWorld();
 
-        Camera* camera = nullptr;
+    //    Camera* camera = nullptr;
 
-        auto cameraEntity = world->GetFirst<Camera>();
-        if (world->IsValid(cameraEntity))
-        {
-            camera = world->GetComponent<Camera>(cameraEntity);
-        }
+    //    auto cameraEntity = world->GetFirst<Camera>();
+    //    if (world->IsValid(cameraEntity))
+    //    {
+    //        camera = world->GetComponent<Camera>(cameraEntity);
+    //    }
 
-        if (!camera)
-        {
-            return glm::vec3(screenPos.x, screenPos.y, 0.f);
-        }
+    //    if (!camera)
+    //    {
+    //        return glm::vec3(screenPos.x, screenPos.y, 0.f);
+    //    }
 
-        const int winWidth = window->GetWidth();
-        const int winHeight = window->GetHeight();
+    //    const int winWidth = window->GetWidth();
+    //    const int winHeight = window->GetHeight();
 
-        auto viewport = glm::vec2{ winWidth, winHeight };
+    //    auto viewport = glm::vec2{ winWidth, winHeight };
 
-        auto ray = RayCastFromMousePos(screenPos, viewport, camera->projection, camera->view);
-        auto worldPos = PlaneVectorIntersect(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), camera->position, ray);
-        return worldPos;*/
-    }
+    //    auto ray = RayCastFromMousePos(screenPos, viewport, camera->projection, camera->view);
+    //    auto worldPos = PlaneVectorIntersect(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), camera->position, ray);
+    //    return worldPos;*/
+    //}
 
-    sf::Vector2f ObjectWorldPosition2D(Entity entity)
-    {
-        //sf::Vector2f result{ 0.f };
+    //sf::Vector2f ObjectWorldPosition2D(Entity entity)
+    //{
+    //    //sf::Vector2f result{ 0.f };
 
-        /*const auto world = ManagersProvider::Instance().GetWorld();
+    //    /*const auto world = ManagersProvider::Instance().GetWorld();
 
-        if (auto transform = world->GetComponent<Transform>(entity))
-        {
-            result = transform->position;
-        }*/
+    //    if (auto transform = world->GetComponent<Transform>(entity))
+    //    {
+    //        result = transform->position;
+    //    }*/
 
-        return {};
-    }
+    //    return {};
+    //}
 
     //glm::vec3 RayCastFromMousePos(const glm::vec2& screenPos, const glm::vec2 viewport, const glm::mat4& proj, const glm::mat4& view)
     //{

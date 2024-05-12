@@ -30,7 +30,6 @@ namespace shen
         RegisterLoader<Color>("color");
         RegisterLoader<PlayerInput>("playerInput");
         RegisterLoader<RigidBody>("rigidBody");
-        RegisterLoader<Mover>("mover");
     }
 
     void MapLoaderSystem::LoadMap(const std::string& mapId)

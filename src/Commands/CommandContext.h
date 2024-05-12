@@ -13,5 +13,16 @@ namespace shen
         Entity entity;
         SystemsManager* systems = nullptr;
         std::map<std::string, std::any> vars;
+
+        template<class T>
+        const T* GetVar(const std::string& key) const
+        {
+            if (auto it = vars.find(key); it != vars.end())
+            {
+                return std::any_cast<const T>(&it->second);
+            }
+
+            return nullptr;
+        }
     };
 }
