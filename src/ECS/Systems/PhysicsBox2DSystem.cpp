@@ -29,10 +29,6 @@ namespace shen
         gameWorld.Each<RigidBody, Transform>(
             [&](const auto& entity, RigidBody& rb, Transform& transform)
         {
-            auto size = rb.size;
-            //size.x *= transform.scale.x;
-            //size.y *= transform.scale.y;
-
             b2BodyDef bodyDef;
             bodyDef.type = static_cast<b2BodyType>(rb.type);
             bodyDef.position.Set(transform.position.x / PxlPerMeter, transform.position.y / PxlPerMeter);
@@ -44,7 +40,7 @@ namespace shen
             rb.body = dynamicBody;
 
             b2PolygonShape dynamicBox;
-            dynamicBox.SetAsBox(size.x / 2.f, size.y / 2.f);
+            dynamicBox.SetAsBox(rb.size.x / 2.f, rb.size.y / 2.f);
 
             b2FixtureDef fixtureDef;
             fixtureDef.shape = &dynamicBox;

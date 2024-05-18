@@ -34,7 +34,7 @@
          <color r="0" g="255" b="0" a="125"/>
       </component>
       <component type="rigidBody">
-         <type val="2"/>
+         <type val="DynamicBody"/>
       </component>
       <component type="playerInput">
          <array>
@@ -56,7 +56,7 @@
          <rotation val="40"/>
       </component>
       <component type="rigidBody">
-         <type val="2"/>
+         <type val="DynamicBody"/>
       </component>
    </entity>
    <entity>
@@ -72,7 +72,7 @@
       </component>
       <!--<component type="playerInput"/>-->
       <component type="rigidBody">
-         <type val="0"/>
+         <type val="StaticBody"/>
          <size x="10" y="1"/>
       </component>
    </entity>
@@ -89,7 +89,7 @@
       </component>
       <!--<component type="playerInput"/>-->
       <component type="rigidBody">
-         <type val="0"/>
+         <type val="DynamicBody"/>
          <size x="10" y="1"/>
       </component>
    </entity>

@@ -6,7 +6,7 @@ namespace shen
 {
     void RigidBody::Load(RigidBody& component, Serialization& serialization)
     {
-        component.type = serialization.LoadInt("type");
+        component.type = RigidBodyTypeEnum.FromString(serialization.LoadStr("type"));
         component.size = serialization.LoadVec2("size", component.size);
         component.sensor = serialization.LoadBool("sensor", component.sensor);
     }

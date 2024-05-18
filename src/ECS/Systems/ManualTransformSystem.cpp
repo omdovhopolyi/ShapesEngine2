@@ -8,7 +8,7 @@ namespace shen
 {
     void ManualTransformSystem::Update()
     {
-        auto& world = _systems->GetWorld();
+        /*auto& world = _systems->GetWorld();
 
         world.Each<Mover, Transform>([&](auto entity, const Mover& mover, Transform& transform)
         {
@@ -19,7 +19,7 @@ namespace shen
                 if (auto body = rb->body)
                 {
                     const auto currentPos = body->GetPosition();
-                    body->SetTransform(position, float angle);
+                    body->SetTransform(position, angle);
                 }
             }
         });
@@ -27,6 +27,6 @@ namespace shen
         world.Each<Rotator, Transform>([&](auto entity, const Rotator& rotator, Transform& transform)
         {
 
-        });
+        });*/
     }
 }

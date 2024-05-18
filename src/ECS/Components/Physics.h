@@ -2,6 +2,7 @@
 
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
+#include "Enums/RigidBodyType.h"
 #include <tinyxml2/tinyxml2.h>
 #include <SFML/System/Vector2.hpp>
 
@@ -13,7 +14,7 @@ namespace shen
 
     struct RigidBody
     {
-        int type = 0; // TODO type enum
+        RigidBodyType type = RigidBodyType::DynamicBody;
         sf::Vector2f size = sf::Vector2f(1.f, 1.f);
         bool sensor = false;
 
