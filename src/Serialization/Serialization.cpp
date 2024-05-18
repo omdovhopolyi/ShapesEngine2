@@ -287,4 +287,218 @@ namespace shen
 
         return result;
     }
+
+    void Serialization::SaveBool(const std::string& id, bool val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveInt(const std::string& id, int val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveFloat(const std::string& id, float val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveStr(const std::string& id, const std::string& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val.c_str());
+        }
+    }
+
+    void Serialization::SaveBoolAttr(const std::string& id, bool val)
+    {
+        SaveBoolAttr(_element, id, val);
+    }
+
+    void Serialization::SaveIntAttr(const std::string& id, int val)
+    {
+        SaveIntAttr(_element, id, val);
+    }
+
+    void Serialization::SaveFloatAttr(const std::string& id, float val)
+    {
+        SaveFloatAttr(_element, id, val);
+    }
+
+    void Serialization::SaveStrAttr(const std::string& id, const std::string& val)
+    {
+        SaveStrAttr(_element, id, val);
+    }
+
+    void Serialization::SaveBoolAttr(tinyxml2::XMLElement* element, const std::string& id, bool val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveIntAttr(tinyxml2::XMLElement* element, const std::string& id, int val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveFloatAttr(tinyxml2::XMLElement* element, const std::string& id, float val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveStrAttr(tinyxml2::XMLElement* element, const std::string& id, const std::string& val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val.c_str());
+        }
+    }
+
+    void Serialization::SaveVec2(const std::string& id, const sf::Vector2f& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveVec2Attr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveVec2Attr(const sf::Vector2f& val)
+    {
+        SaveVec2Attr(_element, val);
+    }
+
+    void Serialization::SaveVec2Attr(tinyxml2::XMLElement* element, const sf::Vector2f& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.x);
+            element->SetAttribute("y", val.y);
+        }
+    }
+
+    void Serialization::SaveFloatRect(const std::string& id, const sf::FloatRect& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveFloatRectAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveFloatRectAttr(const sf::FloatRect& val)
+    {
+        SaveFloatRectAttr(_element, val);
+    }
+
+    void Serialization::SaveFloatRectAttr(tinyxml2::XMLElement* element, const sf::FloatRect& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.left);
+            element->SetAttribute("y", val.top);
+            element->SetAttribute("w", val.width);
+            element->SetAttribute("h", val.height);
+        }
+    }
+
+    void Serialization::SaveIntRect(const std::string& id, const sf::IntRect& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveIntRectAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveIntRectAttr(const sf::IntRect& val)
+    {
+        SaveIntRectAttr(_element, val);
+    }
+
+    void Serialization::SaveIntRectAttr(tinyxml2::XMLElement* element, const sf::IntRect& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.left);
+            element->SetAttribute("y", val.top);
+            element->SetAttribute("w", val.width);
+            element->SetAttribute("h", val.height);
+        }
+    }
+
+    void Serialization::SaveColor(const std::string& id, const sf::Color& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveColorAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveColorAttr(const sf::Color& val)
+    {
+        SaveColorAttr(_element, val);
+    }
+
+    void Serialization::SaveColorAttr(tinyxml2::XMLElement* element, const sf::Color& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("r", val.r);
+            element->SetAttribute("g", val.g);
+            element->SetAttribute("b", val.b);
+            element->SetAttribute("a", val.a);
+        }
+    }
+
+    void Serialization::SaveTexturePtr(const std::string& id, const std::string& texId)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", texId.c_str());
+        }
+    }
+
+    void Serialization::SaveVectorRect(const std::string& id, const std::vector<sf::IntRect>& vec)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            for (const auto& rect : vec)
+            {
+                if (auto rectElem = childElement->InsertNewChildElement("rect"))
+                {
+                    SaveIntRectAttr(rectElem, rect);
+                }
+            }
+        }
+    }
+
+    void Serialization::SaveVecStr(const std::string& id, const std::vector<std::string>& vec)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            for (const auto& str : vec)
+            {
+                if (auto rectElem = childElement->InsertNewChildElement("item"))
+                {
+                    rectElem->SetAttribute("val", str.c_str());
+                }
+            }
+        }
+    }
 }

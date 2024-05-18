@@ -43,6 +43,42 @@ namespace shen
 
         std::vector<std::string> LoadVecStr(const std::string& id);
 
+        void SaveBool(const std::string& id, bool val);
+        void SaveInt(const std::string& id, int val);
+        void SaveFloat(const std::string& id, float val);
+        void SaveStr(const std::string& id, const std::string& val);
+
+        void SaveBoolAttr(const std::string& id, bool val);
+        void SaveIntAttr(const std::string& id, int val);
+        void SaveFloatAttr(const std::string& id, float val);
+        void SaveStrAttr(const std::string& id, const std::string& val);
+
+        void SaveBoolAttr(tinyxml2::XMLElement* element, const std::string& id, bool val);
+        void SaveIntAttr(tinyxml2::XMLElement* element, const std::string& id, int val);
+        void SaveFloatAttr(tinyxml2::XMLElement* element, const std::string& id, float val);
+        void SaveStrAttr(tinyxml2::XMLElement* element, const std::string& id, const std::string& val);
+
+        void SaveVec2(const std::string& id, const sf::Vector2f& val);
+        void SaveVec2Attr(const sf::Vector2f& val);
+        void SaveVec2Attr(tinyxml2::XMLElement* element, const sf::Vector2f& val);
+
+        void SaveFloatRect(const std::string& id, const sf::FloatRect& val);
+        void SaveFloatRectAttr(const sf::FloatRect& val);
+        void SaveFloatRectAttr(tinyxml2::XMLElement* element, const sf::FloatRect& val);
+
+        void SaveIntRect(const std::string& id, const sf::IntRect& val);
+        void SaveIntRectAttr(const sf::IntRect& val);
+        void SaveIntRectAttr(tinyxml2::XMLElement* element, const sf::IntRect& val);
+
+        void SaveColor(const std::string& id, const sf::Color& val);
+        void SaveColorAttr(const sf::Color& val);
+        void SaveColorAttr(tinyxml2::XMLElement* element, const sf::Color& val);
+
+        void SaveTexturePtr(const std::string& id, const std::string& texId);
+        void SaveVectorRect(const std::string& id, const std::vector<sf::IntRect>& vec);
+
+        void SaveVecStr(const std::string& id, const std::vector<std::string>& vec);
+
     private:
         SystemsManager* _systems;
         tinyxml2::XMLElement* _element = nullptr;

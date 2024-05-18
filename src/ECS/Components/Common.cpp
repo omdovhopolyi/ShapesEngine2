@@ -16,15 +16,6 @@ namespace shen
 
     }
 
-    /*void Mover::Load(Mover& component, Serialization& serialization)
-    {
-    }
-
-    void Mover::Save(Serialization& serialization)
-    {
-
-    }*/
-
     void PlayerInput::Load(PlayerInput& component, Serialization& serialization)
     {
         component.commandTypes = serialization.LoadVecStr("array");
