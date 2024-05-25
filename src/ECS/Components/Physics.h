@@ -21,7 +21,7 @@ namespace shen
         b2Body* body = nullptr;
 
         static void Load(RigidBody& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(RigidBody& component, Serialization& serialization);
     };
 
     struct Collision

@@ -21,7 +21,7 @@ namespace shen
         float rotation = 0.f;
 
         static void Load(Transform& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(Transform& component, Serialization& serialization);
     };
 
     struct Mover
@@ -41,7 +41,7 @@ namespace shen
         std::vector<std::string> commandTypes;
 
         static void Load(PlayerInput& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(PlayerInput& component, Serialization& serialization);
     };
 
     struct Camera
@@ -50,7 +50,7 @@ namespace shen
         bool needUpdate = true;
 
         static void Load(Camera& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(Camera& component, Serialization& serialization);
     };
 
     struct CameraTarget

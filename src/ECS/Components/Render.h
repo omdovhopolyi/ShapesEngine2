@@ -13,9 +13,10 @@ namespace shen
     struct Sprite
     {
         sf::Sprite sprite;
+        std::string textureId;
 
         static void Load(Sprite& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(Sprite& component, Serialization& serialization);
     };
 
     struct Color
@@ -23,7 +24,7 @@ namespace shen
         sf::Color color;
         
         static void Load(Color& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(Color& component, Serialization& serialization);
     };
 
     struct SpriteFrameAnimation
@@ -34,6 +35,6 @@ namespace shen
         int curFrame = 0;
 
         static void Load(SpriteFrameAnimation& component, Serialization& serialization);
-        static void Save(Serialization& serialization);
+        static void Save(SpriteFrameAnimation& component, Serialization& serialization);
     };
 }

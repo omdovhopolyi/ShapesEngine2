@@ -17,6 +17,8 @@ namespace shen
     public:
         Serialization(SystemsManager* systems, tinyxml2::XMLElement* element);
 
+        SystemsManager* GetSystems() const { return _systems; }
+
         bool LoadBool(const std::string& id, bool defaultVal = false);
         int LoadInt(const std::string& id, int defaultVal = 0);
         float LoadFloat(const std::string& id, float defaultVal = 0.f);

@@ -21,11 +21,13 @@
             }                                                                                       \
         }                                                                                           \
                                                                                                     \
-        std::string ToString(int index)                                                             \
+        std::string ToString(name type)                                                             \
         {                                                                                           \
-            if (index >= 0 && index < static_cast<int>(enumStrArray.size()))                        \
+            const int typeIndex = static_cast<int>(type);                                           \
+                                                                                                    \
+            if (typeIndex >= 0 && typeIndex < static_cast<int>(enumStrArray.size()))                \
             {                                                                                       \
-                return enumStrArray[index];                                                         \
+                return enumStrArray[typeIndex];                                                     \
             }                                                                                       \
                                                                                                     \
             return {};                                                                              \

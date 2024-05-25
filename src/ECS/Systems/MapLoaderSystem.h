@@ -14,7 +14,7 @@ namespace shen
     struct LoadSaveFuncs
     {
         std::function<void(Entity, tinyxml2::XMLElement*)> loadFunc;
-        std::function<void(Serialization&)> saveFunc;
+        std::function<void(Entity, tinyxml2::XMLElement*)> saveFunc;
     };
 
     class MapLoaderSystem
@@ -48,6 +48,14 @@ namespace shen
             T::Load(*comp, serialization);
         };
 
-        functions.saveFunc = T::Save;
+        functions.saveFunc = [&](Entity entity, tinyxml2::XMLElement* element)
+        {
+            auto& world = _systems->GetWorld();
+            if (auto comp = world.GetComponent<T>(entity))
+            {
+                Serialization serialization(_systems, element);
+                T::Save(*comp, serialization);
+            }  
+        };
     }
 }
