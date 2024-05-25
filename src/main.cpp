@@ -1,3 +1,6 @@
+
+#ifndef SHEN_NO_MAIN
+
 #include "Game/Game.h"
 
 int main(int argc, char* argv[])
@@ -10,3 +13,5 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+
+#endif
