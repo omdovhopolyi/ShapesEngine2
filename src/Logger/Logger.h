@@ -31,19 +31,19 @@ namespace shen
         template<typename... Args>
         static void Log(const std::string& format, Args&& ...args)
         {
-            Instance().GetLogger()->info(format, std::forward<Args>(args)...);
+            Instance().GetLogger()->info(std::vformat(format, std::make_format_args(std::forward<Args>(args)...)));
         }
 
         template<typename... Args>
         static void Warn(const std::string& format, Args&& ...args)
         {
-            Instance().GetLogger()->warn(format, std::forward<Args>(args)...);
+            Instance().GetLogger()->warn(std::vformat(format, std::make_format_args(std::forward<Args>(args)...)));
         }
 
         template<typename... Args>
         static void Err(const std::string& format, Args&& ...args)
         {
-            Instance().GetLogger()->error(format, std::forward<Args>(args)...);
+            Instance().GetLogger()->error(std::vformat(format, std::make_format_args(std::forward<Args>(args)...)));
         }
 
     private:
