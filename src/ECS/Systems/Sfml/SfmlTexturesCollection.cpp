@@ -10,7 +10,7 @@ namespace shen
 {
     void SfmlTexturesCollection::Start()
     {
-        //stbi_set_flip_vertically_on_load(true);
+        stbi_set_flip_vertically_on_load(_flipTexOnLoad);
         LoadTexturesPaths("../assets/configs/textures.xml");
     }
 

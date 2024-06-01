@@ -14,7 +14,7 @@
    </entity>
    <entity>
       <component type="sprite">
-         <texture val="landing-base"/>
+         <texture val="chopper"/>
          <rect x="0" y="0" w="32" h="32"/>
          <shader val="SimpleShaderTex"/>
          <anchor x="16" y="16"/>

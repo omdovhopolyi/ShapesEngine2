@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/RenderSystem.h"
+#include "Messenger/SubscriptionsContainer.h"
 
 namespace shen
 {
@@ -8,6 +9,13 @@ namespace shen
         : public RenderSystem
     {
     public:
-        void Draw();
+        void Init(SystemsManager* systems) override;
+        void Draw() override;
+
+    private:
+        void InitSubscriptions();
+
+    private:
+        SubcriptionsContainer _subscriptions;
     };
 }
