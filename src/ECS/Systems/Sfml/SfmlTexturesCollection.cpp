@@ -2,8 +2,6 @@
 #include "Utils/Assert.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <tinyxml2/tinyxml2.h>
-
-
 #include <SFML/../extlibs/headers/stb_image/stb_image.h>
 
 namespace shen

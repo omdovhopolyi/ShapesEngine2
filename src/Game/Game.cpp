@@ -14,12 +14,13 @@
 #include "ECS/Systems/RotationSystem.h"
 #include "ECS/Systems/PhysicsBox2DSystem.h"
 #include "ECS/Systems/SpriteFrameAnimationSystem.h"
+#include "ECS/Systems/WindowsManager.h"
+#include "ECS/Systems/WindowsRenderSystem.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 #include "ECS/Systems/Sfml/SfmlSpriteRenderSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
-
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 
 #include <sstream>
@@ -42,6 +43,7 @@ namespace shen
 		_systems = std::make_unique<SystemsManager>();
 
 		_systems->Init(this);
+		_systems->RegisterSystem<WindowsManager>();
 		_systems->RegisterSystem<SfmlTexturesCollection>();
 		_systems->RegisterSystem<InputCommandsCollection>();
 		_systems->RegisterSystem<MapLoaderSystem>();
@@ -58,6 +60,7 @@ namespace shen
 
 		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
 		_systems->RegisterSystem<SfmlSpriteRenderSystem>();
+		_systems->RegisterSystem<WindowsRenderSystem>();
 		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();
 
 		_isRunning = true;

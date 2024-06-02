@@ -64,4 +64,9 @@ namespace shen
     struct Quit : Event
     {
     };
+
+    struct WindowOpen : Event
+    {
+        std::string windowId;
+    };
 }

@@ -11,12 +11,23 @@
 
 namespace shen
 {
+    class UIWindow;
+
     class UINode
     {
     public:
         virtual void Update(float dt);
         virtual void Draw(sf::RenderTarget& target, const sf::Transform& parentTransform) const;
         
+        void SetName(const std::string& name);
+        const std::string& GetName() const;
+
+        void SetWindow(UIWindow* window) { _window = window; }
+        UIWindow* GetWindow() const { return _window; }
+
+        UINode* AddChild(const std::string& name);
+        UINode* GetChild(const std::string& name);
+
         template<class Comp>
         Comp* AddComponent()
         {
@@ -38,9 +49,11 @@ namespace shen
         void OnUpdate(float dt);
 
     protected:
+        std::string _name;
         sf::Transform _transform;
         std::vector<std::shared_ptr<UINode>> _children;
         std::weak_ptr<UINode> _parent;
         std::map<std::type_index, std::shared_ptr<UIComponent>> _components;
+        UIWindow* _window = nullptr;
     };
 }
