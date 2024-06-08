@@ -10,6 +10,7 @@ namespace shen
     {
     public:
         void Init(SystemsManager* systems) override;
+        void Start() override;
         void Draw() override;
 
     private:

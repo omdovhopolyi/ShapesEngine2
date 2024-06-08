@@ -22,6 +22,7 @@
 #include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "ECS/Systems/Sfml/SfmlRenderTexturesSystem.h"
 
 #include <sstream>
 #include <fstream>
@@ -61,6 +62,7 @@ namespace shen
 		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
 		_systems->RegisterSystem<SfmlSpriteRenderSystem>();
 		_systems->RegisterSystem<WindowsRenderSystem>();
+		_systems->RegisterSystem<SfmlRenderTexturesSystem>();
 		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();
 
 		_isRunning = true;
