@@ -6,7 +6,7 @@ namespace shen
 {
     class Entity
     {
-        friend class EcsWorld;
+        friend class World;
 
     public:
         Entity() = default;

@@ -1,16 +1,10 @@
 #pragma once
 
-#include <string>
+#include "CommandContext.h"
 
 namespace shen
 {
     class Entity;
-
-    struct CommandContext
-    {
-        int x = 0;
-        int y = 0;
-    };
 
     class Command
     {
@@ -20,7 +14,7 @@ namespace shen
         void SetType(const std::string& type) { _type = type; }
         const std::string& GetType() const { return _type; }
 
-        virtual void Execute(const Entity& entity, const CommandContext& context = {}) const = 0;
+        virtual void Execute(const CommandContext& context = {}) const = 0;
 
     protected:
         std::string _type;

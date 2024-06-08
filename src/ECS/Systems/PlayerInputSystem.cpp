@@ -1,16 +1,16 @@
 #include "PlayerInputSystem.h"
-
-#include "Game/ManagersProvider.h"
-#include "Resources/SDLTexturesManager.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
 #include "Logger/Logger.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
-#include "Resources/InputCommandsManager.h"
+#include "Utils/Assert.h"
 
 namespace shen
 {
@@ -28,24 +28,22 @@ namespace shen
         {
             return left.type < right.type;
         }
-        if (left.mode != right.mode)
-        {
-            return left.mode < right.mode;
-        }
 
         return false;
     }
 
     bool operator == (const InputType& left, const InputType& right)
     {
-        return (left.keyCode == right.keyCode &&
+        return (left.keyCode == right.keyCode && left.keyCode > -1 &&
             left.mouseButton == right.mouseButton &&
             left.type == right.type &&
-            left.mode == right.mode);
+            left.alt == right.alt &&
+            left.shift == right.shift &&
+            left.ctrl == right.ctrl);
     }
 
     PlayerInputSystem::PlayerInputSystem()
-        : System()
+        : UpdateSystem()
     {}
 
     void PlayerInputSystem::Start()
@@ -58,9 +56,8 @@ namespace shen
     {
         std::vector<std::pair<Entity, const PlayerInput*>> entities;
 
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<PlayerInput>(
-            [&](auto entity, const PlayerInput& input)
+        auto& world = _systems->GetWorld();
+        world.Each<PlayerInput>([&](auto entity, const PlayerInput& input)
         {
             entities.push_back({ entity, &input });
         });
@@ -71,7 +68,10 @@ namespace shen
             {
                 if (command)
                 {
-                    command->Execute(entity, context);
+                    context.entity = entity;
+                    context.systems = _systems;
+
+                    command->Execute(context);
                 }
             }
         }
@@ -91,11 +91,13 @@ namespace shen
             InputType inputEvent;
             inputEvent.keyCode = event.code;
             inputEvent.type = event.type;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), {} });
+                _toProcess.push_back({ it->second, {} });
             }
         });
 
@@ -104,11 +106,13 @@ namespace shen
             InputType inputEvent;
             inputEvent.mouseButton = event.button;
             inputEvent.type = event.type;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), {} });
+                _toProcess.push_back({ it->second, {} });
             }
         });
 
@@ -116,14 +120,16 @@ namespace shen
         {
             InputType inputEvent;
             inputEvent.type = InputEventType::MouseMove;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.x = event.x;
-            context.y = event.y;
+            context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), context });
+                _toProcess.push_back({ it->second, context });
             }
         });
 
@@ -131,28 +137,31 @@ namespace shen
         {
             InputType inputEvent;
             inputEvent.type = InputEventType::Scroll;
-            inputEvent.mode = event.mode;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.y = event.scroll;
+            context.vars.insert({ "var", event.scroll });
 
             if (auto it = _actions.find(inputEvent); it != _actions.end())
             {
-                _toProcess.push_back({ it->second.get(), context });
+                _toProcess.push_back({ it->second, context });
             }
         });
     }
 
     void PlayerInputSystem::LoadConfig()
     {
-        auto commandsManager = ManagersProvider::Instance().GetOrCreateAssetsManager<InputCommandsManager>();
+        auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
+        auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
 
         tinyxml2::XMLDocument doc;
 
         const auto error = doc.LoadFile("../assets/configs/input.xml");
         if (error != tinyxml2::XML_SUCCESS)
         {
-            // assert
+            Assert(error != tinyxml2::XML_SUCCESS, "[PlayerInputSystem::LoadConfig] Can not read 'input.xml");
             return;
         }
 
@@ -165,7 +174,7 @@ namespace shen
 
                 if (const auto keyAttr = element->FindAttribute("key"))
                 {
-                    inputType.keyCode = static_cast<int>(*keyAttr->Value());
+                    inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(*keyAttr->Value()));
                 }
 
                 if (const auto mouseBtnAttr = element->FindAttribute("mouseBtn"))
@@ -178,17 +187,27 @@ namespace shen
                     inputType.type = InputEventTypeEnum.FromString(inputEventTypeAttr->Value());
                 }
 
-                if (const auto modeAttr = element->FindAttribute("mode"))
+                if (const auto modeAttr = element->FindAttribute("alt"))
                 {
-                    inputType.mode = KeyModeEnum.FromString(modeAttr->Value());
+                    inputType.alt = modeAttr->BoolValue();
+                }
+
+                if (const auto modeAttr = element->FindAttribute("shift"))
+                {
+                    inputType.shift = modeAttr->BoolValue();
+                }
+
+                if (const auto modeAttr = element->FindAttribute("ctrl"))
+                {
+                    inputType.ctrl = modeAttr->BoolValue();
                 }
 
                 if (const auto commandAttr = element->FindAttribute("command"))
                 {
                     const auto commandId = commandAttr->Value();
-                    auto command = commandsManager->GetAsset(commandId);
+                    auto command = inputCommandsCollection->GetCommandById(commandId);
 
-                    _actions[inputType] = std::move(command);
+                    _actions[inputType] = command;
                 }
                 
                 element = element->NextSiblingElement();

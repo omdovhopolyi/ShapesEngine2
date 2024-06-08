@@ -3,40 +3,48 @@
 
 namespace shen
 {
-    KeyEvent::KeyEvent(InputEventType eventType, int keyCode, KeyMode keyMode)
+    KeyEvent::KeyEvent(InputEventType eventType, int keyCode, bool altMode, bool shiftMode, bool ctrlMode)
         : type(eventType)
         , code(keyCode)
-        , mode(keyMode)
+        , alt(altMode)
+        , shift(shiftMode)
+        , ctrl(ctrlMode)
     {
-        Logger::Log("Key {}", static_cast<char>(keyCode));
+        //Logger::Log("Key {}", static_cast<char>(keyCode));
     }
 
-    MouseButtonEvent::MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, KeyMode keyMode, int posX, int posY)
+    MouseButtonEvent::MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, int posX, int posY, bool altMode, bool shiftMode, bool ctrlMode)
         : type(eventType)
         , button(mouseBtn)
-        , mode(keyMode)
         , x(posX)
         , y(posY)
+        , alt(altMode)
+        , shift(shiftMode)
+        , ctrl(ctrlMode)
     {
-        Logger::Log("Mouse button");
+        //Logger::Log("Mouse button");
     }
 
-    MouseMoveEvent::MouseMoveEvent(int posX, int posY, int diffX, int diffY, KeyMode keyMode)
+    MouseMoveEvent::MouseMoveEvent(int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode)
         : x(posX)
         , y(posY)
         , dx(diffX)
         , dy(diffY)
-        , mode(keyMode)
+        , alt(altMode)
+        , shift(shiftMode)
+        , ctrl(ctrlMode)
     { 
         //Logger::Log("Mouse move");
     }
 
-    MouseWheelEvent::MouseWheelEvent(int posX, int posY, int scrl, KeyMode keyMode)
+    MouseWheelEvent::MouseWheelEvent(int posX, int posY, float scrl, bool altMode, bool shiftMode, bool ctrlMode)
         : x(posX)
         , y(posY)
         , scroll(scrl)
-        , mode(keyMode)
+        , alt(altMode)
+        , shift(shiftMode)
+        , ctrl(ctrlMode)
     {
-        Logger::Log("Mouse wheel scroll");
+        //Logger::Log("Mouse wheel scroll");
     }
 }

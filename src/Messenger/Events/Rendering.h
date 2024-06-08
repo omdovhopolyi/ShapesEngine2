@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
+#include <SFML/Graphics/Rect.hpp>
 
 namespace shen
 {
@@ -10,9 +11,9 @@ namespace shen
         : Event
     {
         Entity entity;
-        Rect texRect;
+        sf::IntRect texRect;
 
-        UpdateTexRect(Entity ent, const Rect& rect)
+        UpdateTexRect(Entity ent, const sf::IntRect& rect)
             : Event()
             , entity(ent)
             , texRect(rect)

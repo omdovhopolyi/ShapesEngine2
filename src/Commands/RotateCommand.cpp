@@ -1,34 +1,32 @@
 #include "RotateCommand.h"
-
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
+#include "ECS/SystemsManager.h"
 #include "ECS/Components/Common.h"
-#include "Game/ManagersProvider.h"
+#include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 #include "Logger/Logger.h"
 #include "Utils/Coords.h"
-
-#include <glm/gtx/vector_angle.hpp>
+#include "Utils/Math.h"
 
 namespace shen
 {
-    void RotateCommand::Execute(const Entity& entity, const CommandContext& context) const
+    void RotateCommand::Execute(const CommandContext& context) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
-        auto rotator = world->GetOrCreateComponent<Rotator>(entity);
+        auto& world = context.systems->GetWorld();
+        auto windowSystem = context.systems->GetSystem<SfmlGameWindowSystem>();
+        auto window = windowSystem->GetRenderWindow();
 
-        auto mouseScreenPos = glm::vec2(context.x, context.y);
-        glm::vec3 mouseWorldPos = ScreenToWorld(mouseScreenPos);
+        auto transform = world.GetOrCreateComponent<Transform>(context.entity);
 
-        Logger::Log("Mouse world pos {} {} {}", mouseWorldPos.x, mouseWorldPos.y, mouseWorldPos.z);
+        if (auto screenPos = context.GetVar<sf::Vector2i>("pos"))
+        {
+            auto worldPos = window->mapPixelToCoords(*screenPos);
+            auto direction = worldPos - transform->position;
+            direction = Normalize(direction);
 
-        glm::vec2 mouseWorldPos2D = mouseWorldPos;
-
-        auto objectWorldPos = ObjectWorldPosition2D(entity);
-        auto direction = glm::normalize(mouseWorldPos2D - objectWorldPos);
-
-        static glm::vec3 up{ 0.f, 0.f, 1.f };
-        static glm::vec2 right{ 1.f, 0.f };
-
-        const float angle = glm::degrees(glm::orientedAngle(right, direction));
-        rotator->rotation = glm::angleAxis(glm::radians(angle), up);        
+            if (auto rotator = world.GetOrCreateComponent<Rotator>(context.entity))
+            {
+                rotator->rotation = Degrees(OrientedAngle(direction));
+            }
+        }
     }
 }

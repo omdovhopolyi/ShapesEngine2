@@ -1,7 +1,7 @@
 #include "SpriteFrameAnimationSystem.h"
-#include "Game/ManagersProvider.h"
-#include "Game/Time.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/TimeSystem.h"
 #include "ECS/Components/Render.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"
@@ -10,17 +10,17 @@ namespace shen
 {
     void SpriteFrameAnimationSystem::Update()
     {
-		auto world = ManagersProvider::Instance().GetWorld();
-		const float dt = ManagersProvider::Instance().GetTime()->Dt();
+		auto& world = _systems->GetWorld();
+		auto time = _systems->GetSystem<TimeSystem>();
 
-		world->Each<SpriteFrameAnimation, Sprite>(
+		world.Each<SpriteFrameAnimation, Sprite>(
 			[&](const auto entity, SpriteFrameAnimation& animation, Sprite& sprite)
 		{
-			animation.dt += dt;
+			animation.dt += time->Dt();
 			const int framesForward = static_cast<int>(animation.dt / animation.frameTime);
 			if (framesForward > 0)
 			{
-				animation .dt = 0.f;
+				animation.dt = 0.f;
 			}
 
 			const auto prevFrame = animation.curFrame;
@@ -30,9 +30,7 @@ namespace shen
 
 			if (animation.curFrame != prevFrame)
 			{
-				sprite.texRect = animation.frames[animation.curFrame];
-
-				ManagersProvider::Instance().GetMessenger()->Broadcast<UpdateTexRect>(entity, sprite.texRect);
+				sprite.sprite.setTextureRect(animation.frames[animation.curFrame]);
 			}
 		});
     }

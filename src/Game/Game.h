@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Messenger/SubscriptionsContainer.h"
+#include <memory>
 
 namespace shen
 {
+	class SystemsManager;
+
 	class Game
 	{
 	public:
@@ -22,5 +25,6 @@ namespace shen
 		int _lastUpdateTime = 0;
 		bool _isRunning = false;
 		SubcriptionsContainer _subscriptions;
+		std::unique_ptr<SystemsManager> _systems;
 	};
 }

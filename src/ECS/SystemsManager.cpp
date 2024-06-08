@@ -2,18 +2,14 @@
 
 namespace shen
 {
-    void SystemsManager::Init()
+    void SystemsManager::Init(Game* game)
     {
+        _game = game;
     }
 
     void SystemsManager::Start()
     {
-        for (auto& system : _systems)
-        {
-            system->Start();
-        }
-
-        for (auto& system : _renderSystems)
+        for (auto& system : _registrationOrderedSystems)
         {
             system->Start();
         }
@@ -21,7 +17,7 @@ namespace shen
 
     void SystemsManager::Update()
     {
-        for (auto& system : _systems)
+        for (auto& system : _updateSystems)
         {
             system->Update();
         }
@@ -37,12 +33,7 @@ namespace shen
 
     void SystemsManager::Stop()
     {
-        for (auto& system : _systems)
-        {
-            system->Stop();
-        }
-
-        for (auto& system : _renderSystems)
+        for (auto& system : _registrationOrderedSystems)
         {
             system->Stop();
         }
@@ -51,8 +42,10 @@ namespace shen
     void SystemsManager::Clear()
     {
         Logger::Log("SystemsManager::Clear");
-        _systems.clear();
+        _updateSystems.clear();
         _renderSystems.clear();
         _mappedSystems.clear();
+        _registrationOrderedSystems.clear();
+        _world.Clear();
     }
 }

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
     class RotationSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         void Update() override;

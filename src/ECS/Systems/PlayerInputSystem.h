@@ -1,6 +1,6 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 #include "Messenger/SubscriptionsContainer.h"
 #include "Messenger/Events/Common.h"
 #include "Utils/Types.h"
@@ -20,14 +20,16 @@ namespace shen
         int keyCode = -1;
         MouseButton mouseButton = MouseButton::None;
         InputEventType type = InputEventType::Undefined;
-        KeyMode mode = KeyMode::None;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
         friend bool operator < (const InputType& left, const InputType& right);
         friend bool operator == (const InputType& left, const InputType& right);
     };
 
     class PlayerInputSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         using InputCode = int;
@@ -43,11 +45,11 @@ namespace shen
         virtual void InitActionCallbacks();
         void InitSubscriptions();
         void LoadConfig();
-
+        
     protected:
         SubcriptionsContainer _subscriptions;
 
-        std::map<InputType, std::shared_ptr<Command>> _actions;
+        std::map<InputType, Command*> _actions;
         std::vector<std::pair<Command*, CommandContext>> _toProcess;
     };
 }

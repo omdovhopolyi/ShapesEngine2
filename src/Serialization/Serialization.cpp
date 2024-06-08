@@ -1,14 +1,18 @@
 #include "Serialization.h"
-
-#include "Game/ManagersProvider.h"
-#include "Resources/OpenGLTexturesManager.h"
-#include "Resources/ShadersManager.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 
 namespace shen
 {
-    bool LoadBool(const std::string& id, const tinyxml2::XMLElement* element, bool defaultVal/* = false*/)
+    Serialization::Serialization(SystemsManager* systems, tinyxml2::XMLElement* element)
+        : _systems(systems)
+        , _element(element)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+    }
+
+    bool Serialization::LoadBool(const std::string& id, bool defaultVal/* = false*/)
+    {
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -19,9 +23,9 @@ namespace shen
         return defaultVal;
     }
 
-    int LoadInt(const std::string& id, const tinyxml2::XMLElement* element, int defaultVal/* = 0*/)
+    int Serialization::LoadInt(const std::string& id, int defaultVal/* = 0*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -32,9 +36,9 @@ namespace shen
         return defaultVal;
     }
 
-    float LoadFloat(const std::string& id, const tinyxml2::XMLElement* element, float defaultVal/* = 0.f*/)
+    float Serialization::LoadFloat(const std::string& id, float defaultVal/* = 0.f*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -45,9 +49,9 @@ namespace shen
         return defaultVal;
     }
 
-    std::string LoadStr(const std::string& id, const tinyxml2::XMLElement* element, const std::string& defaultVal/* = {}*/)
+    std::string Serialization::LoadStr(const std::string& id, const std::string& defaultVal/* = {}*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
@@ -58,9 +62,46 @@ namespace shen
         return defaultVal;
     }
 
-    glm::vec2 LoadVec2(const std::string& id, const tinyxml2::XMLElement* element, glm::vec2 defaultVal/* = {}*/)
+    bool Serialization::LoadBoolAttr(const std::string& id, bool defaultVal)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->BoolValue();
+        }
+        return defaultVal;
+    }
+
+    int Serialization::LoadIntAttr(const std::string& id, int defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->IntValue();
+        }
+        return defaultVal;
+    }
+
+    float Serialization::LoadFloatAttr(const std::string& id, float defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->FloatValue();
+        }
+        return defaultVal;
+    }
+
+    std::string Serialization::LoadStrAttr(const std::string& id, const std::string& defaultVal)
+    {
+        if (const auto attrib = _element->FindAttribute(id.c_str()))
+        {
+            return attrib->Value();
+        }
+
+        return defaultVal;
+    }
+
+    sf::Vector2f Serialization::LoadVec2(const std::string& id, sf::Vector2f defaultVal)
+    {
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             return LoadVec2(childElement, defaultVal);
         }
@@ -68,19 +109,9 @@ namespace shen
         return defaultVal;
     }
 
-    glm::vec3 LoadVec3(const std::string& id, const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = {}*/)
+    sf::Vector2f Serialization::LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
-        {
-            return LoadVec3(childElement, defaultVal);
-        }
-
-        return defaultVal;
-    }
-
-    glm::vec2 LoadVec2(const tinyxml2::XMLElement* element, glm::vec2 defaultVal/* = glm::vec2(0.f)*/)
-    {
-        glm::vec2 result = glm::vec2(0.f);
+        sf::Vector2f result;
 
         if (const auto xAttrib = element->FindAttribute("x"))
         {
@@ -95,89 +126,104 @@ namespace shen
         return result;
     }
 
-    glm::vec3 LoadVec3(const tinyxml2::XMLElement* element, glm::vec3 defaultVal/* = glm::vec3(0.f)*/)
+    sf::FloatRect Serialization::LoadFloatRect(const std::string& id, sf::FloatRect def/* = {}*/)
     {
-        glm::vec3 result = glm::vec3(0.f);
-
-        if (const auto xAttrib = element->FindAttribute("x"))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
-            result.x = xAttrib->FloatValue();
-        }
-
-        if (const auto yAttrib = element->FindAttribute("y"))
-        {
-            result.y = yAttrib->FloatValue();
-        }
-
-        if (const auto zAttrib = element->FindAttribute("z"))
-        {
-            result.z = zAttrib->FloatValue();
-        }
-
-        return result;
-    }
-
-    Rect LoadRect(const std::string& id, const tinyxml2::XMLElement* element, Rect def/* = {}*/)
-    {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
-        {
-            return LoadRect(childElement);
+            return LoadFloatRect(childElement);
         }
 
         return def;
     }
 
-    Rect LoadRect(const tinyxml2::XMLElement* element)
+    sf::FloatRect Serialization::LoadFloatRect(const tinyxml2::XMLElement* element)
     {
-        Rect rect;
+        sf::FloatRect rect;
 
         if (const auto attrib = element->FindAttribute("x"))
         {
-            rect.origin.x = attrib->FloatValue();
+            rect.left = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("y"))
         {
-            rect.origin.y = attrib->FloatValue();
+            rect.top = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("w"))
         {
-            rect.size.x = attrib->FloatValue();
+            rect.width = attrib->FloatValue();
         }
 
         if (const auto attrib = element->FindAttribute("h"))
         {
-            rect.size.y = attrib->FloatValue();
+            rect.height = attrib->FloatValue();
         }
 
         return rect;
     }
 
-    glm::vec4 LoadColor(const std::string& id, const tinyxml2::XMLElement* element, glm::vec4 defaultVal/* = glm::vec4(0.f)*/)
+    sf::IntRect Serialization::LoadIntRect(const std::string& id, sf::IntRect def/* = {}*/)
     {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
-            glm::vec4 result = glm::vec4(0.f);
+            return LoadIntRect(childElement);
+        }
+
+        return def;
+    }
+
+    sf::IntRect Serialization::LoadIntRect(const tinyxml2::XMLElement* element)
+    {
+        sf::IntRect rect;
+
+        if (const auto attrib = element->FindAttribute("x"))
+        {
+            rect.left = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("y"))
+        {
+            rect.top = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("w"))
+        {
+            rect.width = attrib->IntValue();
+        }
+
+        if (const auto attrib = element->FindAttribute("h"))
+        {
+            rect.height = attrib->IntValue();
+        }
+
+        return rect;
+    }
+
+    sf::Color Serialization::LoadColor(const std::string& id, sf::Color defaultVal)
+    {
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
+        {
+            sf::Color result;
 
             if (const auto xAttrib = childElement->FindAttribute("r"))
             {
-                result.x = xAttrib->IntValue();
+                result.r = xAttrib->IntValue();
             }
 
             if (const auto yAttrib = childElement->FindAttribute("g"))
             {
-                result.y = yAttrib->IntValue();
+                result.g = yAttrib->IntValue();
             }
 
             if (const auto zAttrib = childElement->FindAttribute("b"))
             {
-                result.z = zAttrib->IntValue();
+                result.b = zAttrib->IntValue();
             }
 
             if (const auto zAttrib = childElement->FindAttribute("a"))
             {
-                result.w = zAttrib->IntValue();
+                result.a = zAttrib->IntValue();
             }
 
             return result;
@@ -186,48 +232,34 @@ namespace shen
         return defaultVal;
     }
 
-    Texture* LoadTexturePtr(const std::string& id, const tinyxml2::XMLElement* element)
+    sf::Texture* Serialization::LoadTexturePtr(const std::string& id)
     {
-        auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
-        Texture* texture = nullptr;
-
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             if (const auto attrib = childElement->FindAttribute("val"))
             {
                 const auto textureId = attrib->Value();
-                texture = texturesManager->GetAsset(textureId);
-            }
-        }
 
-        return texture ? texture : texturesManager->GetAsset("Empty");
-    }
-
-    Shader* LoadShaderPtr(const std::string& id, const tinyxml2::XMLElement* element)
-    {
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
-        {
-            if (const auto attrib = childElement->FindAttribute("val"))
-            {
-                const auto shaderId = attrib->Value();
-                auto shaders = ManagersProvider::Instance().GetOrCreateAssetsManager<ShadersManager>();
-                return shaders->GetAsset(shaderId);
+                if (auto textures = _systems->GetSystem<SfmlTexturesCollection>())
+                {
+                    return textures->GetTexture(textureId);
+                }
             }
         }
 
         return nullptr;
     }
 
-    std::vector<Rect> LoadVectorRect(const std::string& id, const tinyxml2::XMLElement* element)
+    std::vector<sf::IntRect> Serialization::LoadVectorRect(const std::string& id)
     {
-        std::vector<Rect> result;
+        std::vector<sf::IntRect> result;
 
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             auto rectElement = childElement->FirstChildElement("rect");
             while (rectElement)
             {
-                result.push_back(LoadRect(rectElement));
+                result.push_back(LoadIntRect(rectElement));
                 rectElement = rectElement->NextSiblingElement();
             }
         }
@@ -235,11 +267,11 @@ namespace shen
         return result;
     }
 
-    std::vector<std::string> LoadVecStr(const std::string& id, const tinyxml2::XMLElement* element)
+    std::vector<std::string> Serialization::LoadVecStr(const std::string& id)
     {
         std::vector<std::string> result;
 
-        if (const auto childElement = element->FirstChildElement(id.c_str()))
+        if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
             auto arrayElement = childElement->FirstChildElement("item");
             while (arrayElement)
@@ -254,5 +286,219 @@ namespace shen
         }
 
         return result;
+    }
+
+    void Serialization::SaveBool(const std::string& id, bool val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveInt(const std::string& id, int val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveFloat(const std::string& id, float val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val);
+        }
+    }
+
+    void Serialization::SaveStr(const std::string& id, const std::string& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", val.c_str());
+        }
+    }
+
+    void Serialization::SaveBoolAttr(const std::string& id, bool val)
+    {
+        SaveBoolAttr(_element, id, val);
+    }
+
+    void Serialization::SaveIntAttr(const std::string& id, int val)
+    {
+        SaveIntAttr(_element, id, val);
+    }
+
+    void Serialization::SaveFloatAttr(const std::string& id, float val)
+    {
+        SaveFloatAttr(_element, id, val);
+    }
+
+    void Serialization::SaveStrAttr(const std::string& id, const std::string& val)
+    {
+        SaveStrAttr(_element, id, val);
+    }
+
+    void Serialization::SaveBoolAttr(tinyxml2::XMLElement* element, const std::string& id, bool val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveIntAttr(tinyxml2::XMLElement* element, const std::string& id, int val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveFloatAttr(tinyxml2::XMLElement* element, const std::string& id, float val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val);
+        }
+    }
+
+    void Serialization::SaveStrAttr(tinyxml2::XMLElement* element, const std::string& id, const std::string& val)
+    {
+        if (element)
+        {
+            element->SetAttribute(id.c_str(), val.c_str());
+        }
+    }
+
+    void Serialization::SaveVec2(const std::string& id, const sf::Vector2f& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveVec2Attr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveVec2Attr(const sf::Vector2f& val)
+    {
+        SaveVec2Attr(_element, val);
+    }
+
+    void Serialization::SaveVec2Attr(tinyxml2::XMLElement* element, const sf::Vector2f& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.x);
+            element->SetAttribute("y", val.y);
+        }
+    }
+
+    void Serialization::SaveFloatRect(const std::string& id, const sf::FloatRect& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveFloatRectAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveFloatRectAttr(const sf::FloatRect& val)
+    {
+        SaveFloatRectAttr(_element, val);
+    }
+
+    void Serialization::SaveFloatRectAttr(tinyxml2::XMLElement* element, const sf::FloatRect& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.left);
+            element->SetAttribute("y", val.top);
+            element->SetAttribute("w", val.width);
+            element->SetAttribute("h", val.height);
+        }
+    }
+
+    void Serialization::SaveIntRect(const std::string& id, const sf::IntRect& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveIntRectAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveIntRectAttr(const sf::IntRect& val)
+    {
+        SaveIntRectAttr(_element, val);
+    }
+
+    void Serialization::SaveIntRectAttr(tinyxml2::XMLElement* element, const sf::IntRect& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("x", val.left);
+            element->SetAttribute("y", val.top);
+            element->SetAttribute("w", val.width);
+            element->SetAttribute("h", val.height);
+        }
+    }
+
+    void Serialization::SaveColor(const std::string& id, const sf::Color& val)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            SaveColorAttr(childElement, val);
+        }
+    }
+
+    void Serialization::SaveColorAttr(const sf::Color& val)
+    {
+        SaveColorAttr(_element, val);
+    }
+
+    void Serialization::SaveColorAttr(tinyxml2::XMLElement* element, const sf::Color& val)
+    {
+        if (element)
+        {
+            element->SetAttribute("r", val.r);
+            element->SetAttribute("g", val.g);
+            element->SetAttribute("b", val.b);
+            element->SetAttribute("a", val.a);
+        }
+    }
+
+    void Serialization::SaveTexturePtr(const std::string& id, const std::string& texId)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            childElement->SetAttribute("val", texId.c_str());
+        }
+    }
+
+    void Serialization::SaveVectorRect(const std::string& id, const std::vector<sf::IntRect>& vec)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            for (const auto& rect : vec)
+            {
+                if (auto rectElem = childElement->InsertNewChildElement("rect"))
+                {
+                    SaveIntRectAttr(rectElem, rect);
+                }
+            }
+        }
+    }
+
+    void Serialization::SaveVecStr(const std::string& id, const std::vector<std::string>& vec)
+    {
+        if (auto childElement = _element->InsertNewChildElement(id.c_str()))
+        {
+            for (const auto& str : vec)
+            {
+                if (auto rectElem = childElement->InsertNewChildElement("item"))
+                {
+                    rectElem->SetAttribute("val", str.c_str());
+                }
+            }
+        }
     }
 }

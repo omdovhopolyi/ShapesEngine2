@@ -1,53 +1,62 @@
 #include "Render.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "Serialization/Serialization.h"
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 
 namespace shen
 {
-    void Sprite::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Sprite::Load(Sprite& component, Serialization& serialization)
     {
-        auto comp = world->AddComponent<Sprite>(entity);
-
-        comp->texture = LoadTexturePtr("texture", element);
-        comp->mask = LoadTexturePtr("mask", element);
-        comp->texRect = LoadRect("rect", element);
-        comp->size = LoadVec2("size", element, comp->size);
-        comp->anchor = LoadVec2("anchor", element);
-        comp->shader = LoadShaderPtr("shader", element);
-
-        if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
+        if (auto textureId = serialization.LoadStr("texture"); !textureId.empty())
         {
-            comp->spriteType = SpriteTypeEnum.FromString(LoadStr("spriteType", element));
+            auto systems = serialization.GetSystems();
+
+            if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
+            {
+                if (auto texture = texturesCollection->GetTexture(textureId))
+                {
+                    auto rect = serialization.LoadIntRect("rect");
+                    auto anchor = serialization.LoadVec2("anchor");
+                    auto size = serialization.LoadVec2("size");
+
+                    component.textureId = textureId;
+                    component.sprite.setTexture(*texture);
+                    component.sprite.setTextureRect(rect);
+                    component.sprite.setOrigin(anchor);
+                }
+            }   
         }
     }
 
-    void Sprite::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Sprite::Save(Sprite& component, Serialization& serialization)
     {
-
+        if (auto texture = component.sprite.getTexture())
+        {
+            serialization.SaveStr("texture", component.textureId);
+            serialization.SaveIntRect("rect", component.sprite.getTextureRect());
+            serialization.SaveVec2("size", component.sprite.getOrigin());
+        }
     }
 
-    void Color::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Color::Load(Color& component, Serialization& serialization)
     {
-        auto comp = world->AddComponent<Color>(entity);
-
-        comp->rgba = LoadColor("color", element) / 255.f;
+        component.color = serialization.LoadColor("color");
     }
 
-    void Color::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Color::Save(Color& component, Serialization& serialization)
     {
-
+        serialization.SaveColor("color", component.color);
     }
 
-    void SpriteFrameAnimation::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, Serialization& serialization)
     {
-        auto comp = world->AddComponent<SpriteFrameAnimation>(entity);
-
-        comp->frameTime = LoadFloat("frameTime", element, comp->frameTime);
-        comp->frames = LoadVectorRect("frames", element);
+        component.frameTime = serialization.LoadFloat("frameTime", component.frameTime);
+        component.frames = serialization.LoadVectorRect("frames");
     }
 
-    void SpriteFrameAnimation::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, Serialization& serialization)
     {
-
+        serialization.SaveFloat("frameTime", component.frameTime);
+        serialization.SaveVectorRect("frames", component.frames);
     }
 }

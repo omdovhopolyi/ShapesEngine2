@@ -1,14 +1,13 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
     class MovementSystem
-        : public System
+        : public UpdateSystem
     {
     public:
         void Update() override;
-        
     };
 }

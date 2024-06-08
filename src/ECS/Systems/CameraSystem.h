@@ -1,18 +1,13 @@
 #pragma once
 
-#include "System.h"
-#include <glm/glm.hpp>
+#include "BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
     class CameraSystem
-        : public System
+        : public UpdateSystem
     {
     public:
-        void Start() override;
         void Update() override;
-
-    private:
-        glm::vec2 _viewportSize;
     };
 }

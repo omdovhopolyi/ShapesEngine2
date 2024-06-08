@@ -13,9 +13,11 @@ namespace shen
     {
         InputEventType type = InputEventType::Undefined;
         int code = -1;
-        KeyMode mode = KeyMode::None;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
-        KeyEvent(InputEventType eventType, int keyCode, KeyMode keyMode);
+        KeyEvent(InputEventType eventType, int keyCode, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct MouseButtonEvent
@@ -23,11 +25,13 @@ namespace shen
     {
         InputEventType type = InputEventType::Undefined;
         MouseButton button = MouseButton::None;
-        KeyMode mode = KeyMode::None;
         int x = 0;
         int y = 0;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
-        MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, KeyMode keyMode, int posX, int posY);
+        MouseButtonEvent(InputEventType eventType, MouseButton mouseBtn, int posX, int posY, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct MouseMoveEvent
@@ -37,9 +41,11 @@ namespace shen
         int y = 0;
         int dx = 0;
         int dy = 0;
-        KeyMode mode = KeyMode::None;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
-        MouseMoveEvent(int posX, int posY, int diffX, int diffY, KeyMode keyMode);
+        MouseMoveEvent(int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct MouseWheelEvent
@@ -47,13 +53,20 @@ namespace shen
     {
         int x = 0;
         int y = 0;
-        int scroll = 0;
-        KeyMode mode = KeyMode::None;
+        float scroll = 0;
+        bool alt = false;
+        bool shift = false;
+        bool ctrl = false;
 
-        MouseWheelEvent(int posX, int posY, int scrl, KeyMode keyMode);
+        MouseWheelEvent(int posX, int posY, float scrl, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct Quit : Event
     {
+    };
+
+    struct WindowOpen : Event
+    {
+        std::string windowId;
     };
 }

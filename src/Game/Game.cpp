@@ -1,22 +1,28 @@
-
 #include "Game.h"
-#include "ManagersProvider.h"
+#include "ECS/SystemsManager.h"
 #include "Logger/Logger.h"
 #include "Time.h"
-#include "GameWindow.h"
-#include "MapLoader.h"
-
 #include "ECS/SystemsManager.h"
-#include "ECS/EcsWorld.h"
-#include "ECS/SystemsRegistration.h"
 #include "ECS/Components/Common.h"
-#include "ECS/Components/SDLComponents.h"
-
-#include "Resources/AssetsManager.h"
-#include "Resources/OpenGLTexturesManager.h"
-#include "Resources/ShadersManager.h"
-
 #include "Messenger/Events/Common.h"
+#include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/PlayerInputSystem.h"
+#include "ECS/Systems/CameraSystem.h"
+#include "ECS/Systems/MapLoaderSystem.h"
+#include "ECS/Systems/TimeSystem.h"
+#include "ECS/Systems/MovementSystem.h"
+#include "ECS/Systems/RotationSystem.h"
+#include "ECS/Systems/PhysicsBox2DSystem.h"
+#include "ECS/Systems/SpriteFrameAnimationSystem.h"
+#include "ECS/Systems/WindowsManager.h"
+#include "ECS/Systems/WindowsRenderSystem.h"
+#include "ECS/Systems/Sfml/SfmlInputSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowSystem.h"
+#include "ECS/Systems/Sfml/SfmlSpriteRenderSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
+#include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "ECS/Systems/Sfml/SfmlRenderTexturesSystem.h"
 
 #include <sstream>
 #include <fstream>
@@ -35,7 +41,31 @@ namespace shen
 
 	void Game::Initialize()
 	{
-		_isRunning = ManagersProvider::Instance().Init();
+		_systems = std::make_unique<SystemsManager>();
+
+		_systems->Init(this);
+		_systems->RegisterSystem<WindowsManager>();
+		_systems->RegisterSystem<SfmlTexturesCollection>();
+		_systems->RegisterSystem<InputCommandsCollection>();
+		_systems->RegisterSystem<MapLoaderSystem>();
+		_systems->RegisterSystem<SfmlGameWindowSystem>();
+
+		_systems->RegisterSystem<TimeSystem>();
+		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<PlayerInputSystem>();
+		_systems->RegisterSystem<CameraSystem>();
+		_systems->RegisterSystem<MovementSystem>();
+		_systems->RegisterSystem<RotationSystem>();
+		_systems->RegisterSystem<PhysicsBox2DSystem>();
+		_systems->RegisterSystem<SpriteFrameAnimationSystem>();
+
+		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
+		_systems->RegisterSystem<SfmlSpriteRenderSystem>();
+		_systems->RegisterSystem<WindowsRenderSystem>();
+		_systems->RegisterSystem<SfmlRenderTexturesSystem>();
+		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();
+
+		_isRunning = true;
 	}
 
 	void Game::Run()
@@ -50,41 +80,22 @@ namespace shen
 
 	void Game::Destroy()
 	{
-		ManagersProvider::Instance().Clear();
+		_systems->Clear();
 	}
 
 	void Game::Setup()
 	{
-		RegisterSystems();
-
-		/*_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
-		{
-			if (event.type == KeyEventType::Up)
-			{
-				if (event.code == SDLK_ESCAPE)
-				{
-					_isRunning = false;
-				}
-			}
-		});*/
+		_systems->Start();
 
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
 			_isRunning = false;
 		});
-
-		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
-
-		auto mapLoader = ManagersProvider::Instance().GetMapLoader();
-		mapLoader->LoadMap("map_test");
-
-		auto systems = ManagersProvider::Instance().GetSystemsManager();
-		systems->Start();
 	}
 
 	void Game::Update()
 	{
-		ManagersProvider::Instance().Update();
-		ManagersProvider::Instance().Draw();
+		_systems->Update();
+		_systems->Draw();
 	}
 }
