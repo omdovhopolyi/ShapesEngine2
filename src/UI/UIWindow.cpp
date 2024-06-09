@@ -1,6 +1,6 @@
 #include "UIWindow.h"
 #include "ECS/SystemsManager.h"
-#include "ECS/Systems/Sfml/SfmlWindowSystem.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include "ECS/Components/Common.h"
 #include "UI/Components/UISpriteComponent.h"
@@ -49,11 +49,11 @@ namespace shen
     {
         if (_root)
         {
-            if (auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>())
+            if (auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>())
             {
-                if (auto window = windowSystem->GetRenderWindow())
+                if (auto target = renderTargets->GetRenderTexture("ui"))
                 {
-                    _root->Draw(*window, {});
+                    _root->Draw(*target, {});
                 }
             }
         }
@@ -72,17 +72,23 @@ namespace shen
                 {
                     auto component = node->AddComponent<UISpriteComponent>();
 
-                    const auto fillScrAttr = compElement->FindAttribute("fillScreen");
-                    const auto texAttr = compElement->FindAttribute("texture");
+                    bool needFillScreen = false;
+                    std::string textureId;
 
-                    const bool needfillScreen = fillScrAttr->BoolValue();
-                    const auto textureId = texAttr->Value();
+                    if (const auto fillScrAttr = compElement->FindAttribute("fillScreen"))
+                    {
+                        needFillScreen = fillScrAttr->BoolValue();
+                        component->SetFillScreen(needFillScreen);
+                    }
 
-                    auto textures = _systems->GetSystem<SfmlTexturesCollection>();
-                    auto texture = textures->GetTexture(textureId);
+                    if (const auto texAttr = compElement->FindAttribute("texture"))
+                    {
+                        textureId = texAttr->Value();
+                        auto textures = _systems->GetSystem<SfmlTexturesCollection>();
+                        auto texture = textures->GetTexture(textureId);
+                        component->SetTexture(texture);
+                    }
 
-                    component->SetTexture(texture);
-                    component->SetFillScreen(needfillScreen);
                     component->SetNode(node);
                 }
             }

@@ -46,6 +46,9 @@ namespace shen
 
     void WindowsManager::CloseWindow()
     {
-        _windows.pop_back();
+        if (!_windows.empty())
+        {
+            _windows.pop_back();
+        }
     }
 }

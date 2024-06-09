@@ -1,19 +1,30 @@
 #include "WindowsRenderSystem.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/WindowsManager.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 
 namespace shen
 {
     void WindowsRenderSystem::Draw()
     {
-        if (auto windowsManager = _systems->GetSystem<WindowsManager>())
-        {
-            const auto& windows = windowsManager->GetWindows();
+        auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>();
+        auto windowsManager = _systems->GetSystem<WindowsManager>();
 
-            for (const auto& window : windows)
+        if (renderTargets && windowsManager)
+        {
+            if (auto target = renderTargets->GetRenderTexture("ui"))
             {
-                window->Draw();
-            }
+                target->clear(sf::Color::Transparent);
+
+                const auto& windows = windowsManager->GetWindows();
+
+                for (const auto& window : windows)
+                {
+                    window->Draw();
+                }
+
+                target->display();
+            }   
         }
     }
 }

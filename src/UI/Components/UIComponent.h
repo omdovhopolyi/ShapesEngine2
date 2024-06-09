@@ -21,5 +21,6 @@ namespace shen
 
     protected:
         std::string _name;
+        bool _dirty = true;
     };
 }

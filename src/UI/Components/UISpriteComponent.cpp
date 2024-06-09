@@ -3,6 +3,7 @@
 #include "UI/UINode.h"
 #include "Utils/Math.h"
 #include "ECS/SystemsManager.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -11,48 +12,30 @@ namespace shen
 {
     void UISpriteComponent::Update(float dt)
     {
-        if (_fillScreen)
+        if (_dirty)
         {
-            if (_node)
+            _dirty = false;
+
+            if (_fillScreen && _node)
             {
                 auto window = _node->GetWindow();
                 auto systems = window->GetSystemsManager();
                 auto& world = systems->GetWorld();
 
-                bool found = false;
-                sf::Vector2f cameraSize;
-                sf::Vector2f cameraCenter;
+                auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
+                auto target = renderTargets->GetRenderTexture("ui");
+                auto targetSize = target->getSize();
 
-                world.Each<Camera>([&](auto entity, const Camera& camera)
-                {
-                    if (!found)
-                    {
-                        cameraSize = camera.view.getSize();
-                        cameraCenter = camera.view.getCenter();
-                        found = true;
-                    }
-                });
+                auto spriteSize = _sprite.getGlobalBounds();
+                sf::Vector2f scaleDiff;
+                scaleDiff.x = targetSize.x / spriteSize.width;
+                scaleDiff.y = targetSize.y / spriteSize.height;
 
-                if (found)
-                {
-                    cameraSize.x = std::abs(cameraSize.x);
-                    cameraSize.y = std::abs(cameraSize.y);
+                auto scale = _sprite.getScale();
+                scale.x *= scaleDiff.x;
+                scale.y *= scaleDiff.y;
 
-                    auto spriteSize = _sprite.getGlobalBounds();
-                    sf::Vector2f scaleDiff;
-                    scaleDiff.x = cameraSize.x / spriteSize.width;
-                    scaleDiff.y = cameraSize.y / spriteSize.height;
-
-                    auto scale = _sprite.getScale();
-                    scale.x *= scaleDiff.x;
-                    scale.y *= scaleDiff.y;
-
-                    _sprite.setScale(scale);
-
-                    auto pos = cameraCenter - (cameraSize / 2.f);
-
-                    _sprite.setPosition(pos);
-                }
+                _sprite.setScale(scale);
             }
         }
     }
