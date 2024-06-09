@@ -1,4 +1,4 @@
-#include "SfmlRenderTexturesSystem.h"
+#include "SfmlRenderTargetsSystem.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
@@ -6,7 +6,7 @@
 
 namespace shen
 {
-    void SfmlRenderTexturesSystem::Start()
+    void SfmlRenderTargetsSystem::Start()
     {
         auto& world = _systems->GetWorld();
 
@@ -21,12 +21,12 @@ namespace shen
 
         if (found)
         {
-            CreateTexture("world", sf::Vector2f(800.f, 640.f));
+            CreateTexture("world", viewSize);
             CreateTexture("ui", viewSize);
         }
     }
 
-    void SfmlRenderTexturesSystem::Draw()
+    void SfmlRenderTargetsSystem::Draw()
     {
         auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>();
         auto window = windowSystem->GetRenderWindow();
@@ -38,7 +38,7 @@ namespace shen
         }
     }
 
-    void SfmlRenderTexturesSystem::CreateTexture(const std::string& id, sf::Vector2f size)
+    void SfmlRenderTargetsSystem::CreateTexture(const std::string& id, sf::Vector2f size)
     {
         auto renderTextureData = std::make_unique<RenderTextureData>();
         renderTextureData->id = id;
@@ -47,7 +47,7 @@ namespace shen
         _renderTextures.push_back(std::move(renderTextureData));
     }
 
-    sf::RenderTexture* SfmlRenderTexturesSystem::GetRenderTexture(const std::string& id)
+    sf::RenderTexture* SfmlRenderTargetsSystem::GetRenderTexture(const std::string& id)
     {
         if (auto it = _mappedTextures.find(id); it != _mappedTextures.end())
         {

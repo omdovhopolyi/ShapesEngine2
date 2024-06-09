@@ -14,7 +14,7 @@ namespace shen
         sf::RenderTexture texture;
     };
 
-    class SfmlRenderTexturesSystem
+    class SfmlRenderTargetsSystem
         : public RenderSystem
     {
     public:
