@@ -4,5 +4,8 @@
       <node name="background">
          <component type="sprite" fillScreen="true" texture="uiBackTest"/>
       </node>
+      <node name="button">
+         <component type="sprite" texture="uiButton"/>
+      </node>
    </node>
 </root>
