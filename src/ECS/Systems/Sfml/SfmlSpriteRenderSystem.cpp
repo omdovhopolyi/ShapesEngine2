@@ -1,8 +1,8 @@
 #include "SfmlSpriteRenderSystem.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
-#include "ECS/Systems/Sfml/SfmlRenderTexturesSystem.h"
-#include "ECS/Systems/Sfml/SfmlRenderTexturesSystem.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Render.h"
@@ -23,14 +23,12 @@ namespace shen
 
     void SfmlSpriteRenderSystem::Draw()
     {
-        auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>();
-        auto window = windowSystem->GetRenderWindow();
         auto& world = _systems->GetWorld();
 
-        auto renderTextures = _systems->GetSystem<SfmlRenderTexturesSystem>();
+        auto renderTextures = _systems->GetSystem<SfmlRenderTargetsSystem>();
         auto target = renderTextures->GetRenderTexture("world"); // TODO check target
 
-        const auto& view = window->getView();
+        const auto& view = target->getView();
         const auto center = view.getCenter();
         const auto size = view.getSize();
         sf::FloatRect viewBounds;
@@ -41,6 +39,15 @@ namespace shen
 
         target->clear();
         
+        sf::RectangleShape shape;
+        shape.setPosition(sf::Vector2f(0.f, 0.f));
+        shape.setSize(sf::Vector2f(800, 640));
+        shape.setFillColor(sf::Color::Blue);
+        shape.setOutlineColor(sf::Color::Green);
+        shape.setOutlineThickness(3.f);
+
+        target->draw(shape);
+
         world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
         {
             sprite.sprite.setPosition(transform.position);
