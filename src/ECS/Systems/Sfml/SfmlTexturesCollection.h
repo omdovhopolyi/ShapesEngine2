@@ -28,6 +28,6 @@ namespace shen
         std::map<std::string, std::unique_ptr<sf::Texture>> _textures;
         std::map<std::string, std::string> _paths;
 
-        bool _flipTexOnLoad = true;
+        bool _flipTexOnLoad = false;
     };
 }
