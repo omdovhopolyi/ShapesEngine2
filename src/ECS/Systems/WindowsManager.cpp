@@ -9,18 +9,9 @@ namespace shen
 {
     void WindowsManager::Start()
     {
-        _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
-        {
-            if (event.code == sf::Keyboard::Key::V && event.type == InputEventType::Up)
-            {
-                OpenWindow("test_window");
-            }
+        InitSubscriptions();
 
-            if (event.code == sf::Keyboard::Key::B && event.type == InputEventType::Up)
-            {
-                CloseWindow();
-            }
-        });
+        _loader = std::make_unique<UIWindowLoader>(_systems);
     }
 
     void WindowsManager::Update()
@@ -36,12 +27,8 @@ namespace shen
     void WindowsManager::OpenWindow(const std::string& windowId)
     {
         auto window = std::make_unique<UIWindow>();
-
-        const bool isInited = window->Init(windowId, _systems);
-        if (isInited)
-        {
-            _windows.push_back(std::move(window));
-        }
+        _loader->LoadWindow(window.get(), windowId);
+        _windows.push_back(std::move(window));        
     }
 
     void WindowsManager::CloseWindow()
@@ -50,5 +37,21 @@ namespace shen
         {
             _windows.pop_back();
         }
+    }
+
+    void WindowsManager::InitSubscriptions()
+    {
+        _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)
+        {
+            if (event.code == sf::Keyboard::Key::V && event.type == InputEventType::Up)
+            {
+                OpenWindow("test_window");
+            }
+
+            if (event.code == sf::Keyboard::Key::B && event.type == InputEventType::Up)
+            {
+                CloseWindow();
+            }
+        });
     }
 }

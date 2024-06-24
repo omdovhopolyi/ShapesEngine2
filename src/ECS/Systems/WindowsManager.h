@@ -2,6 +2,7 @@
 
 #include "BaseSystems/UpdateSystem.h"
 #include "UI/UIWindow.h"
+#include "UI/UIWindowLoader.h"
 #include "Messenger/SubscriptionsContainer.h"
 #include <vector>
 #include <memory>
@@ -22,8 +23,11 @@ namespace shen
         const std::vector<std::unique_ptr<UIWindow>>& GetWindows() const { return _windows; }
 
     private:
-        std::vector<std::unique_ptr<UIWindow>> _windows;
+        void InitSubscriptions();
 
+    private:
+        std::vector<std::unique_ptr<UIWindow>> _windows;
+        std::unique_ptr<UIWindowLoader> _loader;
         SubcriptionsContainer _subscriptions;
     };
 }

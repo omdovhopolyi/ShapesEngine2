@@ -19,8 +19,7 @@ namespace shen
 
         SystemsManager* GetSystemsManager() const { return _systems; }
 
-    protected:
-        void LoadNode(UINode* node, tinyxml2::XMLElement* element); // TODO implement ui window loader
+        UINode* GetOrCreateRoot();
 
     protected:
         SystemsManager* _systems = nullptr;

@@ -20,7 +20,7 @@
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="100" y="100"/>
+         <position x="900" y="100"/>
          <rotation val="0"/>
       </component>
       <component type="spriteFrameAnimation">
@@ -67,7 +67,7 @@
       </component>
       <component type="transform">
          <position x="200" y="300"/>
-         <rotation val="40"/>
+         <rotation val="90"/>
          <scale x="10" y="1"/>
       </component>
       <!--<component type="playerInput"/>-->
