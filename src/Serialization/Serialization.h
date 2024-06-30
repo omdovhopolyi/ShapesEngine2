@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 #include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <vector>
@@ -44,6 +45,8 @@ namespace shen
         std::vector<sf::IntRect> LoadVectorRect(const std::string& id);
 
         std::vector<std::string> LoadVecStr(const std::string& id);
+
+        static sf::Transform LoadTransform(const tinyxml2::XMLElement* element);
 
         void SaveBool(const std::string& id, bool val);
         void SaveInt(const std::string& id, int val);

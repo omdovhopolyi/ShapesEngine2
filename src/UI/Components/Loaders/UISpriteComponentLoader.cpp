@@ -1,5 +1,6 @@
 #include "UISpriteComponentLoader.h"
 #include "UI/Components/UISpriteComponent.h"
+#include "UI/UINode.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include <string>
@@ -10,25 +11,30 @@ namespace shen
         : UIComponentLoader(systems)
     {}
 
-    void UISpriteComponentLoader::Load(UIComponent* component, tinyxml2::XMLElement* element)
+    UIComponent* UISpriteComponentLoader::Load(UINode* node, tinyxml2::XMLElement* element)
     {
-        auto spriteCompenent = static_cast<UISpriteComponent*>(component);
-
-        bool needFillScreen = false;
-        std::string textureId;
-
-        if (const auto fillScrAttr = element->FindAttribute("fillScreen"))
+        if (auto component = node->AddComponent<UISpriteComponent>())
         {
-            needFillScreen = fillScrAttr->BoolValue();
-            spriteCompenent->SetFillScreen(needFillScreen);
+            bool needFillScreen = false;
+            std::string textureId;
+
+            if (const auto fillScrAttr = element->FindAttribute("fillScreen"))
+            {
+                needFillScreen = fillScrAttr->BoolValue();
+                component->SetFillScreen(needFillScreen);
+            }
+
+            if (const auto texAttr = element->FindAttribute("texture"))
+            {
+                textureId = texAttr->Value();
+                auto textures = _systems->GetSystem<SfmlTexturesCollection>();
+                auto texture = textures->GetTexture(textureId);
+                component->SetTexture(texture);
+            }
+
+            return component;
         }
 
-        if (const auto texAttr = element->FindAttribute("texture"))
-        {
-            textureId = texAttr->Value();
-            auto textures = _systems->GetSystem<SfmlTexturesCollection>();
-            auto texture = textures->GetTexture(textureId);
-            spriteCompenent->SetTexture(texture);
-        }
+        return nullptr;
     }
 }

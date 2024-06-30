@@ -22,11 +22,7 @@ namespace shen
         void SetFillScreen(bool fill);
         bool IsFillScreen() const;
 
-        void SetNode(UINode* node) { _node = node; }
-        UINode* GetNode() const { return _node; }
-
     private:
-        UINode* _node = nullptr;
         sf::Sprite _sprite;
         bool _fillScreen = false;
     };

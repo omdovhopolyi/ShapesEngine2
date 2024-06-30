@@ -28,6 +28,7 @@ namespace shen
     {
         auto window = std::make_unique<UIWindow>();
         _loader->LoadWindow(window.get(), windowId);
+        window->Init(windowId, _systems);
         _windows.push_back(std::move(window));        
     }
 

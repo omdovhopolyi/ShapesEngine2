@@ -4,6 +4,7 @@
 
 namespace shen
 {
+    class UINode;
     class UIComponent;
     class SystemsManager;
 
@@ -12,7 +13,7 @@ namespace shen
     public:
         UIComponentLoader(SystemsManager* systems);
 
-        virtual void Load(UIComponent* component, tinyxml2::XMLElement* element) = 0;
+        virtual UIComponent* Load(UINode* node, tinyxml2::XMLElement* element) = 0;
 
     protected:
         SystemsManager* _systems = nullptr;

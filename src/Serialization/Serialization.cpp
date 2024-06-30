@@ -288,6 +288,56 @@ namespace shen
         return result;
     }
 
+    sf::Transform Serialization::LoadTransform(const tinyxml2::XMLElement* element)
+    {
+        sf::Transform transform;
+
+        if (const auto posElement = element->FirstChildElement("position"))
+        {
+            float xPos = 0.f;
+            float yPos = 0.f;
+
+            if (const auto xPosAttr = posElement->FindAttribute("x"))
+            {
+                xPos = xPosAttr->FloatValue();
+            }
+            if (const auto yPosAttr = posElement->FindAttribute("y"))
+            {
+                yPos = yPosAttr->FloatValue();
+            }
+
+            transform.translate({ xPos, yPos });
+        }
+
+        if (const auto rotationElement = element->FirstChildElement("rotation"))
+        {
+            if (const auto angleAttr = rotationElement->FindAttribute("angle"))
+            {
+                const float angle = angleAttr->FloatValue();
+                transform.rotate(angle);
+            }
+        }
+
+        if (auto scaleElement = element->FirstChildElement("scale"))
+        {
+            float xScale = 0.f;
+            float yScale = 0.f;
+
+            if (const auto xScaleAttr = scaleElement->FindAttribute("x"))
+            {
+                xScale = xScaleAttr->FloatValue();
+            }
+            if (const auto yScaleAttr = scaleElement->FindAttribute("y"))
+            {
+                yScale = yScaleAttr->FloatValue();
+            }
+
+            transform.scale({ xScale, yScale });
+        }
+
+        return transform;
+    }
+
     void Serialization::SaveBool(const std::string& id, bool val)
     {
         if (auto childElement = _element->InsertNewChildElement(id.c_str()))

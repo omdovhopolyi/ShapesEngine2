@@ -2,6 +2,11 @@
 
 namespace shen
 {
+    /*void UIComponent::Init()
+    {
+        
+    }
+
     void UIComponent::Update(float dt)
     {
 
@@ -10,9 +15,9 @@ namespace shen
     void UIComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
     {
 
-    }
+    }*/
 
-    void UIComponent::SetName(const std::string& name)
+    /*void UIComponent::SetName(const std::string& name)
     {
         _name = name;
     }
@@ -20,5 +25,5 @@ namespace shen
     const std::string& UIComponent::GetName() const
     {
         return _name;
-    }
+    }*/
 }

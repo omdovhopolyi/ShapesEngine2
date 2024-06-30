@@ -4,11 +4,11 @@
 
 namespace shen
 {
-    class UISpriteComponentLoader
+    class UITransformComponentLoader
         : public UIComponentLoader
     {
     public:
-        UISpriteComponentLoader(SystemsManager* systems);
+        UITransformComponentLoader(SystemsManager* systems);
 
         UIComponent* Load(UINode* node, tinyxml2::XMLElement* element) override;
     };

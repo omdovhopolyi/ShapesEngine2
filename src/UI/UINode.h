@@ -25,6 +25,9 @@ namespace shen
         void SetWindow(UIWindow* window) { _window = window; }
         UIWindow* GetWindow() const { return _window; }
 
+        sf::Transform& GetTransform() { return _transform; }
+        void SetTransform(const sf::Transform& transform) { _transform = transform; }
+
         UINode* AddChild(const std::string& name);
         UINode* GetChild(const std::string& name);
 

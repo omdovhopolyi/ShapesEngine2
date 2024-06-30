@@ -6,6 +6,11 @@
       </node>
       <node name="button">
          <component type="sprite" texture="uiButton"/>
+         <component type="transform">
+            <position x="0" y="0"/>
+            <rotation angle="0"/>
+            <scale x="0.1" y="0.1"/>
+         </component>
       </node>
    </node>
 </root>

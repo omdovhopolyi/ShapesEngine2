@@ -1,7 +1,7 @@
 #include "UIWindowLoader.h"
 #include "UINode.h"
-#include "Components/UISpriteComponent.h"
 #include "Components/Loaders/UISpriteComponentLoader.h"
+#include "Components/Loaders/UITransformComponentLoader.h"
 #include "Utils/Assert.h"
 #include "UI/UIWindow.h"
 #include <tinyxml2/tinyxml2.h>
@@ -15,7 +15,9 @@ namespace shen
 
     UIWindowLoader::UIWindowLoader(SystemsManager* systems)
         : _systems(systems)
-    {}
+    {
+        RegisterComponentLoaders();
+    }
 
     void UIWindowLoader::LoadWindow(UIWindow* window, const std::string& windowId)
     {
@@ -48,9 +50,15 @@ namespace shen
 
                 if (auto loader = GetLoader(type))
                 {
-                    auto component = node->AddComponent<UISpriteComponent>();
-                    component->SetNode(node);
-                    loader->Load(component, compElement);
+                    if (auto component = loader->Load(node, compElement))
+                    {
+                        component->SetNode(node);
+                        component->Init();
+                    }
+                    else
+                    {
+                        Assert(false, "Can not find ui component {}", type);
+                    }
                 }
             }
 
@@ -72,6 +80,7 @@ namespace shen
     void UIWindowLoader::RegisterComponentLoaders()
     {
         _loaders["sprite"] = std::make_unique<UISpriteComponentLoader>(_systems);
+        _loaders["transform"] = std::make_unique<UITransformComponentLoader>(_systems);
     }
 
     UIComponentLoader* UIWindowLoader::GetLoader(const std::string& type) const
