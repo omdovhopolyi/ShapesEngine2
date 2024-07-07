@@ -2,14 +2,33 @@
 <root>
    <node name="window">
       <node name="background">
-         <component type="sprite" fillScreen="true" texture="uiBackTest"/>
+         <component type="sprite">
+            <texture val="uiBackTest"/>
+            <params fill="true"/>
+         </component>
       </node>
       <node name="button">
-         <component type="sprite" texture="uiButton"/>
+         <component type="button">
+            <sprites>
+               <idle sprite="button_idle"/>
+               <pressed sprite="button_pressed"/>
+               <hover sprite="button_hover"/>
+            </sprites>
+         </component>
          <component type="transform">
             <position x="0" y="0"/>
             <rotation angle="0"/>
             <scale x="0.1" y="0.1"/>
+         </component>
+      </node>
+      <node name="text">
+         <component type="text">
+            <text val="Test UI String" font="arial"/>
+         </component>
+         <component type="transform">
+            <position x="500" y="100"/>
+            <rotation angle="0"/>
+            <scale x="1" y="1"/>
          </component>
       </node>
    </node>

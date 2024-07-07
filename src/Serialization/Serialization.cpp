@@ -204,32 +204,37 @@ namespace shen
     {
         if (const auto childElement = _element->FirstChildElement(id.c_str()))
         {
-            sf::Color result;
-
-            if (const auto xAttrib = childElement->FindAttribute("r"))
-            {
-                result.r = xAttrib->IntValue();
-            }
-
-            if (const auto yAttrib = childElement->FindAttribute("g"))
-            {
-                result.g = yAttrib->IntValue();
-            }
-
-            if (const auto zAttrib = childElement->FindAttribute("b"))
-            {
-                result.b = zAttrib->IntValue();
-            }
-
-            if (const auto zAttrib = childElement->FindAttribute("a"))
-            {
-                result.a = zAttrib->IntValue();
-            }
-
-            return result;
+            return LoadColor(childElement);
         }
 
         return defaultVal;
+    }
+
+    sf::Color Serialization::LoadColor(const tinyxml2::XMLElement* element)
+    {
+        sf::Color result;
+
+        if (const auto rAttrib = element->FindAttribute("r"))
+        {
+            result.r = rAttrib->IntValue();
+        }
+
+        if (const auto gAttrib = element->FindAttribute("g"))
+        {
+            result.g = gAttrib->IntValue();
+        }
+
+        if (const auto bAttrib = element->FindAttribute("b"))
+        {
+            result.b = bAttrib->IntValue();
+        }
+
+        if (const auto aAttrib = element->FindAttribute("a"))
+        {
+            result.a = aAttrib->IntValue();
+        }
+
+        return result;
     }
 
     sf::Texture* Serialization::LoadTexturePtr(const std::string& id)

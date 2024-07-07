@@ -22,6 +22,8 @@
 #include "ECS/Systems/Sfml/SfmlWindowBeginFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlWindowEndFrameSystem.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "ECS/Systems/Sfml/SfmlFontsCollection.h"
+#include "ECS/Systems/Sfml/SfmlSpritesCollection.h"
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 
 #include <sstream>
@@ -46,6 +48,8 @@ namespace shen
 		_systems->Init(this);
 		_systems->RegisterSystem<WindowsManager>();
 		_systems->RegisterSystem<SfmlTexturesCollection>();
+		_systems->RegisterSystem<SfmlFontsCollection>();
+		_systems->RegisterSystem<SfmlSpritesCollection>();
 		_systems->RegisterSystem<InputCommandsCollection>();
 		_systems->RegisterSystem<MapLoaderSystem>();
 		_systems->RegisterSystem<SfmlGameWindowSystem>();

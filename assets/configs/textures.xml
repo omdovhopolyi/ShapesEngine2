@@ -5,5 +5,7 @@
    <item id="landing-base" path="../assets/images/landing-base.png"/>
    <item id="tile" path="../assets/tilemaps/jungle.png"/>
    <item id="uiBackTest" path="../assets/images/ui_back_sprite_test.jpg"/>
-   <item id="uiButton" path="../assets/images/button.png"/>
+   <item id="button_idle" path="../assets/images/button_idle.png"/>
+   <item id="button_pressed" path="../assets/images/button_pressed.png"/>
+   <item id="button_hover" path="../assets/images/button_hover.png"/>
 </items>

@@ -1,7 +1,9 @@
 #include "UIWindowLoader.h"
 #include "UINode.h"
-#include "Components/Loaders/UISpriteComponentLoader.h"
 #include "Components/Loaders/UITransformComponentLoader.h"
+#include "Components/Loaders/UISpriteComponentLoader.h"
+#include "Components/Loaders/UIButtonComponentLoader.h"
+#include "Components/Loaders/UITextComponentLoader.h"
 #include "Utils/Assert.h"
 #include "UI/UIWindow.h"
 #include <tinyxml2/tinyxml2.h>
@@ -79,8 +81,10 @@ namespace shen
 
     void UIWindowLoader::RegisterComponentLoaders()
     {
-        _loaders["sprite"] = std::make_unique<UISpriteComponentLoader>(_systems);
         _loaders["transform"] = std::make_unique<UITransformComponentLoader>(_systems);
+        _loaders["sprite"] = std::make_unique<UISpriteComponentLoader>(_systems);
+        _loaders["button"] = std::make_unique<UIButtonComponentLoader>(_systems);
+        _loaders["text"] = std::make_unique<UITextComponentLoader>(_systems);
     }
 
     UIComponentLoader* UIWindowLoader::GetLoader(const std::string& type) const
