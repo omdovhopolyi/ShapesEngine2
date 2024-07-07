@@ -24,6 +24,7 @@
       <node name="text">
          <component type="text">
             <text val="Test UI String" font="arial"/>
+            <params font="arial"/>
          </component>
          <component type="transform">
             <position x="500" y="100"/>

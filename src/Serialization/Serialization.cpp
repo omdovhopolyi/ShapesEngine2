@@ -212,7 +212,7 @@ namespace shen
 
     sf::Color Serialization::LoadColor(const tinyxml2::XMLElement* element)
     {
-        sf::Color result;
+        sf::Color result = sf::Color::White;
 
         if (const auto rAttrib = element->FindAttribute("r"))
         {
