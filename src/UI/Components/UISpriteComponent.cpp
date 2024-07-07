@@ -50,16 +50,6 @@ namespace shen
         _sprite.setTexture(*texture);
     }
 
-    void UISpriteComponent::SetSprite(const sf::Sprite& sprite)
-    {
-        _sprite = sprite;
-    }
-
-    sf::Sprite& UISpriteComponent::GetSprite()
-    {
-        return _sprite;
-    }
-
     void UISpriteComponent::SetFillScreen(bool fill)
     {
         _fillScreen = fill;

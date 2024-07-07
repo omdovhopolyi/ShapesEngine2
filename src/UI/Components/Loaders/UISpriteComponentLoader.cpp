@@ -18,18 +18,23 @@ namespace shen
             bool needFillScreen = false;
             std::string textureId;
 
-            if (const auto fillScrAttr = element->FindAttribute("fillScreen"))
+            if (const auto texElement = element->FirstChildElement("texture"))
             {
-                needFillScreen = fillScrAttr->BoolValue();
-                component->SetFillScreen(needFillScreen);
+                if (const auto texAttr = texElement->FindAttribute("val"))
+                {
+                    const auto textureId = texAttr->Value();
+                    auto textures = _systems->GetSystem<SfmlTexturesCollection>();
+                    auto texture = textures->GetTexture(textureId);
+                    component->SetTexture(texture);
+                }   
             }
 
-            if (const auto texAttr = element->FindAttribute("texture"))
+            if (const auto paramsElement = element->FirstChildElement("params"))
             {
-                textureId = texAttr->Value();
-                auto textures = _systems->GetSystem<SfmlTexturesCollection>();
-                auto texture = textures->GetTexture(textureId);
-                component->SetTexture(texture);
+                if (const auto fillAttr = paramsElement->FindAttribute("fill"))
+                {
+                    component->SetFillScreen(fillAttr->BoolValue());
+                }
             }
 
             return component;

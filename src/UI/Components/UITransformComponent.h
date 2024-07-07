@@ -5,8 +5,6 @@
 
 namespace shen
 {
-    class UINode;
-
     class UITransformComponent
         : public UIComponent
     {
