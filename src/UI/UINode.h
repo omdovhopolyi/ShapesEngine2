@@ -30,14 +30,15 @@ namespace shen
 
         UINode* AddChild(const std::string& name);
         UINode* GetChild(const std::string& name);
+        void RemoveChild(const std::string& name);
 
         template<class Comp>
-        Comp* AddComponent()
+        std::shared_ptr<Comp> AddComponent()
         {
             const auto typeIndex = std::type_index(typeid(Comp));
             auto component = std::make_shared<Comp>();
             _components[typeIndex] = component;
-            return component.get();
+            return component;
         }
 
         template<class Comp>

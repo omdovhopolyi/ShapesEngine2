@@ -6,6 +6,8 @@
 #include "ECS/Components/Common.h"
 #include "Messenger/Events/Common.h"
 #include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/WorldInputSystem.h"
+#include "ECS/Systems/UIInputSystem.h"
 #include "ECS/Systems/PlayerInputSystem.h"
 #include "ECS/Systems/CameraSystem.h"
 #include "ECS/Systems/MapLoaderSystem.h"
@@ -56,6 +58,8 @@ namespace shen
 
 		_systems->RegisterSystem<TimeSystem>();
 		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<WorldInputSystem>();
+		_systems->RegisterSystem<UIInputSystem>();
 		_systems->RegisterSystem<PlayerInputSystem>();
 		_systems->RegisterSystem<CameraSystem>();
 		_systems->RegisterSystem<MovementSystem>();

@@ -30,7 +30,7 @@ namespace shen
         const auto error = doc.LoadFile(path.c_str());
         if (error != tinyxml2::XML_SUCCESS)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, std::format("[UIWindowLoader::LoadWindow] Can not load window '{}'", windowId));
+            Assert(false, std::format("[UIWindowLoader::LoadWindow] Can not load window '{}'", windowId));
             return;
         }
 
@@ -59,7 +59,7 @@ namespace shen
                     }
                     else
                     {
-                        Assert(false, "Can not find ui component {}", type);
+                        Assert(false, std::format("Can not find ui component {}", type));
                     }
                 }
             }
@@ -70,7 +70,14 @@ namespace shen
         auto childNodeElement = element->FirstChildElement(NodeElementId.c_str());
         while (childNodeElement)
         {
-            auto child = node->AddChild("");
+            std::string name;
+
+            if (const auto nameAttr = childNodeElement->FindAttribute("name"))
+            {
+                name = nameAttr->Value();
+            }
+
+            auto child = node->AddChild(name);
             child->SetWindow(window);
 
             LoadNode(window, child, childNodeElement);

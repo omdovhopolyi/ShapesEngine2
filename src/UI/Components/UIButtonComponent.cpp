@@ -6,6 +6,7 @@
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "Commands/CommandContext.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace shen
@@ -48,5 +49,26 @@ namespace shen
     sf::Sprite& UIButtonComponent::GetHovered()
     {
         return _hovered;
+    }
+
+    bool UIButtonComponent::ProcessInput(const InputType& inputType, const CommandContext& context)
+    {
+        bool processed = false;
+
+        if (const auto screenPos = context.GetVar<sf::Vector2i>("pos"))
+        {
+            auto window = _node->GetWindow();
+            auto systems = window->GetSystemsManager();
+            auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
+            if (auto uiTarget = renderTargets->GetRenderTexture("ui"))
+            {
+                const auto worldPos = uiTarget->mapPixelToCoords(*screenPos);
+                const auto& nodeTransform = _node->GetTransform();
+                const auto spriteRect = nodeTransform.transformRect(_current.getLocalBounds());
+                processed = spriteRect.contains(worldPos);
+            }
+        }
+
+        return processed;
     }
 }

@@ -1,4 +1,7 @@
 #include "UINode.h"
+#include "Messenger/Messenger.h"
+#include "Messenger/Events/UIEvents.h"
+#include "UIWindow.h"
 
 namespace shen
 {
@@ -44,7 +47,29 @@ namespace shen
 
     UINode* UINode::GetChild(const std::string& name)
     {
+        auto it = std::find_if(_children.begin(), _children.end(), [name](const auto& node)
+        {
+            return node->GetName() == name;
+        });
+
+        if (it != _children.end())
+        {
+            return it->get();
+        }
+
         return nullptr;
+    }
+
+    void UINode::RemoveChild(const std::string& name)
+    {
+        auto it = std::remove_if(_children.begin(), _children.end(), [name](const auto& node)
+        {
+            return node->GetName() == name;
+        });
+
+        _children.erase(it);
+
+        Messenger::Instance().Broadcast<InputComponentsDirty>(_window->GetId());
     }
 
     void UINode::OnDraw(sf::RenderTarget& target, const sf::Transform& transform) const

@@ -37,7 +37,7 @@ namespace shen
                 }
             }
 
-            return component;
+            return component.get();
         }
 
         return nullptr;

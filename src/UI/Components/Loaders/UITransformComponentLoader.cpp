@@ -16,7 +16,7 @@ namespace shen
         {
             auto transform = Serialization::LoadTransform(element);
             component->SetTransform(transform);
-            return component;
+            return component.get();
         }
 
         return nullptr;

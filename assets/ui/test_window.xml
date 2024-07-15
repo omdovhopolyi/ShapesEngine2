@@ -16,21 +16,21 @@
             </sprites>
          </component>
          <component type="transform">
-            <position x="0" y="0"/>
+            <position x="100" y="100"/>
             <rotation angle="0"/>
             <scale x="0.1" y="0.1"/>
          </component>
-      </node>
-      <node name="text">
-         <component type="text">
-            <text val="Test UI String" font="arial"/>
-            <params font="arial"/>
-         </component>
-         <component type="transform">
-            <position x="500" y="100"/>
-            <rotation angle="0"/>
-            <scale x="1" y="1"/>
-         </component>
+         <node name="text">
+            <component type="text">
+               <text val="Test UI String" font="arial"/>
+               <params font="arial"/>
+            </component>
+            <component type="transform">
+               <position x="0" y="0"/>
+               <rotation angle="0"/>
+               <scale x="10" y="10"/>
+            </component>
+         </node>
       </node>
    </node>
 </root>

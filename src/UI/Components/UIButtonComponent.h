@@ -1,12 +1,12 @@
 #pragma once
 
-#include "UIComponent.h"
+#include "UIInputComponent.h"
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace shen
 {
     class UIButtonComponent
-        : public UIComponent
+        : public UIInputComponent
     {
     public:
         void Update(float dt) override;
@@ -20,6 +20,8 @@ namespace shen
 
         void SetHovered(const sf::Sprite& sprite);
         sf::Sprite& GetHovered();
+
+        bool ProcessInput(const InputType& inputType, const CommandContext& context) override;
 
     private:
         sf::Sprite _current;

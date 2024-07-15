@@ -40,6 +40,18 @@ namespace shen
         }
     }
 
+    void WindowsManager::ProcessInput(const InputType& inputType, const CommandContext& context)
+    {
+        for (auto& window : _windows)
+        {
+            const bool processed = window->ProcessInput(inputType, context);
+            if (processed)
+            {
+                break;
+            }
+        }
+    }
+
     void WindowsManager::InitSubscriptions()
     {
         _subscriptions.Subscribe<KeyEvent>([this](const KeyEvent& event)

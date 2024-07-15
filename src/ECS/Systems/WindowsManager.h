@@ -10,6 +10,9 @@
 
 namespace shen
 {
+    struct InputType;
+    struct CommandContext;
+
     class WindowsManager
         : public UpdateSystem
     {
@@ -19,6 +22,8 @@ namespace shen
 
         void OpenWindow(const std::string& windowId);
         void CloseWindow();
+
+        void ProcessInput(const InputType& inputType, const CommandContext& context);
 
         const std::vector<std::unique_ptr<UIWindow>>& GetWindows() const { return _windows; }
 

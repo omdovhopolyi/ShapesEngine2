@@ -1,6 +1,7 @@
 #include "UIButtonComponentLoader.h"
 #include "UI/Components/UIButtonComponent.h"
 #include "UI/UINode.h"
+#include "UI/UIWindow.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlSpritesCollection.h"
 #include <string>
@@ -15,6 +16,9 @@ namespace shen
     {
         if (auto component = node->AddComponent<UIButtonComponent>())
         {
+            auto window = node->GetWindow();
+            window->AddInputComponent(node->GetName(), component);
+
             auto sprites = _systems->GetSystem<SfmlSpritesCollection>();
 
             if (const auto spritesElement = element->FirstChildElement("sprites"))
@@ -50,12 +54,16 @@ namespace shen
                 }
             }
 
-            /*if (const auto paramsElement = element->FirstChildElement("params"))
+            if (const auto paramsElement = element->FirstChildElement("params"))
             {
-                
-            }*/
+                if (const auto priorityAttr = paramsElement->FindAttribute("priority"))
+                {
+                    const auto priority = priorityAttr->IntValue();
+                    component->SetInputPriority(priority);
+                }
+            }
 
-            return component;
+            return component.get();
         }
 
         return nullptr;
