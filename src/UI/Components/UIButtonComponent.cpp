@@ -7,13 +7,13 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Commands/CommandContext.h"
+#include "Input/InputType.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace shen
 {
     void UIButtonComponent::Update(float dt)
     {
-        _current = _idle;
     }
 
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
@@ -24,6 +24,7 @@ namespace shen
     void UIButtonComponent::SetIdle(const sf::Sprite& sprite)
     {
         _idle = sprite;
+        _current = _idle;
     }
 
     sf::Sprite& UIButtonComponent::GetIdle()
@@ -55,6 +56,74 @@ namespace shen
     {
         bool processed = false;
 
+        switch (inputType.type)
+        {
+        case InputEventType::Up:
+        {
+            processed = HandleCursorRelease(inputType, context);
+            break;
+        }
+        case InputEventType::Down:
+        {
+            processed = HandleCursorPress(inputType, context);
+            break;
+        }
+        case InputEventType::MouseMove:
+        {
+            processed = HandleCursorMove(inputType, context);
+            break;
+        }
+        }
+
+        return processed;
+    }
+
+    bool UIButtonComponent::HandleCursorPress(const InputType& inputType, const CommandContext& context)
+    {
+        const bool isOverButton = IsCursorOverButton(inputType, context);
+        const auto& spriteToSet = isOverButton ? _pressed : _hovered;
+        SetCurrentSprite(spriteToSet);
+        _isPressed = isOverButton;
+        return isOverButton;
+    }
+
+    bool UIButtonComponent::HandleCursorRelease(const InputType& inputType, const CommandContext& context)
+    {
+        const bool isOverButton = IsCursorOverButton(inputType, context);
+        const auto& spriteToSet = isOverButton ? _hovered : _idle;
+        SetCurrentSprite(spriteToSet);
+        _isPressed = false;
+        return isOverButton;
+    }
+
+    bool UIButtonComponent::HandleCursorMove(const InputType& inputType, const CommandContext& context)
+    {
+        const bool isOverButton = IsCursorOverButton(inputType, context);
+
+        if (isOverButton)
+        {
+            if (IsPressed())
+            {
+                SetCurrentSprite(_pressed);
+            }
+            else
+            {
+                SetCurrentSprite(_hovered);
+            }
+        }
+        else
+        {
+            SetCurrentSprite(_idle);
+            SetPressed(false);
+        }
+
+        return isOverButton;
+    }
+
+    bool UIButtonComponent::IsCursorOverButton(const InputType& inputType, const CommandContext& context)
+    {
+        bool isOverButton = false;
+
         if (const auto screenPos = context.GetVar<sf::Vector2i>("pos"))
         {
             auto window = _node->GetWindow();
@@ -65,10 +134,25 @@ namespace shen
                 const auto worldPos = uiTarget->mapPixelToCoords(*screenPos);
                 const auto& nodeTransform = _node->GetTransform();
                 const auto spriteRect = nodeTransform.transformRect(_current.getLocalBounds());
-                processed = spriteRect.contains(worldPos);
+                isOverButton = spriteRect.contains(worldPos);
             }
         }
 
-        return processed;
+        return isOverButton;
+    }
+
+    void UIButtonComponent::SetCurrentSprite(const sf::Sprite& sprite)
+    {
+        _current = sprite;
+    }
+
+    void UIButtonComponent::SetPressed(bool pressed)
+    {
+        _isPressed = pressed;
+    }
+
+    bool UIButtonComponent::IsPressed() const
+    {
+        return _isPressed;
     }
 }

@@ -24,9 +24,22 @@ namespace shen
         bool ProcessInput(const InputType& inputType, const CommandContext& context) override;
 
     private:
+        bool HandleCursorPress(const InputType& inputType, const CommandContext& context);
+        bool HandleCursorRelease(const InputType& inputType, const CommandContext& context);
+        bool HandleCursorMove(const InputType& inputType, const CommandContext& context);
+
+        bool IsCursorOverButton(const InputType& inputType, const CommandContext& context);
+
+        void SetCurrentSprite(const sf::Sprite& sprite);
+
+        void SetPressed(bool pressed);
+        bool IsPressed() const;
+
+    private:
         sf::Sprite _current;
         sf::Sprite _idle;
         sf::Sprite _pressed;
         sf::Sprite _hovered;
+        bool _isPressed = false;
     };
 }
