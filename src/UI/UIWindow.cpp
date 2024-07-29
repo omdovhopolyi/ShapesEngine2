@@ -20,6 +20,13 @@ namespace shen
 
     void UIWindow::Update(float dt)
     {
+        if (IsComponentsDirty())
+        {
+            RemoveExpiredComponents();
+            SetupInputComponentsArray();
+            SetComponentsDirty(false);
+        }
+
         if (_root)
         {
             _root->Update(dt);
@@ -45,58 +52,98 @@ namespace shen
         return _id;
     }
 
-    UINode* UIWindow::GetOrCreateRoot()
+    const std::shared_ptr<UINode>& UIWindow::GetOrCreateRoot()
     {
         if (_root)
         {
-            return _root.get();
+            return _root;
         }
         
-        _root = std::make_unique<UINode>();
+        _root = std::make_shared<UINode>();
         _root->SetWindow(this);
         _root->SetName("root");
 
-        return _root.get();
+        return _root;
     }
 
-    void UIWindow::AddInputComponent(const std::string& nodeName, const std::shared_ptr<UIInputComponent>& component)
+    void UIWindow::MapComponent(const std::string& id, const std::shared_ptr<UIComponent>& component)
     {
-        const auto [it, isInserted] = _mappedInputComponents.insert({ nodeName, component });
+        const auto [it, isInserted] = _mappedComponents.insert({ id, component });
+        SetComponentsDirty(true);
+        Assert(isInserted, std::format("Trying add second component for node '{}' in window '{}'", id, GetId()));
+    }
 
-        if (isInserted)
+    void UIWindow::MapInputComponent(const std::string& id, const std::shared_ptr<UIInputComponent>& component)
+    {
+        const auto [it, isInserted] = _mappedInputComponents.insert({ id, component });
+        SetComponentsDirty(true);
+        Assert(isInserted, std::format("Trying add second input component for node '{}' in window '{}'", id, GetId()));
+    }
+
+    void UIWindow::MapNode(const std::string& id, const std::shared_ptr<UINode>& node)
+    {
+        const auto [it, isInserted] = _mappedNodes.insert({ id, node });
+        Assert(isInserted, std::format("Trying map second node '{}' in window '{}'", id, GetId()));
+    }
+
+    void UIWindow::SetComponentsDirty(bool dirty)
+    {
+        _componentsDirty = dirty;
+    }
+
+    bool UIWindow::IsComponentsDirty() const
+    {
+        return _componentsDirty;
+    }
+
+    void UIWindow::ResolveReferences()
+    {
+        for (auto& [id, weakComponent] : _mappedComponents)
         {
-            SetInputComponentsDirty(true);
+            if (auto component = weakComponent.lock())
+            {
+                component->ResolveReferences();
+            }
         }
-        else
+    }
+
+    void UIWindow::InitComponents()
+    {
+        InitComponentsForNode(_root.get());
+    }
+
+    std::weak_ptr<UIComponent> UIWindow::GetComponent(const std::string& id) const
+    {
+        if (auto it = _mappedComponents.find(id); it != _mappedComponents.end())
         {
-            Assert(false, std::format("Trying add second input component for node '{}' in window '{}'", nodeName, GetId()));
+            return it->second;
         }
+
+        return {};
     }
 
-    void UIWindow::RemoveInputComponents(const std::string& nodeName)
+    std::weak_ptr<UIInputComponent> UIWindow::GetInputComponent(const std::string& id) const
     {
-        _mappedInputComponents.erase(nodeName);
-        SetInputComponentsDirty(true);
+        if (auto it = _mappedInputComponents.find(id); it != _mappedInputComponents.end())
+        {
+            return it->second;
+        }
+
+        return {};
     }
 
-    void UIWindow::SetInputComponentsDirty(bool dirty)
+    std::weak_ptr<UINode> UIWindow::GetNode(const std::string& id) const
     {
-        _inputComponentsDirty = dirty;
-    }
+        if (auto it = _mappedNodes.find(id); it != _mappedNodes.end())
+        {
+            return it->second;
+        }
 
-    bool UIWindow::IsInputComponentsDirty() const
-    {
-        return _inputComponentsDirty;
+        return {};
     }
 
     bool UIWindow::ProcessInput(const InputType& inputType, const CommandContext& context)
     {
-        if (IsInputComponentsDirty())
-        {
-            SetupComponentsArray();
-            SetInputComponentsDirty(false);
-        }
-
         for (const auto& component : _inputComponents)
         {
             return component->ProcessInput(inputType, context);
@@ -111,12 +158,34 @@ namespace shen
         {
             if (event.windowId == GetId())
             {
-                SetInputComponentsDirty(true);
+                SetComponentsDirty(true);
             }
         });
     }
 
-    void UIWindow::SetupComponentsArray()
+    template<class Comp>
+    void RemoveExpiredComponentsFor(std::map<std::string, std::weak_ptr<Comp>>& container)
+    {
+        for (auto it = container.begin(); it != container.end();)
+        {
+            if (it->second.expired())
+            {
+                it = container.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+    }
+
+    void UIWindow::RemoveExpiredComponents()
+    {
+        RemoveExpiredComponentsFor(_mappedComponents);
+        RemoveExpiredComponentsFor(_mappedInputComponents);
+    }
+
+    void UIWindow::SetupInputComponentsArray()
     {
         _inputComponents.clear();
 
@@ -132,5 +201,18 @@ namespace shen
         {
             return left->GetInputPriority() < right->GetInputPriority();
         });
+    }
+
+    void UIWindow::InitComponentsForNode(UINode* node)
+    {
+        for (auto& [typeId, component] : node->GetComponents())
+        {
+            component->Init();
+        }
+
+        for (auto& child : node->GetChildren())
+        {
+            InitComponentsForNode(child.get());
+        }
     }
 }

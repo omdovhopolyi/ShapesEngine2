@@ -4,11 +4,11 @@
 
 namespace shen
 {
-    class UISpriteComponentLoader
+    class WindowTestComponentLoader
         : public UIComponentLoader
     {
     public:
-        UISpriteComponentLoader(SystemsManager* systems);
+        WindowTestComponentLoader(SystemsManager* systems);
 
         UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
     };

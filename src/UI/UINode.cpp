@@ -37,24 +37,27 @@ namespace shen
         return _name;
     }
 
+    void UINode::SetId(const std::string& id)
+    {
+        _id = id;
+    }
+
+    const std::string& UINode::GetId() const
+    {
+        return _id;
+    }
+
     UINode* UINode::AddChild(const std::string& name)
     {
-        auto child = std::make_shared<UINode>();
-        child->SetName(name);
-        _children.push_back(child);
-        return child.get();
+        return AddChildPtr(name).get();
     }
 
     UINode* UINode::GetChild(const std::string& name)
     {
-        auto it = std::find_if(_children.begin(), _children.end(), [name](const auto& node)
+        const auto& node = GetChildPtr(name);
+        if (node)
         {
-            return node->GetName() == name;
-        });
-
-        if (it != _children.end())
-        {
-            return it->get();
+            return node.get();
         }
 
         return nullptr;
@@ -70,6 +73,29 @@ namespace shen
         _children.erase(it);
 
         Messenger::Instance().Broadcast<InputComponentsDirty>(_window->GetId());
+    }
+
+    const std::shared_ptr<UINode>& UINode::AddChildPtr(const std::string& name)
+    {
+        _children.emplace_back(std::make_shared<UINode>());
+        _children.back()->SetName(name);
+        return _children.back();
+    }
+
+    const std::shared_ptr<UINode>& UINode::GetChildPtr(const std::string& name)
+    {
+        auto it = std::find_if(_children.begin(), _children.end(), [name](const auto& node)
+        {
+            return node->GetName() == name;
+        });
+
+        if (it != _children.end())
+        {
+            return *it;
+        }
+
+        static std::shared_ptr<UINode> empty;
+        return empty;
     }
 
     void UINode::OnDraw(sf::RenderTarget& target, const sf::Transform& transform) const

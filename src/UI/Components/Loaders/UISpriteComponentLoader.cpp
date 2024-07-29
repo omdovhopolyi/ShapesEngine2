@@ -1,6 +1,7 @@
 #include "UISpriteComponentLoader.h"
 #include "UI/Components/UISpriteComponent.h"
 #include "UI/UINode.h"
+#include "UI/UIWindow.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include <string>
@@ -11,12 +12,20 @@ namespace shen
         : UIComponentLoader(systems)
     {}
 
-    UIComponent* UISpriteComponentLoader::Load(UINode* node, tinyxml2::XMLElement* element)
+    UIComponent* UISpriteComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UISpriteComponent>())
         {
             bool needFillScreen = false;
             std::string textureId;
+
+            if (const auto idAttr = element->FindAttribute("id"))
+            {
+                const auto id = idAttr->Value();
+                component->SetId(id);
+                auto window = node->GetWindow();
+                window->MapComponent(id, component);
+            }
 
             if (const auto texElement = element->FirstChildElement("texture"))
             {

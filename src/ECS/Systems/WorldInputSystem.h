@@ -3,31 +3,11 @@
 #include "BaseInputSystem.h"
 #include "Messenger/Events/Common.h"
 #include "Input/InputType.h"
-//#include "Utils/Types.h"
-//#include "Enums/Direction.h"
-//#include "Enums/MouseButtonEnum.h"
-//#include "Enums/InputEventTypeEnum.h"
-//#include "Enums/KeyModeEnum.h"
-
 #include "Commands/Command.h"
-
 #include <memory>
 
 namespace shen
 {
-    /*struct InputType
-    {
-        int keyCode = -1;
-        MouseButton mouseButton = MouseButton::None;
-        InputEventType type = InputEventType::Undefined;
-        bool alt = false;
-        bool shift = false;
-        bool ctrl = false;
-
-        friend bool operator < (const InputType& left, const InputType& right);
-        friend bool operator == (const InputType& left, const InputType& right);
-    };*/
-
     class WorldInputSystem
         : public BaseInputSystem
     {

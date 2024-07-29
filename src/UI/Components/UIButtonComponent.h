@@ -5,6 +5,18 @@
 
 namespace shen
 {
+    enum class ButtonSignalType
+    {
+        Down,
+        Up
+    };
+
+    class ButtonSignal
+    {
+    public:
+        
+    };
+
     class UIButtonComponent
         : public UIInputComponent
     {

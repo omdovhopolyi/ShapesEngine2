@@ -25,27 +25,40 @@ namespace shen
         SystemsManager* GetSystemsManager() const { return _systems; }
 
         const std::string& GetId() const;
-        UINode* GetOrCreateRoot();
+        const std::shared_ptr<UINode>& GetOrCreateRoot();
 
-        void AddInputComponent(const std::string& nodeName, const std::shared_ptr<UIInputComponent>& component);
-        void RemoveInputComponents(const std::string& nodeName);
+        void MapComponent(const std::string& id, const std::shared_ptr<UIComponent>& component);
+        void MapInputComponent(const std::string& id, const std::shared_ptr<UIInputComponent>& component);
+        void MapNode(const std::string& id, const std::shared_ptr<UINode>& node);
 
-        void SetInputComponentsDirty(bool dirty);
-        bool IsInputComponentsDirty() const;
+        void SetComponentsDirty(bool dirty);
+        bool IsComponentsDirty() const;
+
+        void ResolveReferences();
+        void InitComponents();
+
+        std::weak_ptr<UIComponent> GetComponent(const std::string& id) const;
+        std::weak_ptr<UIInputComponent> GetInputComponent(const std::string& id) const;
+        std::weak_ptr<UINode> GetNode(const std::string& id) const;
 
         bool ProcessInput(const InputType& inputType, const CommandContext& context);
 
     protected:
         void InitSubscriptions();
-        void SetupComponentsArray();
+        void RemoveExpiredComponents();
+        void SetupInputComponentsArray();
+
+        static void InitComponentsForNode(UINode* node);
 
     protected:
         SystemsManager* _systems = nullptr;
         std::string _id;
-        std::unique_ptr<UINode> _root;
+        std::shared_ptr<UINode> _root;
         std::map<std::string, std::weak_ptr<UIInputComponent>> _mappedInputComponents;
+        std::map<std::string, std::weak_ptr<UIComponent>> _mappedComponents;
+        std::map<std::string, std::weak_ptr<UINode>> _mappedNodes;
         std::vector<UIInputComponent*> _inputComponents;
-        bool _inputComponentsDirty = false;
+        bool _componentsDirty = false;
         SubcriptionsContainer _subscriptions;
     };
 }

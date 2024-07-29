@@ -1,14 +1,17 @@
 <?xml version = "1.0"?>
 <root>
+   <component type="windowTest" id="testWindow">
+      <ref id="testButton" compId="testButtonComp"/>
+   </component>
    <node name="window">
       <node name="background">
          <component type="sprite">
             <texture val="uiBackTest"/>
             <params fill="true"/>
-         </component>
+         </component>      
       </node>
       <node name="button">
-         <component type="button">
+         <component type="button" id="testButtonComp">
             <sprites>
                <idle sprite="button_idle"/>
                <pressed sprite="button_pressed"/>

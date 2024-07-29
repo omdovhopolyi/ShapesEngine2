@@ -12,14 +12,20 @@ namespace shen
         : UIComponentLoader(systems)
     {}
 
-    UIComponent* UIButtonComponentLoader::Load(UINode* node, tinyxml2::XMLElement* element)
+    UIComponent* UIButtonComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UIButtonComponent>())
         {
-            auto window = node->GetWindow();
-            window->AddInputComponent(node->GetName(), component);
-
             auto sprites = _systems->GetSystem<SfmlSpritesCollection>();
+
+            if (const auto idAttr = element->FindAttribute("id"))
+            {
+                const auto id = idAttr->Value();
+                component->SetId(id);
+                auto window = node->GetWindow();
+                window->MapInputComponent(id, component);
+                window->MapComponent(id, component);
+            }
 
             if (const auto spritesElement = element->FirstChildElement("sprites"))
             {

@@ -4,6 +4,9 @@
 #include "Components/Loaders/UISpriteComponentLoader.h"
 #include "Components/Loaders/UIButtonComponentLoader.h"
 #include "Components/Loaders/UITextComponentLoader.h"
+
+#include "Components/Loaders/WindowTestComponentLoader.h"
+
 #include "Utils/Assert.h"
 #include "UI/UIWindow.h"
 #include <tinyxml2/tinyxml2.h>
@@ -38,11 +41,18 @@ namespace shen
         {
             auto root = window->GetOrCreateRoot();
             LoadNode(window, root, rootElement);
+            window->ResolveReferences();
+            window->InitComponents();
         }
     }
 
-    void UIWindowLoader::LoadNode(UIWindow* window, UINode* node, tinyxml2::XMLElement* element)
+    void UIWindowLoader::LoadNode(UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element)
     {
+        if (const auto& nodeId = node->GetId(); !nodeId.empty())
+        {
+            window->MapNode(nodeId, node);
+        }
+
         auto compElement = element->FirstChildElement(ComponentElementId.c_str());
         while (compElement)
         {
@@ -54,8 +64,9 @@ namespace shen
                 {
                     if (auto component = loader->Load(node, compElement))
                     {
-                        component->SetNode(node);
-                        component->Init();
+                        component->SetNode(node.get());
+                        component->SetWindow(window);
+                        //component->Init();
                     }
                     else
                     {
@@ -76,9 +87,14 @@ namespace shen
             {
                 name = nameAttr->Value();
             }
-
-            auto child = node->AddChild(name);
+            
+            auto child = node->AddChildPtr(name);
             child->SetWindow(window);
+
+            if (const auto idAttr = childNodeElement->FindAttribute("id"))
+            {
+                child->SetId(idAttr->Value());
+            }
 
             LoadNode(window, child, childNodeElement);
 
@@ -92,6 +108,8 @@ namespace shen
         _loaders["sprite"] = std::make_unique<UISpriteComponentLoader>(_systems);
         _loaders["button"] = std::make_unique<UIButtonComponentLoader>(_systems);
         _loaders["text"] = std::make_unique<UITextComponentLoader>(_systems);
+
+        _loaders["windowTest"] = std::make_unique<WindowTestComponentLoader>(_systems);
     }
 
     UIComponentLoader* UIWindowLoader::GetLoader(const std::string& type) const

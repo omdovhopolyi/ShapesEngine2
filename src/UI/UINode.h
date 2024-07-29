@@ -16,11 +16,17 @@ namespace shen
     class UINode
     {
     public:
+        using SharedPtr = std::shared_ptr<UINode>;
+        using WeakPtr = std::weak_ptr<UINode>;
+
         virtual void Update(float dt);
         virtual void Draw(sf::RenderTarget& target, const sf::Transform& parentTransform) const;
         
         void SetName(const std::string& name);
         const std::string& GetName() const;
+
+        void SetId(const std::string& id);
+        const std::string& GetId() const;
 
         void SetWindow(UIWindow* window) { _window = window; }
         UIWindow* GetWindow() const { return _window; }
@@ -31,6 +37,10 @@ namespace shen
         UINode* AddChild(const std::string& name);
         UINode* GetChild(const std::string& name);
         void RemoveChild(const std::string& name);
+        std::vector<std::shared_ptr<UINode>>& GetChildren() { return _children; }
+
+        const std::shared_ptr<UINode>& AddChildPtr(const std::string& name);
+        const std::shared_ptr<UINode>& GetChildPtr(const std::string& name);
 
         template<class Comp>
         std::shared_ptr<Comp> AddComponent()
@@ -48,12 +58,15 @@ namespace shen
             _components.erase(typeIndex);
         }
 
+        std::map<std::type_index, std::shared_ptr<UIComponent>>& GetComponents() { return _components; }
+
     protected:
         void OnDraw(sf::RenderTarget& target, const sf::Transform& transform) const;
         void OnUpdate(float dt);
 
     protected:
         std::string _name;
+        std::string _id;
         sf::Transform _transform;
         std::vector<std::shared_ptr<UINode>> _children;
         std::weak_ptr<UINode> _parent;

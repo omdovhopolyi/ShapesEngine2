@@ -18,7 +18,7 @@ namespace shen
         UIWindowLoader(SystemsManager* systems);
 
         void LoadWindow(UIWindow* window, const std::string& windowId);
-        void LoadNode(UIWindow* window, UINode* node, tinyxml2::XMLElement* element);
+        void LoadNode(UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element);
 
     private:
         void RegisterComponentLoaders();
@@ -27,6 +27,7 @@ namespace shen
     private:
         SystemsManager* _systems = nullptr;
         std::map<std::string, std::unique_ptr<UIComponentLoader>> _loaders;
+        int _nodeIdsCounter = 0;
 
         static std::string ComponentElementId;
         static std::string NodeElementId;

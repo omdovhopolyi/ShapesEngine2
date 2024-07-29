@@ -1,5 +1,6 @@
 #include "UITextComponentLoader.h"
 #include "UI/UINode.h"
+#include "UI/UIWindow.h"
 #include "UI/Components/UITextComponent.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlFontsCollection.h"
@@ -11,10 +12,18 @@ namespace shen
         : UIComponentLoader(systems)
     {}
 
-    UIComponent* UITextComponentLoader::Load(UINode* node, tinyxml2::XMLElement* element)
+    UIComponent* UITextComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UITextComponent>())
         {
+            if (const auto idAttr = element->FindAttribute("id"))
+            {
+                const auto id = idAttr->Value();
+                component->SetId(id);
+                auto window = node->GetWindow();
+                window->MapComponent(id, component);
+            }
+
             if (const auto textElement = element->FirstChildElement("text"))
             {
                 if (const auto textAttr = textElement->FindAttribute("val"))

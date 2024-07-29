@@ -1,29 +1,54 @@
 #include "UIComponent.h"
+#include "UI/UIWindow.h"
+#include "Utils/Assert.h"
+#include <format>
 
 namespace shen
 {
-    /*void UIComponent::Init()
+    void UIComponent::RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component)
     {
-        
+        auto [it, isInserted] = _references.insert({ id, component });
+        if (!isInserted)
+        {
+            Assert(false, std::format("Multiple references for id {} in window {}", id, _window->GetId()));
+        }
     }
 
-    void UIComponent::Update(float dt)
+    void UIComponent::ClearReferencesData()
     {
-
+        _refsMap.clear();
     }
 
-    void UIComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
+    void UIComponent::AddReferenceData(const std::string& id, const std::string& compId)
     {
-
-    }*/
-
-    /*void UIComponent::SetName(const std::string& name)
-    {
-        _name = name;
+        const auto& [it, isInserted] = _refsMap.insert({ id, compId });
+        Assert(isInserted, std::format("[UIComponent::AddReferenceData] Multiple refs data in window {}", _window->GetId()));
     }
 
-    const std::string& UIComponent::GetName() const
+    const std::string& UIComponent::GetReferenceData(const std::string& id) const
     {
-        return _name;
-    }*/
+        if (auto it = _refsMap.find(id); it != _refsMap.end())
+        {
+            return it->second;
+        }
+
+        static std::string empty;
+        return empty;
+    }
+
+    void UIComponent::ResolveReferences()
+    {
+        for (auto& [id, ref] : _references)
+        {
+            if (auto it = _refsMap.find(id); it != _refsMap.end())
+            {
+                const auto refId = it->second;
+
+                if (auto component = _window->GetComponent(refId); !component.expired())
+                {
+                    *ref = component;
+                }
+            }
+        }
+    }
 }
