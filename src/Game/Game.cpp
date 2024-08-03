@@ -58,9 +58,9 @@ namespace shen
 
 		_systems->RegisterSystem<TimeSystem>();
 		_systems->RegisterSystem<SfmlInputSystem>();
+		_systems->RegisterSystem<PlayerInputSystem>();
 		_systems->RegisterSystem<WorldInputSystem>();
 		_systems->RegisterSystem<UIInputSystem>();
-		_systems->RegisterSystem<PlayerInputSystem>();
 		_systems->RegisterSystem<CameraSystem>();
 		_systems->RegisterSystem<MovementSystem>();
 		_systems->RegisterSystem<RotationSystem>();

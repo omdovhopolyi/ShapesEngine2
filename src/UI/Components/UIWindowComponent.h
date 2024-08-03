@@ -1,18 +1,13 @@
 #pragma once
 
-#include <string>
+#include "UIComponent.h"
 
 namespace shen
 {
-    class UIWindow;
-
     class UIWindowComponent
+        : public UIComponent
     {
     public:
-        virtual void Init() {};
-        virtual void Update(float dt) {};
-
-    protected:
-        UIWindow* _window = nullptr;
+        void Close();
     };
 }

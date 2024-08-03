@@ -152,6 +152,16 @@ namespace shen
         return false;
     }
 
+    void UIWindow::Open()
+    {
+        SetState(UIWindowState::Open);
+    }
+
+    void UIWindow::Close()
+    {
+        SetState(UIWindowState::Closed);
+    }
+
     void UIWindow::InitSubscriptions()
     {
         _subscriptions.Subscribe<InputComponentsDirty>([&](const InputComponentsDirty& event)

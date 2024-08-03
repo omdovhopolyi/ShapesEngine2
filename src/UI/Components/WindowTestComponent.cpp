@@ -1,4 +1,5 @@
 #include "WindowTestComponent.h"
+#include "UI/UIWindow.h"
 #include "UI/Components/UIButtonComponent.h"
 
 namespace shen
@@ -12,7 +13,10 @@ namespace shen
     {
         if (auto button = std::dynamic_pointer_cast<UIButtonComponent>(_button.lock()))
         {
-            const auto id = button->GetId();
+            button->GetSignal().Subscribe(ButtonSignalType::Up, [this]()
+            {
+                Close();
+            });
         }
     }
 }

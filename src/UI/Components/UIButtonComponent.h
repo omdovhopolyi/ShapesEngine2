@@ -2,6 +2,7 @@
 
 #include "UIInputComponent.h"
 #include <SFML/Graphics/Sprite.hpp>
+#include <functional>
 
 namespace shen
 {
@@ -14,7 +15,16 @@ namespace shen
     class ButtonSignal
     {
     public:
-        
+        using Callback = std::function<void()>;
+        using ListCallbacks = std::vector<std::function<void()>>;
+
+        void Subscribe(ButtonSignalType type, const Callback& callback);
+        void Clear();
+
+        void OnEvent(ButtonSignalType type);
+
+    public:
+        std::map<ButtonSignalType, ListCallbacks> _subscriptions;
     };
 
     class UIButtonComponent
@@ -35,6 +45,8 @@ namespace shen
 
         bool ProcessInput(const InputType& inputType, const CommandContext& context) override;
 
+        ButtonSignal& GetSignal() { return _signal; }
+
     private:
         bool HandleCursorPress(const InputType& inputType, const CommandContext& context);
         bool HandleCursorRelease(const InputType& inputType, const CommandContext& context);
@@ -53,5 +65,6 @@ namespace shen
         sf::Sprite _pressed;
         sf::Sprite _hovered;
         bool _isPressed = false;
+        ButtonSignal _signal;
     };
 }

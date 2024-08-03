@@ -16,12 +16,8 @@ namespace shen
 
     void WindowsManager::Update()
     {
-        auto time = _systems->GetTime();
-
-        for (auto& window : _windows)
-        {
-            window->Update(time.Dt());
-        }
+        RemoveClosedWindows();
+        UpdateWindows();
     }
 
     void WindowsManager::OpenWindow(const std::string& windowId)
@@ -29,10 +25,11 @@ namespace shen
         auto window = std::make_unique<UIWindow>();
         _loader->LoadWindow(window.get(), windowId);
         window->Init(windowId, _systems);
+        window->Open();
         _windows.push_back(std::move(window));        
     }
 
-    void WindowsManager::CloseWindow()
+    void WindowsManager::CloseTopWindow()
     {
         if (!_windows.empty())
         {
@@ -63,8 +60,27 @@ namespace shen
 
             if (event.code == sf::Keyboard::Key::B && event.type == InputEventType::Up)
             {
-                CloseWindow();
+                CloseTopWindow();
             }
         });
+    }
+
+    void WindowsManager::UpdateWindows()
+    {
+        auto time = _systems->GetTime();
+
+        for (auto& window : _windows)
+        {
+            window->Update(time.Dt());
+        }
+    }
+
+    void WindowsManager::RemoveClosedWindows()
+    {
+        _windows.erase(std::remove_if(_windows.begin(), _windows.end(), [](const auto& window)
+        {
+            return window->GetState() == UIWindowState::Closed;
+
+        }), _windows.end());
     }
 }

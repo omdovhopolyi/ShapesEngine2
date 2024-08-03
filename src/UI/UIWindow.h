@@ -15,6 +15,12 @@ namespace shen
     struct InputType;
     struct CommandContext;
 
+    enum class UIWindowState
+    {
+        Closed,
+        Open
+    };
+
     class UIWindow
     {
     public:
@@ -43,6 +49,12 @@ namespace shen
 
         bool ProcessInput(const InputType& inputType, const CommandContext& context);
 
+        void Open();
+        void Close();
+
+        void SetState(UIWindowState state) { _state = state; }
+        UIWindowState GetState() const { return _state; }
+
     protected:
         void InitSubscriptions();
         void RemoveExpiredComponents();
@@ -53,6 +65,7 @@ namespace shen
     protected:
         SystemsManager* _systems = nullptr;
         std::string _id;
+        UIWindowState _state = UIWindowState::Closed;
         std::shared_ptr<UINode> _root;
         std::map<std::string, std::weak_ptr<UIInputComponent>> _mappedInputComponents;
         std::map<std::string, std::weak_ptr<UIComponent>> _mappedComponents;

@@ -12,6 +12,28 @@
 
 namespace shen
 {
+    void ButtonSignal::Subscribe(ButtonSignalType type, const Callback& callback)
+    {
+        auto& list = _subscriptions[type];
+        list.push_back(callback);
+    }
+
+    void ButtonSignal::Clear()
+    {
+        _subscriptions.clear();
+    }
+
+    void ButtonSignal::OnEvent(ButtonSignalType type)
+    {
+        if (auto it = _subscriptions.find(type); it != _subscriptions.end())
+        {
+            for (auto& callback : it->second)
+            {
+                callback();
+            }
+        }
+    }
+
     void UIButtonComponent::Update(float dt)
     {
     }
@@ -84,6 +106,7 @@ namespace shen
         const auto& spriteToSet = isOverButton ? _pressed : _hovered;
         SetCurrentSprite(spriteToSet);
         _isPressed = isOverButton;
+        _signal.OnEvent(ButtonSignalType::Down);
         return isOverButton;
     }
 
@@ -93,6 +116,7 @@ namespace shen
         const auto& spriteToSet = isOverButton ? _hovered : _idle;
         SetCurrentSprite(spriteToSet);
         _isPressed = false;
+        _signal.OnEvent(ButtonSignalType::Up);
         return isOverButton;
     }
 

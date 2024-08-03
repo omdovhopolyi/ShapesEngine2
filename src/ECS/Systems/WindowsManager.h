@@ -21,7 +21,7 @@ namespace shen
         void Update() override;
 
         void OpenWindow(const std::string& windowId);
-        void CloseWindow();
+        void CloseTopWindow();
 
         void ProcessInput(const InputType& inputType, const CommandContext& context);
 
@@ -29,6 +29,8 @@ namespace shen
 
     private:
         void InitSubscriptions();
+        void UpdateWindows();
+        void RemoveClosedWindows();
 
     private:
         std::vector<std::unique_ptr<UIWindow>> _windows;
