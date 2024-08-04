@@ -7,6 +7,8 @@ namespace shen
     class CameraSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(CameraSystem)
+
     public:
         void Update() override;
     };

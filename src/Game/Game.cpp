@@ -27,6 +27,7 @@
 #include "ECS/Systems/Sfml/SfmlFontsCollection.h"
 #include "ECS/Systems/Sfml/SfmlSpritesCollection.h"
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
+#include "ECS/SystemsFactory.h"
 
 #include <sstream>
 #include <fstream>
@@ -48,30 +49,32 @@ namespace shen
 		_systems = std::make_unique<SystemsManager>();
 
 		_systems->Init(this);
-		_systems->RegisterSystem<WindowsManager>();
-		_systems->RegisterSystem<SfmlTexturesCollection>();
-		_systems->RegisterSystem<SfmlFontsCollection>();
-		_systems->RegisterSystem<SfmlSpritesCollection>();
-		_systems->RegisterSystem<InputCommandsCollection>();
-		_systems->RegisterSystem<MapLoaderSystem>();
-		_systems->RegisterSystem<SfmlGameWindowSystem>();
 
-		_systems->RegisterSystem<TimeSystem>();
-		_systems->RegisterSystem<SfmlInputSystem>();
-		_systems->RegisterSystem<PlayerInputSystem>();
-		_systems->RegisterSystem<WorldInputSystem>();
-		_systems->RegisterSystem<UIInputSystem>();
-		_systems->RegisterSystem<CameraSystem>();
-		_systems->RegisterSystem<MovementSystem>();
-		_systems->RegisterSystem<RotationSystem>();
-		_systems->RegisterSystem<PhysicsBox2DSystem>();
-		_systems->RegisterSystem<SpriteFrameAnimationSystem>();
+		_systems->AddSystem(SystemsFactory::Instance().Get("WindowsManager"));
 
-		_systems->RegisterSystem<SfmlWindowBeginFrameSystem>();
-		_systems->RegisterSystem<SfmlSpriteRenderSystem>();
-		_systems->RegisterSystem<WindowsRenderSystem>();
-		_systems->RegisterSystem<SfmlRenderTargetsSystem>();
-		_systems->RegisterSystem<SfmlWindowEndFrameSystem>();
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlTexturesCollection"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlFontsCollection"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlSpritesCollection"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("InputCommandsCollection"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("MapLoaderSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlGameWindowSystem"));
+
+		_systems->AddSystem(SystemsFactory::Instance().Get("TimeSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlInputSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("PlayerInputSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("WorldInputSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("UIInputSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("CameraSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("MovementSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("RotationSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("PhysicsBox2DSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SpriteFrameAnimationSystem"));
+
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlWindowBeginFrameSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlSpriteRenderSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("WindowsRenderSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlRenderTargetsSystem"));
+		_systems->AddSystem(SystemsFactory::Instance().Get("SfmlWindowEndFrameSystem"));
 
 		_isRunning = true;
 	}

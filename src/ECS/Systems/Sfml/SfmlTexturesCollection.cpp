@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlTexturesCollection)
+
     void SfmlTexturesCollection::Start()
     {
         stbi_set_flip_vertically_on_load(_flipTexOnLoad);

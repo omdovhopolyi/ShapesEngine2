@@ -8,6 +8,8 @@ namespace shen
     class SfmlSpriteRenderSystem
         : public RenderSystem
     {
+        SYSTEMS_FACTORY(SfmlSpriteRenderSystem)
+
     public:
         void Init(SystemsManager* systems) override;
         void Start() override;

@@ -2,6 +2,8 @@
 
 namespace shen
 {
+	REGISTER_SYSTEMS_FACTORY(TimeSystem)
+
 	void TimeSystem::Start()
 	{
 		_lastUpdateTime = std::chrono::high_resolution_clock::now();

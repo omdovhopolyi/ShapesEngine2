@@ -10,6 +10,8 @@ namespace shen
     class SfmlGameWindowSystem
         : public System
     {
+        SYSTEMS_FACTORY(SfmlGameWindowSystem)
+
     public:
         void Start() override;
         void Stop() override;

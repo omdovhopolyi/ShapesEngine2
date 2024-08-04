@@ -4,6 +4,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlWindowBeginFrameSystem)
+
     void SfmlWindowBeginFrameSystem::Draw()
     {
         if (auto window = _systems->GetSystem<SfmlGameWindowSystem>())

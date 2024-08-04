@@ -7,6 +7,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(WindowsManager)
+
     void WindowsManager::Start()
     {
         InitSubscriptions();

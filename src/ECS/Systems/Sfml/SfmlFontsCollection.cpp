@@ -4,6 +4,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlFontsCollection)
+
     void SfmlFontsCollection::Start()
     {
         LoadFontsPaths("../assets/configs/fonts.xml");

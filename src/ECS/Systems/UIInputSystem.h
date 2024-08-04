@@ -9,6 +9,8 @@ namespace shen
     class UIInputSystem
         : public BaseInputSystem
     {
+        SYSTEMS_FACTORY(UIInputSystem)
+
     public:
         void Start() override;
         void Update() override;

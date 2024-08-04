@@ -5,6 +5,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(WindowsRenderSystem)
+
     void WindowsRenderSystem::Draw()
     {
         auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>();

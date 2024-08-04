@@ -17,6 +17,8 @@ namespace shen
     class SfmlRenderTargetsSystem
         : public RenderSystem
     {
+        SYSTEMS_FACTORY(SfmlRenderTargetsSystem)
+
     public:
         void Start() override;
         void Draw() override;

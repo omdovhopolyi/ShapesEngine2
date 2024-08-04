@@ -9,6 +9,8 @@ namespace shen
     class TimeSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(TimeSystem)
+
     public:
         void Start();
         void Update();

@@ -9,6 +9,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(MapLoaderSystem)
+
     void MapLoaderSystem::Init(SystemsManager* systems)
     {
         System::Init(systems);

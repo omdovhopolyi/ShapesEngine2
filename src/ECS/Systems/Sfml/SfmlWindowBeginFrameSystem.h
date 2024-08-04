@@ -7,6 +7,8 @@ namespace shen
     class SfmlWindowBeginFrameSystem
         : public RenderSystem
     {
+        SYSTEMS_FACTORY(SfmlWindowBeginFrameSystem)
+
     public:
         void Draw() override;
     };

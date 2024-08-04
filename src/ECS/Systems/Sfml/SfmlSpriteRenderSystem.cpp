@@ -10,6 +10,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlSpriteRenderSystem)
+
     void SfmlSpriteRenderSystem::Init(SystemsManager* systems)
     {
         RenderSystem::Init(systems);

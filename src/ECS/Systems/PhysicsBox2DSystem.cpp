@@ -10,6 +10,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(PhysicsBox2DSystem)
+
     static float PxlPerMeter = 32.f;
 
     void PhysicsBox2DSystem::Start()

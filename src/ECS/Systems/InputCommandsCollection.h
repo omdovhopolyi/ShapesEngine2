@@ -14,6 +14,8 @@ namespace shen
     class InputCommandsCollection
         : public System
     {
+        SYSTEMS_FACTORY(InputCommandsCollection)
+
     public:
         using LoaderFunc = std::function<std::unique_ptr<Command>(Serialization&)>;
 

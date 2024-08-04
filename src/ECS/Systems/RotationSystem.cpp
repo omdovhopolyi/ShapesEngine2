@@ -8,6 +8,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(RotationSystem)
+
     void RotationSystem::Update()
     {
         auto& world = _systems->GetWorld();

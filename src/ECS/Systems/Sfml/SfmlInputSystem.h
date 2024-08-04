@@ -9,6 +9,8 @@ namespace shen
     class SfmlInputSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(SfmlInputSystem)
+
     public:
         void Start() override;
         void Update() override;

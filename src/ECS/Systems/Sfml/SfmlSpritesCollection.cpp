@@ -7,6 +7,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlSpritesCollection)
+
     void SfmlSpritesCollection::Start()
     {
         LoadSprites("../assets/configs/sprites.xml");

@@ -11,6 +11,8 @@ namespace shen
     class SfmlTexturesCollection
         : public System
     {
+        SYSTEMS_FACTORY(SfmlTexturesCollection)
+
     public:
         void Start() override;
         void Stop() override;

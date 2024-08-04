@@ -11,6 +11,8 @@ namespace shen
     class SfmlFontsCollection
         : public System
     {
+        SYSTEMS_FACTORY(SfmlFontsCollection)
+
     public:
         void Start() override;
         void Stop() override;

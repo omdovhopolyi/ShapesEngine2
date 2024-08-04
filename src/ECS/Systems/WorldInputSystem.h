@@ -11,6 +11,8 @@ namespace shen
     class WorldInputSystem
         : public BaseInputSystem
     {
+        SYSTEMS_FACTORY(WorldInputSystem)
+
     public:
         using InputCode = int;
         using CommandsMap = std::map<InputCode, std::shared_ptr<Command>>;

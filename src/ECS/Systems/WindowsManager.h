@@ -16,6 +16,8 @@ namespace shen
     class WindowsManager
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(WindowsManager);
+
     public:
         void Start() override;
         void Update() override;

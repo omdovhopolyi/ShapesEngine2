@@ -1,10 +1,44 @@
 #include "SystemsManager.h"
+#include "Systems/Basesystems/RenderSystem.h"
+#include "Systems/BaseSystems/UpdateSystem.h"
+#include "Systems/TimeSystem.h"
 
 namespace shen
 {
     void SystemsManager::Init(Game* game)
     {
         _game = game;
+    }
+
+    void SystemsManager::AddSystem(std::unique_ptr<System>&& system)
+    {
+        system->Init(this);
+
+        _mappedSystems[system->GetTypeIndex()] = system.get();
+        _registrationOrderedSystems.push_back(system.get());
+
+        if (auto timeSystem = dynamic_cast<TimeSystem*>(system.get()))
+        {
+            _timeSystem = timeSystem;
+        }
+
+        if (dynamic_cast<RenderSystem*>(system.get()))
+        {
+            RenderSystem* renderSystem = static_cast<RenderSystem*>(system.release());
+            _renderSystems.push_back(std::unique_ptr<RenderSystem>(renderSystem));
+            Logger::Log(std::format("Register {} render system", renderSystem->GetTypeName()));
+        }
+        else if (dynamic_cast<UpdateSystem*>(system.get()))
+        {
+            UpdateSystem* updateSystem = static_cast<UpdateSystem*>(system.release());
+            _updateSystems.push_back(std::unique_ptr<UpdateSystem>(updateSystem));
+            Logger::Log(std::format("Register {} update system", updateSystem->GetTypeName()));
+        }
+        else
+        {
+            Logger::Log(std::format("Register {} simple system", system->GetTypeName()));
+            _simpleSystems.push_back(std::move(system));
+        }
     }
 
     void SystemsManager::Start()

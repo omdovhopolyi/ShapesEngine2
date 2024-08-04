@@ -8,6 +8,8 @@
 
 namespace shen
 {
+	REGISTER_SYSTEMS_FACTORY(SpriteFrameAnimationSystem)
+
     void SpriteFrameAnimationSystem::Update()
     {
 		auto& world = _systems->GetWorld();

@@ -29,6 +29,8 @@ namespace shen
         template <class T>
         T* GetSystem() const;
 
+        void AddSystem(std::unique_ptr<System>&& system);
+
         void Start();
         void Update();
         void Draw();

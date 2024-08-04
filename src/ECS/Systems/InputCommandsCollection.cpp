@@ -8,6 +8,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(InputCommandsCollection)
+
     void InputCommandsCollection::Init(SystemsManager* systems)
     {
         RegisterLoaders();

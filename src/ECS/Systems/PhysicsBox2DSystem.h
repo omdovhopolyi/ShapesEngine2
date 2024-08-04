@@ -10,6 +10,8 @@ namespace shen
     class PhysicsBox2DSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(PhysicsBox2DSystem)
+
     public:
         void Start() override;
         void Update() override;

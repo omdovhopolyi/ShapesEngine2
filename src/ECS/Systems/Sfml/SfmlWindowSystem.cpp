@@ -2,6 +2,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlGameWindowSystem)
+
     void SfmlGameWindowSystem::Start()
     {
         _window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 640), "Shapes engine");

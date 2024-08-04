@@ -9,6 +9,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(MovementSystem)
+
     void MovementSystem::Update()
     {
         auto& world = _systems->GetWorld();

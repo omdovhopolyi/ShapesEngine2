@@ -11,6 +11,8 @@ namespace shen
     class PlayerInputSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(PlayerInputSystem)
+
     public:
         void Init(SystemsManager* systems) override;
         void Start() override;

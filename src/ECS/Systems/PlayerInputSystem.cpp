@@ -5,6 +5,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(PlayerInputSystem)
+
     void PlayerInputSystem::Init(SystemsManager* systems)
     {
         UpdateSystem::Init(systems);

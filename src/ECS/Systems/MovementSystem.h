@@ -7,6 +7,8 @@ namespace shen
     class MovementSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(MovementSystem)
+
     public:
         void Update() override;
     };

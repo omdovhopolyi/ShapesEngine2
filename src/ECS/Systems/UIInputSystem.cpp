@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(UIInputSystem)
+
     void UIInputSystem::Start()
     {
         _windows = _systems->GetSystem<WindowsManager>();
@@ -55,6 +57,8 @@ namespace shen
 
             return true;
         }
+
+        return false;
     }
 
     bool UIInputSystem::OnMouseWheelEvent(const MouseWheelEvent& event)

@@ -8,6 +8,8 @@
 
 namespace shen
 {
+	REGISTER_SYSTEMS_FACTORY(SfmlInputSystem)
+
 	void SfmlInputSystem::Start()
 	{
 		GenerateCharKeyMap();

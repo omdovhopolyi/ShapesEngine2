@@ -14,6 +14,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(WorldInputSystem)
+
     bool operator < (const InputType& left, const InputType& right)
     {
         if (left.keyCode != right.keyCode)

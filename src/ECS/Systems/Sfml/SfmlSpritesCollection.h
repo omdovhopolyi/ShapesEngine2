@@ -11,6 +11,8 @@ namespace shen
     class SfmlSpritesCollection
         : public System
     {
+        SYSTEMS_FACTORY(SfmlSpritesCollection)
+
     public:
         void Start() override;
         void Stop() override;

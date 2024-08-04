@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlRenderTargetsSystem)
+
     void SfmlRenderTargetsSystem::Start()
     {
         auto& world = _systems->GetWorld();

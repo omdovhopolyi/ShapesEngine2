@@ -20,6 +20,8 @@ namespace shen
     class MapLoaderSystem
         : public System
     {
+        SYSTEMS_FACTORY(MapLoaderSystem)
+
     public:
         void Init(SystemsManager* systems) override;
         void Start() override;
