@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Messenger/SubscriptionsContainer.h"
+#include "ECS/SystemsListLoader.h"
 #include <memory>
 
 namespace shen
@@ -26,5 +27,6 @@ namespace shen
 		bool _isRunning = false;
 		SubcriptionsContainer _subscriptions;
 		std::unique_ptr<SystemsManager> _systems;
+		SystemsListLoader _systemsLoader;
 	};
 }
