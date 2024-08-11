@@ -13,7 +13,7 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
         auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>();
-        auto worldTarget = renderTargets->GetRenderTexture("world");
+        auto worldTarget = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId);
 
         world.Each<Camera>([&](auto entity, Camera& camera)
         {

@@ -1,6 +1,6 @@
 #include "WindowsRenderSystem.h"
 #include "ECS/SystemsManager.h"
-#include "ECS/Systems/WindowsManager.h"
+#include "ECS/Systems/UI/WindowsManager.h"
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 
 namespace shen
@@ -14,7 +14,7 @@ namespace shen
 
         if (renderTargets && windowsManager)
         {
-            if (auto target = renderTargets->GetRenderTexture("ui"))
+            if (auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId))
             {
                 target->clear(sf::Color::Transparent);
 

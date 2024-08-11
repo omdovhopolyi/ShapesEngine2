@@ -23,7 +23,7 @@ namespace shen
                 auto& world = systems->GetWorld();
 
                 auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
-                auto target = renderTargets->GetRenderTexture("ui");
+                auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId);
                 auto targetSize = target->getSize();
 
                 auto spriteSize = _sprite.getGlobalBounds();

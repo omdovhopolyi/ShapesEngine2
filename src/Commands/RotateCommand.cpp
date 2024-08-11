@@ -14,7 +14,7 @@ namespace shen
         auto& world = context.systems->GetWorld();
 
         auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>();
-        auto target = renderTextures->GetRenderTexture("world"); // TODO check target
+        auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
 
         auto transform = world.GetOrCreateComponent<Transform>(context.entity);
 

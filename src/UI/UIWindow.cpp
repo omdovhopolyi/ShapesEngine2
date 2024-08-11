@@ -3,18 +3,15 @@
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include "ECS/Components/Common.h"
-#include "UI/Components/UISpriteComponent.h"
 #include "Utils/Assert.h"
 #include "Messenger/Events/UIEvents.h"
 #include <format>
 
 namespace shen
 {
-    bool UIWindow::Init(const std::string& id, SystemsManager* systems)
+    bool UIWindow::Init(const UIWindowContext& context)
     {
-        _systems = systems;
-        _id = id;
-        Assert(_systems, "Invalid ui window initialization");
+        _context = context;
         return true;
     }
 
@@ -37,9 +34,9 @@ namespace shen
     {
         if (_root)
         {
-            if (auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>())
+            if (auto renderTargets = _context.systems->GetSystem<SfmlRenderTargetsSystem>())
             {
-                if (auto target = renderTargets->GetRenderTexture("ui"))
+                if (auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId))
                 {
                     _root->Draw(*target, {});
                 }
@@ -49,7 +46,7 @@ namespace shen
 
     const std::string& UIWindow::GetId() const
     {
-        return _id;
+        return _context.windowId;
     }
 
     const std::shared_ptr<UINode>& UIWindow::GetOrCreateRoot()

@@ -2,6 +2,7 @@
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/TimeSystem.h"
 #include "Messenger/Events/Common.h"
+#include "Messenger/Events/UIEvents.h"
 #include "UI/UIWindow.h"
 #include <SFML/Window/Keyboard.hpp>
 
@@ -22,11 +23,11 @@ namespace shen
         UpdateWindows();
     }
 
-    void WindowsManager::OpenWindow(const std::string& windowId)
+    void WindowsManager::OpenWindow(const UIWindowContext& context)
     {
         auto window = std::make_unique<UIWindow>();
-        _loader->LoadWindow(window.get(), windowId);
-        window->Init(windowId, _systems);
+        _loader->LoadWindow(window.get(), context.windowId);
+        window->Init(context);
         window->Open();
         _windows.push_back(std::move(window));        
     }
@@ -57,13 +58,21 @@ namespace shen
         {
             if (event.code == sf::Keyboard::Key::V && event.type == InputEventType::Up)
             {
-                OpenWindow("test_window");
+                UIWindowContext context;
+                context.windowId = "test_window";
+                context.systems = _systems;
+                OpenWindow(context);
             }
 
             if (event.code == sf::Keyboard::Key::B && event.type == InputEventType::Up)
             {
                 CloseTopWindow();
             }
+        });
+
+        _subscriptions.Subscribe<OpenWindowEvent>([this](const OpenWindowEvent& event)
+        {
+            OpenWindow(event.context);
         });
     }
 

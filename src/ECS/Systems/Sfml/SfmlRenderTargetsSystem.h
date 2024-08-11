@@ -20,6 +20,9 @@ namespace shen
         SYSTEMS_FACTORY(SfmlRenderTargetsSystem)
 
     public:
+        static std::string WorldTargetId;
+        static std::string UITargetId;
+
         void Start() override;
         void Draw() override;
 

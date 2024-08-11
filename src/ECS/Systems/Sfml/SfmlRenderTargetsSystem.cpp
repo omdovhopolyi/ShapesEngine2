@@ -8,6 +8,9 @@ namespace shen
 {
     REGISTER_SYSTEMS_FACTORY(SfmlRenderTargetsSystem)
 
+    std::string SfmlRenderTargetsSystem::WorldTargetId = "World";
+    std::string SfmlRenderTargetsSystem::UITargetId = "UI";
+
     void SfmlRenderTargetsSystem::Start()
     {
         auto& world = _systems->GetWorld();
@@ -23,8 +26,8 @@ namespace shen
 
         if (found)
         {
-            CreateTexture("world", viewSize);
-            CreateTexture("ui", viewSize);
+            CreateTexture(WorldTargetId, viewSize);
+            CreateTexture(UITargetId, viewSize);
         }
     }
 

@@ -3,6 +3,7 @@
 #include "UINode.h"
 #include "Components/UIInputComponent.h"
 #include "Messenger/SubscriptionsContainer.h"
+#include "UI/UIWindowContext.h"
 #include <string>
 #include <memory>
 #include <tinyxml2/tinyxml2.h>
@@ -24,11 +25,11 @@ namespace shen
     class UIWindow
     {
     public:
-        virtual bool Init(const std::string& id, SystemsManager* systems);
+        virtual bool Init(const UIWindowContext& context);
         virtual void Update(float dt);
         virtual void Draw();
 
-        SystemsManager* GetSystemsManager() const { return _systems; }
+        SystemsManager* GetSystemsManager() const { return _context.systems; }
 
         const std::string& GetId() const;
         const std::shared_ptr<UINode>& GetOrCreateRoot();
@@ -63,8 +64,9 @@ namespace shen
         static void InitComponentsForNode(UINode* node);
 
     protected:
-        SystemsManager* _systems = nullptr;
-        std::string _id;
+        UIWindowContext _context;
+        /*SystemsManager* _systems = nullptr;
+        std::string _id;*/
         UIWindowState _state = UIWindowState::Closed;
         std::shared_ptr<UINode> _root;
         std::map<std::string, std::weak_ptr<UIInputComponent>> _mappedInputComponents;

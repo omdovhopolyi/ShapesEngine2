@@ -1,7 +1,7 @@
 #include "UIInputSystem.h"
 #include "Input/InputType.h"
 #include "Commands/CommandContext.h"
-#include "ECS/Systems/WindowsManager.h"
+#include "ECS/Systems/UI/WindowsManager.h"
 #include <SFML/System/Vector2.hpp>
 
 namespace shen

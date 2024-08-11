@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseSystems/RenderSystem.h"
+#include "ECS/Systems/BaseSystems/RenderSystem.h"
 
 namespace shen
 {

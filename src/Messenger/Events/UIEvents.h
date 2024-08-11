@@ -3,8 +3,8 @@
 #include "Event.h"
 #include "ECS/Entity.h"
 #include "Enums/InputEventTypeEnum.h"
-//#include "Enums/KeyModeEnum.h"
 #include "Enums/MouseButtonEnum.h"
+#include "UI/UIWindowContext.h"
 
 namespace shen
 {
@@ -13,5 +13,12 @@ namespace shen
         std::string windowId;
 
         InputComponentsDirty(const std::string& winId = {}) : windowId(winId) {}
+    };
+
+    struct OpenWindowEvent : Event
+    {
+        UIWindowContext context;
+
+        OpenWindowEvent(UIWindowContext windowContext) : context(windowContext) {}
     };
 }

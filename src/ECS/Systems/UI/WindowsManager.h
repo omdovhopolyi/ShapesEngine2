@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseSystems/UpdateSystem.h"
+#include "ECS/Systems/BaseSystems/UpdateSystem.h"
 #include "UI/UIWindow.h"
 #include "UI/UIWindowLoader.h"
 #include "Messenger/SubscriptionsContainer.h"
@@ -12,6 +12,7 @@ namespace shen
 {
     struct InputType;
     struct CommandContext;
+    struct UIWindowContext;
 
     class WindowsManager
         : public UpdateSystem
@@ -22,7 +23,7 @@ namespace shen
         void Start() override;
         void Update() override;
 
-        void OpenWindow(const std::string& windowId);
+        void OpenWindow(const UIWindowContext& context);
         void CloseTopWindow();
 
         void ProcessInput(const InputType& inputType, const CommandContext& context);

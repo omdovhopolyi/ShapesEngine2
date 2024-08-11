@@ -28,7 +28,7 @@ namespace shen
         auto& world = _systems->GetWorld();
 
         auto renderTextures = _systems->GetSystem<SfmlRenderTargetsSystem>();
-        auto target = renderTextures->GetRenderTexture("world"); // TODO check target
+        auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
 
         const auto& view = target->getView();
         const auto center = view.getCenter();

@@ -153,7 +153,7 @@ namespace shen
             auto window = _node->GetWindow();
             auto systems = window->GetSystemsManager();
             auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
-            if (auto uiTarget = renderTargets->GetRenderTexture("ui"))
+            if (auto uiTarget = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId))
             {
                 const auto worldPos = uiTarget->mapPixelToCoords(*screenPos);
                 const auto& nodeTransform = _node->GetTransform();
