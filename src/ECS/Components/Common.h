@@ -3,7 +3,6 @@
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
 #include "Enums/EnumUtils.h"
-#include "Enums/SpriteTypeEnum.h"
 #include <tinyxml2/tinyxml2.h>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
