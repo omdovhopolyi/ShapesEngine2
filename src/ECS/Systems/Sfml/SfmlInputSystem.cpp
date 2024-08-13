@@ -27,6 +27,18 @@ namespace shen
 		bool shift = (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift));
 		bool ctrl = (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl));
 
+		std::vector<sf::Mouse::Button> pressedMouseButtons;
+
+		for (auto mouseBtn = 0; mouseBtn < static_cast<int>(sf::Mouse::Button::ButtonCount); mouseBtn++)
+		{
+			bool btnPressed = sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(mouseBtn));
+			if (btnPressed)
+			{
+				pressedMouseButtons.push_back(static_cast<sf::Mouse::Button>(mouseBtn));
+			}
+		}
+
+
 		while (window->pollEvent(event))
 		{
 			switch (event.type)
@@ -99,7 +111,13 @@ namespace shen
 					yrel = event.mouseMove.y - _lastMouseYPos;
 				}
 
+				_lastMouseXPos = event.mouseMove.x;
+				_lastMouseYPos = event.mouseMove.y;
+
+				MouseButton button = (pressedMouseButtons.empty() ? MouseButton::None : static_cast<MouseButton>(pressedMouseButtons.front()));
+
 				Messenger::Instance().Broadcast<MouseMoveEvent>(
+					button,
 					event.mouseMove.x,
 					event.mouseMove.y,
 					xrel,
@@ -138,24 +156,30 @@ namespace shen
 			}
 		}
 
-		sf::Vector2i localPosition = sf::Mouse::getPosition(*window);
+		auto localPosition = sf::Mouse::getPosition(*window);
 
-		for (auto mouseBtn = 0; mouseBtn < static_cast<int>(sf::Mouse::Button::ButtonCount); mouseBtn++)
+		for (auto mouseBtn : pressedMouseButtons)
 		{
-			bool btnPressed = sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(mouseBtn));
-			if (btnPressed)
-			{
-				Messenger::Instance().Broadcast<MouseButtonEvent>(
-					InputEventType::Hold,
-					static_cast<MouseButton>(mouseBtn),
-					localPosition.x,
-					localPosition.y,
-					alt,
-					shift,
-					ctrl
-				);
-			}
+			Messenger::Instance().Broadcast<MouseButtonEvent>(
+				InputEventType::Hold,
+				static_cast<MouseButton>(mouseBtn),
+				localPosition.x,
+				localPosition.y,
+				alt,
+				shift,
+				ctrl
+			);
 		}
+	}
+
+	bool SfmlInputSystem::IsKeyPressed(sf::Keyboard::Key key) const
+	{
+		return sf::Keyboard::isKeyPressed(key);
+	}
+
+	bool SfmlInputSystem::IsMouseButtonPressed(sf::Mouse::Button button) const
+	{
+		return sf::Mouse::isButtonPressed(button);
 	}
 
 	char SfmlInputSystem::GetCharByKey(sf::Keyboard::Key key) const

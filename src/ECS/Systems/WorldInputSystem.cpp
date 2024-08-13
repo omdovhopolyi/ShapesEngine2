@@ -116,13 +116,20 @@ namespace shen
     bool WorldInputSystem::OnMouseMoveEvent(const MouseMoveEvent& event)
     {
         InputType inputEvent;
+        inputEvent.mouseButton = event.button;
         inputEvent.type = InputEventType::MouseMove;
         inputEvent.alt = event.alt;
         inputEvent.shift = event.shift;
         inputEvent.ctrl = event.ctrl;
 
+        if (inputEvent.mouseButton == MouseButton::Left)
+        {
+            bool stop = true;
+        }
+
         CommandContext context;
         context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
+        context.vars.insert({ "delta", sf::Vector2i(event.dx, event.dy) });
 
         if (auto it = _actions.find(inputEvent); it != _actions.end())
         {

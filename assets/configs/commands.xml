@@ -10,6 +10,8 @@
     <item type="CameraMoveCommand" id="CameraMoveRightCommand" speed="100" x="1" y="0"/>
     <item type="CameraMoveCommand" id="CameraMoveDownCommand" speed="100" x="0" y="1"/>
     <item type="CameraMoveCommand" id="CameraMoveLeftCommand" speed="100" x="-1" y="0"/>
+    
+    <item type="CameraMouseMoveCommand" id="CameraMouseMoveCommand"/>
 
     <item type="CameraZoomCommand" id="CameraZoomCommand" speed="0.1"/>
 </items>

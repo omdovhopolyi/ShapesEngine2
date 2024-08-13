@@ -34,6 +34,7 @@ namespace shen
         static std::unique_ptr<Command> LoadRotateCommand(Serialization& serialization);
         static std::unique_ptr<Command> LoadCameraMoveCommand(Serialization& serialization);
         static std::unique_ptr<Command> LoadCameraZoomCommand(Serialization& serialization);
+        static std::unique_ptr<Command> LoadCameraMouseMoveCommand(Serialization& serialization);
 
     private:
         std::map<std::string, LoaderFunc> _loaders;

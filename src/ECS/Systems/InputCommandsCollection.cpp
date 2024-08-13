@@ -4,6 +4,7 @@
 #include "Commands/RotateCommand.h"
 #include "Commands/CameraMoveCommand.h"
 #include "Commands/CameraZoomCommand.h"
+#include "Commands/CameraMouseMoveCommand.h"
 #include "Utils/Assert.h"
 
 namespace shen
@@ -41,6 +42,7 @@ namespace shen
         _loaders["RotateCommand"] = InputCommandsCollection::LoadRotateCommand;
         _loaders["CameraMoveCommand"] = InputCommandsCollection::LoadCameraMoveCommand;
         _loaders["CameraZoomCommand"] = InputCommandsCollection::LoadCameraZoomCommand;
+        _loaders["CameraMouseMoveCommand"] = InputCommandsCollection::LoadCameraMouseMoveCommand;
     }
 
     void InputCommandsCollection::LoadFromXml()
@@ -135,5 +137,10 @@ namespace shen
         auto command = std::make_unique<CameraZoomCommand>();
         command->SetSpeed(serialization.LoadFloatAttr("speed"));
         return command;
+    }
+
+    std::unique_ptr<Command> InputCommandsCollection::LoadCameraMouseMoveCommand(Serialization& serialization)
+    {
+        return std::make_unique<CameraMouseMoveCommand>();
     }
 }

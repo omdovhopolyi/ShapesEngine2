@@ -40,16 +40,18 @@ namespace shen
         }
     }
 
-    void WindowsManager::ProcessInput(const InputType& inputType, const CommandContext& context)
+    bool WindowsManager::ProcessInput(const InputType& inputType, const CommandContext& context)
     {
         for (auto& window : _windows)
         {
             const bool processed = window->ProcessInput(inputType, context);
             if (processed)
             {
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 
     void WindowsManager::InitSubscriptions()

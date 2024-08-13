@@ -35,9 +35,7 @@ namespace shen
         CommandContext context;
         context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
 
-        _windows->ProcessInput(inputEvent, context);
-
-        return true;
+        return _windows->ProcessInput(inputEvent, context);
     }
 
     bool UIInputSystem::OnMouseMoveEvent(const MouseMoveEvent& event)
@@ -53,9 +51,7 @@ namespace shen
             CommandContext context;
             context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
 
-            _windows->ProcessInput(inputEvent, context);
-
-            return true;
+            return _windows->ProcessInput(inputEvent, context);
         }
 
         return false;

@@ -2,6 +2,7 @@
 
 #include "ECS/Systems/BaseSystems/UpdateSystem.h"
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <unordered_map>
 
 namespace shen
@@ -14,6 +15,9 @@ namespace shen
     public:
         void Start() override;
         void Update() override;
+
+        bool IsKeyPressed(sf::Keyboard::Key key) const;
+        bool IsMouseButtonPressed(sf::Mouse::Button button) const;
 
         char GetCharByKey(sf::Keyboard::Key key) const;
         sf::Keyboard::Key GetKeyByChar(char charKey) const;

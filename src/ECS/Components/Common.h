@@ -46,6 +46,7 @@ namespace shen
     struct Camera
     {
         sf::View view;
+        float scale = 1.f;
         bool needUpdate = true;
 
         static void Load(Camera& component, Serialization& serialization);

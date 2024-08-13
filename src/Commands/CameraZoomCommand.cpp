@@ -25,6 +25,7 @@ namespace shen
             {
                 auto zoom = 1.f - (*scrollVal * _speed);
                 camera.view.zoom(zoom);
+                camera.scale *= zoom;
                 camera.needUpdate = true;
             });
         }

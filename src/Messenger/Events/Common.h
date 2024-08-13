@@ -37,6 +37,7 @@ namespace shen
     struct MouseMoveEvent
         : Event
     {
+        MouseButton button = MouseButton::None;
         int x = 0;
         int y = 0;
         int dx = 0;
@@ -45,7 +46,7 @@ namespace shen
         bool shift = false;
         bool ctrl = false;
 
-        MouseMoveEvent(int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode);
+        MouseMoveEvent(MouseButton mouseBtn, int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
     struct MouseWheelEvent

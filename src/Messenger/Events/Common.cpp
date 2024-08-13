@@ -25,8 +25,9 @@ namespace shen
         //Logger::Log("Mouse button");
     }
 
-    MouseMoveEvent::MouseMoveEvent(int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode)
-        : x(posX)
+    MouseMoveEvent::MouseMoveEvent(MouseButton mouseBtn, int posX, int posY, int diffX, int diffY, bool altMode, bool shiftMode, bool ctrlMode)
+        : button(mouseBtn)
+        , x(posX)
         , y(posY)
         , dx(diffX)
         , dy(diffY)

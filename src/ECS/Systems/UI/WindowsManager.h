@@ -26,7 +26,7 @@ namespace shen
         void OpenWindow(const UIWindowContext& context);
         void CloseTopWindow();
 
-        void ProcessInput(const InputType& inputType, const CommandContext& context);
+        bool ProcessInput(const InputType& inputType, const CommandContext& context);
 
         const std::vector<std::unique_ptr<UIWindow>>& GetWindows() const { return _windows; }
 
