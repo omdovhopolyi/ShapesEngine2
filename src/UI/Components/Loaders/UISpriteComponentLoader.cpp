@@ -8,11 +8,9 @@
 
 namespace shen
 {
-    UISpriteComponentLoader::UISpriteComponentLoader(SystemsManager* systems)
-        : UIComponentLoader(systems)
-    {}
+    REGISTER_UI_COMPONENT_LOADER(UISpriteComponentLoader)
 
-    UIComponent* UISpriteComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UISpriteComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UISpriteComponent>())
         {
@@ -32,7 +30,7 @@ namespace shen
                 if (const auto texAttr = texElement->FindAttribute("val"))
                 {
                     const auto textureId = texAttr->Value();
-                    auto textures = _systems->GetSystem<SfmlTexturesCollection>();
+                    auto textures = systems->GetSystem<SfmlTexturesCollection>();
                     auto texture = textures->GetTexture(textureId);
                     component->SetTexture(texture);
                 }   

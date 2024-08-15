@@ -37,7 +37,6 @@ namespace shen
 
     private:
         std::vector<std::unique_ptr<UIWindow>> _windows;
-        std::unique_ptr<UIWindowLoader> _loader;
         SubcriptionsContainer _subscriptions;
     };
 }

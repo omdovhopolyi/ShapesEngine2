@@ -7,9 +7,9 @@ namespace shen
     class UITransformComponentLoader
         : public UIComponentLoader
     {
-    public:
-        UITransformComponentLoader(SystemsManager* systems);
+        UI_COMPONENT_LOADER(UITransformComponentLoader, UITransformComponent)
 
-        UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
+    public:
+        UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
     };
 }

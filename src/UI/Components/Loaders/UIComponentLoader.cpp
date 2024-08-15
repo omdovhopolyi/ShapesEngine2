@@ -2,7 +2,5 @@
 
 namespace shen
 {
-    UIComponentLoader::UIComponentLoader(SystemsManager* systems)
-        : _systems(systems)
-    {}
+    UIComponentLoader::UIComponentLoader() = default;
 }

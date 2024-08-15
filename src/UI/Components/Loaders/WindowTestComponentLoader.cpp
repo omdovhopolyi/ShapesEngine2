@@ -9,11 +9,9 @@
 
 namespace shen
 {
-    WindowTestComponentLoader::WindowTestComponentLoader(SystemsManager* systems)
-        : UIComponentLoader(systems)
-    {}
+    REGISTER_UI_COMPONENT_LOADER(WindowTestComponentLoader)
 
-    UIComponent* WindowTestComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* WindowTestComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         auto window = node->GetWindow();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/Loaders/UIComponentLoader.h"
+#include "Utils/Singleton.h"
 #include <tinyxml2/tinyxml2.h>
 #include <map>
 #include <string>
@@ -11,26 +12,32 @@ namespace shen
     class UIWindow;
     class UINode;
     class SystemsManager;
+    class UIComponentLoader;
 
     class UIWindowLoader
+        : public Singleton<UIWindowLoader>
     {
     public:
-        UIWindowLoader(SystemsManager* systems);
+        void LoadWindow(SystemsManager* systems, UIWindow* window, const std::string& windowId);
+        void LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element);
 
-        void LoadWindow(UIWindow* window, const std::string& windowId);
-        void LoadNode(UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element);
+        template<class T>
+        void RegisterComponentLoader(const std::string& type);
 
     private:
-        void RegisterComponentLoaders();
         UIComponentLoader* GetLoader(const std::string& type) const;
 
     private:
-        SystemsManager* _systems = nullptr;
         std::map<std::string, std::unique_ptr<UIComponentLoader>> _loaders;
-        int _nodeIdsCounter = 0;
 
         static std::string ComponentElementId;
         static std::string NodeElementId;
         static std::string TypeAttrId;
     };
+
+    template<class T>
+    void UIWindowLoader::RegisterComponentLoader(const std::string& type)
+    {
+        _loaders[type] = std::make_unique<T>();
+    }
 }

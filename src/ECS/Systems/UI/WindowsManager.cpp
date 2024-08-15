@@ -4,6 +4,7 @@
 #include "Messenger/Events/Common.h"
 #include "Messenger/Events/UIEvents.h"
 #include "UI/UIWindow.h"
+#include "UI/UIWindowLoader.h"
 #include <SFML/Window/Keyboard.hpp>
 
 namespace shen
@@ -13,8 +14,6 @@ namespace shen
     void WindowsManager::Start()
     {
         InitSubscriptions();
-
-        _loader = std::make_unique<UIWindowLoader>(_systems);
     }
 
     void WindowsManager::Update()
@@ -26,7 +25,7 @@ namespace shen
     void WindowsManager::OpenWindow(const UIWindowContext& context)
     {
         auto window = std::make_unique<UIWindow>();
-        _loader->LoadWindow(window.get(), context.windowId);
+        UIWindowLoader::Instance().LoadWindow(_systems, window.get(), context.windowId);
         window->Init(context);
         window->Open();
         _windows.push_back(std::move(window));        

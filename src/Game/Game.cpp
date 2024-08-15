@@ -28,6 +28,7 @@ namespace shen
 
 	void Game::Run()
 	{
+		PreStart();
 		Setup();
 
 		while (_isRunning)
@@ -39,6 +40,14 @@ namespace shen
 	void Game::Destroy()
 	{
 		_systems->Clear();
+	}
+
+	void Game::PreStart()
+	{
+		if (_isRunning)
+		{
+			_systems->PreStart();
+		}
 	}
 
 	void Game::Setup()

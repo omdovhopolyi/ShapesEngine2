@@ -31,6 +31,7 @@ namespace shen
 
         void AddSystem(std::unique_ptr<System>&& system);
 
+        void PreStart();
         void Start();
         void Update();
         void Draw();

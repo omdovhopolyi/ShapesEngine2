@@ -7,9 +7,9 @@ namespace shen
     class UITextComponentLoader
         : public UIComponentLoader
     {
-    public:
-        UITextComponentLoader(SystemsManager* systems);
+        UI_COMPONENT_LOADER(UITextComponentLoader, UITextComponent)
 
-        UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
+    public:
+        UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
     };
 }

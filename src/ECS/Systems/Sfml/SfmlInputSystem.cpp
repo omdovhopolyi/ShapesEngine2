@@ -38,7 +38,6 @@ namespace shen
 			}
 		}
 
-
 		while (window->pollEvent(event))
 		{
 			switch (event.type)

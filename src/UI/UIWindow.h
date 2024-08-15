@@ -65,8 +65,6 @@ namespace shen
 
     protected:
         UIWindowContext _context;
-        /*SystemsManager* _systems = nullptr;
-        std::string _id;*/
         UIWindowState _state = UIWindowState::Closed;
         std::shared_ptr<UINode> _root;
         std::map<std::string, std::weak_ptr<UIInputComponent>> _mappedInputComponents;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UI/UIComponentRegistration.h"
 #include <tinyxml2/tinyxml2.h>
 #include <memory>
 
@@ -12,11 +13,8 @@ namespace shen
     class UIComponentLoader
     {
     public:
-        UIComponentLoader(SystemsManager* systems);
+        UIComponentLoader();
 
-        virtual UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) = 0;
-
-    protected:
-        SystemsManager* _systems = nullptr;
+        virtual UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) { return nullptr; }
     };
 }

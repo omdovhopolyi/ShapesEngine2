@@ -14,6 +14,7 @@ namespace shen
         virtual ~System() = default;
 
         virtual void Init(SystemsManager* systems);
+        virtual void PreStart() {};
         virtual void Start() {};
         virtual void Stop() {};
 

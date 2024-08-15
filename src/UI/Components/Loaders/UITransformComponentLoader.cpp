@@ -7,11 +7,9 @@
 
 namespace shen
 {
-    UITransformComponentLoader::UITransformComponentLoader(SystemsManager* systems)
-        : UIComponentLoader(systems)
-    {}
+    REGISTER_UI_COMPONENT_LOADER(UITransformComponentLoader)
 
-    UIComponent* UITransformComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UITransformComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UITransformComponent>())
         {

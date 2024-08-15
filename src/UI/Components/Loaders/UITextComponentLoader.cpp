@@ -8,11 +8,9 @@
 
 namespace shen
 {
-    UITextComponentLoader::UITextComponentLoader(SystemsManager* systems)
-        : UIComponentLoader(systems)
-    {}
+    REGISTER_UI_COMPONENT_LOADER(UITextComponentLoader)
 
-    UIComponent* UITextComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UITextComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UITextComponent>())
         {
@@ -38,7 +36,7 @@ namespace shen
                 if (const auto fontAttr = paramsElement->FindAttribute("font"))
                 {
                     const auto fontId = fontAttr->Value();
-                    auto fonts = _systems->GetSystem<SfmlFontsCollection>();
+                    auto fonts = systems->GetSystem<SfmlFontsCollection>();
                     if (const auto font = fonts->GetFont(fontId))
                     {
                         component->SetFont(*font);

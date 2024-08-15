@@ -8,15 +8,13 @@
 
 namespace shen
 {
-    UIButtonComponentLoader::UIButtonComponentLoader(SystemsManager* systems)
-        : UIComponentLoader(systems)
-    {}
+    REGISTER_UI_COMPONENT_LOADER(UIButtonComponentLoader)
 
-    UIComponent* UIButtonComponentLoader::Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UIButtonComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
         if (auto component = node->AddComponent<UIButtonComponent>())
         {
-            auto sprites = _systems->GetSystem<SfmlSpritesCollection>();
+            auto sprites = systems->GetSystem<SfmlSpritesCollection>();
 
             if (const auto idAttr = element->FindAttribute("id"))
             {

@@ -7,9 +7,9 @@ namespace shen
     class UISpriteComponentLoader
         : public UIComponentLoader
     {
-    public:
-        UISpriteComponentLoader(SystemsManager* systems);
+        UI_COMPONENT_LOADER(UISpriteComponentLoader, UISpriteComponent)
 
-        UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
+    public:
+        UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
     };
 }

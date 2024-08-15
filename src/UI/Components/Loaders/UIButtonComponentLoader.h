@@ -7,9 +7,9 @@ namespace shen
     class UIButtonComponentLoader
         : public UIComponentLoader
     {
-    public:
-        UIButtonComponentLoader(SystemsManager* systems);
+        UI_COMPONENT_LOADER(UIButtonComponentLoader, UIButtonComponent)
 
-        UIComponent* Load(const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
+    public:
+        UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
     };
 }

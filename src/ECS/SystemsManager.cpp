@@ -41,6 +41,14 @@ namespace shen
         }
     }
 
+    void SystemsManager::PreStart()
+    {
+        for (auto& system : _registrationOrderedSystems)
+        {
+            system->PreStart();
+        }
+    }
+
     void SystemsManager::Start()
     {
         for (auto& system : _registrationOrderedSystems)

@@ -18,13 +18,7 @@ namespace shen
     std::string UIWindowLoader::NodeElementId = "node";
     std::string UIWindowLoader::TypeAttrId = "type";
 
-    UIWindowLoader::UIWindowLoader(SystemsManager* systems)
-        : _systems(systems)
-    {
-        RegisterComponentLoaders();
-    }
-
-    void UIWindowLoader::LoadWindow(UIWindow* window, const std::string& windowId)
+    void UIWindowLoader::LoadWindow(SystemsManager* systems, UIWindow* window, const std::string& windowId)
     {
         tinyxml2::XMLDocument doc;
 
@@ -40,13 +34,13 @@ namespace shen
         if (auto rootElement = doc.FirstChildElement("root"))
         {
             auto root = window->GetOrCreateRoot();
-            LoadNode(window, root, rootElement);
+            LoadNode(systems, window, root, rootElement);
             window->ResolveReferences();
             window->InitComponents();
         }
     }
 
-    void UIWindowLoader::LoadNode(UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element)
+    void UIWindowLoader::LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element)
     {
         if (const auto& nodeId = node->GetId(); !nodeId.empty())
         {
@@ -62,11 +56,10 @@ namespace shen
 
                 if (auto loader = GetLoader(type))
                 {
-                    if (auto component = loader->Load(node, compElement))
+                    if (auto component = loader->Load(systems, node, compElement))
                     {
                         component->SetNode(node.get());
                         component->SetWindow(window);
-                        //component->Init();
                     }
                     else
                     {
@@ -96,20 +89,10 @@ namespace shen
                 child->SetId(idAttr->Value());
             }
 
-            LoadNode(window, child, childNodeElement);
+            LoadNode(systems, window, child, childNodeElement);
 
             childNodeElement = childNodeElement->NextSiblingElement();
         }
-    }
-
-    void UIWindowLoader::RegisterComponentLoaders()
-    {
-        _loaders["transform"] = std::make_unique<UITransformComponentLoader>(_systems);
-        _loaders["sprite"] = std::make_unique<UISpriteComponentLoader>(_systems);
-        _loaders["button"] = std::make_unique<UIButtonComponentLoader>(_systems);
-        _loaders["text"] = std::make_unique<UITextComponentLoader>(_systems);
-
-        _loaders["windowTest"] = std::make_unique<WindowTestComponentLoader>(_systems);
     }
 
     UIComponentLoader* UIWindowLoader::GetLoader(const std::string& type) const
