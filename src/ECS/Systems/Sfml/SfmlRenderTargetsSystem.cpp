@@ -3,6 +3,7 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
+#include <optional>
 
 namespace shen
 {
@@ -13,21 +14,18 @@ namespace shen
 
     void SfmlRenderTargetsSystem::Start()
     {
-        auto& world = _systems->GetWorld();
+        std::optional<sf::Vector2f> viewSize;
 
-        bool found = false;
-        sf::Vector2f viewSize;
-        
+        auto& world = _systems->GetWorld();
         world.Each<Camera>([&](const auto entity, const Camera& camera)
         {
-            found = true;
             viewSize = camera.view.getSize();
         });
 
-        if (found)
+        if (viewSize)
         {
-            CreateTexture(WorldTargetId, viewSize);
-            CreateTexture(UITargetId, viewSize);
+            CreateTexture(WorldTargetId, *viewSize);
+            CreateTexture(UITargetId, *viewSize);
         }
     }
 

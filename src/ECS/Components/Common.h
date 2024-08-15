@@ -46,6 +46,7 @@ namespace shen
     struct Camera
     {
         sf::View view;
+        std::string type;
         float scale = 1.f;
         bool needUpdate = true;
 

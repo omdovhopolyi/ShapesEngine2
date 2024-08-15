@@ -1,8 +1,8 @@
 #include "CameraFollowSystem.h"
-
 #include "ECS/SystemsManager.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 
 namespace shen
 {
@@ -10,10 +10,25 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
 
-        world.Each<CameraTarget, Transform>(
-            [&](auto entity, const Transform& transform)
+        Camera* camera = nullptr;
+
+        std::optional<sf::Vector2f> viewSize;
+
+        world.Each<Camera>([&](const auto entity, Camera& cameraComp)
         {
-            //camera->LookAt(transform.position);
+            if (cameraComp.type == SfmlRenderTargetsSystem::WorldTargetId)
+            {
+                camera = &cameraComp;
+            }
         });
+
+        if (camera)
+        {
+            world.Each<CameraTarget, Transform>(
+                [&](auto entity, const Transform& transform)
+            {
+                camera->view.setCenter(transform.position);
+            });
+        }
     }
 }
