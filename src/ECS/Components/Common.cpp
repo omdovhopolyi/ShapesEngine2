@@ -32,9 +32,9 @@ namespace shen
     {
         component.view.setCenter(serialization.LoadVec2("position"));
         component.view.setViewport(serialization.LoadFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
-        //component.view.zoom(serialization.LoadFloat("zoom", 1.f));
         component.view.setRotation(serialization.LoadFloat("rotation"));
         component.view.setSize(serialization.LoadVec2("size"));
+        component.type = serialization.LoadStrAttr("cameraType");
 
         /*auto size = serialization.LoadVec2("size");
         size.y *= -1;
@@ -47,6 +47,7 @@ namespace shen
         serialization.SaveFloatRect("viewport", component.view.getViewport());
         serialization.SaveFloat("rotation", component.view.getRotation());
         serialization.SaveVec2("size", component.view.getSize());
+        serialization.SaveStrAttr("cameraType", component.type);
 
         /*auto size = component.view.getSize();
         size.y *= -1;

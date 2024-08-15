@@ -1,7 +1,7 @@
 <?xml version = "1.0"?>
 <items>
    <entity>
-      <component type="camera">
+      <component type="camera" cameraType="World">
          <position x="400" y="320"/>
          <size x="800" y="640"/>
       </component>
