@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseSystems/UpdateSystem.h"
+#include "ECS/Systems/BaseSystems/UpdateSystem.h"
 #include "Messenger/Events/Common.h"
 #include "Messenger/SubscriptionsContainer.h"
 

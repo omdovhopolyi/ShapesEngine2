@@ -14,9 +14,10 @@ namespace shen
         virtual ~System() = default;
 
         virtual void Init(SystemsManager* systems);
-        virtual void PreStart() {};
-        virtual void Start() {};
-        virtual void Stop() {};
+        virtual void Load() {}
+        virtual void Start() {}
+        virtual void Save() {}
+        virtual void Stop() {}
 
         virtual std::type_index GetTypeIndex() { return std::type_index(typeid(System)); }
         virtual std::string GetTypeName() { return {}; }

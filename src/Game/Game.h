@@ -19,6 +19,8 @@ namespace shen
 		void Destroy();
 
 	private:
+		void InitSubscriptions();
+		bool LoadSystems();
 		void PreStart();
 		void Setup();
 		void Update();

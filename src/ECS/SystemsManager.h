@@ -31,10 +31,11 @@ namespace shen
 
         void AddSystem(std::unique_ptr<System>&& system);
 
-        void PreStart();
+        void Load();
         void Start();
         void Update();
         void Draw();
+        void Save();
         void Stop();
         void Clear();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS/Systems/BaseInputSystem.h"
+#include "ECS/Systems/Input/BaseInputSystem.h"
 
 namespace shen
 {

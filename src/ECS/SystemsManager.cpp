@@ -41,11 +41,11 @@ namespace shen
         }
     }
 
-    void SystemsManager::PreStart()
+    void SystemsManager::Load()
     {
         for (auto& system : _registrationOrderedSystems)
         {
-            system->PreStart();
+            system->Load();
         }
     }
 
@@ -70,6 +70,14 @@ namespace shen
         for (auto& system : _renderSystems)
         {
             system->Draw();
+        }
+    }
+
+    void SystemsManager::Save()
+    {
+        for (auto& system : _registrationOrderedSystems)
+        {
+            system->Save();
         }
     }
 

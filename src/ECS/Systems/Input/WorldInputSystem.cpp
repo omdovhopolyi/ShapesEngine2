@@ -5,7 +5,7 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/SystemsManager.h"
-#include "ECS/Systems/InputCommandsCollection.h"
+#include "ECS/Systems/Input/InputCommandsCollection.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "Commands/MoveCommands.h"
 #include "Commands/FireCommand.h"
@@ -46,8 +46,7 @@ namespace shen
 
     void WorldInputSystem::Start()
     {
-        InitActionCallbacks();
-        //InitSubscriptions();
+        LoadConfig();
     }
 
     void WorldInputSystem::Update()
@@ -122,11 +121,6 @@ namespace shen
         inputEvent.shift = event.shift;
         inputEvent.ctrl = event.ctrl;
 
-        if (inputEvent.mouseButton == MouseButton::Left)
-        {
-            bool stop = true;
-        }
-
         CommandContext context;
         context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
         context.vars.insert({ "delta", sf::Vector2i(event.dx, event.dy) });
@@ -158,11 +152,6 @@ namespace shen
         }
 
         return false;
-    }
-
-    void WorldInputSystem::InitActionCallbacks()
-    {
-        LoadConfig();
     }
 
     void WorldInputSystem::LoadConfig()

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseInputSystem.h"
+#include "ECS/Systems/Input/BaseInputSystem.h"
 #include "Messenger/Events/Common.h"
 #include "Input/InputType.h"
 #include "Commands/Command.h"
@@ -27,7 +27,6 @@ namespace shen
         bool OnMouseWheelEvent(const MouseWheelEvent& event) override;
 
     protected:
-        virtual void InitActionCallbacks();
         void LoadConfig();
         
     protected:

@@ -11,19 +11,9 @@ namespace shen
 
 	void Game::Initialize()
 	{
-		const bool loaded = _systemsLoader.Load();
-		if (loaded)
-		{
-			_systems = std::make_unique<SystemsManager>();
-			_systems->Init(this);
-
-			for (const auto& systemType : _systemsLoader.GetSystemsList())
-			{
-				_systems->AddSystem(SystemsFactory::Instance().Get(systemType));
-			}
-
-			_isRunning = true;
-		}
+		InitSubscriptions();
+		const bool loaded = LoadSystems();
+		_isRunning = loaded;
 	}
 
 	void Game::Run()
@@ -42,11 +32,38 @@ namespace shen
 		_systems->Clear();
 	}
 
+	void Game::InitSubscriptions()
+	{
+		_subscriptions.Subscribe<Quit>([this](const auto& event)
+		{
+			_isRunning = false;
+		});
+	}
+
+	bool Game::LoadSystems()
+	{
+		const bool loaded = _systemsLoader.Load();
+		if (loaded)
+		{
+			_systems = std::make_unique<SystemsManager>();
+			_systems->Init(this);
+
+			for (const auto& systemType : _systemsLoader.GetSystemsList())
+			{
+				_systems->AddSystem(SystemsFactory::Instance().Get(systemType));
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	void Game::PreStart()
 	{
 		if (_isRunning)
 		{
-			_systems->PreStart();
+			_systems->Load();
 		}
 	}
 
@@ -57,10 +74,7 @@ namespace shen
 			_systems->Start();
 		}
 
-		_subscriptions.Subscribe<Quit>([this](const auto& event)
-		{
-			_isRunning = false;
-		});
+		
 	}
 
 	void Game::Update()

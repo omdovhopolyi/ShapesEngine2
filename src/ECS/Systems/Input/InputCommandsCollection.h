@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseSystems/System.h"
+#include "ECS/Systems/BaseSystems/System.h"
 #include "Commands/Command.h"
 #include <tinyxml2/tinyxml2.h>
 #include <functional>

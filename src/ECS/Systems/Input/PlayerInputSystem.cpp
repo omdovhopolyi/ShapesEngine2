@@ -1,7 +1,7 @@
 #include "PlayerInputSystem.h"
 #include "ECS/SystemsManager.h"
-#include "ECS/Systems/WorldInputSystem.h"
-#include "ECS/Systems/UI/UIInputSystem.h"
+#include "ECS/Systems/Input/WorldInputSystem.h"
+#include "ECS/Systems/Input/UIInputSystem.h"
 
 namespace shen
 {
