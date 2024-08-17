@@ -8,10 +8,7 @@ namespace shen
     void UIComponent::RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component)
     {
         auto [it, isInserted] = _references.insert({ id, component });
-        if (!isInserted)
-        {
-            Assert(false, std::format("Multiple references for id {} in window {}", id, _window->GetId()));
-        }
+        Assert(isInserted, std::format("Multiple references for id {} in window {}", id, _window->GetId()));
     }
 
     void UIComponent::ClearReferencesData()
