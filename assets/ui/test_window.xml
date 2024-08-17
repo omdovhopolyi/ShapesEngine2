@@ -1,34 +1,34 @@
 <?xml version = "1.0"?>
 <root>
-   <component type="windowTest" id="testWindow">
+   <component type="WindowTestComponent" id="testWindow">
       <ref id="testButton" compId="testButtonComp"/>
    </component>
    <node name="window">
       <node name="background">
-         <component type="sprite">
+         <component type="UISpriteComponent">
             <texture val="uiBackTest"/>
             <params fill="true"/>
          </component>      
       </node>
       <node name="button">
-         <component type="button" id="testButtonComp">
+         <component type="UIButtonComponent" id="testButtonComp">
             <sprites>
                <idle sprite="button_idle"/>
                <pressed sprite="button_pressed"/>
                <hover sprite="button_hover"/>
             </sprites>
          </component>
-         <component type="transform">
+         <component type="UITransformComponent">
             <position x="100" y="100"/>
             <rotation angle="0"/>
             <scale x="0.1" y="0.1"/>
          </component>
          <node name="text">
-            <component type="text">
+            <component type="UITextComponent">
                <text val="Test UI String" font="arial"/>
                <params font="arial"/>
             </component>
-            <component type="transform">
+            <component type="UITransformComponent">
                <position x="0" y="0"/>
                <rotation angle="0"/>
                <scale x="10" y="10"/>
