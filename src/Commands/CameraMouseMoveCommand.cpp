@@ -11,7 +11,7 @@ namespace shen
         auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>();
         auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
 
-        if (const auto screenDelta = context.GetVar<sf::Vector2i>("delta"))
+        if (const auto screenDelta = context.vars.GetVar<sf::Vector2i>("delta"))
         {
             auto& world = context.systems->GetWorld();
             world.Each<Camera>([&](const auto entity, Camera& camera)

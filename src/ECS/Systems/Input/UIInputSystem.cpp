@@ -33,7 +33,7 @@ namespace shen
         inputEvent.ctrl = event.ctrl;
 
         CommandContext context;
-        context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
+        context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
 
         return _windows->ProcessInput(inputEvent, context);
     }
@@ -49,7 +49,7 @@ namespace shen
             inputEvent.ctrl = event.ctrl;
 
             CommandContext context;
-            context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
+            context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
 
             return _windows->ProcessInput(inputEvent, context);
         }

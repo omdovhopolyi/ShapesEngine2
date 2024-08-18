@@ -18,7 +18,7 @@ namespace shen
 
         auto transform = world.GetOrCreateComponent<Transform>(context.entity);
 
-        if (auto screenPos = context.GetVar<sf::Vector2i>("pos"))
+        if (auto screenPos = context.vars.GetVar<sf::Vector2i>("pos"))
         {
             auto worldPos = target->mapPixelToCoords(*screenPos);
             auto direction = worldPos - transform->position;

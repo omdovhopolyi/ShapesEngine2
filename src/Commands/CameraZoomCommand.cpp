@@ -17,7 +17,7 @@ namespace shen
 
     void CameraZoomCommand::Execute(const CommandContext& context) const
     {
-        if (auto scrollVal = context.GetVar<float>("var"))
+        if (auto scrollVal = context.vars.GetVar<float>("var"))
         {
             auto& world = context.systems->GetWorld();
 

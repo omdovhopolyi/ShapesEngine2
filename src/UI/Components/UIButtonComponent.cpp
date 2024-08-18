@@ -148,7 +148,7 @@ namespace shen
     {
         bool isOverButton = false;
 
-        if (const auto screenPos = context.GetVar<sf::Vector2i>("pos"))
+        if (const auto screenPos = context.vars.GetVar<sf::Vector2i>("pos"))
         {
             auto window = _node->GetWindow();
             auto systems = window->GetSystemsManager();

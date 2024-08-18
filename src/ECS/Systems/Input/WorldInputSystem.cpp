@@ -122,8 +122,8 @@ namespace shen
         inputEvent.ctrl = event.ctrl;
 
         CommandContext context;
-        context.vars.insert({ "pos", sf::Vector2i(event.x, event.y) });
-        context.vars.insert({ "delta", sf::Vector2i(event.dx, event.dy) });
+        context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
+        context.vars.SetVar("delta", sf::Vector2i(event.dx, event.dy));
 
         if (auto it = _actions.find(inputEvent); it != _actions.end())
         {
@@ -143,7 +143,7 @@ namespace shen
         inputEvent.ctrl = event.ctrl;
 
         CommandContext context;
-        context.vars.insert({ "var", event.scroll });
+        context.vars.SetVar("var", event.scroll);
 
         if (auto it = _actions.find(inputEvent); it != _actions.end())
         {
