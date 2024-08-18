@@ -8,7 +8,7 @@
 
 namespace shen
 {
-    REGISTER_UI_COMPONENT_LOADER(UITextComponentLoader)
+    REGISTER_CLASS_LOADER(UITextComponentLoader)
 
     UIComponent* UITextComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {

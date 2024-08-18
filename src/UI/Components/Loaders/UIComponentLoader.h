@@ -1,6 +1,7 @@
 #pragma once
 
-#include "UI/UIComponentRegistration.h"
+#include "UI/UIWindowLoader.h"
+#include "Registration/Registration.h"
 #include <tinyxml2/tinyxml2.h>
 #include <memory>
 

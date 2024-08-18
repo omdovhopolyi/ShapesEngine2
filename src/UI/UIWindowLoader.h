@@ -22,7 +22,7 @@ namespace shen
         void LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element);
 
         template<class T>
-        void RegisterComponentLoader(const std::string& type);
+        void Register(const std::string& type);
 
     private:
         UIComponentLoader* GetLoader(const std::string& type) const;
@@ -36,7 +36,7 @@ namespace shen
     };
 
     template<class T>
-    void UIWindowLoader::RegisterComponentLoader(const std::string& type)
+    void UIWindowLoader::Register(const std::string& type)
     {
         _loaders[type] = std::make_unique<T>();
     }

@@ -1,12 +1,5 @@
 #include "UIWindowLoader.h"
 #include "UINode.h"
-#include "Components/Loaders/UITransformComponentLoader.h"
-#include "Components/Loaders/UISpriteComponentLoader.h"
-#include "Components/Loaders/UIButtonComponentLoader.h"
-#include "Components/Loaders/UITextComponentLoader.h"
-
-#include "Components/Loaders/WindowTestComponentLoader.h"
-
 #include "Utils/Assert.h"
 #include "UI/UIWindow.h"
 #include <tinyxml2/tinyxml2.h>

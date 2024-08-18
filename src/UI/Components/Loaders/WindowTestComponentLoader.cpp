@@ -9,7 +9,7 @@
 
 namespace shen
 {
-    REGISTER_UI_COMPONENT_LOADER(WindowTestComponentLoader)
+    REGISTER_CLASS_LOADER(WindowTestComponentLoader)
 
     UIComponent* WindowTestComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {

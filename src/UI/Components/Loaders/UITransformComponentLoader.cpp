@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    REGISTER_UI_COMPONENT_LOADER(UITransformComponentLoader)
+    REGISTER_CLASS_LOADER(UITransformComponentLoader)
 
     UIComponent* UITransformComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {

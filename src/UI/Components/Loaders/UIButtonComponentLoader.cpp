@@ -8,7 +8,7 @@
 
 namespace shen
 {
-    REGISTER_UI_COMPONENT_LOADER(UIButtonComponentLoader)
+    REGISTER_CLASS_LOADER(UIButtonComponentLoader)
 
     UIComponent* UIButtonComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {

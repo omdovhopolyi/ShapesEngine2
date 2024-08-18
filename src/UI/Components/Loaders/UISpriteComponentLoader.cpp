@@ -8,7 +8,7 @@
 
 namespace shen
 {
-    REGISTER_UI_COMPONENT_LOADER(UISpriteComponentLoader)
+    REGISTER_CLASS_LOADER(UISpriteComponentLoader)
 
     UIComponent* UISpriteComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
     {
