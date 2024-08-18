@@ -15,6 +15,7 @@ namespace shen
     {
     public:
         UIComponentLoader();
+        ~UIComponentLoader();
 
         virtual UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) { return nullptr; }
     };

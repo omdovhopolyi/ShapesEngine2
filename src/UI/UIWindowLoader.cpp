@@ -1,4 +1,5 @@
 #include "UIWindowLoader.h"
+#include "UI/Components/Loaders/UIComponentLoader.h"
 #include "UINode.h"
 #include "Utils/Assert.h"
 #include "UI/UIWindow.h"

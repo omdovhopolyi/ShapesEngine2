@@ -1,4 +1,3 @@
-#pragma once
 #include "UITransformComponentLoader.h"
 #include "UI/UINode.h"
 #include "UI/UIWindow.h"

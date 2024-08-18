@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Components/Loaders/UIComponentLoader.h"
 #include "Utils/Singleton.h"
 #include <tinyxml2/tinyxml2.h>
 #include <map>

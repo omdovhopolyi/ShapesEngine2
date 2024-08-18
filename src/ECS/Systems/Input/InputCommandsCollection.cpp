@@ -1,20 +1,11 @@
 #include "InputCommandsCollection.h"
-#include "Serialization/Serialization.h"
-#include "Commands/MoveCommands.h"
-#include "Commands/RotateCommand.h"
-#include "Commands/CameraMoveCommand.h"
-#include "Commands/CameraZoomCommand.h"
-#include "Commands/CameraMouseMoveCommand.h"
+#include "Commands/Loaders/InputCommandsLoadersCollection.h"
+#include "Commands/Loaders/InputCommandLoader.h"
 #include "Utils/Assert.h"
 
 namespace shen
 {
     REGISTER_SYSTEMS_FACTORY(InputCommandsCollection)
-
-    void InputCommandsCollection::Init(SystemsManager* systems)
-    {
-        RegisterLoaders();
-    }
 
     void InputCommandsCollection::Start()
     {
@@ -34,15 +25,6 @@ namespace shen
         }
 
         return nullptr;
-    }
-
-    void InputCommandsCollection::RegisterLoaders()
-    {
-        _loaders["MoveCommand"] = InputCommandsCollection::LoadMoveCommand;
-        _loaders["RotateCommand"] = InputCommandsCollection::LoadRotateCommand;
-        _loaders["CameraMoveCommand"] = InputCommandsCollection::LoadCameraMoveCommand;
-        _loaders["CameraZoomCommand"] = InputCommandsCollection::LoadCameraZoomCommand;
-        _loaders["CameraMouseMoveCommand"] = InputCommandsCollection::LoadCameraMouseMoveCommand;
     }
 
     void InputCommandsCollection::LoadFromXml()
@@ -79,11 +61,11 @@ namespace shen
                 const auto id = idAttr->Value();
                 const auto type = typeAttr->Value();
 
-                if (auto it = _loaders.find(type); it != _loaders.end())
+                if (auto loader = InputCommandsLoadersCollection::Instance().GetLoader(type))
                 {
                     auto serialization = Serialization(_systems, element);
 
-                    auto command = it->second(serialization);
+                    auto command = loader->LoadCommand(serialization);
                     command->SetType(type);
                     _commands[id] = std::move(command);
                 }
@@ -95,52 +77,6 @@ namespace shen
 
     void InputCommandsCollection::ClearCommands()
     {
-        _loaders.clear();
         _commands.clear();
-    }
-
-    std::unique_ptr<Command> InputCommandsCollection::LoadMoveCommand(Serialization& serialization)
-    {
-        auto command = std::make_unique<MoveCommand>();
-        command->SetSpeed(serialization.LoadFloatAttr("speed"));
-
-        sf::Vector2f direction;
-        direction.x = serialization.LoadFloatAttr("x");
-        direction.y = serialization.LoadFloatAttr("y");
-
-        command->SetDirection(direction);
-
-        return command;
-    }
-
-    std::unique_ptr<Command> InputCommandsCollection::LoadRotateCommand(Serialization& serialization)
-    {
-        return std::make_unique<RotateCommand>();
-    }
-
-    std::unique_ptr<Command> InputCommandsCollection::LoadCameraMoveCommand(Serialization& serialization)
-    {
-        auto command = std::make_unique<CameraMoveCommand>();
-        command->SetSpeed(serialization.LoadFloatAttr("speed"));
-
-        sf::Vector2f direction;
-        direction.x = serialization.LoadFloatAttr("x");
-        direction.y = serialization.LoadFloatAttr("y");
-
-        command->SetDirection(direction);
-
-        return command;
-    }
-
-    std::unique_ptr<Command> InputCommandsCollection::LoadCameraZoomCommand(Serialization& serialization)
-    {
-        auto command = std::make_unique<CameraZoomCommand>();
-        command->SetSpeed(serialization.LoadFloatAttr("speed"));
-        return command;
-    }
-
-    std::unique_ptr<Command> InputCommandsCollection::LoadCameraMouseMoveCommand(Serialization& serialization)
-    {
-        return std::make_unique<CameraMouseMoveCommand>();
     }
 }

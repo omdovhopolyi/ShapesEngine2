@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/System.h"
-#include "Commands/Command.h"
 #include <tinyxml2/tinyxml2.h>
 #include <functional>
 #include <memory>
@@ -9,6 +8,7 @@
 
 namespace shen
 {
+    class Command;
     class Serialization;
 
     class InputCommandsCollection
@@ -17,27 +17,16 @@ namespace shen
         SYSTEMS_FACTORY(InputCommandsCollection)
 
     public:
-        using LoaderFunc = std::function<std::unique_ptr<Command>(Serialization&)>;
-
-        void Init(SystemsManager* systems) override;
         void Start() override;
         void Stop() override;
 
         Command* GetCommandById(const std::string& commandId) const;
 
     private:
-        void RegisterLoaders();
         void LoadFromXml();
         void ClearCommands();
 
-        static std::unique_ptr<Command> LoadMoveCommand(Serialization& serialization);
-        static std::unique_ptr<Command> LoadRotateCommand(Serialization& serialization);
-        static std::unique_ptr<Command> LoadCameraMoveCommand(Serialization& serialization);
-        static std::unique_ptr<Command> LoadCameraZoomCommand(Serialization& serialization);
-        static std::unique_ptr<Command> LoadCameraMouseMoveCommand(Serialization& serialization);
-
     private:
-        std::map<std::string, LoaderFunc> _loaders;
         std::map<std::string, std::unique_ptr<Command>> _commands;
     };
 }
