@@ -17,6 +17,9 @@ namespace shen
         void Update() override;
         void Stop() override;
 
+        void SetupDefaultCollisionListener();
+        void SetCollisionListener(std::unique_ptr<CollisionListener>& listener);
+
     private:
         std::unique_ptr<b2World> _world;
         std::unique_ptr<CollisionListener> _collisionListener;

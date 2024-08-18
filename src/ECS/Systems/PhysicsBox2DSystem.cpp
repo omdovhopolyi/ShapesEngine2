@@ -23,8 +23,7 @@ namespace shen
             return;
         }
 
-        _collisionListener = std::make_unique<CollisionListener>(&_systems->GetWorld());
-        _world->SetContactListener(_collisionListener.get());
+        SetupDefaultCollisionListener();
 
         auto& gameWorld = _systems->GetWorld();
 
@@ -75,6 +74,19 @@ namespace shen
 
     void PhysicsBox2DSystem::Stop()
     {
+        _collisionListener.reset();
+        _world.reset();
+    }
 
+    void PhysicsBox2DSystem::SetupDefaultCollisionListener()
+    {
+        _collisionListener = std::make_unique<CollisionListener>(&_systems->GetWorld());
+        _world->SetContactListener(_collisionListener.get());
+    }
+
+    void PhysicsBox2DSystem::SetCollisionListener(std::unique_ptr<CollisionListener>& listener)
+    {
+        _collisionListener = std::move(listener);
+        _world->SetContactListener(_collisionListener.get());
     }
 }
