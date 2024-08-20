@@ -26,12 +26,12 @@ namespace shen
         void Init(SystemsManager* systems) override;
         void Start() override;
 
+        template<class T>
+        void RegisterLoader(const std::string& id);
+
     private:
         void RegisterLoaders();
         void LoadMap(const std::string& mapId);
-
-        template<class T>
-        void RegisterLoader(const std::string& id);
 
     private:
         std::map<std::string, LoadSaveFuncs> _functions;

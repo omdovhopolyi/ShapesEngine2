@@ -18,7 +18,7 @@ namespace shen
 
 	void Game::Run()
 	{
-		PreStart();
+		Load();
 		Setup();
 
 		while (_isRunning)
@@ -59,7 +59,7 @@ namespace shen
 		return false;
 	}
 
-	void Game::PreStart()
+	void Game::Load()
 	{
 		if (_isRunning)
 		{

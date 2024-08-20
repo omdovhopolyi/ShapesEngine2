@@ -21,7 +21,7 @@ namespace shen
 	private:
 		void InitSubscriptions();
 		bool LoadSystems();
-		void PreStart();
+		void Load();
 		void Setup();
 		void Update();
 
