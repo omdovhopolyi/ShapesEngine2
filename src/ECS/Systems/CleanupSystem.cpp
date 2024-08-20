@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(CleanupSystem)
+
     void CleanupSystem::Update()
     {
         std::vector<Entity> toDestroy;

@@ -7,6 +7,8 @@ namespace shen
     class CleanupSystem
         : public UpdateSystem
     {
+        SYSTEMS_FACTORY(CleanupSystem)
+
     public:
         void Update() override;
     };
