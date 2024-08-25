@@ -20,7 +20,7 @@
          <anchor x="16" y="16"/>
       </component>
       <component type="transform">
-         <position x="900" y="100"/>
+         <position x="700" y="100"/>
          <rotation val="0"/>
       </component>
       <component type="spriteFrameAnimation">

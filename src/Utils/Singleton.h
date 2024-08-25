@@ -12,10 +12,11 @@ namespace shen
             return instance;
         }
 
-    protected:
-        Singleton() = default;
         virtual ~Singleton() = default;
 
+    protected:
+        Singleton() = default;
+        
         Singleton(const Singleton&) = delete;
         Singleton& operator = (const Singleton&) = delete;
 

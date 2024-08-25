@@ -1,0 +1,34 @@
+#pragma once
+
+#include <Utils/Singleton.h>
+#include <string>
+#include <map>
+#include <memory>
+
+namespace shen
+{
+    template<class BaseLoader>
+    class Serializer
+        : public Singleton<Serializer<BaseLoader>>
+    {
+    public:
+        template<class SpecificLoader>
+        void Register(const std::string& type)
+        {
+            _loaders[type] = std::make_unique<SpecificLoader>();
+        }
+
+        BaseLoader* GetLoader(const std::string& type) const
+        {
+            if (auto it = _loaders.find(type); it != _loaders.end())
+            {
+                return it->second.get();
+            }
+
+            return nullptr;
+        }
+
+    protected:
+        std::map<std::string, std::unique_ptr<BaseLoader>> _loaders;
+    };
+}

@@ -41,16 +41,6 @@ namespace shen
 
         target->clear();
         
-        // TODO remove
-        sf::RectangleShape shape;
-        shape.setPosition(sf::Vector2f(0.f, 0.f));
-        shape.setSize(sf::Vector2f(800, 640));
-        shape.setFillColor(sf::Color::Blue);
-        shape.setOutlineColor(sf::Color::Green);
-        shape.setOutlineThickness(3.f);
-        target->draw(shape);
-        //////////////
-
         world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
         {
             sprite.sprite.setPosition(transform.position);
