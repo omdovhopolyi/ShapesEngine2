@@ -7,9 +7,9 @@
 
 namespace shen
 {
-    template<class BaseLoader>
+    template<class BaseLoader, class Collection>
     class Serializer
-        : public Singleton<Serializer<BaseLoader>>
+        : public Singleton<Collection>
     {
     public:
         template<class SpecificLoader>

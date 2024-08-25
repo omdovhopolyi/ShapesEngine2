@@ -10,6 +10,6 @@ namespace shen
     class InputCommandLoader;
 
     class InputCommandsLoadersCollection
-        : public Serializer<InputCommandLoader>
+        : public Serializer<InputCommandLoader, InputCommandsLoadersCollection>
     {};
 }
