@@ -15,7 +15,7 @@ namespace shen
         sf::Sprite sprite;
         std::string textureId;
 
-        static void Load(Sprite& component, Serialization& serialization);
+        static void Load(Sprite& component, const Serialization& serialization);
         static void Save(Sprite& component, Serialization& serialization);
     };
 
@@ -23,7 +23,7 @@ namespace shen
     {
         sf::Color color;
         
-        static void Load(Color& component, Serialization& serialization);
+        static void Load(Color& component, const Serialization& serialization);
         static void Save(Color& component, Serialization& serialization);
     };
 
@@ -34,7 +34,7 @@ namespace shen
         float dt = 0.f;
         int curFrame = 0;
 
-        static void Load(SpriteFrameAnimation& component, Serialization& serialization);
+        static void Load(SpriteFrameAnimation& component, const Serialization& serialization);
         static void Save(SpriteFrameAnimation& component, Serialization& serialization);
     };
 }

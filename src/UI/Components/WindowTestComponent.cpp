@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    WindowTestComponent::WindowTestComponent()
+    void WindowTestComponent::RegisterReferences()
     {
         RegisterReference("testButton", &_button);
     }

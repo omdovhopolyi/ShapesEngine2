@@ -19,6 +19,7 @@ namespace shen
     {
     public:
         virtual void Init() {};
+        virtual void RegisterReferences() {};
         virtual void Update(float dt) {};
         virtual void Draw(sf::RenderTarget& target, const sf::Transform& transform) const {};
 
@@ -28,8 +29,8 @@ namespace shen
         void SetNode(UINode* node) { _node = node; }
         UINode* GetNode() const { return _node; }
 
-        void SetWindow(UIWindow* window) { _window = window; }
-        UIWindow* GetWindow() const { return _window; }
+        //void SetWindow(UIWindow* window) { _window = window; }
+        UIWindow* GetWindow() const;
 
         void RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component);
         
@@ -55,7 +56,6 @@ namespace shen
 
     protected:
         UINode* _node = nullptr;
-        UIWindow* _window = nullptr;
         std::string _id;
         bool _dirty = true;
         std::map<std::string, std::string> _refsMap;

@@ -12,9 +12,8 @@ namespace shen
         friend class WindowTextComponentLoader;
 
     public:
-        WindowTestComponent();
-
         void Init() override;
+        void RegisterReferences() override;
 
     private:
         std::weak_ptr<UIComponent> _button;

@@ -8,6 +8,7 @@
 #include "ECS/Components/Common.h"
 #include "Commands/CommandContext.h"
 #include "Input/InputType.h"
+#include "Utils/Assert.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace shen
@@ -41,6 +42,32 @@ namespace shen
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
     {
         target.draw(_current, transform);
+    }
+
+    void UIButtonComponent::SetSprite(ButtonSpriteType type, const sf::Sprite& sprite)
+    {
+        switch (type)
+        {
+        case ButtonSpriteType::Idle:
+        {
+            SetIdle(sprite);
+            break;
+        }
+        case ButtonSpriteType::Hovered:
+        {
+            SetHovered(sprite);
+            break;
+        }
+        case ButtonSpriteType::Pressed:
+        {
+            SetPressed(sprite);
+            break;
+        }
+        default:
+        {
+            Assert(false, "[UIButtonComponent::SetSprite] Undefined sprite type");
+        }
+        }
     }
 
     void UIButtonComponent::SetIdle(const sf::Sprite& sprite)

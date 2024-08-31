@@ -4,18 +4,18 @@
 
 namespace shen
 {
-    void RigidBody::Load(RigidBody& component, Serialization& serialization)
+    void RigidBody::Load(RigidBody& component, const Serialization& serialization)
     {
-        component.type = RigidBodyTypeEnum.FromString(serialization.LoadStr("type"));
-        component.size = serialization.LoadVec2("size", component.size);
-        component.sensor = serialization.LoadBool("sensor", component.sensor);
+        component.type = RigidBodyTypeEnum.FromString(serialization.GetStr("type"));
+        component.size = serialization.GetVec2("size", component.size);
+        component.sensor = serialization.GetBool("sensor", component.sensor);
     }
 
     void RigidBody::Save(RigidBody& component, Serialization& serialization)
     {
         const auto typeStr = RigidBodyTypeEnum.ToString(component.type);
-        serialization.SaveStr("type", typeStr);
-        serialization.SaveVec2("size", component.size);
-        serialization.SaveBool("sensor", component.sensor);
+        serialization.SetStr("type", typeStr);
+        serialization.SetVec2("size", component.size);
+        serialization.SetBool("sensor", component.sensor);
     }
 }

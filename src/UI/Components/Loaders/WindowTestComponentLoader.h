@@ -10,6 +10,6 @@ namespace shen
         CLASS_LOADER(UIWindowLoader, WindowTestComponent)
 
     public:
-        UIComponent* Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element) override;
+        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element) override;
     };
 }

@@ -5,9 +5,9 @@
 
 namespace shen
 {
-    void Sprite::Load(Sprite& component, Serialization& serialization)
+    void Sprite::Load(Sprite& component, const Serialization& serialization)
     {
-        if (auto textureId = serialization.LoadStr("texture"); !textureId.empty())
+        if (auto textureId = serialization.GetStr("texture"); !textureId.empty())
         {
             auto systems = serialization.GetSystems();
 
@@ -15,9 +15,9 @@ namespace shen
             {
                 if (auto texture = texturesCollection->GetTexture(textureId))
                 {
-                    auto rect = serialization.LoadIntRect("rect");
-                    auto anchor = serialization.LoadVec2("anchor");
-                    auto size = serialization.LoadVec2("size");
+                    auto rect = serialization.GetIntRect("rect");
+                    auto anchor = serialization.GetVec2("anchor");
+                    auto size = serialization.GetVec2("size");
 
                     component.textureId = textureId;
                     component.sprite.setTexture(*texture);
@@ -32,31 +32,31 @@ namespace shen
     {
         if (auto texture = component.sprite.getTexture())
         {
-            serialization.SaveStr("texture", component.textureId);
-            serialization.SaveIntRect("rect", component.sprite.getTextureRect());
-            serialization.SaveVec2("size", component.sprite.getOrigin());
+            serialization.SetStr("texture", component.textureId);
+            serialization.SetIntRect("rect", component.sprite.getTextureRect());
+            serialization.SetVec2("size", component.sprite.getOrigin());
         }
     }
 
-    void Color::Load(Color& component, Serialization& serialization)
+    void Color::Load(Color& component, const Serialization& serialization)
     {
-        component.color = serialization.LoadColor("color");
+        component.color = serialization.GetColor("color");
     }
 
     void Color::Save(Color& component, Serialization& serialization)
     {
-        serialization.SaveColor("color", component.color);
+        serialization.SetColor("color", component.color);
     }
 
-    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, Serialization& serialization)
+    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const Serialization& serialization)
     {
-        component.frameTime = serialization.LoadFloat("frameTime", component.frameTime);
-        component.frames = serialization.LoadVectorRect("frames");
+        component.frameTime = serialization.GetFloat("frameTime", component.frameTime);
+        component.frames = serialization.GetVectorIntRect("frames");
     }
 
     void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, Serialization& serialization)
     {
-        serialization.SaveFloat("frameTime", component.frameTime);
-        serialization.SaveVectorRect("frames", component.frames);
+        serialization.SetFloat("frameTime", component.frameTime);
+        serialization.SetVectorIntRect("frames", component.frames);
     }
 }

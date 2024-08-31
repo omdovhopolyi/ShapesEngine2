@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UIInputComponent.h"
+#include "Enums/ButtonSpriteEnum.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <functional>
 
@@ -33,6 +34,8 @@ namespace shen
     public:
         void Update(float dt) override;
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;
+
+        void SetSprite(ButtonSpriteType type, const sf::Sprite& sprite);
 
         void SetIdle(const sf::Sprite& sprite);
         sf::Sprite& GetIdle();

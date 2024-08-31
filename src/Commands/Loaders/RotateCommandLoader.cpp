@@ -5,8 +5,10 @@ namespace shen
 {
     REGISTER_CLASS_LOADER(RotateCommandLoader)
 
-    std::unique_ptr<Command> RotateCommandLoader::LoadCommand(Serialization& serialization)
+    std::unique_ptr<Command> RotateCommandLoader::LoadCommand(const Serialization& serialization)
     {
-        return std::make_unique<RotateCommand>();
+        auto command = std::make_unique<RotateCommand>();
+        LoadTypeAndId(serialization, command.get());
+        return command;
     }
 }

@@ -13,7 +13,7 @@ namespace shen
         _text.setString(text);
     }
 
-    const std::string& UITextComponent::GetText() const
+    std::string UITextComponent::GetText() const
     {
         return _text.getString();
     }

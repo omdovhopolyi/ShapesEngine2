@@ -12,6 +12,6 @@ namespace shen
         CLASS_LOADER(InputCommandsLoadersCollection, RotateCommand)
 
     public:
-        std::unique_ptr<Command> LoadCommand(Serialization& serialization) override;
+        std::unique_ptr<Command> LoadCommand(const Serialization& serialization) override;
     };
 }

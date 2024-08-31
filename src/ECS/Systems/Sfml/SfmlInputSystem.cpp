@@ -3,6 +3,7 @@
 #include "ECS/Systems/Sfml/SfmlWindowSystem.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
+#include "Utils/Assert.h"
 #include <SFML/Window.hpp>
 #include <SFML/Window/Mouse.hpp>
 
@@ -188,6 +189,22 @@ namespace shen
 			return it->second;
 		}
 		return -1;
+	}
+
+	sf::Keyboard::Key SfmlInputSystem::GetKeyByChar(const std::string& charKeyStr, bool silent/* = false*/) const
+	{
+		if (!charKeyStr.empty())
+		{
+			const auto& charKey = charKeyStr.front();
+			return GetKeyByChar(charKey);
+		}
+		
+		if (!silent)
+		{
+			Assert(false, "[SfmlInputSystem::GetKeyByChar] Empty char key string");
+		}
+		
+		return sf::Keyboard::Unknown;
 	}
 
 	sf::Keyboard::Key SfmlInputSystem::GetKeyByChar(char charKey) const

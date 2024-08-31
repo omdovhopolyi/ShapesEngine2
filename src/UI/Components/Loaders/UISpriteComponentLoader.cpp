@@ -4,45 +4,34 @@
 #include "UI/UIWindow.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "Serialization/Serialization.h"
 #include <string>
 
 namespace shen
 {
     REGISTER_CLASS_LOADER(UISpriteComponentLoader)
 
-    UIComponent* UISpriteComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UISpriteComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
     {
         if (auto component = node->AddComponent<UISpriteComponent>())
         {
-            bool needFillScreen = false;
-            std::string textureId;
+            component->SetNode(node.get());
 
-            if (const auto idAttr = element->FindAttribute("id"))
+            if (const auto id = element.GetStr("id"); !id.empty())
             {
-                const auto id = idAttr->Value();
                 component->SetId(id);
                 auto window = node->GetWindow();
                 window->MapComponent(id, component);
             }
 
-            if (const auto texElement = element->FirstChildElement("texture"))
+            const auto textureId = element.GetStr("texture");
+            if (auto textures = systems->GetSystem<SfmlTexturesCollection>())
             {
-                if (const auto texAttr = texElement->FindAttribute("val"))
-                {
-                    const auto textureId = texAttr->Value();
-                    auto textures = systems->GetSystem<SfmlTexturesCollection>();
-                    auto texture = textures->GetTexture(textureId);
-                    component->SetTexture(texture);
-                }   
+                auto texture = textures->GetTexture(textureId);
+                component->SetTexture(texture);
             }
-
-            if (const auto paramsElement = element->FirstChildElement("params"))
-            {
-                if (const auto fillAttr = paramsElement->FindAttribute("fill"))
-                {
-                    component->SetFillScreen(fillAttr->BoolValue());
-                }
-            }
+            
+            component->SetFillScreen(element.GetBool("fill"));
 
             return component.get();
         }

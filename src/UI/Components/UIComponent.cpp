@@ -5,11 +5,21 @@
 
 namespace shen
 {
+    UIWindow* UIComponent::GetWindow() const
+    {
+        if (_node)
+        {
+            return _node->GetWindow();
+        }
+
+        return nullptr;
+    }
+
     void UIComponent::RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component)
     {
         auto [it, isInserted] = _references.insert({ id, component });
-        Assert(isInserted, std::format("Multiple references for id {} in window {}", id, _window->GetId()));
-    }
+        Assert(isInserted, std::format("Multiple references for id {} in window {}", id, GetWindow()->GetId()));
+    } 
 
     void UIComponent::ClearReferencesData()
     {
@@ -19,7 +29,7 @@ namespace shen
     void UIComponent::AddReferenceData(const std::string& id, const std::string& compId)
     {
         const auto& [it, isInserted] = _refsMap.insert({ id, compId });
-        Assert(isInserted, std::format("[UIComponent::AddReferenceData] Multiple refs data in window {}", _window->GetId()));
+        Assert(isInserted, std::format("[UIComponent::AddReferenceData] Multiple refs data in window {}", GetWindow()->GetId()));
     }
 
     const std::string& UIComponent::GetReferenceData(const std::string& id) const
@@ -41,9 +51,12 @@ namespace shen
             {
                 const auto refId = it->second;
 
-                if (auto component = _window->GetComponent(refId); !component.expired())
+                if (auto window = GetWindow())
                 {
-                    *ref = component;
+                    if (auto component = window->GetComponent(refId); !component.expired())
+                    {
+                        *ref = component;
+                    }
                 }
             }
         }

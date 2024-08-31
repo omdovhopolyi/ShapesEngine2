@@ -36,44 +36,24 @@ namespace shen
 
     void MapLoaderSystem::LoadMap(const std::string& mapId)
     {
-        tinyxml2::XMLDocument doc;
+        auto& world = _systems->GetWorld();
 
-        std::string filePath = "../assets/configs/maps/" + mapId + ".xml";
-
-        const auto error = doc.LoadFile(filePath.c_str());
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ _systems, "../assets/configs/maps/" + mapId + ".xml" };
+        serialization.SetupElement("items");
+        serialization.ForAllChildElements("entity", [&](const Serialization& element)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, std::format("[MapLoaderSystem::LoadMap] Can not read '{}' map xml", mapId));
-            return;
-        }
+            auto entity = world.CreateEntity();
 
-        if (auto elements = doc.FirstChildElement("items"))
-        {
-            auto& world = _systems->GetWorld();
-
-            auto elementEntity = elements->FirstChildElement("entity");
-            while (elementEntity)
+            element.ForAllChildElements("component", [&](const Serialization& componentElement)
             {
-                auto entity = world.CreateEntity();
-
-                auto elementComponent = elementEntity->FirstChildElement("component");
-                while (elementComponent)
+                if (const auto type = componentElement.GetStr("type"); !type.empty())
                 {
-                    if (const auto typeAttr = elementComponent->FindAttribute("type"))
+                    if (auto it = _functions.find(type); it != _functions.end())
                     {
-                        const auto type = typeAttr->Value();
-
-                        if (auto it = _functions.find(type); it != _functions.end())
-                        {
-                            it->second.loadFunc(entity, elementComponent);
-                        }
+                        it->second.loadFunc(entity, componentElement);
                     }
-
-                    elementComponent = elementComponent->NextSiblingElement();
                 }
-
-                elementEntity = elementEntity->NextSiblingElement();
-            }
-        }
+            });
+        });
     }
 }

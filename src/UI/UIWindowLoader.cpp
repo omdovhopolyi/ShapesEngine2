@@ -1,9 +1,9 @@
 #include "UIWindowLoader.h"
 #include "UI/Components/Loaders/UIComponentLoader.h"
+#include "UI/UIWindow.h"
 #include "UINode.h"
 #include "Utils/Assert.h"
-#include "UI/UIWindow.h"
-#include <tinyxml2/tinyxml2.h>
+#include "Serialization/Serialization.h"
 #include <format>
 
 namespace shen
@@ -14,46 +14,36 @@ namespace shen
 
     void UIWindowLoader::LoadWindow(SystemsManager* systems, UIWindow* window, const std::string& windowId)
     {
-        tinyxml2::XMLDocument doc;
-
         std::string path = "../assets/ui/" + windowId + ".xml";
 
-        const auto error = doc.LoadFile(path.c_str());
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ systems, path };
+        if (serialization.IsValid())
         {
-            Assert(false, std::format("[UIWindowLoader::LoadWindow] Can not load window '{}'", windowId));
-            return;
-        }
-
-        if (auto rootElement = doc.FirstChildElement("root"))
-        {
+            serialization.SetupElement("root");
             auto root = window->GetOrCreateRoot();
-            LoadNode(systems, window, root, rootElement);
+            root->SetWindow(window);
+            LoadNode(systems, window, root, serialization);
             window->ResolveReferences();
             window->InitComponents();
         }
     }
 
-    void UIWindowLoader::LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, tinyxml2::XMLElement* element)
+    void UIWindowLoader::LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, const Serialization& element)
     {
         if (const auto& nodeId = node->GetId(); !nodeId.empty())
         {
             window->MapNode(nodeId, node);
         }
 
-        auto compElement = element->FirstChildElement(ComponentElementId.c_str());
-        while (compElement)
+        element.ForAllChildElements(ComponentElementId, [&](const Serialization& componentElement)
         {
-            if (const auto typeAttr = compElement->FindAttribute(TypeAttrId.c_str()))
+            if (const auto type = componentElement.GetStr(TypeAttrId); !type.empty())
             {
-                const auto type = typeAttr->Value();
-
                 if (auto loader = GetLoader(type))
                 {
-                    if (auto component = loader->Load(systems, node, compElement))
+                    if (auto component = loader->CreateAndLoad(systems, node, componentElement))
                     {
-                        component->SetNode(node.get());
-                        component->SetWindow(window);
+                        component->RegisterReferences();
                     }
                     else
                     {
@@ -61,31 +51,18 @@ namespace shen
                     }
                 }
             }
+        });
 
-            compElement = compElement->NextSiblingElement();
-        }
-
-        auto childNodeElement = element->FirstChildElement(NodeElementId.c_str());
-        while (childNodeElement)
+        element.ForAllChildElements(NodeElementId, [&](const Serialization& nodeElement)
         {
-            std::string name;
+            const auto name = nodeElement.GetStr("name");
+            const auto id = nodeElement.GetStr("id");
 
-            if (const auto nameAttr = childNodeElement->FindAttribute("name"))
-            {
-                name = nameAttr->Value();
-            }
-            
             auto child = node->AddChildPtr(name);
             child->SetWindow(window);
-
-            if (const auto idAttr = childNodeElement->FindAttribute("id"))
-            {
-                child->SetId(idAttr->Value());
-            }
-
-            LoadNode(systems, window, child, childNodeElement);
-
-            childNodeElement = childNodeElement->NextSiblingElement();
-        }
+            child->SetId(id);
+            
+            LoadNode(systems, window, child, nodeElement);
+        });
     }
 }

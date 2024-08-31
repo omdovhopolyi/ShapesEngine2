@@ -11,6 +11,7 @@
 #include "Commands/FireCommand.h"
 #include "Commands/RotateCommand.h"
 #include "Utils/Assert.h"
+#include "Serialization/Serialization.h"
 
 namespace shen
 {
@@ -51,6 +52,11 @@ namespace shen
 
     void WorldInputSystem::Update()
     {
+        if (_toProcess.empty())
+        {
+            return;
+        }
+
         std::vector<std::pair<Entity, const PlayerInput*>> entities;
 
         auto& world = _systems->GetWorld();
@@ -65,10 +71,14 @@ namespace shen
             {
                 if (command)
                 {
-                    context.entity = entity;
-                    context.systems = _systems;
+                    const bool canExecute = input->commandTypes.contains(command->GetId());
+                    if (canExecute)
+                    {
+                        context.entity = entity;
+                        context.systems = _systems;
 
-                    command->Execute(context);
+                        command->Execute(context);
+                    }
                 }
             }
         }
@@ -159,62 +169,25 @@ namespace shen
         auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
         auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
 
-        tinyxml2::XMLDocument doc;
-
-        const auto error = doc.LoadFile("../assets/configs/input.xml");
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ _systems, "../assets/configs/input.xml" };
+        serialization.SetupElement("items");
+        serialization.ForAllChildElements("item", [&](const Serialization& element)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, "[PlayerInputSystem::LoadConfig] Can not read 'input.xml");
-            return;
-        }
+            InputType inputType;
+            const bool silent = true;
 
-        if (auto elements = doc.FirstChildElement("items"))
-        {
-            auto element = elements->FirstChildElement("item");
-            while (element)
+            inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(element.GetStr("key"), silent));
+            inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn"));
+            inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType"));
+            inputType.alt = element.GetBool("alt");
+            inputType.shift = element.GetBool("shift");
+            inputType.ctrl = element.GetBool("ctrl");
+            
+            if (const auto commandId = element.GetStr("command"); !commandId.empty())
             {
-                InputType inputType;
-
-                if (const auto keyAttr = element->FindAttribute("key"))
-                {
-                    inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(*keyAttr->Value()));
-                }
-
-                if (const auto mouseBtnAttr = element->FindAttribute("mouseBtn"))
-                {
-                    inputType.mouseButton = MouseButtonEnum.FromString(mouseBtnAttr->Value());
-                }
-
-                if (const auto inputEventTypeAttr = element->FindAttribute("inputEventType"))
-                {
-                    inputType.type = InputEventTypeEnum.FromString(inputEventTypeAttr->Value());
-                }
-
-                if (const auto modeAttr = element->FindAttribute("alt"))
-                {
-                    inputType.alt = modeAttr->BoolValue();
-                }
-
-                if (const auto modeAttr = element->FindAttribute("shift"))
-                {
-                    inputType.shift = modeAttr->BoolValue();
-                }
-
-                if (const auto modeAttr = element->FindAttribute("ctrl"))
-                {
-                    inputType.ctrl = modeAttr->BoolValue();
-                }
-
-                if (const auto commandAttr = element->FindAttribute("command"))
-                {
-                    const auto commandId = commandAttr->Value();
-                    auto command = inputCommandsCollection->GetCommandById(commandId);
-
-                    _actions[inputType] = command;
-                }
-                
-                element = element->NextSiblingElement();
+                auto command = inputCommandsCollection->GetCommandById(commandId);
+                _actions[inputType] = command;
             }
-        }
+        });
     }
 }
