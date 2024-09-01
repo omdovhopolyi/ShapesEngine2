@@ -5,6 +5,9 @@ namespace shen
 {
     void UIWindowComponent::Close()
     {
-        _window->Close();
+        if (auto window = GetWindow())
+        {
+            window->Close();
+        }
     }
 }

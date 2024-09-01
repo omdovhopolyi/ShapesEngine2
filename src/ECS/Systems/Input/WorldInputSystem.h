@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/Systems/Input/BaseInputSystem.h"
-#include "Messenger/Events/Common.h"
 #include "Input/InputType.h"
 #include "Commands/Command.h"
 #include <memory>

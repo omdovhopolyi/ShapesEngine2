@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/System.h"
-#include <tinyxml2/tinyxml2.h>
 #include <functional>
 #include <memory>
 #include <map>

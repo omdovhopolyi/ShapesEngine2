@@ -20,6 +20,7 @@ namespace shen
         bool IsMouseButtonPressed(sf::Mouse::Button button) const;
 
         char GetCharByKey(sf::Keyboard::Key key) const;
+        sf::Keyboard::Key GetKeyByChar(const std::string& charKeyStr, bool silent = false) const;
         sf::Keyboard::Key GetKeyByChar(char charKey) const;
 
     private:

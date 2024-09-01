@@ -1,6 +1,7 @@
 #include "InputCommandsCollection.h"
 #include "Commands/Loaders/InputCommandsLoadersCollection.h"
 #include "Commands/Loaders/InputCommandLoader.h"
+#include "Serialization/Serialization.h"
 #include "Utils/Assert.h"
 
 namespace shen
@@ -29,50 +30,20 @@ namespace shen
 
     void InputCommandsCollection::LoadFromXml()
     {
-        tinyxml2::XMLDocument doc;
-
-        const auto error = doc.LoadFile("../assets/configs/commands.xml");
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ _systems, "../assets/configs/commands.xml" };
+        serialization.SetupElement("items");
+        serialization.ForAllChildElements("item", [&](const Serialization& element)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, "[InputCommandsCollection::LoadFromXml] Can not read commands.xml");
-            return;
-        }
-
-        if (auto elements = doc.FirstChildElement("items"))
-        {
-            auto element = elements->FirstChildElement("item");
-            while (element)
+            if (const auto type = element.GetStr("type"); !type.empty())
             {
-                const auto typeAttr = element->FindAttribute("type");
-                const auto idAttr = element->FindAttribute("id");
-
-                if (!typeAttr)
-                {
-                    Assert(!typeAttr, "[InputCommandsCollection::LoadFromXml] No 'type' attribute in command");
-                    continue;
-                }
-
-                if (!idAttr)
-                {
-                    Assert(!idAttr, "[InputCommandsCollection::LoadFromXml] No 'id' attribute in command");
-                    continue;
-                }
-
-                const auto id = idAttr->Value();
-                const auto type = typeAttr->Value();
-
                 if (auto loader = InputCommandsLoadersCollection::Instance().GetLoader(type))
                 {
-                    auto serialization = Serialization(_systems, element);
-
-                    auto command = loader->LoadCommand(serialization);
-                    command->SetType(type);
+                    auto command = loader->LoadCommand(element);
+                    auto id = command->GetId();
                     _commands[id] = std::move(command);
                 }
-
-                element = element->NextSiblingElement();
             }
-        }
+        });
     }
 
     void InputCommandsCollection::ClearCommands()

@@ -16,77 +16,56 @@ namespace shen
     class Serialization
     {
     public:
+        Serialization(const std::string& filename);
+        Serialization(SystemsManager* systems, const std::string& filename);
         Serialization(SystemsManager* systems, tinyxml2::XMLElement* element);
 
         SystemsManager* GetSystems() const { return _systems; }
 
-        bool LoadBool(const std::string& id, bool defaultVal = false);
-        int LoadInt(const std::string& id, int defaultVal = 0);
-        float LoadFloat(const std::string& id, float defaultVal = 0.f);
-        std::string LoadStr(const std::string& id, const std::string& defaultVal = {});
+        void LoadDocument(const std::string& filename);
+        void SetupElement(const std::string& id);
 
-        bool LoadBoolAttr(const std::string& id, bool defaultVal = false);
-        int LoadIntAttr(const std::string& id, int defaultVal = 0);
-        float LoadFloatAttr(const std::string& id, float defaultVal = 0.f);
-        std::string LoadStrAttr(const std::string& id, const std::string& defaultVal = {});
+        bool IsValid() const;
 
-        sf::Vector2f LoadVec2(const std::string& id, sf::Vector2f defaultVal = sf::Vector2f());
-        sf::Vector2f LoadVec2(const tinyxml2::XMLElement* element, sf::Vector2f defaultVal = sf::Vector2f());
-        
-        sf::FloatRect LoadFloatRect(const std::string& id, sf::FloatRect def = {});
-        static sf::FloatRect LoadFloatRect(const tinyxml2::XMLElement* element);
+        Serialization GetElement(const std::string& id) const;
 
-        sf::IntRect LoadIntRect(const std::string& id, sf::IntRect def = {});
-        static sf::IntRect LoadIntRect(const tinyxml2::XMLElement* element);
+        bool GetBool(const std::string& id, bool defaultVal = false) const;
+        int GetInt(const std::string& id, int defaultVal = 0) const;
+        float GetFloat(const std::string& id, float defaultVal = 0.f) const;
+        std::string GetStr(const std::string& id, const std::string& defaultVal = {}) const;
+        sf::Vector2f GetVec2(const std::string& id, sf::Vector2f defaultVal = sf::Vector2f()) const;
+        sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect def = {}) const;
+        sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
+        sf::IntRect GetIntRect(sf::IntRect def = {}) const;
+        sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Red) const;
+        sf::Texture* GetTexturePtr(const std::string& id = "texture") const;
+        std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
+        std::vector<std::string> GetVecStr(const std::string& id) const;
+        sf::Transform GetTransform() const;
+        void ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
+        void ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
 
-        sf::Color LoadColor(const std::string& id, sf::Color defaultVal = sf::Color::Red);
-        static sf::Color LoadColor(const tinyxml2::XMLElement* element);
-
-        sf::Texture* LoadTexturePtr(const std::string& id);
-        std::vector<sf::IntRect> LoadVectorRect(const std::string& id);
-
-        std::vector<std::string> LoadVecStr(const std::string& id);
-
-        static sf::Transform LoadTransform(const tinyxml2::XMLElement* element);
-
-        void SaveBool(const std::string& id, bool val);
-        void SaveInt(const std::string& id, int val);
-        void SaveFloat(const std::string& id, float val);
-        void SaveStr(const std::string& id, const std::string& val);
-
-        void SaveBoolAttr(const std::string& id, bool val);
-        void SaveIntAttr(const std::string& id, int val);
-        void SaveFloatAttr(const std::string& id, float val);
-        void SaveStrAttr(const std::string& id, const std::string& val);
-
-        void SaveBoolAttr(tinyxml2::XMLElement* element, const std::string& id, bool val);
-        void SaveIntAttr(tinyxml2::XMLElement* element, const std::string& id, int val);
-        void SaveFloatAttr(tinyxml2::XMLElement* element, const std::string& id, float val);
-        void SaveStrAttr(tinyxml2::XMLElement* element, const std::string& id, const std::string& val);
-
-        void SaveVec2(const std::string& id, const sf::Vector2f& val);
-        void SaveVec2Attr(const sf::Vector2f& val);
-        void SaveVec2Attr(tinyxml2::XMLElement* element, const sf::Vector2f& val);
-
-        void SaveFloatRect(const std::string& id, const sf::FloatRect& val);
-        void SaveFloatRectAttr(const sf::FloatRect& val);
-        void SaveFloatRectAttr(tinyxml2::XMLElement* element, const sf::FloatRect& val);
-
-        void SaveIntRect(const std::string& id, const sf::IntRect& val);
-        void SaveIntRectAttr(const sf::IntRect& val);
-        void SaveIntRectAttr(tinyxml2::XMLElement* element, const sf::IntRect& val);
-
-        void SaveColor(const std::string& id, const sf::Color& val);
-        void SaveColorAttr(const sf::Color& val);
-        void SaveColorAttr(tinyxml2::XMLElement* element, const sf::Color& val);
-
-        void SaveTexturePtr(const std::string& id, const std::string& texId);
-        void SaveVectorRect(const std::string& id, const std::vector<sf::IntRect>& vec);
-
-        void SaveVecStr(const std::string& id, const std::vector<std::string>& vec);
+        void SetBool(const std::string& id, bool val);
+        void SetInt(const std::string& id, int val);
+        void SetFloat(const std::string& id, float val);
+        void SetStr(const std::string& id, const std::string& val);
+        void SetVec2(const std::string& id, const sf::Vector2f& val);
+        void SetFloatRect(const std::string& id, const sf::FloatRect& val);
+        void SetIntRect(const std::string& id, const sf::IntRect& val);
+        void SetColor(const std::string& id, const sf::Color& val);
+        void SetTexturePtr(const std::string& id, const std::string& texId);
+        void SetVectorIntRect(const std::string& id, const std::vector<sf::IntRect>& vec);
+        void SetVecStr(const std::string& id, const std::vector<std::string>& vec);
 
     private:
-        SystemsManager* _systems;
+        void SetVec2Attr(tinyxml2::XMLElement* element, const sf::Vector2f& val);
+        void SetFloatRectAttr(tinyxml2::XMLElement* element, const sf::FloatRect& val);
+        void SetIntRectAttr(tinyxml2::XMLElement* element, const sf::IntRect& val);
+        void SetColorAttr(tinyxml2::XMLElement* element, const sf::Color& val);
+        
+    private:
+        SystemsManager* _systems = nullptr;
+        tinyxml2::XMLDocument _document;
         tinyxml2::XMLElement* _element = nullptr;
     };
 }

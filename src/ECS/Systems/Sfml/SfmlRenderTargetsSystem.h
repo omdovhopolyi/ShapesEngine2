@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/RenderSystem.h"
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <map>
 #include <vector>
 #include <memory>
-#include <SFML/Graphics/RenderTexture.hpp>
 
 namespace shen
 {

@@ -8,20 +8,21 @@ namespace shen
 {
     REGISTER_CLASS_LOADER(UITransformComponentLoader)
 
-    UIComponent* UITransformComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* UITransformComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
     {
         if (auto component = node->AddComponent<UITransformComponent>())
         {
-            if (const auto idAttr = element->FindAttribute("id"))
+            component->SetNode(node.get());
+
+            if (const auto id = element.GetStr("id"); !id.empty())
             {
-                const auto id = idAttr->Value();
                 component->SetId(id);
                 auto window = node->GetWindow();
                 window->MapComponent(id, component);
             }
 
-            auto transform = Serialization::LoadTransform(element);
-            component->SetTransform(transform);
+            component->SetTransform(element.GetTransform());
+
             return component.get();
         }
 

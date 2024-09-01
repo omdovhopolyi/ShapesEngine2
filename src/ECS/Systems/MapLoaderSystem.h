@@ -4,7 +4,6 @@
 #include "ECS/Entity.h"
 #include "ECS/SystemsManager.h"
 #include "Serialization/Serialization.h"
-#include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <map>
 #include <functional>
@@ -13,8 +12,8 @@ namespace shen
 {
     struct LoadSaveFuncs
     {
-        std::function<void(Entity, tinyxml2::XMLElement*)> loadFunc;
-        std::function<void(Entity, tinyxml2::XMLElement*)> saveFunc;
+        std::function<void(Entity, const Serialization&)> loadFunc;
+        std::function<void(Entity, Serialization&)> saveFunc;
     };
 
     class MapLoaderSystem
@@ -42,21 +41,19 @@ namespace shen
     {
         auto& functions = _functions[id];
 
-        functions.loadFunc = [&](Entity entity, tinyxml2::XMLElement* element)
+        functions.loadFunc = [&](Entity entity, const Serialization& element)
         {
             auto& world = _systems->GetWorld();
             auto comp = world.AddComponent<T>(entity);
-            Serialization serialization(_systems, element);
-            T::Load(*comp, serialization);
+            T::Load(*comp, element);
         };
 
-        functions.saveFunc = [&](Entity entity, tinyxml2::XMLElement* element)
+        functions.saveFunc = [&](Entity entity, Serialization& element)
         {
             auto& world = _systems->GetWorld();
             if (auto comp = world.GetComponent<T>(entity))
             {
-                Serialization serialization(_systems, element);
-                T::Save(*comp, serialization);
+                T::Save(*comp, element);
             }  
         };
     }

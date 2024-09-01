@@ -11,49 +11,31 @@ namespace shen
 {
     REGISTER_CLASS_LOADER(WindowTestComponentLoader)
 
-    UIComponent* WindowTestComponentLoader::Load(SystemsManager* systems, const std::shared_ptr<UINode>& node, tinyxml2::XMLElement* element)
+    UIComponent* WindowTestComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
     {
-        auto window = node->GetWindow();
-
         if (auto component = node->AddComponent<WindowTestComponent>())
         {
-            component->SetWindow(window);
+            component->SetNode(node.get());
+            component->ClearReferencesData();
 
-            if (const auto idAttr = element->FindAttribute("id"))
+            if (const auto id = element.GetStr("id"); !id.empty())
             {
-                const auto id = idAttr->Value();
                 component->SetId(id);
                 auto window = node->GetWindow();
                 window->MapComponent(id, component);
             }
 
-            component->ClearReferencesData();
-
-            auto refElem = element->FirstChildElement("ref");
-            while (refElem)
+            element.ForAllChildElements("refs", "ref", [&](const Serialization& refElement)
             {
-                const auto idAttr = refElem->FindAttribute("id");
-                const auto compIdAttr = refElem->FindAttribute("compId");
-
-                if (!idAttr || !compIdAttr)
-                {
-                    Assert(!idAttr, std::format("[WindowTestComponentLoader::Load] Incorrect ref for window {}", window->GetId()));
-                    continue;
-                }
-
-                const auto id = idAttr->Value();
-                const auto compId = compIdAttr->Value();
+                const auto id = refElement.GetStr("id");
+                const auto compId = refElement.GetStr("compId");
 
                 component->AddReferenceData(id, compId);
-
-                refElem = refElem->NextSiblingElement();
-            }
-
+            });
 
             return component.get();
         }
 
         return nullptr;
-
     }
 }

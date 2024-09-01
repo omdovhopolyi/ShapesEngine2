@@ -1,6 +1,6 @@
 #include "SfmlFontsCollection.h"
 #include "Utils/Assert.h"
-#include "tinyxml2/tinyxml2.h"
+#include "Serialization/Serialization.h"
 
 namespace shen
 {
@@ -77,42 +77,14 @@ namespace shen
 
     void SfmlFontsCollection::LoadFontsPaths(const std::string& fileName)
     {
-        tinyxml2::XMLDocument doc;
-
-        const auto error = doc.LoadFile(fileName.c_str());
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ _systems, fileName };
+        serialization.SetupElement("items");
+        serialization.ForAllChildElements("item", [&](const Serialization& element)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, "[SfmlFontsCollection::LoadFontsPaths] Can not read fonts path file");
-            return;
-        }
+            const auto id = element.GetStr("id");
+            const auto path = element.GetStr("path");
 
-        if (auto elements = doc.FirstChildElement("items"))
-        {
-            auto element = elements->FirstChildElement("item");
-            while (element)
-            {
-                const auto idAttr = element->FindAttribute("id");
-                const auto pathAttr = element->FindAttribute("path");
-
-                if (!idAttr)
-                {
-                    Assert(!idAttr, "[SfmlFontsCollection::LoadFontsPaths] No 'id' in paths list");
-                    continue;
-                }
-
-                if (!pathAttr)
-                {
-                    Assert(!pathAttr, "[SfmlFontsCollection::LoadFontsPaths] No 'path' in paths list");
-                    continue;
-                }
-
-                const auto id = idAttr->Value();
-                const auto path = pathAttr->Value();
-
-                _paths.insert({ id, path });
-
-                element = element->NextSiblingElement();
-            }
-        }
+            _paths.insert({ id, path });
+        });
     }
 }

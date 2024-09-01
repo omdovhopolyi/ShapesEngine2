@@ -1,9 +1,13 @@
 #pragma once
 
 #include "InputCommandLoader.h"
+#include "Serialization/Serialization.h"
 
 namespace shen
 {
-    InputCommandLoader::InputCommandLoader() = default;
-    InputCommandLoader::~InputCommandLoader() = default;
+    void InputCommandLoader::LoadTypeAndId(const Serialization& serialization, Command* command)
+    {
+        command->SetId(serialization.GetStr("id"));
+        command->SetType(serialization.GetStr("type"));
+    }
 }

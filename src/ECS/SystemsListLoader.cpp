@@ -1,4 +1,5 @@
 #include "SystemsListLoader.h"
+#include "Serialization/Serialization.h"
 #include "Utils/Assert.h"
 
 namespace shen
@@ -9,30 +10,13 @@ namespace shen
     {
         _systemsList.clear();
 
-        tinyxml2::XMLDocument doc;
-
-        const auto error = doc.LoadFile(FileName.c_str());
-        if (error != tinyxml2::XML_SUCCESS)
+        auto serialization = Serialization{ FileName };
+        serialization.SetupElement("systems");
+        serialization.ForAllChildElements("system", [&](const Serialization& element)
         {
-            Assert(error != tinyxml2::XML_SUCCESS, "[SystemsListLoader::Load] Can not read systems list file");
-            return false;
-        }
-
-        if (auto elements = doc.FirstChildElement("systems"))
-        {
-            auto element = elements->FirstChildElement("system");
-            while (element)
-            {
-                if (const auto typeAttr = element->FindAttribute("type"))
-                {
-                    const auto type = typeAttr->Value();
-
-                    _systemsList.push_back(type);
-                }
-
-                element = element->NextSiblingElement();
-            }
-        }
+            const auto systemType = element.GetStr("type");
+            _systemsList.push_back(systemType);
+        });
 
         return true;
     }

@@ -13,7 +13,7 @@ namespace shen
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;
 
         void SetText(const std::string& text);
-        const std::string& GetText() const;
+        std::string GetText() const;
 
         void SetFont(const sf::Font& font);
 

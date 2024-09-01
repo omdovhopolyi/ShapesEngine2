@@ -6,6 +6,7 @@
 #include <tinyxml2/tinyxml2.h>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <set>
 
 struct b2Body;
 
@@ -19,7 +20,7 @@ namespace shen
         sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
         float rotation = 0.f;
 
-        static void Load(Transform& component, Serialization& serialization);
+        static void Load(Transform& component, const Serialization& serialization);
         static void Save(Transform& component, Serialization& serialization);
     };
 
@@ -37,9 +38,9 @@ namespace shen
 
     struct PlayerInput
     {
-        std::vector<std::string> commandTypes;
+        std::set<std::string> commandTypes;
 
-        static void Load(PlayerInput& component, Serialization& serialization);
+        static void Load(PlayerInput& component, const Serialization& serialization);
         static void Save(PlayerInput& component, Serialization& serialization);
     };
 
@@ -50,7 +51,7 @@ namespace shen
         float scale = 1.f;
         bool needUpdate = true;
 
-        static void Load(Camera& component, Serialization& serialization);
+        static void Load(Camera& component, const Serialization& serialization);
         static void Save(Camera& component, Serialization& serialization);
     };
 

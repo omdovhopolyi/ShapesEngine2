@@ -6,5 +6,5 @@
     <item key="a" mouseBtn="None" inputEventType="Hold" command="MoveLeftCommand"/>
     <item mouseBtn="None" inputEventType="MouseMove" command="RotateCommand"/>
     <item mouseBtn="Left" inputEventType="MouseMove" command="CameraMouseMoveCommand"/>
-    <item inputEventType="Scroll" command="CameraZoomCommand"/>
+    <item mouseBtn="None" inputEventType="Scroll" command="CameraZoomCommand"/>
 </items>
