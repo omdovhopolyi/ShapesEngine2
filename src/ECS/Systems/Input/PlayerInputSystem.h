@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/UpdateSystem.h"
-#include "Messenger/Events/Common.h"
 #include "Messenger/SubscriptionsContainer.h"
 
 namespace shen

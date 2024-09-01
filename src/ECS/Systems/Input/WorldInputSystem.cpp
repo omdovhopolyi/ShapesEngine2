@@ -7,9 +7,6 @@
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Input/InputCommandsCollection.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
-#include "Commands/MoveCommands.h"
-#include "Commands/FireCommand.h"
-#include "Commands/RotateCommand.h"
 #include "Utils/Assert.h"
 #include "Serialization/Serialization.h"
 
@@ -71,7 +68,7 @@ namespace shen
             {
                 if (command)
                 {
-                    const bool canExecute = input->commandTypes.contains(command->GetId());
+                    const bool canExecute = input->commandTypes.contains(command->GetType());
                     if (canExecute)
                     {
                         context.entity = entity;

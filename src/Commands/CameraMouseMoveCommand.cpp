@@ -16,7 +16,7 @@ namespace shen
             auto& world = context.systems->GetWorld();
             world.Each<Camera>([&](const auto entity, Camera& camera)
             {
-                camera.view.move(sf::Vector2f(-screenDelta->x / 2.f, -screenDelta->y / 2.f) * camera.scale);
+                camera.view.move(sf::Vector2f(-screenDelta->x, -screenDelta->y) * camera.scale);
                 camera.needUpdate = true;
             });
         }
