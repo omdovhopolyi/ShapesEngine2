@@ -12,9 +12,9 @@
         std::string GetTypeName() override { return #Type; }
 
 #define REGISTER_SYSTEMS_FACTORY(Type) \
-    bool shen::Type::RegisterFactory() \
+    bool Type::RegisterFactory() \
     { \
         shen::SystemsFactory::Instance().RegisterSystemsFactory(#Type, [](){ return std::make_unique<Type>(); }); \
         return true; \
     } \
-    bool shen::Type::registered = shen::Type::RegisterFactory();
+    bool Type::registered = Type::RegisterFactory();
