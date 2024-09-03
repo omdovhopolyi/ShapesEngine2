@@ -21,5 +21,7 @@ namespace shen
 
     private:
         std::unique_ptr<sf::RenderWindow> _window;
+        sf::Vector2i _size;
+        std::string _name;
     };
 }

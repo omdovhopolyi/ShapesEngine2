@@ -34,6 +34,7 @@ namespace shen
         float GetFloat(const std::string& id, float defaultVal = 0.f) const;
         std::string GetStr(const std::string& id, const std::string& defaultVal = {}) const;
         sf::Vector2f GetVec2(const std::string& id, sf::Vector2f defaultVal = sf::Vector2f()) const;
+        sf::Vector2i GetIntVec2(const std::string& id, sf::Vector2i defaultVal = sf::Vector2i()) const;
         sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect def = {}) const;
         sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
         sf::IntRect GetIntRect(sf::IntRect def = {}) const;

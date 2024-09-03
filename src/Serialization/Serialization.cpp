@@ -24,7 +24,7 @@ namespace shen
 
     void Serialization::LoadDocument(const std::string& filename)
     {
-        const auto error = _document.LoadFile(filename.c_str());
+        _document.LoadFile(filename.c_str());
         if (_document.Error())
         {
             Assert(false, std::format("[Serialization::LoadDocument] Can not read file '{}'", filename));
@@ -102,6 +102,28 @@ namespace shen
             if (const auto yAttrib = child->FindAttribute("y"))
             {
                 result.y = yAttrib->FloatValue();
+            }
+
+            return result;
+        }
+
+        return defaultVal;
+    }
+
+    sf::Vector2i Serialization::GetIntVec2(const std::string& id, sf::Vector2i defaultVal) const
+    {
+        if (const auto child = _element->FirstChildElement(id.c_str()))
+        {
+            sf::Vector2i result;
+
+            if (const auto xAttrib = child->FindAttribute("x"))
+            {
+                result.x = xAttrib->IntValue();
+            }
+
+            if (const auto yAttrib = child->FindAttribute("y"))
+            {
+                result.y = yAttrib->IntValue();
             }
 
             return result;

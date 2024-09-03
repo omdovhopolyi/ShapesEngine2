@@ -1,4 +1,5 @@
 #include "SfmlWindowSystem.h"
+#include "Serialization/Serialization.h"
 
 namespace shen
 {
@@ -6,7 +7,12 @@ namespace shen
 
     void SfmlGameWindowSystem::Start()
     {
-        _window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 640), "Shapes engine");
+        auto serialization = Serialization{ "../assets/configs/window.xml" };
+        serialization.SetupElement("window");
+        _size = serialization.GetIntVec2("size", sf::Vector2i(800, 640));
+        _name = serialization.GetStr("name");
+
+        _window = std::make_unique<sf::RenderWindow>(sf::VideoMode(_size.x, _size.y), _name);
     }
 
     void SfmlGameWindowSystem::Stop()
