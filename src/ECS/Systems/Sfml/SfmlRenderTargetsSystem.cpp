@@ -32,7 +32,7 @@ namespace shen
     void SfmlRenderTargetsSystem::Draw()
     {
         auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>();
-        auto window = windowSystem->GetRenderWindow();
+        auto window = windowSystem->GetWindow();
 
         for (const auto& texData : _renderTextures)
         {

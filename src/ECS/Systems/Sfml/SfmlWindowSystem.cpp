@@ -21,12 +21,7 @@ namespace shen
         _window = nullptr;
     }
 
-    sf::Window* SfmlGameWindowSystem::GetWindow() const
-    {
-        return _window.get();
-    }
-
-    sf::RenderWindow* SfmlGameWindowSystem::GetRenderWindow() const
+    sf::RenderWindow* SfmlGameWindowSystem::GetWindow() const
     {
         return _window.get();
     }

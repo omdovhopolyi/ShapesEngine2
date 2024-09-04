@@ -10,7 +10,7 @@ namespace shen
     {
         if (auto window = _systems->GetSystem<SfmlGameWindowSystem>())
         {
-            if (auto sfmlWindow = window->GetRenderWindow())
+            if (auto sfmlWindow = window->GetWindow())
             {
                 sfmlWindow->clear(sf::Color::Black);
             }

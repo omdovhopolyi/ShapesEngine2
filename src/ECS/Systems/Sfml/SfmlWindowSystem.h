@@ -16,8 +16,7 @@ namespace shen
         void Start() override;
         void Stop() override;
 
-        sf::Window* GetWindow() const;
-        sf::RenderWindow* GetRenderWindow() const;
+        sf::RenderWindow* GetWindow() const;
 
     private:
         std::unique_ptr<sf::RenderWindow> _window;
