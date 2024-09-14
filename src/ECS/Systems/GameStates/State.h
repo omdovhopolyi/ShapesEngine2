@@ -10,6 +10,7 @@ namespace shen
     {
     public:
         State();
+        State(const std::string& id);
         ~State();
 
         virtual void Init(StateMachineSystem* stateMachineSystem);
@@ -17,7 +18,7 @@ namespace shen
         virtual void Update();
         virtual void OnExit(const std::string& toState);
 
-        void SetState(const std::string& stateId);
+        void SetId(const std::string& stateId);
         const std::string& GetId() const;
 
     private:

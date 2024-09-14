@@ -37,7 +37,7 @@ namespace shen
     template<class T>
     void StateMachineSystem::RegisterState(const std::string& stateId)
     {
-        const auto [it, isRegistered] = _states.insert({ stateId, std::make_unique<T>() });
+        const auto [it, isRegistered] = _states.insert({ stateId, std::make_unique<T>(stateId) });
         Assert(isRegistered, std::format("Can not register state {}", stateId));
     }
 }

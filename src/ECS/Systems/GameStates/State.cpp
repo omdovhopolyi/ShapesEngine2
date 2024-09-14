@@ -6,6 +6,10 @@ namespace shen
     State::State() = default;
     State::~State() = default;
 
+    State::State(const std::string& id)
+        : _id(id)
+    {}
+
     void State::Init(StateMachineSystem* stateMachineSystem)
     {
         _stateMachineSystem = stateMachineSystem;
@@ -26,7 +30,7 @@ namespace shen
         //
     }
 
-    void State::SetState(const std::string& stateId)
+    void State::SetId(const std::string& stateId)
     {
         _id = stateId;
     }
