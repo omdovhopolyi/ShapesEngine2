@@ -8,6 +8,7 @@
 namespace shen
 {
     class State;
+    class SystemsManager;
 
     class StateMachineSystem
         : public UpdateSystem
@@ -39,5 +40,9 @@ namespace shen
     {
         const auto [it, isRegistered] = _states.insert({ stateId, std::make_unique<T>(stateId) });
         Assert(isRegistered, std::format("Can not register state {}", stateId));
+        if (isRegistered)
+        {
+            it->second->SetOwner(this);
+        }
     }
 }

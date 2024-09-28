@@ -22,6 +22,8 @@ namespace shen
         virtual std::type_index GetTypeIndex() { return std::type_index(typeid(System)); }
         virtual std::string GetTypeName() { return {}; }
 
+        SystemsManager* GetSystems() const { return _systems; }
+
     protected:
         SystemsManager* _systems = nullptr;
     };

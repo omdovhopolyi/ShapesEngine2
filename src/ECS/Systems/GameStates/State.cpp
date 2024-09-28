@@ -4,6 +4,8 @@
 namespace shen
 {
     State::State() = default;
+    State::State(const State& state) = default;
+    State::State(State&& state) = default;
     State::~State() = default;
 
     State::State(const std::string& id)
@@ -38,5 +40,20 @@ namespace shen
     const std::string& State::GetId() const
     {
         return _id;
+    }
+
+    void State::SetOwner(StateMachineSystem* owner)
+    {
+        _stateMachineSystem = owner;
+    }
+
+    SystemsManager* State::GetSystemsManager() const
+    {
+        if (_stateMachineSystem)
+        {
+            return _stateMachineSystem->GetSystems();
+        }
+
+        return nullptr;
     }
 }

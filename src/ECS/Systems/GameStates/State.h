@@ -4,6 +4,7 @@
 
 namespace shen
 {
+    class SystemsManager;
     class StateMachineSystem;
 
     class State
@@ -11,7 +12,9 @@ namespace shen
     public:
         State();
         State(const std::string& id);
-        ~State();
+        State(const State& state);
+        State(State&& state);
+        virtual ~State();
 
         virtual void Init(StateMachineSystem* stateMachineSystem);
         virtual void OnEnter(const std::string& fromState);
@@ -21,7 +24,10 @@ namespace shen
         void SetId(const std::string& stateId);
         const std::string& GetId() const;
 
-    private:
+        void SetOwner(StateMachineSystem* owner);
+        SystemsManager* GetSystemsManager() const;
+
+    protected:
         StateMachineSystem* _stateMachineSystem = nullptr;
         std::string _id;
     };
