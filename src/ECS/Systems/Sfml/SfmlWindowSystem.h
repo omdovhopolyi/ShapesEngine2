@@ -17,10 +17,20 @@ namespace shen
         void Stop() override;
 
         sf::RenderWindow* GetWindow() const;
+        unsigned int GetWindowFlags() const;
+
+    private:
+        void Load();
+        void CreateSFMLWindow(unsigned int flags);
 
     private:
         std::unique_ptr<sf::RenderWindow> _window;
         sf::Vector2i _size;
         std::string _name;
+
+        bool _titlebar = true;
+        bool _resize = true;
+        bool _close = true;
+        bool _fullscreen = false;
     };
 }
