@@ -130,10 +130,15 @@ namespace shen
     bool UIButtonComponent::HandleCursorPress(const InputType& inputType, const CommandContext& context)
     {
         const bool isOverButton = IsCursorOverButton(inputType, context);
-        const auto& spriteToSet = isOverButton ? _pressed : _hovered;
+        const auto& spriteToSet = isOverButton ? _pressed : _idle;
         SetCurrentSprite(spriteToSet);
         _isPressed = isOverButton;
-        _signal.OnEvent(ButtonSignalType::Down);
+
+        if (_isPressed)
+        {
+            _signal.OnEvent(ButtonSignalType::Down);
+        }
+        
         return isOverButton;
     }
 
@@ -142,8 +147,14 @@ namespace shen
         const bool isOverButton = IsCursorOverButton(inputType, context);
         const auto& spriteToSet = isOverButton ? _hovered : _idle;
         SetCurrentSprite(spriteToSet);
+
+        if (_isPressed)
+        {
+            _signal.OnEvent(ButtonSignalType::Up);
+        }
+
         _isPressed = false;
-        _signal.OnEvent(ButtonSignalType::Up);
+
         return isOverButton;
     }
 

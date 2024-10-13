@@ -143,7 +143,11 @@ namespace shen
     {
         for (const auto& component : _inputComponents)
         {
-            return component->ProcessInput(inputType, context);
+            const bool processed = component->ProcessInput(inputType, context);
+            if (processed)
+            {
+                return true;
+            }
         }
 
         return false;
