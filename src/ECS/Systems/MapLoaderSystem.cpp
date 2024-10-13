@@ -18,11 +18,6 @@ namespace shen
         // TODO subscriptions
     }
 
-    void MapLoaderSystem::Start()
-    {
-        LoadMap("map_test");
-    }
-
     void MapLoaderSystem::RegisterLoaders()
     {
         RegisterLoader<Sprite>("sprite");

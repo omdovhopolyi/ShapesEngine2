@@ -23,14 +23,14 @@ namespace shen
 
     public:
         void Init(SystemsManager* systems) override;
-        void Start() override;
+
+        void LoadMap(const std::string& mapId);
 
         template<class T>
         void RegisterLoader(const std::string& id);
 
     private:
         void RegisterLoaders();
-        void LoadMap(const std::string& mapId);
 
     private:
         std::map<std::string, LoadSaveFuncs> _functions;
