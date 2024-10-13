@@ -18,12 +18,17 @@ namespace shen
 		void Run();
 		void Destroy();
 
+		bool IsRunning() const;
+
 	private:
 		void InitSubscriptions();
-		bool LoadSystems();
-		void Load();
-		void Setup();
+		bool CreateSystems();
+		void LoadSystems();
+		void InitSystems();
+		void SetupSystems();
 		void Update();
+
+		void SetRunning(bool running);
 
 	private:
 		int _lastUpdateTime = 0;

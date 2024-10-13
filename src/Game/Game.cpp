@@ -12,15 +12,19 @@ namespace shen
 	void Game::Initialize()
 	{
 		InitSubscriptions();
-		const bool loaded = LoadSystems();
-		_isRunning = loaded;
+		const bool loaded = CreateSystems();
+		SetRunning(loaded);
+
+		if (IsRunning())
+		{
+			LoadSystems();
+			InitSystems();
+			SetupSystems();
+		}
 	}
 
 	void Game::Run()
 	{
-		Load();
-		Setup();
-
 		while (_isRunning)
 		{
 			Update();
@@ -32,54 +36,58 @@ namespace shen
 		_systems->Clear();
 	}
 
+	bool Game::IsRunning() const
+	{
+		return _isRunning;
+	}
+
 	void Game::InitSubscriptions()
 	{
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
-			_isRunning = false;
+			SetRunning(false);
 		});
 	}
 
-	bool Game::LoadSystems()
+	bool Game::CreateSystems()
 	{
 		const bool loaded = _systemsLoader.Load();
 		if (loaded)
 		{
 			_systems = std::make_unique<SystemsManager>();
-			_systems->Init(this);
 
 			for (const auto& systemType : _systemsLoader.GetSystemsList())
 			{
 				_systems->AddSystem(SystemsFactory::Instance().Get(systemType));
 			}
-
-			return true;
 		}
 
-		return false;
+		return loaded;
 	}
 
-	void Game::Load()
+	void Game::LoadSystems()
 	{
-		if (_isRunning)
-		{
-			_systems->Load();
-		}
+		_systems->Load();
 	}
 
-	void Game::Setup()
+	void Game::InitSystems()
 	{
-		if (_isRunning)
-		{
-			_systems->Start();
-		}
+		_systems->Init(this);
+	}
 
-		
+	void Game::SetupSystems()
+	{
+		_systems->Start();
 	}
 
 	void Game::Update()
 	{
 		_systems->Update();
 		_systems->Draw();
+	}
+
+	void Game::SetRunning(bool running)
+	{
+		_isRunning = running;
 	}
 }
