@@ -9,8 +9,6 @@ namespace shen
     class WindowTestComponent
         : public UIWindowComponent
     {
-        friend class WindowTextComponentLoader;
-
     public:
         void Init() override;
         void RegisterReferences() override;
