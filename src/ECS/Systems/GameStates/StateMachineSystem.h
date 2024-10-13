@@ -18,10 +18,15 @@ namespace shen
     public:
         void Start() override;
         void Update() override;
-        void ScheduleState(const std::string& stateId);
+        
         State* GetActiveState() const;
         const std::string& GetActiveStateId() const;
         State* GetState(const std::string& stateId) const;
+
+        bool ScheduleState(const std::string& stateId);
+        const std::string& GetScheduledState() const;
+        bool IsAnyStateScheduled() const;
+        bool IsStateScheduled(const std::string& stateId) const;
 
         template<class T>
         void RegisterState(const std::string& stateId);
@@ -30,7 +35,7 @@ namespace shen
         void CheckAndChangeState();
 
     private:
-        State* _activeState;
+        State* _activeState = nullptr;
         std::string _scheduledStateId;
         std::map<std::string, std::unique_ptr<State>> _states;
     };

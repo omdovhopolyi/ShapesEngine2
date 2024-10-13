@@ -15,15 +15,12 @@ namespace shen
 
     void StateMachineSystem::Update()
     {
+        CheckAndChangeState();
+
         if (_activeState)
         {
             _activeState->Update();
         }
-    }
-
-    void StateMachineSystem::ScheduleState(const std::string& stateId)
-    {
-        _scheduledStateId = stateId;
     }
 
     State* StateMachineSystem::GetActiveState() const
@@ -51,6 +48,28 @@ namespace shen
         return nullptr;
     }
 
+    bool StateMachineSystem::ScheduleState(const std::string& stateId)
+    {
+        const bool isNewState = (_scheduledStateId != stateId);
+        _scheduledStateId = stateId;
+        return isNewState;
+    }
+
+    const std::string& StateMachineSystem::GetScheduledState() const
+    {
+        return _scheduledStateId;
+    }
+
+    bool StateMachineSystem::IsAnyStateScheduled() const
+    {
+        return !_scheduledStateId.empty();
+    }
+
+    bool StateMachineSystem::IsStateScheduled(const std::string& stateId) const
+    {
+        return _scheduledStateId == stateId;
+    }
+
     void StateMachineSystem::CheckAndChangeState()
     {
         if (!_scheduledStateId.empty())
@@ -68,6 +87,8 @@ namespace shen
                 nextState->OnEnter(fromStateId);
                 _activeState = std::move(nextState);
             }
+
+            _scheduledStateId.clear();
         }
     }
 }

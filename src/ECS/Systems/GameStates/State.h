@@ -24,6 +24,8 @@ namespace shen
         void SetId(const std::string& stateId);
         const std::string& GetId() const;
 
+        bool ScheduleState(const std::string& stateId);
+
         void SetOwner(StateMachineSystem* owner);
         SystemsManager* GetSystemsManager() const;
 

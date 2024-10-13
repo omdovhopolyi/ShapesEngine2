@@ -42,6 +42,16 @@ namespace shen
         return _id;
     }
 
+    bool State::ScheduleState(const std::string& stateId)
+    {
+        if (_stateMachineSystem)
+        {
+            return _stateMachineSystem->ScheduleState(stateId);
+        }
+
+        return false;
+    }
+
     void State::SetOwner(StateMachineSystem* owner)
     {
         _stateMachineSystem = owner;
