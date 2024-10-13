@@ -8,7 +8,6 @@ namespace shen
 
     void SfmlGameWindowSystem::Start()
     {
-        Load();
         auto flags = GetWindowFlags();
         CreateSFMLWindow(flags);
     }
@@ -33,6 +32,16 @@ namespace shen
         flags |= static_cast<unsigned int>(_fullscreen ? sf::Style::Fullscreen : sf::Style::None);
         
         return flags;
+    }
+
+    sf::Vector2i SfmlGameWindowSystem::GetSize()
+    {
+        if (_window)
+        {
+            return static_cast<sf::Vector2i>(_window->getSize());
+        }
+
+        return {};
     }
 
     void SfmlGameWindowSystem::Load()

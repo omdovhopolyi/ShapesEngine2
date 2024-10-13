@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS/Systems/BaseSystems/System.h"
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <memory>
 
@@ -19,8 +18,11 @@ namespace shen
         sf::RenderWindow* GetWindow() const;
         unsigned int GetWindowFlags() const;
 
+        sf::Vector2i GetSize();
+
     private:
-        void Load();
+        void Load() override;
+
         void CreateSFMLWindow(unsigned int flags);
 
     private:

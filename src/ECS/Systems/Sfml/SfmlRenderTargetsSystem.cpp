@@ -14,18 +14,12 @@ namespace shen
 
     void SfmlRenderTargetsSystem::Start()
     {
-        std::optional<sf::Vector2f> viewSize;
-
-        auto& world = _systems->GetWorld();
-        world.Each<Camera>([&](const auto entity, const Camera& camera)
+        if (const auto windowSystem = _systems->GetSystem<SfmlGameWindowSystem>())
         {
-            viewSize = camera.view.getSize();
-        });
+            const auto windowSize = static_cast<sf::Vector2f>(windowSystem->GetSize());
 
-        if (viewSize)
-        {
-            CreateTexture(WorldTargetId, *viewSize);
-            CreateTexture(UITargetId, *viewSize);
+            CreateTexture(WorldTargetId, windowSize);
+            CreateTexture(UITargetId, windowSize);
         }
     }
 
