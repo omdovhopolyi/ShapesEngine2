@@ -6,6 +6,7 @@
 #include "ECS/Components/Render.h"
 #include "ECS/World.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 
 namespace shen
 {
@@ -33,7 +34,7 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
 
-        auto serialization = Serialization{ _systems, "../assets/configs/maps/" + mapId + ".xml" };
+        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/maps/") + mapId + ".xml" };
         serialization.SetupElement("items");
         serialization.ForAllChildElements("entity", [&](const Serialization& element)
         {

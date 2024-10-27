@@ -8,6 +8,7 @@
 #include "ECS/Systems/Input/InputCommandsCollection.h"
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 #include "Serialization/Serialization.h"
 
 namespace shen
@@ -166,7 +167,7 @@ namespace shen
         auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
         auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
 
-        auto serialization = Serialization{ _systems, "../assets/configs/input.xml" };
+        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/input.xml") };
         serialization.SetupElement("items");
         serialization.ForAllChildElements("item", [&](const Serialization& element)
         {

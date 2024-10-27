@@ -1,5 +1,6 @@
 #include "SfmlWindowSystem.h"
 #include "Serialization/Serialization.h"
+#include "Utils/FilePath.h"
 #include <SFML/Window/WindowStyle.hpp>
 
 namespace shen
@@ -46,7 +47,7 @@ namespace shen
 
     void SfmlGameWindowSystem::Load()
     {
-        auto serialization = Serialization{ "../assets/configs/window.xml" };
+        auto serialization = Serialization{ FilePath::Path("assets/configs/window.xml") };
         serialization.SetupElement("window");
         _size = serialization.GetIntVec2("size", sf::Vector2i(800, 640));
         _name = serialization.GetStr("name");

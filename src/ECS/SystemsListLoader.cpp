@@ -1,16 +1,15 @@
 #include "SystemsListLoader.h"
 #include "Serialization/Serialization.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 
 namespace shen
 {
-    static std::string FileName = "../assets/configs/systems.xml";
-
     bool SystemsListLoader::Load()
     {
         _systemsList.clear();
 
-        auto serialization = Serialization{ FileName };
+        auto serialization = Serialization{ FilePath::Path("assets/configs/systems.xml") };
         serialization.SetupElement("systems");
         serialization.ForAllChildElements("system", [&](const Serialization& element)
         {

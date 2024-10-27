@@ -1,5 +1,6 @@
 #include "SfmlFontsCollection.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 #include "Serialization/Serialization.h"
 
 namespace shen
@@ -8,7 +9,7 @@ namespace shen
 
     void SfmlFontsCollection::Start()
     {
-        LoadFontsPaths("../assets/configs/fonts.xml");
+        LoadFontsPaths(FilePath::Path("assets/configs/fonts.xml"));
     }
 
     void SfmlFontsCollection::Stop()

@@ -1,5 +1,6 @@
 #include "SfmlSpritesCollection.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 #include "Serialization/Serialization.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
@@ -10,7 +11,7 @@ namespace shen
 
     void SfmlSpritesCollection::Start()
     {
-        LoadSprites("../assets/configs/sprites.xml");
+        LoadSprites(FilePath::Path("assets/configs/sprites.xml"));
     }
 
     void SfmlSpritesCollection::Stop()

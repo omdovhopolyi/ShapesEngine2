@@ -1,5 +1,6 @@
 #include "SfmlTexturesCollection.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 #include "Serialization/Serialization.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/../extlibs/headers/stb_image/stb_image.h>
@@ -11,7 +12,7 @@ namespace shen
     void SfmlTexturesCollection::Start()
     {
         stbi_set_flip_vertically_on_load(_flipTexOnLoad);
-        LoadTexturesPaths("../assets/configs/textures.xml");
+        LoadTexturesPaths(FilePath::Path("assets/configs/textures.xml"));
     }
 
     void SfmlTexturesCollection::Stop()

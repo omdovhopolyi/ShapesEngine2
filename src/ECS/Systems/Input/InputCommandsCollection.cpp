@@ -3,6 +3,7 @@
 #include "Commands/Loaders/InputCommandLoader.h"
 #include "Serialization/Serialization.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 
 namespace shen
 {
@@ -30,7 +31,7 @@ namespace shen
 
     void InputCommandsCollection::LoadFromXml()
     {
-        auto serialization = Serialization{ _systems, "../assets/configs/commands.xml" };
+        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/commands.xml").c_str()};
         serialization.SetupElement("items");
         serialization.ForAllChildElements("item", [&](const Serialization& element)
         {

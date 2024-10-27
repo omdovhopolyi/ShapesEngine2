@@ -3,6 +3,7 @@
 #include "UI/UIWindow.h"
 #include "UINode.h"
 #include "Utils/Assert.h"
+#include "Utils/FilePath.h"
 #include "Serialization/Serialization.h"
 #include <format>
 
@@ -14,7 +15,7 @@ namespace shen
 
     void UIWindowLoader::LoadWindow(SystemsManager* systems, UIWindow* window, const std::string& windowId)
     {
-        std::string path = "../assets/ui/" + windowId + ".xml";
+        std::string path = FilePath::Path("assets/ui/") + windowId + ".xml";
 
         auto serialization = Serialization{ systems, path };
         if (serialization.IsValid())
