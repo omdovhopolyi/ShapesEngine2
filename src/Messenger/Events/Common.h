@@ -65,8 +65,17 @@ namespace shen
     {
     };
 
-    struct WindowOpen : Event
+    struct WindowOpenEvent : Event
     {
         std::string windowId;
+
+        WindowOpenEvent(const std::string& id);
+    };
+
+    struct MapLoadedEvent : Event
+    {
+        std::string mapId;
+
+        MapLoadedEvent(const std::string& id);
     };
 }

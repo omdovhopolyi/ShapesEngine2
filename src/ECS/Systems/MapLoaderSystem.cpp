@@ -7,6 +7,8 @@
 #include "ECS/World.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
+#include "Messenger/Messenger.h"
+#include "Messenger/Events/Common.h"
 
 namespace shen
 {
@@ -51,5 +53,7 @@ namespace shen
                 }
             });
         });
+
+        shen::Messenger::Instance().Broadcast<MapLoadedEvent>(mapId);
     }
 }
