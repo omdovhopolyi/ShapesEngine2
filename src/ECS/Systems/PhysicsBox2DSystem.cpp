@@ -6,7 +6,8 @@
 #include "ECS/Components/Physics.h"
 #include "Utils/Math.h"
 #include "Utils/Assert.h"
-#include <SFML/System/Vector2.hpp>
+#include "Messenger/Messenger.h"
+#include "Messenger/Events/Common.h"
 
 namespace shen
 {
@@ -16,6 +17,7 @@ namespace shen
 
     void PhysicsBox2DSystem::Start()
     {
+        InitSubscriptions();
         InitWorld();
         SetupDefaultCollisionListener();
         InitRigidBodies();
@@ -88,6 +90,108 @@ namespace shen
         });
     }
 
+    void PhysicsBox2DSystem::SetupRigidBody(Entity entity)
+    {
+        auto& world = _systems->GetWorld();
+        auto rb = world.GetComponent<RigidBody>(entity);
+        auto transform = world.GetComponent<Transform>(entity);
+
+        if (rb && transform)
+        {
+            b2BodyDef bodyDef;
+            bodyDef.type = static_cast<b2BodyType>(rb->type);
+            bodyDef.position.Set(transform->position.x / PxlPerMeter, transform->position.y / PxlPerMeter);
+            bodyDef.angle = Radians(transform->rotation);
+
+            auto dynamicBody = _world->CreateBody(&bodyDef);
+            dynamicBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(&entity);
+
+            rb->body = dynamicBody;
+
+            b2PolygonShape dynamicBox;
+            dynamicBox.SetAsBox(rb->size.x / 2.f, rb->size.y / 2.f);
+
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &dynamicBox;
+            fixtureDef.density = 1.f;
+            fixtureDef.isSensor = rb->sensor;
+
+            dynamicBody->CreateFixture(&fixtureDef);
+        }
+    }
+
+    void PhysicsBox2DSystem::SetLinearVelocity(Entity entity, const sf::Vector2f& velocity)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->SetLinearVelocity({ velocity.x, velocity.y });
+        }
+    }
+
+    void PhysicsBox2DSystem::SetAngularVelocity(Entity entity, float omega)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->SetAngularVelocity(omega);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyForce(Entity entity, const sf::Vector2f& force, const sf::Vector2f& point, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyForce({ force.x, force.y }, { point.x, point.y }, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyForceToCenter(Entity entity, const sf::Vector2f& force, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyForceToCenter({ force.x, force.y }, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyTorque(Entity entity, float torque, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyTorque(torque, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyLinearImpulse(Entity entity, const sf::Vector2f& impulse, const sf::Vector2f& point, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyLinearImpulse({ impulse.x, impulse.y }, { point.x, point.y }, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyLinearImpulseToCenter(Entity entity, const sf::Vector2f& impulse, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyLinearImpulseToCenter({ impulse.x, impulse.y }, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::ApplyAngularImpulse(Entity entity, float impulse, bool wake)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            body->ApplyAngularImpulse(impulse, wake);
+        }
+    }
+
+    void PhysicsBox2DSystem::InitSubscriptions()
+    {
+        _subscriptions.Subscribe<MapLoadedEvent>([&](const MapLoadedEvent& event)
+        {
+            OnMapLoaded(event.mapId);
+        });
+    }
+
     void PhysicsBox2DSystem::UpdatePhysics()
     {
         auto& gameWorld = _systems->GetWorld();
@@ -104,5 +208,21 @@ namespace shen
             transform.position = sf::Vector2f(position.x * PxlPerMeter, position.y * PxlPerMeter);
             transform.rotation = Degrees(angle);
         });
+    }
+
+    void PhysicsBox2DSystem::OnMapLoaded(const std::string& mapId)
+    {
+        InitRigidBodies();
+    }
+
+    b2Body* PhysicsBox2DSystem::GetB2Body(Entity entity)
+    {
+        auto& world = _systems->GetWorld();
+        if (auto rb = world.GetComponent<RigidBody>(entity))
+        {
+            return rb->body;
+        }
+
+        return nullptr;
     }
 }
