@@ -30,21 +30,38 @@ namespace shen
             const auto id = element.GetStr("id");
             const auto textureId = element.GetStr("tex");
             const auto rect = element.GetIntRect("rect");
+            const auto anchor = element.GetVec2("anchor");
             
             if (const auto texture = textures->GetTexture(textureId))
             {
-                _sprites[id] = sf::Sprite{ *texture, rect };
+                auto sprite = sf::Sprite{ *texture, rect };
+                sprite.setOrigin(anchor);
+                _sprites[id] = { sprite, textureId };
             }
         });
     }
 
-    sf::Sprite SfmlSpritesCollection::GetSprite(const std::string& id)
+    sf::Sprite SfmlSpritesCollection::GetSprite(const std::string& id) const
+    {
+        const auto& spriteData = GetSpriteData(id);
+        return spriteData.sprite;
+    }
+
+    const SfmlSpriteData& SfmlSpritesCollection::GetSpriteData(const std::string& id) const
     {
         if (auto it = _sprites.find(id); it != _sprites.end())
         {
             return it->second;
         }
-        return {};
+
+        static SfmlSpriteData empty;
+        return empty;
+    }
+
+    const std::string SfmlSpritesCollection::GetSpritesTexId(const std::string& id) const
+    {
+        const auto& spriteData = GetSpriteData(id);
+        return spriteData.textureId;
     }
 
     void SfmlSpritesCollection::RemoveSprite(const std::string& id)
