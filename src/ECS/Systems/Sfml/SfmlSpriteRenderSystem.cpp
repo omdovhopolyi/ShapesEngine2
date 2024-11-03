@@ -43,6 +43,12 @@ namespace shen
         
         world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
         {
+            // TODO maybe move away from update
+            if (auto color = world.GetComponent<Color>(entity))
+            {
+                sprite.sprite.setColor(color->color);
+            }
+
             sprite.sprite.setPosition(transform.position);
             sprite.sprite.setRotation(transform.rotation);
             sprite.sprite.setScale(transform.scale);
