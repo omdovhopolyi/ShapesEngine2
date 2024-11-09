@@ -63,7 +63,7 @@ namespace shen
         auto& gameWorld = _systems->GetWorld();
 
         gameWorld.Each<RigidBody, Transform>(
-            [&](const auto& entity, RigidBody& rb, Transform& transform)
+            [&](const Entity& entity, RigidBody& rb, Transform& transform)
         {
             if (!rb.body)
             {
@@ -73,7 +73,7 @@ namespace shen
                 bodyDef.angle = Radians(transform.rotation);
 
                 auto dynamicBody = _world->CreateBody(&bodyDef);
-                dynamicBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(&entity);
+                dynamicBody->GetUserData().pointer = static_cast<uintptr_t>(entity.GetId());
 
                 rb.body = dynamicBody;
 
@@ -104,7 +104,7 @@ namespace shen
             bodyDef.angle = Radians(transform->rotation);
 
             auto dynamicBody = _world->CreateBody(&bodyDef);
-            dynamicBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(&entity);
+            dynamicBody->GetUserData().pointer = static_cast<uintptr_t>(entity.GetId());
 
             rb->body = dynamicBody;
 

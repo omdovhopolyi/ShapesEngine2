@@ -31,6 +31,9 @@ namespace shen
         void RemoveComponent(Entity entity);
 
         template<class Comp>
+        void RemoveAllComponents();
+
+        template<class Comp>
         bool HasComponent(Entity entity);
 
         template<class Comp, class Pred>
@@ -107,6 +110,12 @@ namespace shen
     {
         Logger::Log(std::format("Removing {} compoenent to entity {}", typeid(Comp).name(), entity.GetId()));
         _registry.remove<Comp>(entity._entity);
+    }
+
+    template<class Comp>
+    void World::RemoveAllComponents()
+    {
+        _registry.clear<Comp>();
     }
 
     template<class Comp>
