@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Command.h"
-//#include <glm/glm.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace shen

@@ -171,12 +171,12 @@ namespace shen
         serialization.SetupElement("items");
         serialization.ForAllChildElements("item", [&](const Serialization& element)
         {
-            InputType inputType;
             const bool silent = true;
 
+            InputType inputType;
             inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(element.GetStr("key"), silent));
-            inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn"));
-            inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType"));
+            inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn", MouseButtonEnum.ToString(MouseButton::None)));
+            inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType", InputEventTypeEnum.ToString(InputEventType::Undefined)));
             inputType.alt = element.GetBool("alt");
             inputType.shift = element.GetBool("shift");
             inputType.ctrl = element.GetBool("ctrl");

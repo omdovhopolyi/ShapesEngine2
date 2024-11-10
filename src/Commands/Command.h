@@ -4,8 +4,6 @@
 
 namespace shen
 {
-    class Entity;
-
     class Command
     {
     public:
