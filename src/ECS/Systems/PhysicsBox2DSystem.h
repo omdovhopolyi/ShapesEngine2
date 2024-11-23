@@ -37,6 +37,8 @@ namespace shen
 		void ApplyLinearImpulseToCenter(Entity entity, const sf::Vector2f& impulse, bool wake = true);
 		void ApplyAngularImpulse(Entity entity, float impulse, bool wake = true);
 
+        void DestroyBody(Entity entity);
+
     private:
         void InitSubscriptions();
         void UpdatePhysics();

@@ -184,6 +184,14 @@ namespace shen
         }
     }
 
+    void PhysicsBox2DSystem::DestroyBody(Entity entity)
+    {
+        if (auto body = GetB2Body(entity))
+        {
+            _world->DestroyBody(body);
+        }
+    }
+
     void PhysicsBox2DSystem::InitSubscriptions()
     {
         _subscriptions.Subscribe<MapLoadedEvent>([&](const MapLoadedEvent& event)
