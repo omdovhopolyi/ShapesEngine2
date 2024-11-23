@@ -19,6 +19,12 @@ namespace shen
         template<class Comp, class... Args>
         Comp* AddComponent(Entity entity, Args... args);
 
+        template<class Comp, class... Args>
+        Comp* AddOrSkipComponent(Entity entity, Args... args);
+
+        template<class Comp, class... Args>
+        Comp* AddOrReplaceComponent(Entity entity, Args... args);
+
         template<class Comp>
         Comp* GetComponent(Entity entity);
 
@@ -80,6 +86,28 @@ namespace shen
         {
             return &_registry.emplace<Comp>(entity._entity, std::forward<Args>(args)...);
         }
+    }
+
+    template<class Comp, class... Args>
+    Comp* World::AddOrSkipComponent(Entity entity, Args... args)
+    {
+        if (!HasComponent<Comp>(entity))
+        {
+            return AddComponent<Comp>(entity, std::forward<Args>(args)...);
+        }
+
+        return GetComponent<Comp>(entity);
+    }
+
+    template<class Comp, class... Args>
+    Comp* World::AddOrReplaceComponent(Entity entity, Args... args)
+    {
+        if (HasComponent<Comp>(entity))
+        {
+            RemoveComponent<Comp>(entity);
+        }
+
+        return AddComponent<Comp>(entity, std::forward<Args>(args)...);
     }
 
     template<class Comp>

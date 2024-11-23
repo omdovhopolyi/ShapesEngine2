@@ -21,10 +21,10 @@ namespace shen
         auto bodyB = fixtureB->GetBody();
         auto entityB = Entity{ static_cast<std::uint32_t>(bodyB->GetUserData().pointer) };
 
-        auto collisionA = _world->AddComponent<Collision>(entityA);
+        auto collisionA = _world->AddOrSkipComponent<Collision>(entityA);
         collisionA->other = entityB;
 
-        auto collisionB = _world->AddComponent<Collision>(entityB);
+        auto collisionB = _world->AddOrSkipComponent<Collision>(entityB);
         collisionB->other = entityA;
     }
 
