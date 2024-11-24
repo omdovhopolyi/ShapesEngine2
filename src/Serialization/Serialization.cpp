@@ -24,8 +24,10 @@ namespace shen
 
     void Serialization::LoadDocument(const std::string& filename)
     {
-        _document.LoadFile(filename.c_str());
-        if (_document.Error())
+        _document = std::make_shared<tinyxml2::XMLDocument>();
+
+        _document->LoadFile(filename.c_str());
+        if (_document->Error())
         {
             Assert(false, std::format("[Serialization::LoadDocument] Can not read file '{}'", filename));
         }
@@ -33,13 +35,21 @@ namespace shen
 
     void Serialization::SetupElement(const std::string& id)
     {
-        _element = _document.FirstChildElement(id.c_str());
-        Assert(_element, std::format("[Serialization::SetupElement] Can not find element '{}'", id));
+        if (_document)
+        {
+            _element = _document->FirstChildElement(id.c_str());
+            Assert(_element, std::format("[Serialization::SetupElement] Can not find element '{}'", id));
+        }
     }
 
     bool Serialization::IsValid() const
     {
-        return !_document.Error();
+        if (_document)
+        {
+            return !_document->Error();
+        }
+        
+        return false;
     }
 
     Serialization Serialization::GetElement(const std::string& id) const

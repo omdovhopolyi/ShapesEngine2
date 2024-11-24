@@ -24,7 +24,10 @@ namespace shen
     public:
         void Init(SystemsManager* systems) override;
 
-        void LoadMap(const std::string& mapId);
+        void LoadMap(const std::string& mapId) const;
+        void LoadComponents(Entity entity, const Serialization& serialization) const;
+        Entity CreateEntityAndLoadComponents(const Serialization& serialization) const;
+        Entity InstantiateAsset(const std::string& assetId) const;
 
         template<class T>
         void RegisterLoader(const std::string& id);

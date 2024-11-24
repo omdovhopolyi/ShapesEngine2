@@ -16,6 +16,7 @@ namespace shen
     class Serialization
     {
     public:
+        Serialization() = default;
         Serialization(const std::string& filename);
         Serialization(SystemsManager* systems, const std::string& filename);
         Serialization(SystemsManager* systems, tinyxml2::XMLElement* element);
@@ -66,7 +67,7 @@ namespace shen
         
     private:
         SystemsManager* _systems = nullptr;
-        tinyxml2::XMLDocument _document;
+        std::shared_ptr<tinyxml2::XMLDocument> _document;
         tinyxml2::XMLElement* _element = nullptr;
     };
 }

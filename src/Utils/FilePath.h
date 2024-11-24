@@ -8,5 +8,6 @@ namespace shen
     {
     public:
         static std::string Path(const char* path);
+        static std::string Path(const std::string& path);
     };
 }
