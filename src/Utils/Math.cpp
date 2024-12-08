@@ -1,5 +1,6 @@
 #include "Math.h"
 #include <cmath>
+#include <random>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -71,5 +72,23 @@ namespace shen
         const auto atanVec1 = OrientedAngle(vec1);
         const auto atanVec2 = OrientedAngle(vec2);
         return atanVec1 - atanVec2;
+    }
+
+    int RandomInt(int min, int max)
+    {
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+
+        std::uniform_int_distribution<> dis(min, max);
+        return dis(gen);
+    }
+
+    float RandomFloat(float min, float max)
+    {
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+
+        std::uniform_real_distribution<> dis(min, max);
+        return dis(gen);
     }
 }
