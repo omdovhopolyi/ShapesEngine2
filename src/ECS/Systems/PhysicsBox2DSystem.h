@@ -39,6 +39,9 @@ namespace shen
 
         void DestroyBody(Entity entity);
 
+        static sf::Vector2f Box2dPosToWorld(const b2Vec2& box2dPos);
+        static b2Vec2 WorldToBox2dPos(const sf::Vector2f& worldPos);
+
     private:
         void InitSubscriptions();
         void UpdatePhysics();

@@ -192,6 +192,16 @@ namespace shen
         }
     }
 
+    sf::Vector2f PhysicsBox2DSystem::Box2dPosToWorld(const b2Vec2& box2dPos)
+    {
+        return sf::Vector2f{ box2dPos.x * PxlPerMeter, box2dPos.y * PxlPerMeter };
+    }
+
+    b2Vec2 PhysicsBox2DSystem::WorldToBox2dPos(const sf::Vector2f& worldPos)
+    {
+        return b2Vec2{ worldPos.x / PxlPerMeter, worldPos.y / PxlPerMeter };
+    }
+
     void PhysicsBox2DSystem::InitSubscriptions()
     {
         _subscriptions.Subscribe<MapLoadedEvent>([&](const MapLoadedEvent& event)
