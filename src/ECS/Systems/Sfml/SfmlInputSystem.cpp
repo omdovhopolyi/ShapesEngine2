@@ -142,6 +142,16 @@ namespace shen
 
 				break;
 			}
+			case sf::Event::LostFocus:
+			{
+				Messenger::Instance().Broadcast<LostFocus>();
+				break;
+			}
+			case sf::Event::GainedFocus:
+			{
+				Messenger::Instance().Broadcast<GainedFocus>();
+				break;
+			}
 			default:
 				break;
 			}

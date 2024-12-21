@@ -78,4 +78,8 @@ namespace shen
 
         MapLoadedEvent(const std::string& id);
     };
+
+    struct LostFocus : Event {};
+
+    struct GainedFocus : Event {};
 }
