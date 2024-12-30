@@ -27,9 +27,11 @@ namespace shen
 
     sf::Font* SfmlFontsCollection::LoadFont(const std::string& id, const std::string& fileName)
     {
+        auto path = FilePath::Path(fileName);
+
         auto font = std::make_unique<sf::Font>();
 
-        if (font->loadFromFile(fileName))
+        if (font->loadFromFile(path))
         {
             auto fontPtr = font.get();
 

@@ -30,9 +30,11 @@ namespace shen
 
     sf::Texture* SfmlTexturesCollection::LoadTexture(const std::string& id, const std::string& fileName)
     {
+        auto path = FilePath::Path(fileName);
+
         auto texture = std::make_unique<sf::Texture>();
 
-        if (texture->loadFromFile(fileName))
+        if (texture->loadFromFile(path))
         {
             auto texturePtr = texture.get();
 
