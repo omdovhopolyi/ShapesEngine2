@@ -35,6 +35,7 @@ namespace shen
 
     private:
         void RegisterLoaders();
+        void InstantiateAsset(Entity entity, const Serialization& serialization) const;
 
     private:
         std::map<std::string, LoadSaveFuncs> _functions;
@@ -48,14 +49,16 @@ namespace shen
         functions.loadFunc = [&](Entity entity, const Serialization& element)
         {
             auto& world = _systems->GetWorld();
-            auto comp = world.AddComponent<T>(entity);
-            T::Load(*comp, element);
+            if (auto comp = world.AddComponent<T>(entity))
+            {
+                T::Load(*comp, element);
+            }
         };
 
         functions.saveFunc = [&](Entity entity, Serialization& element)
         {
             auto& world = _systems->GetWorld();
-            if (auto comp = world.GetComponent<T>(entity))
+            if (auto comp = world.GetOrCreateComponent<T>(entity))
             {
                 T::Save(*comp, element);
             }  

@@ -68,6 +68,7 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
         auto entity = world.CreateEntity();
+        InstantiateAsset(entity, serialization);
         LoadComponents(entity, serialization);
         return entity;
     }
@@ -81,5 +82,16 @@ namespace shen
         }
 
         return {};
+    }
+
+    void MapLoaderSystem::InstantiateAsset(Entity entity, const Serialization& serialization) const
+    {
+        serialization.ForAllChildElements("asset", [&](const Serialization& assetElement)
+        {
+            if (const auto id = assetElement.GetStr("id"); !id.empty())
+            {
+                InstantiateAsset(id);
+            }
+        });
     }
 }
