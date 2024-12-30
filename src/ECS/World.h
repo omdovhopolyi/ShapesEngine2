@@ -53,6 +53,8 @@ namespace shen
         void DestroyEntity(Entity entity);
         void Clear();
 
+        void ForAllEntities(const std::function<void(Entity entity)>& func);
+
     private:
         entt::registry _registry;
     };
