@@ -35,9 +35,12 @@ namespace shen
 
     void MapLoaderSystem::LoadMap(const std::string& mapId) const
     {
-        auto& world = _systems->GetWorld();
-
         auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/maps/") + mapId + ".xml" };
+        LoadMap(serialization, mapId);
+    }
+
+    void MapLoaderSystem::LoadMap(Serialization& serialization, const std::string& mapId) const
+    {
         serialization.SetupElement("items");
         serialization.ForAllChildElements("entity", [&](const Serialization& element)
         {

@@ -27,7 +27,11 @@ namespace shen
         _document = std::make_shared<tinyxml2::XMLDocument>();
 
         _document->LoadFile(filename.c_str());
-        if (_document->Error())
+        if (!_document->Error())
+        {
+            _element = _document->RootElement();
+        }
+        else
         {
             Assert(false, std::format("[Serialization::LoadDocument] Can not read file '{}'", filename));
         }
@@ -50,6 +54,11 @@ namespace shen
         }
         
         return false;
+    }
+
+    bool Serialization::IsElementValid() const
+    {
+        return _element != nullptr;
     }
 
     Serialization Serialization::GetElement(const std::string& id) const
@@ -380,26 +389,32 @@ namespace shen
 
     void Serialization::ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const
     {
-        if (const auto child = _element->FirstChildElement(id.c_str()))
+        if (_element)
         {
-            auto element = child->FirstChildElement(elementId.c_str());
-            while (element)
+            if (const auto child = _element->FirstChildElement(id.c_str()))
             {
-                func(Serialization(_systems, element));
+                auto element = child->FirstChildElement(elementId.c_str());
+                while (element)
+                {
+                    func(Serialization(_systems, element));
 
-                element = element->NextSiblingElement();
+                    element = element->NextSiblingElement();
+                }
             }
         }
     }
 
     void Serialization::ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const
     {
-        auto element = _element->FirstChildElement(elementId.c_str());
-        while (element)
+        if (_element)
         {
-            func(Serialization(_systems, element));
+            auto element = _element->FirstChildElement(elementId.c_str());
+            while (element)
+            {
+                func(Serialization(_systems, element));
 
-            element = element->NextSiblingElement();
+                element = element->NextSiblingElement();
+            }
         }
     }
 
