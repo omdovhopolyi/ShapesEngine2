@@ -53,6 +53,8 @@ namespace shen
         void Open();
         void Close();
 
+        void OnOpen();
+
         void SetState(UIWindowState state) { _state = state; }
         UIWindowState GetState() const { return _state; }
 
@@ -61,6 +63,7 @@ namespace shen
         void RemoveExpiredComponents();
         void SetupInputComponentsArray();
 
+        static void OnOpen(UINode* node);
         static void InitComponentsForNode(UINode* node);
 
     protected:

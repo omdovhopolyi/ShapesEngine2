@@ -163,6 +163,11 @@ namespace shen
         SetState(UIWindowState::Closed);
     }
 
+    void UIWindow::OnOpen()
+    {
+        OnOpen(_root.get());
+    }
+
     void UIWindow::InitSubscriptions()
     {
         _subscriptions.Subscribe<InputComponentsDirty>([&](const InputComponentsDirty& event)
@@ -212,6 +217,19 @@ namespace shen
         {
             return left->GetInputPriority() < right->GetInputPriority();
         });
+    }
+
+    void UIWindow::OnOpen(UINode* node)
+    {
+        for (auto& [typeId, component] : node->GetComponents())
+        {
+            component->OnWindowOpen();
+        }
+
+        for (auto& child : node->GetChildren())
+        {
+            OnOpen(child.get());
+        }
     }
 
     void UIWindow::InitComponentsForNode(UINode* node)

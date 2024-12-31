@@ -29,7 +29,8 @@ namespace shen
         UIWindowLoader::Instance().LoadWindow(_systems, window.get(), context.windowId);
         window->Init(context);
         window->Open();
-        _windows.push_back(std::move(window));        
+        window->OnOpen();
+        _windows.push_back(std::move(window));
     }
 
     void WindowsManager::CloseTopWindow()

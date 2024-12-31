@@ -14,11 +14,58 @@ namespace shen
 {
     class UINode;
     class UIWindow;
+    class UIComponent;
+
+    class IUIComponentWrapper
+    {
+    public:
+        std::weak_ptr<UIComponent> GetComponentPtr()
+        {
+            return _reference;
+        }
+
+        void SetComponent(std::weak_ptr<UIComponent> component)
+        {
+            _reference = component;
+        }
+
+    protected:
+        std::weak_ptr<UIComponent> _reference;
+    };
+
+    template<class T>
+    class UIComponentWrapper : public IUIComponentWrapper
+    {
+    public:
+        std::weak_ptr<T> GetWeak()
+        {
+            return std::static_pointer_cast<T>(_reference);
+        }
+
+        std::shared_ptr<T> GetShared()
+        {
+            return std::static_pointer_cast<T>(_reference.lock());
+        }
+
+        T* Get()
+        {
+            if (auto ref = _reference.lock())
+            {
+                return static_cast<T*>(ref.get());
+            }
+
+            return nullptr;
+        }
+
+    /*private:
+        std::weak_ptr<T> _reference;*/
+    };
 
     class UIComponent
     {
     public:
         virtual void Init() {};
+        virtual void OnWindowOpen() {};
         virtual void RegisterReferences() {};
         virtual void Update(float dt) {};
         virtual void Draw(sf::RenderTarget& target, const sf::Transform& transform) const {};
@@ -29,10 +76,9 @@ namespace shen
         void SetNode(UINode* node) { _node = node; }
         UINode* GetNode() const { return _node; }
 
-        //void SetWindow(UIWindow* window) { _window = window; }
         UIWindow* GetWindow() const;
 
-        void RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component);
+        void RegisterReference(const std::string& id, IUIComponentWrapper& component);
         
         template<class Comp>
         const std::weak_ptr<Comp>& GetReference(const std::string& id) const
@@ -59,6 +105,6 @@ namespace shen
         std::string _id;
         bool _dirty = true;
         std::map<std::string, std::string> _refsMap;
-        std::map<std::string, std::weak_ptr<UIComponent>*> _references;
+        std::map<std::string, IUIComponentWrapper*> _references;
     };
 }
