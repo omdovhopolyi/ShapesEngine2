@@ -3,6 +3,7 @@
 #include <random>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <SFML/Graphics/Transform.hpp>
 
 namespace shen
 {
@@ -90,5 +91,19 @@ namespace shen
 
         std::uniform_real_distribution<> dis(min, max);
         return dis(gen);
+    }
+
+    sf::Vector2f Rotate(const sf::Vector2f& vec, float angle)
+    {
+        sf::Transform transform;
+        transform.rotate(angle);
+        return transform * vec;
+    }
+
+    void RotateThis(sf::Vector2f& vec, float angle)
+    {
+        sf::Transform transform;
+        transform.rotate(angle);
+        vec = transform * vec;
     }
 }

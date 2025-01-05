@@ -44,7 +44,7 @@ namespace shen
         _renderTextures.push_back(std::move(renderTextureData));
     }
 
-    sf::RenderTexture* SfmlRenderTargetsSystem::GetRenderTexture(const std::string& id)
+    sf::RenderTexture* SfmlRenderTargetsSystem::GetRenderTexture(const std::string& id) const
     {
         if (auto it = _mappedTextures.find(id); it != _mappedTextures.end())
         {
@@ -52,5 +52,24 @@ namespace shen
         }
 
         return nullptr;
+    }
+
+    sf::FloatRect SfmlRenderTargetsSystem::GetTargetWorldRect(const std::string& id) const
+    {
+        sf::FloatRect rect;
+
+        if (auto target = GetRenderTexture(id))
+        {
+            const auto& view = target->getView();
+            const auto center = view.getCenter();
+            const auto size = view.getSize();
+            
+            rect.width = size.x;
+            rect.height = size.y;
+            rect.left = center.x - size.x / 2.f;
+            rect.top = center.y - size.y / 2.f;
+        }
+
+        return rect;
     }
 }

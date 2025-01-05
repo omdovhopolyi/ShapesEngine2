@@ -17,5 +17,7 @@ namespace shen
     float OrientedAngle(const sf::Vector2f& vec1, const sf::Vector2f& vec2);
     int RandomInt(int min, int max);
     float RandomFloat(float min, float max);
+    sf::Vector2f Rotate(const sf::Vector2f& vec, float angle);
+    void RotateThis(sf::Vector2f& vec, float angle);
     //glm::vec3 PlaneVectorIntersect(const glm::vec3& planePoint, const glm::vec3& planeNorm, const glm::vec3& rayOrigin, const glm::vec3& rayDirection);
 }
