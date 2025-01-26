@@ -14,6 +14,7 @@ namespace shen
     {
         sf::Sprite sprite;
         std::string textureId;
+        int sorting = 0;
 
         static void Load(Sprite& component, const Serialization& serialization);
         static void Save(Sprite& component, Serialization& serialization);
@@ -37,4 +38,12 @@ namespace shen
         static void Load(SpriteFrameAnimation& component, const Serialization& serialization);
         static void Save(SpriteFrameAnimation& component, Serialization& serialization);
     };
+
+    /*struct Sorting
+    {
+        int value = 0;
+
+        static void Load(Sorting& component, const Serialization& serialization);
+        static void Save(Sorting& component, Serialization& serialization);
+    };*/
 }
