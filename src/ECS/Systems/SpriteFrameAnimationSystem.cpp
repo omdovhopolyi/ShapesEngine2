@@ -2,9 +2,12 @@
 #include "ECS/World.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/TimeSystem.h"
+#include "ECS/Components/Common.h"
 #include "ECS/Components/Render.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"
+#include "Enums/AnimationTypeEnum.h"
+#include "Logger/Logger.h"
 
 namespace shen
 {
@@ -18,6 +21,11 @@ namespace shen
 		world.Each<SpriteFrameAnimation, Sprite>(
 			[&](const auto entity, SpriteFrameAnimation& animation, Sprite& sprite)
 		{
+			if (animation.done)
+			{
+				return;
+			}
+
 			animation.dt += time->Dt();
 			const int framesForward = static_cast<int>(animation.dt / animation.frameTime);
 			if (framesForward > 0)
@@ -33,6 +41,17 @@ namespace shen
 			if (animation.curFrame != prevFrame)
 			{
 				sprite.sprite.setTextureRect(animation.frames[animation.curFrame]);
+			}
+
+			Logger::Log(std::format("frame {}", animation.curFrame));
+
+			animation.totalPlayedFrames += framesForward;
+
+			animation.done = (animation.animType == AnimationType::OneShow && animation.totalPlayedFrames >= static_cast<int>(animation.frames.size()));
+
+			if (animation.deleteOnDone && animation.done)
+			{
+				world.AddOrReplaceComponent<Destroy>(entity);
 			}
 		});
     }

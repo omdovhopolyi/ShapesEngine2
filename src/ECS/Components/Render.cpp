@@ -56,12 +56,16 @@ namespace shen
     {
         component.frameTime = serialization.GetFloat("frameTime", component.frameTime);
         component.frames = serialization.GetVectorIntRect("frames");
+        component.animType = AnimationTypeEnum.FromString(serialization.GetStr("animType"));
+        component.deleteOnDone = serialization.GetBool("deleteOnDone");
     }
 
     void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, Serialization& serialization)
     {
         serialization.SetFloat("frameTime", component.frameTime);
         serialization.SetVectorIntRect("frames", component.frames);
+        serialization.SetStr("type", AnimationTypeEnum.ToString(component.animType));
+        serialization.SetBool("deleteOnDone", component.deleteOnDone);
     }
 
     /*void Sorting::Load(Sorting& component, const Serialization& serialization)
