@@ -40,7 +40,7 @@ namespace shen
         sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect def = {}) const;
         sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
         sf::IntRect GetIntRect(sf::IntRect def = {}) const;
-        sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Red) const;
+        sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const;
         sf::Texture* GetTexturePtr(const std::string& id = "texture") const;
         std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
         std::vector<std::string> GetVecStr(const std::string& id) const;

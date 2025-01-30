@@ -19,6 +19,9 @@ namespace shen
         void SetFillScreen(bool fill);
         bool IsFillScreen() const;
 
+        void SetColor(const sf::Color& color);
+        sf::Color GetColor() const;
+
     private:
         sf::Sprite _sprite;
         bool _fillScreen = false;

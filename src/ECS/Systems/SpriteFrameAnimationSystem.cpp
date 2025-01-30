@@ -7,7 +7,6 @@
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"
 #include "Enums/AnimationTypeEnum.h"
-#include "Logger/Logger.h"
 
 namespace shen
 {
@@ -42,8 +41,6 @@ namespace shen
 			{
 				sprite.sprite.setTextureRect(animation.frames[animation.curFrame]);
 			}
-
-			Logger::Log(std::format("frame {}", animation.curFrame));
 
 			animation.totalPlayedFrames += framesForward;
 

@@ -59,4 +59,14 @@ namespace shen
     {
         return _fillScreen;
     }
+
+    void UISpriteComponent::SetColor(const sf::Color& color)
+    {
+        _sprite.setColor(color);
+    }
+
+    sf::Color UISpriteComponent::GetColor() const
+    {
+        return _sprite.getColor();
+    }
 }

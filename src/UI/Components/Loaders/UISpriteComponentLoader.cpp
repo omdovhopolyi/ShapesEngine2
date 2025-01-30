@@ -33,6 +33,12 @@ namespace shen
             
             component->SetFillScreen(element.GetBool("fill"));
 
+            auto color = element.GetColor("color");
+            if (color != sf::Color::Transparent)
+            {
+                component->SetColor(color);
+            }
+
             return component.get();
         }
 
