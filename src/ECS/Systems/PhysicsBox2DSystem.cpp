@@ -13,7 +13,9 @@ namespace shen
 {
     REGISTER_SYSTEMS_FACTORY(PhysicsBox2DSystem)
 
+    // TODO config
     static float PxlPerMeter = 32.f;
+    static float TimeStep = 1.f / 90.f;
 
     void PhysicsBox2DSystem::Start()
     {
@@ -192,6 +194,21 @@ namespace shen
         }
     }
 
+    void PhysicsBox2DSystem::Pause(bool pause)
+    {
+        _pause = pause;
+    }
+
+    bool PhysicsBox2DSystem::IsPaused() const
+    {
+        return _pause;
+    }
+
+    void PhysicsBox2DSystem::ResetAccumulatedTime()
+    {
+        _accumulatedDt = 0.f;
+    }
+
     sf::Vector2f PhysicsBox2DSystem::Box2dPosToWorld(const b2Vec2& box2dPos)
     {
         return sf::Vector2f{ box2dPos.x * PxlPerMeter, box2dPos.y * PxlPerMeter };
@@ -212,10 +229,20 @@ namespace shen
 
     void PhysicsBox2DSystem::UpdatePhysics()
     {
-        auto& gameWorld = _systems->GetWorld();
-        auto time = _systems->GetSystem<TimeSystem>();
+        if (IsPaused())
+        {
+            return;
+        }
 
-        _world->Step(time->Dt(), _velocityIterations, _positionIterations);
+        auto& gameWorld = _systems->GetWorld();
+        auto dt = _systems->GetSystem<TimeSystem>()->Dt();
+        _accumulatedDt += dt;
+
+        while (_accumulatedDt >= TimeStep)
+        {
+            _world->Step(TimeStep, _velocityIterations, _positionIterations);
+            _accumulatedDt -= TimeStep;
+        }
 
         gameWorld.Each<RigidBody, Transform>(
             [&](const auto entity, RigidBody& rb, Transform& transform)

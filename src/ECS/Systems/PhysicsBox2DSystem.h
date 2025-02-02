@@ -39,6 +39,11 @@ namespace shen
 
         void DestroyBody(Entity entity);
 
+        void Pause(bool pause);
+        bool IsPaused() const;
+
+        void ResetAccumulatedTime();
+
         static sf::Vector2f Box2dPosToWorld(const b2Vec2& box2dPos);
         static b2Vec2 WorldToBox2dPos(const sf::Vector2f& worldPos);
 
@@ -56,6 +61,9 @@ namespace shen
 
         int32 _velocityIterations = 6;
         int32 _positionIterations = 2;
+
+        float _accumulatedDt = 0.f;
+        bool _pause = true;
 
         SubcriptionsContainer _subscriptions;
     };
