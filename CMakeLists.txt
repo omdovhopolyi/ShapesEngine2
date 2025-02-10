@@ -48,7 +48,7 @@ set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
 set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(submodules/SFML)
-target_link_libraries(${TARGET_NAME} sfml-graphics)
+target_link_libraries(${TARGET_NAME} sfml-graphics sfml-audio)
 
 add_subdirectory(cmake/lua)
 target_link_libraries(${TARGET_NAME} lua)
