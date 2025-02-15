@@ -27,8 +27,8 @@ namespace shen
         void LoadTexturesPaths(const std::string& fileName);
 
     private:
-        std::map<std::string, std::unique_ptr<sf::Texture>> _textures;
-        std::map<std::string, std::string> _paths;
+        std::unordered_map<std::string, std::unique_ptr<sf::Texture>> _textures;
+        std::unordered_map<std::string, std::string> _paths;
 
         bool _flipTexOnLoad = false;
     };

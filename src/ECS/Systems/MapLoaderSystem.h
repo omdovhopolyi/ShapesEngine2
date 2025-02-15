@@ -38,7 +38,7 @@ namespace shen
         void InstantiateAsset(Entity entity, const Serialization& serialization) const;
 
     private:
-        std::map<std::string, LoadSaveFuncs> _functions;
+        std::unordered_map<std::string, LoadSaveFuncs> _functions;
     };
 
     template<class T>

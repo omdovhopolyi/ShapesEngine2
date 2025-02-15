@@ -91,8 +91,13 @@ namespace shen
         {
             const auto id = element.GetStr("id");
             const auto path = element.GetStr("path");
+            const auto needPreload = element.GetBool("preload");
 
             _paths.insert({ id, path });
+            
+            if (needPreload) {
+                [[maybe_unused]] const auto texture = GetTexture(id);
+            }
         });
     }
 }
