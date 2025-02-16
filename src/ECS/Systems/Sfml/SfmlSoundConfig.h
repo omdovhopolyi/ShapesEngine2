@@ -11,14 +11,21 @@ namespace shen
     class SfmlSoundConfig
         : public System
     {
+        SYSTEMS_FACTORY(SfmlSoundConfig)
+
     public:
         void Load() override;
+        void Stop() override;
 
-        sf::Sound GetSound(const std::string& id) const;
+        sf::Sound& GetSound(const std::string& id);
         sf::Music* GetMusic(const std::string& id);
 
     private:
-        std::map<std::string, sf::SoundBuffer> _sounds;
-        std::map<std::string, sf::Music> _music;
+        sf::SoundBuffer* GetResource(const std::string& id);
+
+    private:
+        std::unordered_map<std::string, sf::SoundBuffer> _soundBuffers;
+        std::unordered_map<std::string, sf::Sound> _sounds;
+        std::unordered_map<std::string, sf::Music> _music;
     };
 }

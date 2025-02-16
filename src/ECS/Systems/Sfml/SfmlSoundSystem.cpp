@@ -10,18 +10,30 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlSoundSystem)
+
     void SfmlSoundSystem::Load()
     {
         // should be from save
-        _soundVolume = 100.f;
-        _musicVolume = 100.f;
+        _soundVolume = 70.f;
+        _musicVolume = 60.f;
+    }
+
+    void SfmlSoundSystem::Start()
+    {
+        InitSubscriptions();
+    }
+
+    void SfmlSoundSystem::Stop()
+    {
+        ResetSubscriptions();
     }
 
     void SfmlSoundSystem::PlaySound(const std::string& id) const
     {
         if (auto config = GetSystem<SfmlSoundConfig>())
         {
-            auto sound = config->GetSound(id);
+            auto& sound = config->GetSound(id);
             sound.setVolume(_soundVolume);
             sound.play();
         }
@@ -31,9 +43,11 @@ namespace shen
     {
         if (auto config = GetSystem<SfmlSoundConfig>())
         {
-            auto track = config->GetMusic(id);
-            track->setVolume(_soundVolume);
-            track->play();
+            if (auto track = config->GetMusic(id))
+            {
+                track->setVolume(_soundVolume);
+                track->play();
+            }
         }
     }
 
@@ -41,8 +55,10 @@ namespace shen
     {
         if (auto config = GetSystem<SfmlSoundConfig>())
         {
-            auto track = config->GetMusic(id);
-            track->stop();
+            if (auto track = config->GetMusic(id))
+            {
+                track->stop();
+            }
         }
     }
 
@@ -72,5 +88,10 @@ namespace shen
         {
             StopMusic(event.id);
         });
+    }
+
+    void SfmlSoundSystem::ResetSubscriptions()
+    {
+        _subscriptions.Reset();
     }
 }

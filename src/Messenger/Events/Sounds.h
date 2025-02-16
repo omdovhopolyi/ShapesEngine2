@@ -19,7 +19,7 @@ namespace shen
         std::string id;
 
         PlayMusicEvent(const std::string& trackId)
-            : id()
+            : id(trackId)
         {}
     };
 

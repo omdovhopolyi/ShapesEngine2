@@ -8,8 +8,12 @@ namespace shen
     class SfmlSoundSystem
         : public System
     {
+        SYSTEMS_FACTORY(SfmlSoundSystem)
+
     public:
         void Load() override;
+        void Start() override;
+        void Stop() override;
 
         void PlaySound(const std::string& id) const;
         void PlayMusic(const std::string& id) const;
@@ -21,6 +25,7 @@ namespace shen
 
     private:
         void InitSubscriptions();
+        void ResetSubscriptions();
 
     private:
         float _soundVolume = 100.f;

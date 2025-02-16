@@ -5,28 +5,35 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(SfmlSoundConfig)
+
     void SfmlSoundConfig::Load()
     {
         const auto path = FilePath::Path("assets/configs/sounds.xml");
         auto serialization = Serialization{ _systems, path };
+
         serialization.SetupElement("sounds");
         serialization.ForAllChildElements("sound", [&](const Serialization& element)
         {
             const auto id = element.GetStr("id");
-            const auto soundPath = element.GetStr("path");
+            const auto resourcePath = FilePath::Path(element.GetStr("path"));
 
-            sf::SoundBuffer buffer;
-            if (buffer.loadFromFile(soundPath))
+            auto buffer = GetResource(resourcePath);
+            if (!buffer)
             {
-                _sounds[id] = std::move(buffer);
+                buffer = &(_soundBuffers[resourcePath]);
+                const bool loaded = buffer->loadFromFile(resourcePath);
+                Assert(loaded, std::format("[SfmlSoundConfig::Load] Cannot load sound resource {}", resourcePath));
             }
+
+            _sounds[id] = sf::Sound{ *buffer };
         });
 
         serialization.SetupElement("music");
         serialization.ForAllChildElements("track", [&](const Serialization& element)
         {
             const auto id = element.GetStr("id");
-            const auto trackPath = element.GetStr("path");
+            const auto trackPath = FilePath::Path(element.GetStr("path"));
 
             auto& music = _music[id];
             const bool opened = music.openFromFile(trackPath);
@@ -34,19 +41,36 @@ namespace shen
         });
     }
 
-    sf::Sound SfmlSoundConfig::GetSound(const std::string& id) const
+    void SfmlSoundConfig::Stop()
+    {
+        _sounds.clear();
+        _music.clear();
+    }
+
+    sf::Sound& SfmlSoundConfig::GetSound(const std::string& id)
     {
         if (auto it = _sounds.find(id); it != _sounds.end())
         {
-            return sf::Sound{ it->second };
+            return it->second;
         }
 
-        return {};
+        static sf::Sound empty;
+        return empty;
     }
 
     sf::Music* SfmlSoundConfig::GetMusic(const std::string& id)
     {
         if (auto it = _music.find(id); it != _music.end())
+        {
+            return &it->second;
+        }
+
+        return nullptr;
+    }
+
+    sf::SoundBuffer* SfmlSoundConfig::GetResource(const std::string& id)
+    {
+        if (auto it = _soundBuffers.find(id); it != _soundBuffers.end())
         {
             return &it->second;
         }

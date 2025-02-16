@@ -23,6 +23,7 @@ namespace shen
 
         template<class TEvent>
         void Subscribe(const std::function<void(const TEvent&)>& callback);
+        void Reset();
 
     private:
         std::vector<SubscriptionData> _subscriptions;
