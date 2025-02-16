@@ -41,6 +41,15 @@ namespace shen
         }
     }
 
+    void WindowsManager::CloseWindow(const std::string& id)
+    {
+        _windows.erase(std::remove_if(_windows.begin(), _windows.end(), [id](const auto& window)
+        {
+            return window->GetId() == id;
+
+        }), _windows.end());
+    }
+
     bool WindowsManager::ProcessInput(const InputType& inputType, const CommandContext& context)
     {
         for (auto& window : _windows)
