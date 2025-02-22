@@ -23,6 +23,22 @@ namespace shen
         }
     }
 
+    void StateMachineSystem::AppActivated()
+    {
+        if (_activeState)
+        {
+            _activeState->AppActivated();
+        }
+    }
+
+    void StateMachineSystem::AppDeactivated()
+    {
+        if (_activeState)
+        {
+            _activeState->AppDeactivated();
+        }
+    }
+
     State* StateMachineSystem::GetActiveState() const
     {
         return _activeState;

@@ -2,12 +2,14 @@
 #include "Systems/Basesystems/RenderSystem.h"
 #include "Systems/BaseSystems/UpdateSystem.h"
 #include "Systems/TimeSystem.h"
+#include "Messenger/Events/Common.h"
 
 namespace shen
 {
     void SystemsManager::Init(Game* game)
     {
         _game = game;
+        InitSubscriptions();
     }
 
     void SystemsManager::AddSystem(std::unique_ptr<System>&& system)
@@ -97,5 +99,36 @@ namespace shen
         _mappedSystems.clear();
         _registrationOrderedSystems.clear();
         _world.Clear();
+    }
+
+    void SystemsManager::InitSubscriptions()
+    {
+        _subscriptions.Reset();
+
+        _subscriptions.Subscribe<LostFocus>([this](const auto&)
+        {
+            OnLostFocus();
+        });
+
+        _subscriptions.Subscribe<GainedFocus>([this](const auto&)
+        {
+            OnGainedFocus();
+        });
+    }
+
+    void SystemsManager::OnLostFocus()
+    {
+        for (auto system : _registrationOrderedSystems)
+        {
+            system->AppDeactivated();
+        }
+    }
+
+    void SystemsManager::OnGainedFocus()
+    {
+        for (auto system : _registrationOrderedSystems)
+        {
+            system->AppActivated();
+        }
     }
 }

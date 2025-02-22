@@ -4,6 +4,7 @@
 #include "Systems/BaseSystems/System.h"
 #include "Systems/Basesystems/RenderSystem.h"
 #include "Systems/BaseSystems/UpdateSystem.h"
+#include "Messenger/SubscriptionsContainer.h"
 #include "Logger/Logger.h"
 
 #include <memory>
@@ -43,6 +44,11 @@ namespace shen
         TimeSystem& GetTime() { return *_timeSystem; }
 
     private:
+        void InitSubscriptions();
+        void OnLostFocus();
+        void OnGainedFocus();
+
+    private:
         std::vector<std::unique_ptr<System>> _simpleSystems;
         std::vector<std::unique_ptr<UpdateSystem>> _updateSystems;
         std::vector<std::unique_ptr<RenderSystem>> _renderSystems;
@@ -51,6 +57,8 @@ namespace shen
         TimeSystem* _timeSystem = nullptr;
         World _world;
         Game* _game = nullptr;
+
+        SubcriptionsContainer _subscriptions;
     };
 
     template <class T, class... Args>

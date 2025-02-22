@@ -235,7 +235,7 @@ namespace shen
         }
 
         auto& gameWorld = _systems->GetWorld();
-        auto dt = _systems->GetSystem<TimeSystem>()->Dt();
+        auto dt = _systems->GetSystem<TimeSystem>()->GameDt();
         _accumulatedDt += dt;
 
         while (_accumulatedDt >= TimeStep)

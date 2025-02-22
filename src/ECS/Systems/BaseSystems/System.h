@@ -19,6 +19,9 @@ namespace shen
         virtual void Save() {}
         virtual void Stop() {}
 
+        virtual void AppActivated() {};
+        virtual void AppDeactivated() {};
+
         virtual std::type_index GetTypeIndex() { return std::type_index(typeid(System)); }
         virtual std::string GetTypeName() { return {}; }
 

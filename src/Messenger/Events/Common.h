@@ -82,4 +82,6 @@ namespace shen
     struct LostFocus : Event {};
 
     struct GainedFocus : Event {};
+
+    struct PauseGameEvent : Event {};
 }

@@ -9,5 +9,6 @@ namespace shen
     {
         command->SetId(serialization.GetStr("id"));
         command->SetType(serialization.GetStr("type"));
+        command->SetGlobal(serialization.GetBool("global"));
     }
 }

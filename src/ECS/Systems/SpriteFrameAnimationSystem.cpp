@@ -25,7 +25,7 @@ namespace shen
 				return;
 			}
 
-			animation.dt += time->Dt();
+			animation.dt += time->GameDt();
 			const int framesForward = static_cast<int>(animation.dt / animation.frameTime);
 			if (framesForward > 0)
 			{

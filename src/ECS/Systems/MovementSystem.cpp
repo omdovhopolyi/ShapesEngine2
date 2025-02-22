@@ -21,7 +21,7 @@ namespace shen
             if (rb.body)
             {
                 auto force = b2Vec2(mover.velocity.x, mover.velocity.y);
-                force *= time->Dt();
+                force *= time->GameDt();
                 rb.body->ApplyForceToCenter(force, true);
                 mover.velocity = {};
             }   
