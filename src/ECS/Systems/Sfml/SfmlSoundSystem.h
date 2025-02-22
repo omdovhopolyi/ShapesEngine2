@@ -11,7 +11,6 @@ namespace shen
         SYSTEMS_FACTORY(SfmlSoundSystem)
 
     public:
-        void Load() override;
         void Start() override;
         void Stop() override;
 

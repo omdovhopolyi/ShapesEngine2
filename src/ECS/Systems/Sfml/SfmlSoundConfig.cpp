@@ -34,9 +34,11 @@ namespace shen
         {
             const auto id = element.GetStr("id");
             const auto trackPath = FilePath::Path(element.GetStr("path"));
+            const bool isLoop = element.GetBool("loop");
 
             auto& music = _music[id];
             const bool opened = music.openFromFile(trackPath);
+            music.setLoop(isLoop);
             Assert(opened, std::format("[SfmlSoundConfig::Load] Cannot load music track {}", trackPath));
         });
     }

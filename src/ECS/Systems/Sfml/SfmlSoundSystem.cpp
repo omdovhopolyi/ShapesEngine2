@@ -12,16 +12,15 @@ namespace shen
 {
     REGISTER_SYSTEMS_FACTORY(SfmlSoundSystem)
 
-    void SfmlSoundSystem::Load()
-    {
-        // should be from save
-        _soundVolume = 70.f;
-        _musicVolume = 60.f;
-    }
-
     void SfmlSoundSystem::Start()
     {
         InitSubscriptions();
+
+        if (auto config = GetSystem<SfmlSoundConfig>())
+        {
+            _soundVolume = config->GetSoundVolume();
+            _musicVolume = config->GetMusicVolume();
+        }
     }
 
     void SfmlSoundSystem::Stop()
