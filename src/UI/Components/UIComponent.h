@@ -103,7 +103,6 @@ namespace shen
     protected:
         UINode* _node = nullptr;
         std::string _id;
-        bool _dirty = true;
         std::map<std::string, std::string> _refsMap;
         std::map<std::string, IUIComponentWrapper*> _references;
     };

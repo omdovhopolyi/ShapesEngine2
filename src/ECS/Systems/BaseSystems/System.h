@@ -27,12 +27,6 @@ namespace shen
 
         SystemsManager* GetSystems() const { return _systems; }
 
-        template <class T>
-        T* GetSystem() const
-        {
-            return _systems->template GetSystem<T>();
-        }
-
     protected:
         SystemsManager* _systems = nullptr;
     };

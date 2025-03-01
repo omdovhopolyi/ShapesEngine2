@@ -13,7 +13,7 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
 
-        if (auto physicsSystem = GetSystem<PhysicsBox2DSystem>())
+        if (auto physicsSystem = _systems->GetSystem<PhysicsBox2DSystem>())
         {
             world.Each<Destroy, RigidBody>([&](auto entity, RigidBody&)
             {

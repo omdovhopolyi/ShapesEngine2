@@ -32,7 +32,6 @@ namespace shen
         : public UIInputComponent
     {
     public:
-        void Update(float dt) override;
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;
 
         void SetSprite(ButtonSpriteType type, const sf::Sprite& sprite);

@@ -35,10 +35,6 @@ namespace shen
         }
     }
 
-    void UIButtonComponent::Update(float dt)
-    {
-    }
-
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
     {
         target.draw(_current, transform);

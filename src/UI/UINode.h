@@ -34,6 +34,9 @@ namespace shen
         sf::Transform& GetTransform() { return _transform; }
         void SetTransform(const sf::Transform& transform) { _transform = transform; }
 
+        void SetAnchor(const sf::Vector2f& anchor) { _anchor = anchor; }
+        sf::Vector2f GetAnchor() const { return _anchor; }
+
         UINode* AddChild(const std::string& name);
         UINode* GetChild(const std::string& name);
         void RemoveChild(const std::string& name);
@@ -49,6 +52,17 @@ namespace shen
             auto component = std::make_shared<Comp>();
             _components[typeIndex] = component;
             return component;
+        }
+
+        template<class Comp>
+        std::shared_ptr<Comp> GetComponent()
+        {
+            const auto typeIndex = std::type_index(typeid(Comp));
+            if (auto it = _components.find(typeIndex); it != _components.end())
+            {
+                return std::static_pointer_cast<Comp>(it->second);
+            }
+            return nullptr;
         }
 
         template<class Comp>
@@ -68,6 +82,7 @@ namespace shen
         std::string _name;
         std::string _id;
         sf::Transform _transform;
+        sf::Vector2f _anchor;
         std::vector<std::shared_ptr<UINode>> _children;
         std::weak_ptr<UINode> _parent;
         std::map<std::type_index, std::shared_ptr<UIComponent>> _components;

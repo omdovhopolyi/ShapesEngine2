@@ -342,47 +342,14 @@ namespace shen
 
     sf::Transform Serialization::GetTransform() const
     {
+        const auto position = GetVec2("position");
+        const auto angle = GetFloat("rotation");
+        const auto scale = GetVec2("scale", { 1.f, 1.f });
+
         sf::Transform transform;
-
-        if (const auto posElement = _element->FirstChildElement("position"))
-        {
-            float xPos = 0.f;
-            float yPos = 0.f;
-
-            if (const auto xPosAttr = posElement->FindAttribute("x"))
-            {
-                xPos = xPosAttr->FloatValue();
-            }
-            if (const auto yPosAttr = posElement->FindAttribute("y"))
-            {
-                yPos = yPosAttr->FloatValue();
-            }
-
-            transform.translate({ xPos, yPos });
-        }
-
-        if (const auto rotationAttr = _element->FindAttribute("rotation"))
-        {
-            const float angle = rotationAttr->FloatValue();
-            transform.rotate(angle);
-        }
-
-        if (auto scaleElement = _element->FirstChildElement("scale"))
-        {
-            float xScale = 0.f;
-            float yScale = 0.f;
-
-            if (const auto xScaleAttr = scaleElement->FindAttribute("x"))
-            {
-                xScale = xScaleAttr->FloatValue();
-            }
-            if (const auto yScaleAttr = scaleElement->FindAttribute("y"))
-            {
-                yScale = yScaleAttr->FloatValue();
-            }
-
-            transform.scale({ xScale, yScale });
-        }
+        transform.translate(position);
+        transform.rotate(angle);
+        transform.scale(scale);
 
         return transform;
     }
@@ -413,7 +380,7 @@ namespace shen
             {
                 func(Serialization(_systems, element));
 
-                element = element->NextSiblingElement();
+                element = element->NextSiblingElement(elementId.c_str());
             }
         }
     }

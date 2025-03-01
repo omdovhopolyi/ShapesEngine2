@@ -22,7 +22,10 @@ namespace shen
         void SetColor(const sf::Color& color);
         sf::Color GetColor() const;
 
-    private:
+    protected:
+        void CalculateFillSize();
+
+    protected:
         sf::Sprite _sprite;
         bool _fillScreen = false;
     };

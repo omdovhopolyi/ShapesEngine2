@@ -22,6 +22,7 @@ namespace shen
             }
 
             component->SetTransform(element.GetTransform());
+            component->SetAnchor(element.GetVec2("anchor"));
 
             return component.get();
         }

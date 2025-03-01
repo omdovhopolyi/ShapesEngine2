@@ -75,7 +75,7 @@ namespace shen
 
     Entity MapLoaderSystem::InstantiateAsset(const std::string& assetId) const
     {
-        if (auto assetsCollection = GetSystem<ObjectsAssetsCollectonSystem>())
+        if (auto assetsCollection = _systems->GetSystem<ObjectsAssetsCollectonSystem>())
         {
             const auto& assetData = assetsCollection->GetData(assetId);
             return CreateEntityAndLoadComponents(assetData);
