@@ -35,7 +35,7 @@ namespace shen
         float _gameDt = 0.f;
         float _uiDt = 0.f;
         float _gameTimeScale = 1.f;
-        bool _gamePaused = false; // TODO consider using counter
+        int _gamePausedCounter = 0;
         std::chrono::steady_clock::time_point _lastUpdateTime;
     };
 }

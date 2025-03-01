@@ -1,4 +1,5 @@
 #include "TimeSystem.h"
+#include "Utils/Assert.h"
 
 namespace shen
 {
@@ -27,22 +28,34 @@ namespace shen
 
 	void TimeSystem::AppActivated()
 	{
-		PauseGame(true);
+		PauseGame(false);
 	}
 
 	void TimeSystem::AppDeactivated()
 	{
-		PauseGame(false);
+		PauseGame(true);
 	}
 
 	void TimeSystem::PauseGame(bool pause)
 	{
-		_gamePaused = pause;
+		if (pause)
+		{
+			_gamePausedCounter++;
+		}
+		else
+		{
+			Assert(_gamePausedCounter > 0, "[TimeSystem::PauseGame]");
+			_gamePausedCounter--;
+			if (_gamePausedCounter < 0)
+			{
+				_gamePausedCounter = 0;
+			}
+		}
 	}
 
 	bool TimeSystem::IsGamePaused() const
 	{
-		return _gamePaused;
+		return _gamePausedCounter > 0;
 	}
 
 	void TimeSystem::SetGameTimeScale(float scale)
@@ -64,6 +77,6 @@ namespace shen
 
 	void TimeSystem::UpdateGameTime()
 	{
-		_gameDt = _gamePaused ? 0.f : (_dt * _gameTimeScale);
+		_gameDt = IsGamePaused() ? 0.f : (_dt * _gameTimeScale);
 	}
 }
