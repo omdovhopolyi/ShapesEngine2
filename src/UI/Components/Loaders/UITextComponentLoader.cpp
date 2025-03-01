@@ -45,6 +45,10 @@ namespace shen
             const auto fontSize = element.GetInt("size", defaultSize);
             component->SetSize(fontSize);
 
+            const auto defaultSpacing = component->GetSpacing();
+            const auto spacing = element.GetInt("letterSpace", defaultSpacing);
+            component->SetSpacing(spacing);
+
             return component.get();
         }
 

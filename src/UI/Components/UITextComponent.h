@@ -23,6 +23,9 @@ namespace shen
         void SetColor(sf::Color color);
         sf::Color GetColor() const;
 
+        void SetSpacing(float spacing);
+        float GetSpacing() const;
+
     private:
         sf::Text _text;
     };
