@@ -17,6 +17,7 @@ namespace shen
         {
             const auto id = element.GetStr("id");
             const auto resourcePath = FilePath::Path(element.GetStr("path"));
+            const auto volume = element.GetFloat("volume", _defaultSoundVolume);
 
             auto buffer = GetResource(resourcePath);
             if (!buffer)
@@ -26,7 +27,9 @@ namespace shen
                 Assert(loaded, std::format("[SfmlSoundConfig::Load] Cannot load sound resource {}", resourcePath));
             }
 
-            _sounds[id] = sf::Sound{ *buffer };
+            auto sound = sf::Sound{ *buffer };
+            sound.setVolume(volume);
+            _sounds[id] = sound;
         });
 
         serialization.SetupElement("music");
@@ -35,8 +38,10 @@ namespace shen
             const auto id = element.GetStr("id");
             const auto trackPath = FilePath::Path(element.GetStr("path"));
             const bool isLoop = element.GetBool("loop");
+            const auto volume = element.GetFloat("volume", _defaultMusicVolume);
 
             auto& music = _music[id];
+            music.setVolume(volume);
             const bool opened = music.openFromFile(trackPath);
             music.setLoop(isLoop);
             Assert(opened, std::format("[SfmlSoundConfig::Load] Cannot load music track {}", trackPath));

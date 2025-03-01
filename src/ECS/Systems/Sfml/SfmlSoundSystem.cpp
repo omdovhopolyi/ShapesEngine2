@@ -15,12 +15,6 @@ namespace shen
     void SfmlSoundSystem::Start()
     {
         InitSubscriptions();
-
-        if (auto config = GetSystem<SfmlSoundConfig>())
-        {
-            _soundVolume = config->GetSoundVolume();
-            _musicVolume = config->GetMusicVolume();
-        }
     }
 
     void SfmlSoundSystem::Stop()
@@ -30,21 +24,19 @@ namespace shen
 
     void SfmlSoundSystem::PlaySound(const std::string& id) const
     {
-        if (auto config = GetSystem<SfmlSoundConfig>())
+        if (auto config = _systems->GetSystem<SfmlSoundConfig>())
         {
             auto& sound = config->GetSound(id);
-            sound.setVolume(_soundVolume);
             sound.play();
         }
     }
 
     void SfmlSoundSystem::PlayMusic(const std::string& id) const
     {
-        if (auto config = GetSystem<SfmlSoundConfig>())
+        if (auto config = _systems->GetSystem<SfmlSoundConfig>())
         {
             if (auto track = config->GetMusic(id))
             {
-                track->setVolume(_soundVolume);
                 track->play();
             }
         }
@@ -52,23 +44,13 @@ namespace shen
 
     void SfmlSoundSystem::StopMusic(const std::string& id) const
     {
-        if (auto config = GetSystem<SfmlSoundConfig>())
+        if (auto config = _systems->GetSystem<SfmlSoundConfig>())
         {
             if (auto track = config->GetMusic(id))
             {
                 track->stop();
             }
         }
-    }
-
-    void SfmlSoundSystem::SetSoundVolume(float volume)
-    {
-        _soundVolume = volume;
-    }
-
-    void SfmlSoundSystem::SetMusicVolume(float volume)
-    {
-        _musicVolume = volume;
     }
 
     void SfmlSoundSystem::InitSubscriptions()

@@ -18,18 +18,12 @@ namespace shen
         void PlayMusic(const std::string& id) const;
 
         void StopMusic(const std::string& id) const;
-        
-        void SetSoundVolume(float volume);
-        void SetMusicVolume(float volume);
 
     private:
         void InitSubscriptions();
         void ResetSubscriptions();
 
     private:
-        float _soundVolume = 100.f;
-        float _musicVolume = 100.f;
-
         SubcriptionsContainer _subscriptions;
     };
 }

@@ -20,9 +20,6 @@ namespace shen
         sf::Sound& GetSound(const std::string& id);
         sf::Music* GetMusic(const std::string& id);
 
-        float GetSoundVolume() const { return _initialSoundVolume; }
-        float GetMusicVolume() const { return _initialMusicVolume; }
-
     private:
         sf::SoundBuffer* GetResource(const std::string& id);
 
@@ -31,7 +28,7 @@ namespace shen
         std::unordered_map<std::string, sf::Sound> _sounds;
         std::unordered_map<std::string, sf::Music> _music;
 
-        float _initialSoundVolume = 40.f;
-        float _initialMusicVolume = 50.f;
+        float _defaultSoundVolume = 100.f;
+        float _defaultMusicVolume = 100.f;
     };
 }
