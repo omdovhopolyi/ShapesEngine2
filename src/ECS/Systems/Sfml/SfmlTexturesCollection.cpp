@@ -22,15 +22,15 @@ namespace shen
 
     void SfmlTexturesCollection::LoadTextures()
     {
-        for (const auto& [id, path] : _paths)
+        for (const auto& [id, data] : _texturesData)
         {
-            LoadTexture(id, path);
+            LoadTexture(id, &data);
         }
     }
 
-    sf::Texture* SfmlTexturesCollection::LoadTexture(const std::string& id, const std::string& fileName)
+    sf::Texture* SfmlTexturesCollection::LoadTexture(const std::string& id, const TextureData* data)
     {
-        auto path = FilePath::Path(fileName);
+        auto path = FilePath::Path(data->path);
 
         auto texture = std::make_unique<sf::Texture>();
 
@@ -62,9 +62,9 @@ namespace shen
             return it->second.get();
         }
         
-        const auto& texturePath = GetTexturePath(textureId);
+        const auto& textureData = GetTextureData(textureId);
 
-        return LoadTexture(textureId, texturePath);    
+        return LoadTexture(textureId, textureData);    
     }
 
     void SfmlTexturesCollection::RemoveTexture(const std::string& id)
@@ -72,15 +72,14 @@ namespace shen
         _textures.erase(id);
     }
 
-    const std::string& SfmlTexturesCollection::GetTexturePath(const std::string& id) const
+    const TextureData* SfmlTexturesCollection::GetTextureData(const std::string& id) const
     {
-        if (auto it = _paths.find(id); it != _paths.end())
+        if (auto it = _texturesData.find(id); it != _texturesData.end())
         {
-            return it->second;
+            return &it->second;
         }
 
-        static std::string empty;
-        return empty;
+        return nullptr;
     }
 
     void SfmlTexturesCollection::LoadTexturesPaths(const std::string& fileName)
@@ -92,11 +91,17 @@ namespace shen
             const auto id = element.GetStr("id");
             const auto path = element.GetStr("path");
             const auto needPreload = element.GetBool("preload");
+            const auto smooth = element.GetBool("smooth", true);
 
-            _paths.insert({ id, path });
+            auto textureData = TextureData{ path, smooth };
+            _texturesData.insert({ id, textureData });
             
-            if (needPreload) {
-                [[maybe_unused]] const auto texture = GetTexture(id);
+            if (needPreload)
+            {
+                if (const auto texture = GetTexture(id))
+                {
+                    texture->setSmooth(smooth);
+                }
             }
         });
     }
