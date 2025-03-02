@@ -192,21 +192,23 @@ namespace shen
 		return sf::Mouse::isButtonPressed(button);
 	}
 
-	char SfmlInputSystem::GetCharByKey(sf::Keyboard::Key key) const
+	std::string SfmlInputSystem::GetCharByKey(sf::Keyboard::Key key) const
 	{
 		if (auto it = _keyCharMap.find(key); it != _keyCharMap.end())
 		{
 			return it->second;
 		}
-		return -1;
+		return "";
 	}
 
 	sf::Keyboard::Key SfmlInputSystem::GetKeyByChar(const std::string& charKeyStr, bool silent/* = false*/) const
 	{
 		if (!charKeyStr.empty())
 		{
-			const auto& charKey = charKeyStr.front();
-			return GetKeyByChar(charKey);
+			if (auto it = _charKeyMap.find(charKeyStr); it != _charKeyMap.end())
+			{
+				return it->second;
+			}
 		}
 		
 		if (!silent)
@@ -217,50 +219,43 @@ namespace shen
 		return sf::Keyboard::Unknown;
 	}
 
-	sf::Keyboard::Key SfmlInputSystem::GetKeyByChar(char charKey) const
-	{
-		if (auto it = _charKeyMap.find(charKey); it != _charKeyMap.end())
-		{
-			return it->second;
-		}
-		return sf::Keyboard::Unknown;
-	}
-
 	void SfmlInputSystem::GenerateCharKeyMap()
 	{
 		for (char c = 'A'; c <= 'Z'; ++c)
 		{
-			_charKeyMap[c] = static_cast<sf::Keyboard::Key>(c - 'A');
+			_charKeyMap[{ c }] = static_cast<sf::Keyboard::Key>(c - 'A');
 		}
 
 		for (char c = 'a'; c <= 'z'; ++c)
 		{
-			_charKeyMap[c] = static_cast<sf::Keyboard::Key>(c - 'a');
+			_charKeyMap[{ c }] = static_cast<sf::Keyboard::Key>(c - 'a');
 		}
 
 		for (char c = '0'; c <= '9'; ++c)
 		{
-			_charKeyMap[c] = static_cast<sf::Keyboard::Key>(sf::Keyboard::Num0 + (c - '0'));
+			_charKeyMap[{ c }] = static_cast<sf::Keyboard::Key>(sf::Keyboard::Num0 + (c - '0'));
 		}
 
-		_charKeyMap[' '] = sf::Keyboard::Space;
-		_charKeyMap['\t'] = sf::Keyboard::Tab;
-		_charKeyMap['\n'] = sf::Keyboard::Return;
-		_charKeyMap[','] = sf::Keyboard::Comma;
-		_charKeyMap['.'] = sf::Keyboard::Period;
-		_charKeyMap['/'] = sf::Keyboard::Slash;
-		_charKeyMap['\\'] = sf::Keyboard::Backslash;
-		_charKeyMap['\''] = sf::Keyboard::Quote;
-		_charKeyMap[';'] = sf::Keyboard::SemiColon;
-		_charKeyMap['['] = sf::Keyboard::LBracket;
-		_charKeyMap[']'] = sf::Keyboard::RBracket;
-		_charKeyMap['-'] = sf::Keyboard::Dash;
-		_charKeyMap['='] = sf::Keyboard::Equal;
-		_charKeyMap['`'] = sf::Keyboard::Tilde;
+		_charKeyMap["Esc"] = sf::Keyboard::Escape;
+		_charKeyMap[{ ' ' }] = sf::Keyboard::Space;
+		_charKeyMap[{ '\t' }] = sf::Keyboard::Tab;
+		_charKeyMap[{ '\n' }] = sf::Keyboard::Return;
+		_charKeyMap[{ ',' }] = sf::Keyboard::Comma;
+		_charKeyMap[{ '.' }] = sf::Keyboard::Period;
+		_charKeyMap[{ '/' }] = sf::Keyboard::Slash;
+		_charKeyMap[{ '\\' }] = sf::Keyboard::Backslash;
+		_charKeyMap[{ '\'' }] = sf::Keyboard::Quote;
+		_charKeyMap[{ ';' }] = sf::Keyboard::SemiColon;
+		_charKeyMap[{ '[' }] = sf::Keyboard::LBracket;
+		_charKeyMap[{ ']' }] = sf::Keyboard::RBracket;
+		_charKeyMap[{ '-' }] = sf::Keyboard::Dash;
+		_charKeyMap[{ '=' }] = sf::Keyboard::Equal;
+		_charKeyMap[{ '`' }] = sf::Keyboard::Tilde;
 
 		for (int i = 1; i <= 24; ++i)
 		{
-			_charKeyMap['F' + i - 1] = static_cast<sf::Keyboard::Key>(sf::Keyboard::F1 + i - 1);
+			char key = 'F' + i - 1;
+			_charKeyMap[{ key }] = static_cast<sf::Keyboard::Key>(sf::Keyboard::F1 + i - 1);
 		}
 	}
 
@@ -276,6 +271,7 @@ namespace shen
 			_keyCharMap[static_cast<sf::Keyboard::Key>(sf::Keyboard::Num0 + (c - '0'))] = c;
 		}
 
+		_keyCharMap[sf::Keyboard::Escape] = "Esc";
 		_keyCharMap[sf::Keyboard::Space] = ' ';
 		_keyCharMap[sf::Keyboard::Tab] = '\t';
 		_keyCharMap[sf::Keyboard::Return] = '\n';

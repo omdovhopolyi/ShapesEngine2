@@ -42,6 +42,17 @@ namespace shen
         }
     }
 
+    void SfmlSoundSystem::PauseMusic(const std::string& id) const
+    {
+        if (auto config = _systems->GetSystem<SfmlSoundConfig>())
+        {
+            if (auto track = config->GetMusic(id))
+            {
+                track->pause();
+            }
+        }
+    }
+
     void SfmlSoundSystem::StopMusic(const std::string& id) const
     {
         if (auto config = _systems->GetSystem<SfmlSoundConfig>())
@@ -63,6 +74,11 @@ namespace shen
         _subscriptions.Subscribe<PlayMusicEvent>([this](const auto& event)
         {
             PlayMusic(event.id);
+        });
+
+        _subscriptions.Subscribe<PauseMusicEvent>([this](const auto& event)
+        {
+            PauseMusic(event.id);
         });
 
         _subscriptions.Subscribe<StopMusicEvent>([this](const auto& event)

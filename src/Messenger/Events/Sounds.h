@@ -23,6 +23,16 @@ namespace shen
         {}
     };
 
+    struct PauseMusicEvent : Event
+    {
+        std::string id;
+
+        PauseMusicEvent(const std::string& trackId)
+            : id(trackId)
+        {
+        }
+    };
+
     struct StopMusicEvent : Event
     {
         std::string id;

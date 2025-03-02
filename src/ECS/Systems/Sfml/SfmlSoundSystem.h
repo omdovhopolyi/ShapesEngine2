@@ -16,7 +16,7 @@ namespace shen
 
         void PlaySound(const std::string& id) const;
         void PlayMusic(const std::string& id) const;
-
+        void PauseMusic(const std::string& id) const;
         void StopMusic(const std::string& id) const;
 
     private:

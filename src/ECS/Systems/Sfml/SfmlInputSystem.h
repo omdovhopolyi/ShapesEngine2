@@ -19,9 +19,8 @@ namespace shen
         bool IsKeyPressed(sf::Keyboard::Key key) const;
         bool IsMouseButtonPressed(sf::Mouse::Button button) const;
 
-        char GetCharByKey(sf::Keyboard::Key key) const;
+        std::string GetCharByKey(sf::Keyboard::Key key) const;
         sf::Keyboard::Key GetKeyByChar(const std::string& charKeyStr, bool silent = false) const;
-        sf::Keyboard::Key GetKeyByChar(char charKey) const;
 
     private:
         void GenerateCharKeyMap();
@@ -30,7 +29,7 @@ namespace shen
     private:
         int _lastMouseXPos = -1;
         int _lastMouseYPos = -1;
-        std::unordered_map<char, sf::Keyboard::Key> _charKeyMap;
-        std::unordered_map<sf::Keyboard::Key, char> _keyCharMap;
+        std::unordered_map<std::string, sf::Keyboard::Key> _charKeyMap;
+        std::unordered_map<sf::Keyboard::Key, std::string> _keyCharMap;
     };
 }
