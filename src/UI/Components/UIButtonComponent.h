@@ -45,6 +45,10 @@ namespace shen
         void SetHovered(const sf::Sprite& sprite);
         sf::Sprite& GetHovered();
 
+        void SetHoverSoundId(const std::string& id);
+        void SetPressSoundId(const std::string& id);
+        void SetReleaseSoundId(const std::string& id);
+
         bool ProcessInput(const InputType& inputType, const CommandContext& context) override;
 
         ButtonSignal& GetSignal() { return _signal; }
@@ -58,6 +62,9 @@ namespace shen
 
         void SetCurrentSprite(const sf::Sprite& sprite);
 
+        void SetHovered(bool hovered);
+        bool IsHovered() const;
+
         void SetPressed(bool pressed);
         bool IsPressed() const;
 
@@ -66,6 +73,10 @@ namespace shen
         sf::Sprite _idle;
         sf::Sprite _pressed;
         sf::Sprite _hovered;
+        std::string _soundHover;
+        std::string _soundPress;
+        std::string _soundRelease;
+        bool _isHovered = false;
         bool _isPressed = false;
         ButtonSignal _signal;
     };
