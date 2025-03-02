@@ -1,5 +1,6 @@
 #include "TimeSystem.h"
 #include "Utils/Assert.h"
+#include "Logger/Logger.h"
 
 namespace shen
 {
@@ -28,16 +29,19 @@ namespace shen
 
 	void TimeSystem::AppActivated()
 	{
-		PauseGame(false);
+		//PauseGame(false);
 	}
 
 	void TimeSystem::AppDeactivated()
 	{
-		PauseGame(true);
+		//PauseGame(true);
 	}
 
 	void TimeSystem::PauseGame(bool pause)
 	{
+		std::string msg = "[TimeSystem::PauseGame] " + std::to_string(pause);
+		Logger::Log(msg);
+
 		if (pause)
 		{
 			_gamePausedCounter++;
