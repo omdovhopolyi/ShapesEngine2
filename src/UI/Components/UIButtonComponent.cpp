@@ -168,8 +168,8 @@ namespace shen
 
         if (_isPressed)
         {
-            _signal.OnEvent(ButtonSignalType::Up);
             shen::Messenger::Instance().Broadcast<shen::PlaySoundEvent>(_soundRelease);
+            _signal.OnEvent(ButtonSignalType::Up);
         }
 
         SetPressed(false);

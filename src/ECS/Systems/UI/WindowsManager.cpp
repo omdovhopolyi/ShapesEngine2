@@ -26,6 +26,7 @@ namespace shen
     void WindowsManager::OpenWindow(const UIWindowContext& context)
     {
         auto window = std::make_unique<UIWindow>();
+        window->SetSystemsManager(_systems);
         UIWindowLoader::Instance().LoadWindow(_systems, window.get(), context.windowId);
         window->Init(context);
         window->Open();
@@ -72,7 +73,6 @@ namespace shen
             {
                 UIWindowContext context;
                 context.windowId = "test_window";
-                context.systems = _systems;
                 OpenWindow(context);
             }
 
@@ -85,6 +85,16 @@ namespace shen
         _subscriptions.Subscribe<OpenWindowEvent>([this](const OpenWindowEvent& event)
         {
             OpenWindow(event.context);
+        });
+
+        _subscriptions.Subscribe<CloseWindowEvent>([this](const CloseWindowEvent& event)
+        {
+            CloseWindow(event.windowId);
+        });
+
+        _subscriptions.Subscribe<CloseTopWindowEvent>([this](const CloseTopWindowEvent& event)
+        {
+            CloseTopWindow();
         });
     }
 

@@ -11,7 +11,6 @@ namespace shen
     struct UIWindowContext
     {
         std::string windowId;
-        SystemsManager* systems = nullptr;
         std::map<std::string, std::any> vars;
     };
 }

@@ -19,6 +19,16 @@ namespace shen
     {
         UIWindowContext context;
 
+        OpenWindowEvent(const std::string& windowId) : context({ windowId }) {}
         OpenWindowEvent(UIWindowContext windowContext) : context(windowContext) {}
     };
+
+    struct CloseWindowEvent : Event
+    {
+        std::string windowId;
+
+        CloseWindowEvent(const std::string& id) : windowId(id) {}
+    };
+
+    struct CloseTopWindowEvent : Event {};
 }

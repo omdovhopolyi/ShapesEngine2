@@ -49,10 +49,6 @@ namespace shen
         //Logger::Log("Mouse wheel scroll");
     }
 
-    WindowOpenEvent::WindowOpenEvent(const std::string& id)
-        : windowId(id)
-    {}
-
     MapLoadedEvent::MapLoadedEvent(const std::string& id)
         : mapId(id)
     {};

@@ -34,7 +34,7 @@ namespace shen
     {
         if (_root)
         {
-            if (auto renderTargets = _context.systems->GetSystem<SfmlRenderTargetsSystem>())
+            if (auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>())
             {
                 if (auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId))
                 {
