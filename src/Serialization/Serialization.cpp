@@ -61,6 +61,11 @@ namespace shen
         return _element != nullptr;
     }
 
+    bool Serialization::HasElemenet(const std::string& id) const
+    {
+        return _element->FirstChildElement(id.c_str()) != nullptr;
+    }
+
     Serialization Serialization::GetElement(const std::string& id) const
     {
         const auto child = _element->FirstChildElement(id.c_str());

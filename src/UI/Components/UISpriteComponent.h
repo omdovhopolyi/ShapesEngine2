@@ -16,6 +16,8 @@ namespace shen
 
         void SetTexture(sf::Texture* texture);
 
+        void SetTextureRect(const sf::IntRect& rect);
+
         void SetFillScreen(bool fill);
         bool IsFillScreen() const;
 

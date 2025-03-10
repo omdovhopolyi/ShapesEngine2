@@ -30,6 +30,13 @@ namespace shen
                 auto texture = textures->GetTexture(textureId);
                 component->SetTexture(texture);
             }
+
+            const auto rectElement = element.GetElement("rect");
+            if (rectElement.IsElementValid())
+            {
+                const auto texRect = rectElement.GetIntRect();
+                component->SetTextureRect(texRect);
+            }
             
             component->SetFillScreen(element.GetBool("fill"));
 

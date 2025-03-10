@@ -62,7 +62,7 @@ namespace shen
             return it->second.get();
         }
         
-        const auto& textureData = GetTextureData(textureId);
+        const auto textureData = GetTextureData(textureId);
 
         return LoadTexture(textureId, textureData);    
     }

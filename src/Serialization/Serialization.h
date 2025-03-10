@@ -29,6 +29,7 @@ namespace shen
         bool IsValid() const;
         bool IsElementValid() const;
 
+        bool HasElemenet(const std::string& id) const;
         Serialization GetElement(const std::string& id) const;
 
         bool GetBool(const std::string& id, bool defaultVal = false) const;

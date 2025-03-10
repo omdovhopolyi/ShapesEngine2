@@ -27,6 +27,11 @@ namespace shen
         _sprite.setTexture(*texture);
     }
 
+    void UISpriteComponent::SetTextureRect(const sf::IntRect& rect)
+    {
+        _sprite.setTextureRect(rect);
+    }
+
     void UISpriteComponent::SetFillScreen(bool fill)
     {
         _fillScreen = fill;
