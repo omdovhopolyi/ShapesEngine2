@@ -28,6 +28,12 @@ else()
                 ${PROJECT_BINARY_DIR}/bin/Debug/assets
                 COMMENT "Copying assets"
         )
+
+    add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_SOURCE_DIR}/openal32.dll
+                ${CMAKE_BINARY_DIR}/openal32.dll)
 endif()
 
 foreach(source IN LISTS SRC_FILES)
