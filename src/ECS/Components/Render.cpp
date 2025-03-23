@@ -14,10 +14,11 @@ namespace shen
             if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
             {
                 if (auto texture = texturesCollection->GetTexture(textureId))
-                {
-                    auto rect = serialization.GetIntRect("rect");
-                    auto anchor = serialization.GetVec2("anchor");
-                    auto size = serialization.GetVec2("size");
+                {   
+                    auto textureSize = texture->getSize();
+
+                    auto rect = serialization.GetIntRect("rect", { 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) });
+                    auto anchor = serialization.GetVec2("anchor", { textureSize.x / 2.f, textureSize.y / 2.f });
 
                     component.textureId = textureId;
                     component.sprite.setTexture(*texture);
@@ -26,6 +27,8 @@ namespace shen
                 }
             }   
         }
+
+        component.sorting = serialization.GetInt("sorting");
     }
 
     void Sprite::Save(Sprite& component, Serialization& serialization)
@@ -35,6 +38,7 @@ namespace shen
             serialization.SetStr("texture", component.textureId);
             serialization.SetIntRect("rect", component.sprite.getTextureRect());
             serialization.SetVec2("size", component.sprite.getOrigin());
+            serialization.SetInt("sorting", component.sorting);
         }
     }
 
@@ -52,11 +56,25 @@ namespace shen
     {
         component.frameTime = serialization.GetFloat("frameTime", component.frameTime);
         component.frames = serialization.GetVectorIntRect("frames");
+        component.animType = AnimationTypeEnum.FromString(serialization.GetStr("animType"));
+        component.deleteOnDone = serialization.GetBool("deleteOnDone");
     }
 
     void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, Serialization& serialization)
     {
         serialization.SetFloat("frameTime", component.frameTime);
         serialization.SetVectorIntRect("frames", component.frames);
+        serialization.SetStr("type", AnimationTypeEnum.ToString(component.animType));
+        serialization.SetBool("deleteOnDone", component.deleteOnDone);
     }
+
+    /*void Sorting::Load(Sorting& component, const Serialization& serialization)
+    {
+        component.value = serialization.GetInt("value");
+    }
+
+    void Sorting::Save(Sorting& component, Serialization& serialization)
+    {
+        serialization.SetInt("value", component.value);
+    }*/
 }

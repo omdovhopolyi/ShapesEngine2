@@ -10,4 +10,9 @@ namespace shen
 #endif
         return path;
     }
+
+    std::string FilePath::Path(const std::string& path)
+    {
+        return Path(path.c_str());
+    }
 }

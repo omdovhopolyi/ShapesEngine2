@@ -18,6 +18,9 @@ namespace shen
     public:
         void Start() override;
         void Update() override;
+
+        void AppActivated() override;
+        void AppDeactivated() override;
         
         State* GetActiveState() const;
         const std::string& GetActiveStateId() const;

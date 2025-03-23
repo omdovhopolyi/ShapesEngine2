@@ -27,36 +27,50 @@ namespace shen
     {
         auto& world = _systems->GetWorld();
 
-        auto renderTextures = _systems->GetSystem<SfmlRenderTargetsSystem>();
-        auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
-
-        const auto& view = target->getView();
-        const auto center = view.getCenter();
-        const auto size = view.getSize();
-        sf::FloatRect viewBounds;
-        viewBounds.width = size.x;
-        viewBounds.height = size.y;
-        viewBounds.left = center.x - size.x / 2.f;
-        viewBounds.top = center.y - size.y / 2.f;
-
-        target->clear();
-        
-        world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
+        world.Sort<Sprite>([&](auto left, auto right)
         {
-            sprite.sprite.setPosition(transform.position);
-            sprite.sprite.setRotation(transform.rotation);
-            sprite.sprite.setScale(transform.scale);
-
-            const auto spriteBounds = sprite.sprite.getGlobalBounds();
-            const bool isVisible = viewBounds.intersects(spriteBounds);
-
-            if (isVisible)
-            {
-                target->draw(sprite.sprite);
-            }
+            return left.sorting < right.sorting;
         });
 
-        target->display();
+        if (auto renderTextures = _systems->GetSystem<SfmlRenderTargetsSystem>())
+        {
+            if (auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId))
+            {
+                const auto& view = target->getView();
+                const auto center = view.getCenter();
+                const auto size = view.getSize();
+                sf::FloatRect viewBounds;
+                viewBounds.width = size.x;
+                viewBounds.height = size.y;
+                viewBounds.left = center.x - size.x / 2.f;
+                viewBounds.top = center.y - size.y / 2.f;
+
+                target->clear();
+
+                world.Each<Sprite, Transform>([&](const auto entity, Sprite& sprite, Transform& transform)
+                {
+                    // TODO maybe move away from update
+                    if (auto color = world.GetComponent<Color>(entity))
+                    {
+                        sprite.sprite.setColor(color->color);
+                    }
+
+                    sprite.sprite.setPosition(transform.position);
+                    sprite.sprite.setRotation(transform.rotation);
+                    sprite.sprite.setScale(transform.scale);
+
+                    const auto spriteBounds = sprite.sprite.getGlobalBounds();
+                    const bool isVisible = viewBounds.intersects(spriteBounds);
+
+                    if (isVisible)
+                    {
+                        target->draw(sprite.sprite);
+                    }
+                });
+
+                target->display();
+            }
+        }
     }
 
     void SfmlSpriteRenderSystem::InitSubscriptions()

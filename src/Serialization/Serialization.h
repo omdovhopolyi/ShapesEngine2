@@ -16,6 +16,7 @@ namespace shen
     class Serialization
     {
     public:
+        Serialization() = default;
         Serialization(const std::string& filename);
         Serialization(SystemsManager* systems, const std::string& filename);
         Serialization(SystemsManager* systems, tinyxml2::XMLElement* element);
@@ -29,6 +30,7 @@ namespace shen
         bool IsValid() const;
         bool IsElementValid() const;
 
+        bool HasElemenet(const std::string& id) const;
         Serialization GetElement(const std::string& id) const;
         bool HasElement(const std::string& id) const;
 
@@ -41,7 +43,7 @@ namespace shen
         sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect def = {}) const;
         sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
         sf::IntRect GetIntRect(sf::IntRect def = {}) const;
-        sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Red) const;
+        sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const;
         sf::Texture* GetTexturePtr(const std::string& id = "texture") const;
         std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
         std::vector<std::string> GetVecStr(const std::string& id) const;
@@ -71,7 +73,7 @@ namespace shen
         
     private:
         SystemsManager* _systems = nullptr;
-        tinyxml2::XMLDocument _document;
+        std::shared_ptr<tinyxml2::XMLDocument> _document;
         tinyxml2::XMLElement* _element = nullptr;
     };
 }

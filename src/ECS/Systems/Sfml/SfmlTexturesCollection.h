@@ -8,6 +8,12 @@
 
 namespace shen
 {
+    struct TextureData
+    {
+        std::string path;
+        bool smooth = true;
+    };
+
     class SfmlTexturesCollection
         : public System
     {
@@ -18,17 +24,17 @@ namespace shen
         void Stop() override;
 
         void LoadTextures();
-        sf::Texture* LoadTexture(const std::string& id, const std::string& fileName);
+        sf::Texture* LoadTexture(const std::string& id, const TextureData* data);
         sf::Texture* GetTexture(const std::string& textureId);
         void RemoveTexture(const std::string& id);
-        const std::string& GetTexturePath(const std::string& id) const;
+        const TextureData* GetTextureData(const std::string& id) const;
 
     public:
         void LoadTexturesPaths(const std::string& fileName);
 
     private:
-        std::map<std::string, std::unique_ptr<sf::Texture>> _textures;
-        std::map<std::string, std::string> _paths;
+        std::unordered_map<std::string, std::unique_ptr<sf::Texture>> _textures;
+        std::unordered_map<std::string, TextureData> _texturesData;
 
         bool _flipTexOnLoad = false;
     };

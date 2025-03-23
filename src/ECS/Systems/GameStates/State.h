@@ -21,6 +21,9 @@ namespace shen
         virtual void Update();
         virtual void OnExit(const std::string& toState);
 
+        virtual void AppActivated();
+        virtual void AppDeactivated();
+
         void SetId(const std::string& stateId);
         const std::string& GetId() const;
 

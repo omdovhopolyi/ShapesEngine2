@@ -28,7 +28,8 @@ namespace shen
 
         void CreateTexture(const std::string& id, sf::Vector2f size);
 
-        sf::RenderTexture* GetRenderTexture(const std::string& id);
+        sf::RenderTexture* GetRenderTexture(const std::string& id) const;
+        sf::FloatRect GetTargetWorldRect(const std::string& id) const;
 
     private:
         std::vector<std::unique_ptr<RenderTextureData>> _renderTextures;

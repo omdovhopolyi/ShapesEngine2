@@ -9,6 +9,8 @@
 #include "Commands/CommandContext.h"
 #include "Input/InputType.h"
 #include "Utils/Assert.h"
+#include "Messenger/Messenger.h"
+#include "Messenger/Events/Sounds.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace shen
@@ -33,10 +35,6 @@ namespace shen
                 callback();
             }
         }
-    }
-
-    void UIButtonComponent::Update(float dt)
-    {
     }
 
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
@@ -101,6 +99,21 @@ namespace shen
         return _hovered;
     }
 
+    void UIButtonComponent::SetHoverSoundId(const std::string& id)
+    {
+        _soundHover = id;
+    }
+
+    void UIButtonComponent::SetPressSoundId(const std::string& id)
+    {
+        _soundPress = id;
+    }
+
+    void UIButtonComponent::SetReleaseSoundId(const std::string& id)
+    {
+        _soundRelease = id;
+    }
+
     bool UIButtonComponent::ProcessInput(const InputType& inputType, const CommandContext& context)
     {
         bool processed = false;
@@ -132,11 +145,16 @@ namespace shen
         const bool isOverButton = IsCursorOverButton(inputType, context);
         const auto& spriteToSet = isOverButton ? _pressed : _idle;
         SetCurrentSprite(spriteToSet);
-        _isPressed = isOverButton;
+        SetPressed(isOverButton);
+        if (isOverButton)
+        {
+            SetHovered(false);
+        }
 
         if (_isPressed)
         {
             _signal.OnEvent(ButtonSignalType::Down);
+            shen::Messenger::Instance().Broadcast<shen::PlaySoundEvent>(_soundPress);
         }
         
         return isOverButton;
@@ -150,10 +168,15 @@ namespace shen
 
         if (_isPressed)
         {
+            shen::Messenger::Instance().Broadcast<shen::PlaySoundEvent>(_soundRelease);
             _signal.OnEvent(ButtonSignalType::Up);
         }
 
-        _isPressed = false;
+        SetPressed(false);
+        if (isOverButton)
+        {
+            SetHovered(false);
+        }
 
         return isOverButton;
     }
@@ -170,13 +193,20 @@ namespace shen
             }
             else
             {
+                if (!IsHovered())
+                {
+                    shen::Messenger::Instance().Broadcast<shen::PlaySoundEvent>(_soundHover);
+                }
+                SetHovered(true);
                 SetCurrentSprite(_hovered);
+                
             }
         }
         else
         {
             SetCurrentSprite(_idle);
             SetPressed(false);
+            SetHovered(false);
         }
 
         return isOverButton;
@@ -206,6 +236,16 @@ namespace shen
     void UIButtonComponent::SetCurrentSprite(const sf::Sprite& sprite)
     {
         _current = sprite;
+    }
+
+    void UIButtonComponent::SetHovered(bool hovered)
+    {
+        _isHovered = hovered;
+    }
+
+    bool UIButtonComponent::IsHovered() const
+    {
+        return _isHovered;
     }
 
     void UIButtonComponent::SetPressed(bool pressed)

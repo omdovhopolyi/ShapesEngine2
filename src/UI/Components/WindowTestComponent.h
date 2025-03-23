@@ -14,6 +14,6 @@ namespace shen
         void RegisterReferences() override;
 
     private:
-        std::weak_ptr<UIComponent> _button;
+        UIComponentWrapper<UIButtonComponent> _button;
     };
 }

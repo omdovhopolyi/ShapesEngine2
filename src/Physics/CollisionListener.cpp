@@ -1,6 +1,8 @@
 #include "CollisionListener.h"
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Components/Physics.h"
+#include "ECS/Entity.h"
 
 namespace shen
 {
@@ -13,11 +15,17 @@ namespace shen
     {
         b2Fixture* fixtureA = contact->GetFixtureA();
         auto bodyA = fixtureA->GetBody();    
-        auto entityA = reinterpret_cast<entt::entity*>(bodyA->GetUserData().pointer);
+        auto entityA = Entity{ static_cast<std::uint32_t>(bodyA->GetUserData().pointer) };
         
         b2Fixture* fixtureB = contact->GetFixtureB();
         auto bodyB = fixtureB->GetBody();
-        auto entityB = reinterpret_cast<entt::entity*>(bodyB->GetUserData().pointer);
+        auto entityB = Entity{ static_cast<std::uint32_t>(bodyB->GetUserData().pointer) };
+
+        auto collisionA = _world->AddOrSkipComponent<Collision>(entityA);
+        collisionA->other = entityB;
+
+        auto collisionB = _world->AddOrSkipComponent<Collision>(entityB);
+        collisionB->other = entityA;
     }
 
     void CollisionListener::EndContact(b2Contact* contact)

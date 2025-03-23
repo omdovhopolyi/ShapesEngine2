@@ -19,16 +19,22 @@ if(SHEN_STATIC)
     add_library(${TARGET_NAME} STATIC ${SRC_FILES})
 else()
     add_executable(${TARGET_NAME} ${SRC_FILES})
-    set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+    #set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+endif()
 
-    add_custom_command(
+add_custom_command(
         TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
                 ${PROJECT_SOURCE_DIR}/assets
                 ${PROJECT_BINARY_DIR}/bin/Debug/assets
                 COMMENT "Copying assets"
         )
-endif()
+
+add_custom_command(
+        TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_SOURCE_DIR}/openal32.dll
+                ${CMAKE_BINARY_DIR}/openal32.dll)
 
 foreach(source IN LISTS SRC_FILES)
     get_filename_component(source_path "${source}" DIRECTORY)
@@ -48,7 +54,7 @@ set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
 set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(submodules/SFML)
-target_link_libraries(${TARGET_NAME} sfml-graphics)
+target_link_libraries(${TARGET_NAME} sfml-graphics sfml-audio)
 
 add_subdirectory(cmake/lua)
 target_link_libraries(${TARGET_NAME} lua)

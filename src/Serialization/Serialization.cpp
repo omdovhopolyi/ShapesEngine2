@@ -24,8 +24,14 @@ namespace shen
 
     void Serialization::LoadDocument(const std::string& filename)
     {
-        _document.LoadFile(filename.c_str());
-        if (_document.Error())
+        _document = std::make_shared<tinyxml2::XMLDocument>();
+
+        _document->LoadFile(filename.c_str());
+        if (!_document->Error())
+        {
+            _element = _document->RootElement();
+        }
+        else
         {
             Assert(false, std::format("[Serialization::LoadDocument] Can not read file '{}'", filename));
         }
@@ -33,8 +39,11 @@ namespace shen
 
     void Serialization::SetupElement(const std::string& id)
     {
-        _element = _document.FirstChildElement(id.c_str());
-        Assert(_element, std::format("[Serialization::SetupElement] Can not find element '{}'", id));
+        if (_document)
+        {
+            _element = _document->FirstChildElement(id.c_str());
+            Assert(_element, std::format("[Serialization::SetupElement] Can not find element '{}'", id));
+        }
     }
 
     void Serialization::SetupFirstElement()
@@ -44,7 +53,22 @@ namespace shen
 
     bool Serialization::IsValid() const
     {
-        return !_document.Error();
+        if (_document)
+        {
+            return !_document->Error();
+        }
+        
+        return false;
+    }
+
+    bool Serialization::IsElementValid() const
+    {
+        return _element != nullptr;
+    }
+
+    bool Serialization::HasElemenet(const std::string& id) const
+    {
+        return _element->FirstChildElement(id.c_str()) != nullptr;
     }
 
     bool Serialization::IsElementValid() const
@@ -339,73 +363,46 @@ namespace shen
 
     sf::Transform Serialization::GetTransform() const
     {
+        const auto position = GetVec2("position");
+        const auto angle = GetFloat("rotation");
+        const auto scale = GetVec2("scale", { 1.f, 1.f });
+
         sf::Transform transform;
-
-        if (const auto posElement = _element->FirstChildElement("position"))
-        {
-            float xPos = 0.f;
-            float yPos = 0.f;
-
-            if (const auto xPosAttr = posElement->FindAttribute("x"))
-            {
-                xPos = xPosAttr->FloatValue();
-            }
-            if (const auto yPosAttr = posElement->FindAttribute("y"))
-            {
-                yPos = yPosAttr->FloatValue();
-            }
-
-            transform.translate({ xPos, yPos });
-        }
-
-        if (const auto rotationAttr = _element->FindAttribute("rotation"))
-        {
-            const float angle = rotationAttr->FloatValue();
-            transform.rotate(angle);
-        }
-
-        if (auto scaleElement = _element->FirstChildElement("scale"))
-        {
-            float xScale = 0.f;
-            float yScale = 0.f;
-
-            if (const auto xScaleAttr = scaleElement->FindAttribute("x"))
-            {
-                xScale = xScaleAttr->FloatValue();
-            }
-            if (const auto yScaleAttr = scaleElement->FindAttribute("y"))
-            {
-                yScale = yScaleAttr->FloatValue();
-            }
-
-            transform.scale({ xScale, yScale });
-        }
+        transform.translate(position);
+        transform.rotate(angle);
+        transform.scale(scale);
 
         return transform;
     }
 
     void Serialization::ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const
     {
-        if (const auto child = _element->FirstChildElement(id.c_str()))
+        if (_element)
         {
-            auto element = child->FirstChildElement(elementId.c_str());
-            while (element)
+            if (const auto child = _element->FirstChildElement(id.c_str()))
             {
-                func(Serialization(_systems, element));
+                auto element = child->FirstChildElement(elementId.c_str());
+                while (element)
+                {
+                    func(Serialization(_systems, element));
 
-                element = element->NextSiblingElement();
+                    element = element->NextSiblingElement();
+                }
             }
         }
     }
 
     void Serialization::ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const
     {
-        auto element = _element->FirstChildElement(elementId.c_str());
-        while (element)
+        if (_element)
         {
-            func(Serialization(_systems, element));
+            auto element = _element->FirstChildElement(elementId.c_str());
+            while (element)
+            {
+                func(Serialization(_systems, element));
 
-            element = element->NextSiblingElement();
+                element = element->NextSiblingElement(elementId.c_str());
+            }
         }
     }
 

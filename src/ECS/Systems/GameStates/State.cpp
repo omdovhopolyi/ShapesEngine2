@@ -19,17 +19,27 @@ namespace shen
 
     void State::OnEnter(const std::string& fromState)
     {
-        //
+        // empty
     }
 
     void State::Update()
     {
-        //
+        // emtpy
     }
 
     void State::OnExit(const std::string& toState)
     {
-        //
+        // emtpy
+    }
+
+    void State::AppActivated()
+    {
+        // emtpy
+    }
+
+    void State::AppDeactivated()
+    {
+        // emtpy
     }
 
     void State::SetId(const std::string& stateId)

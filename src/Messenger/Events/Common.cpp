@@ -48,4 +48,8 @@ namespace shen
     {
         //Logger::Log("Mouse wheel scroll");
     }
+
+    MapLoadedEvent::MapLoadedEvent(const std::string& id)
+        : mapId(id)
+    {};
 }

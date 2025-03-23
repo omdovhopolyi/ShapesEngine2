@@ -38,4 +38,12 @@ namespace shen
     {
         _registry.clear();
     }
+
+    void World::ForAllEntities(const std::function<void(Entity entity)>& func)
+    {
+        for (auto entity : _registry.view<entt::entity>())
+        {
+            func(entity);
+        }
+    }
 }

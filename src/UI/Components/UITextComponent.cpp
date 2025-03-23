@@ -42,4 +42,14 @@ namespace shen
     {
         return _text.getColor();
     }
+
+    void UITextComponent::SetSpacing(float spacing)
+    {
+        _text.setLetterSpacing(spacing);
+    }
+
+    float UITextComponent::GetSpacing() const
+    {
+        return _text.getLetterSpacing();
+    }
 }

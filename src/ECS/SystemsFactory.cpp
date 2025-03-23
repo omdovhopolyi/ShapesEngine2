@@ -21,7 +21,8 @@ namespace shen
             return it->second();
         }
 
-        Assert(false, std::format("[SystemsFactory::RegisterSystemFactory] No factory for type '{}'", id));
+        const auto msg = std::format("[SystemsFactory::RegisterSystemFactory] No factory for type '{}'", id);
+        Assert(false, msg);
         return nullptr;
     }
 }

@@ -24,16 +24,21 @@ namespace shen
     public:
         void Init(SystemsManager* systems) override;
 
-        void LoadMap(const std::string& mapId);
+        void LoadMap(const std::string& mapId) const;
+        void LoadMap(Serialization& serialization, const std::string& mapId) const;
+        void LoadComponents(Entity entity, const Serialization& serialization) const;
+        Entity CreateEntityAndLoadComponents(const Serialization& serialization) const;
+        Entity InstantiateAsset(const std::string& assetId) const;
 
         template<class T>
         void RegisterLoader(const std::string& id);
 
     private:
         void RegisterLoaders();
+        void InstantiateAsset(Entity entity, const Serialization& serialization) const;
 
     private:
-        std::map<std::string, LoadSaveFuncs> _functions;
+        std::unordered_map<std::string, LoadSaveFuncs> _functions;
     };
 
     template<class T>
@@ -44,14 +49,16 @@ namespace shen
         functions.loadFunc = [&](Entity entity, const Serialization& element)
         {
             auto& world = _systems->GetWorld();
-            auto comp = world.AddComponent<T>(entity);
-            T::Load(*comp, element);
+            if (auto comp = world.AddComponent<T>(entity))
+            {
+                T::Load(*comp, element);
+            }
         };
 
         functions.saveFunc = [&](Entity entity, Serialization& element)
         {
             auto& world = _systems->GetWorld();
-            if (auto comp = world.GetComponent<T>(entity))
+            if (auto comp = world.GetOrCreateComponent<T>(entity))
             {
                 T::Save(*comp, element);
             }  

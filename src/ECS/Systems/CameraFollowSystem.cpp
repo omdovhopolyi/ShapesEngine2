@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(CameraFollowSystem)
+
     void CameraFollowSystem::Update()
     {
         auto& world = _systems->GetWorld();

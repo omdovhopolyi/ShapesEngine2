@@ -4,7 +4,6 @@
 #include "Utils/Math.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
-#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -12,31 +11,9 @@ namespace shen
 {
     void UISpriteComponent::Update(float dt)
     {
-        if (_dirty)
+        if (_fillScreen)
         {
-            _dirty = false;
-
-            if (_fillScreen && _node)
-            {
-                auto window = _node->GetWindow();
-                auto systems = window->GetSystemsManager();
-                auto& world = systems->GetWorld();
-
-                auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
-                auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId);
-                auto targetSize = target->getSize();
-
-                auto spriteSize = _sprite.getGlobalBounds();
-                sf::Vector2f scaleDiff;
-                scaleDiff.x = targetSize.x / spriteSize.width;
-                scaleDiff.y = targetSize.y / spriteSize.height;
-
-                auto scale = _sprite.getScale();
-                scale.x *= scaleDiff.x;
-                scale.y *= scaleDiff.y;
-
-                _sprite.setScale(scale);
-            }
+            CalculateFillSize();
         }
     }
 
@@ -50,6 +27,11 @@ namespace shen
         _sprite.setTexture(*texture);
     }
 
+    void UISpriteComponent::SetTextureRect(const sf::IntRect& rect)
+    {
+        _sprite.setTextureRect(rect);
+    }
+
     void UISpriteComponent::SetFillScreen(bool fill)
     {
         _fillScreen = fill;
@@ -58,5 +40,36 @@ namespace shen
     bool UISpriteComponent::IsFillScreen() const
     {
         return _fillScreen;
+    }
+
+    void UISpriteComponent::SetColor(const sf::Color& color)
+    {
+        _sprite.setColor(color);
+    }
+
+    sf::Color UISpriteComponent::GetColor() const
+    {
+        return _sprite.getColor();
+    }
+
+    void UISpriteComponent::CalculateFillSize()
+    {
+        auto window = _node->GetWindow();
+        auto systems = window->GetSystemsManager();
+
+        auto renderTargets = systems->GetSystem<SfmlRenderTargetsSystem>();
+        auto target = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::UITargetId);
+        auto targetSize = target->getSize();
+
+        auto spriteSize = _sprite.getGlobalBounds();
+        sf::Vector2f scaleDiff;
+        scaleDiff.x = targetSize.x / spriteSize.width;
+        scaleDiff.y = targetSize.y / spriteSize.height;
+
+        auto scale = _sprite.getScale();
+        scale.x *= scaleDiff.x;
+        scale.y *= scaleDiff.y;
+
+        _sprite.setScale(scale);
     }
 }

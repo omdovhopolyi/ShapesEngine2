@@ -29,7 +29,8 @@ namespace shen
         virtual void Update(float dt);
         virtual void Draw();
 
-        SystemsManager* GetSystemsManager() const { return _context.systems; }
+        void SetSystemsManager(SystemsManager* systems) { _systems = systems; }
+        SystemsManager* GetSystemsManager() const { return _systems; }
 
         const std::string& GetId() const;
         const std::shared_ptr<UINode>& GetOrCreateRoot();
@@ -53,6 +54,8 @@ namespace shen
         void Open();
         void Close();
 
+        void OnOpen();
+
         void SetState(UIWindowState state) { _state = state; }
         UIWindowState GetState() const { return _state; }
 
@@ -61,10 +64,12 @@ namespace shen
         void RemoveExpiredComponents();
         void SetupInputComponentsArray();
 
+        static void OnOpen(UINode* node);
         static void InitComponentsForNode(UINode* node);
 
     protected:
         UIWindowContext _context;
+        SystemsManager* _systems = nullptr;
         UIWindowState _state = UIWindowState::Closed;
         std::shared_ptr<UINode> _root;
         std::map<std::string, std::weak_ptr<UIInputComponent>> _mappedInputComponents;

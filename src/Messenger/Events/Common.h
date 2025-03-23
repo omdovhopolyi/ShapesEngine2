@@ -61,12 +61,18 @@ namespace shen
         MouseWheelEvent(int posX, int posY, float scrl, bool altMode, bool shiftMode, bool ctrlMode);
     };
 
-    struct Quit : Event
+    struct Quit : Event {};
+
+    struct MapLoadedEvent : Event
     {
+        std::string mapId;
+
+        MapLoadedEvent(const std::string& id);
     };
 
-    struct WindowOpen : Event
-    {
-        std::string windowId;
-    };
+    struct LostFocus : Event {};
+
+    struct GainedFocus : Event {};
+
+    struct PauseGameEvent : Event {};
 }

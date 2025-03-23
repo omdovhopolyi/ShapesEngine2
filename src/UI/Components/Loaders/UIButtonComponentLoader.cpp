@@ -39,6 +39,10 @@ namespace shen
             const auto priority = element.GetInt("priority");
             component->SetInputPriority(priority);
 
+            component->SetHoverSoundId(element.GetStr("sound_hover"));
+            component->SetPressSoundId(element.GetStr("sound_press"));
+            component->SetReleaseSoundId(element.GetStr("sound_release"));
+
             return component.get();
         }
 

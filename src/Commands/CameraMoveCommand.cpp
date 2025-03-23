@@ -37,7 +37,7 @@ namespace shen
 
         world.Each<Camera>([&](const auto entity, Camera& camera)
         {
-            const auto offset = _direction * _speed * time.Dt();
+            const auto offset = _direction * _speed * time.GameDt();
             camera.view.move(offset);
             camera.needUpdate = true;
         });

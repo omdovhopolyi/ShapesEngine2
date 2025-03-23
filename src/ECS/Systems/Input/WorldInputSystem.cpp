@@ -58,24 +58,32 @@ namespace shen
         std::vector<std::pair<Entity, const PlayerInput*>> entities;
 
         auto& world = _systems->GetWorld();
+        entities.reserve(world.Size<PlayerInput>());
         world.Each<PlayerInput>([&](auto entity, const PlayerInput& input)
         {
             entities.push_back({ entity, &input });
         });
 
-        for (auto& [entity, input] : entities)
+        for (auto& [command, context] : _toProcess)
         {
-            for (auto& [command, context] : _toProcess)
-            {
-                if (command)
-                {
-                    const bool canExecute = input->commandTypes.contains(command->GetType());
-                    if (canExecute)
-                    {
-                        context.entity = entity;
-                        context.systems = _systems;
+            context.systems = _systems;
 
-                        command->Execute(context);
+            if (command)
+            {
+                if (command->IsGlobal())
+                {
+                    command->Execute(context);
+                }
+                else
+                {
+                    for (auto& [entity, input] : entities)
+                    {
+                        const bool canExecute = input->commandTypes.contains(command->GetType());
+                        if (canExecute)
+                        {
+                            context.entity = entity;
+                            command->Execute(context);
+                        }
                     }
                 }
             }
@@ -171,12 +179,12 @@ namespace shen
         serialization.SetupElement("items");
         serialization.ForAllChildElements("item", [&](const Serialization& element)
         {
-            InputType inputType;
             const bool silent = true;
 
+            InputType inputType;
             inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(element.GetStr("key"), silent));
-            inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn"));
-            inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType"));
+            inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn", MouseButtonEnum.ToString(MouseButton::None)));
+            inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType", InputEventTypeEnum.ToString(InputEventType::Undefined)));
             inputType.alt = element.GetBool("alt");
             inputType.shift = element.GetBool("shift");
             inputType.ctrl = element.GetBool("ctrl");

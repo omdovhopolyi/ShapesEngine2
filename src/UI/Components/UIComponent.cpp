@@ -5,6 +5,9 @@
 
 namespace shen
 {
+    IUIComponentWrapper::~IUIComponentWrapper() = default;
+    UIComponent::~UIComponent() = default;
+
     UIWindow* UIComponent::GetWindow() const
     {
         if (_node)
@@ -15,9 +18,9 @@ namespace shen
         return nullptr;
     }
 
-    void UIComponent::RegisterReference(const std::string& id, std::weak_ptr<UIComponent>* component)
+    void UIComponent::RegisterReference(const std::string& id, IUIComponentWrapper& component)
     {
-        auto [it, isInserted] = _references.insert({ id, component });
+        auto [it, isInserted] = _references.insert({ id, &component });
         Assert(isInserted, std::format("Multiple references for id {} in window {}", id, GetWindow()->GetId()));
     } 
 
@@ -55,7 +58,7 @@ namespace shen
                 {
                     if (auto component = window->GetComponent(refId); !component.expired())
                     {
-                        *ref = component;
+                        ref->SetComponent(component);
                     }
                 }
             }

@@ -16,10 +16,18 @@ namespace shen
 
         void SetTexture(sf::Texture* texture);
 
+        void SetTextureRect(const sf::IntRect& rect);
+
         void SetFillScreen(bool fill);
         bool IsFillScreen() const;
 
-    private:
+        void SetColor(const sf::Color& color);
+        sf::Color GetColor() const;
+
+    protected:
+        void CalculateFillSize();
+
+    protected:
         sf::Sprite _sprite;
         bool _fillScreen = false;
     };
