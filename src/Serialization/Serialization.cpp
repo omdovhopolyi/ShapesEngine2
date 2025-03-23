@@ -37,15 +37,31 @@ namespace shen
         Assert(_element, std::format("[Serialization::SetupElement] Can not find element '{}'", id));
     }
 
+    void Serialization::SetupFirstElement()
+    {
+        _element = _document.FirstChildElement();
+    }
+
     bool Serialization::IsValid() const
     {
         return !_document.Error();
+    }
+
+    bool Serialization::IsElementValid() const
+    {
+        return _element != nullptr;
     }
 
     Serialization Serialization::GetElement(const std::string& id) const
     {
         const auto child = _element->FirstChildElement(id.c_str());
         return Serialization{ _systems, child };
+    }
+
+    bool Serialization::HasElement(const std::string& id) const
+    {
+        const auto child = _element->FirstChildElement(id.c_str());
+        return child != nullptr;
     }
 
     bool Serialization::GetBool(const std::string& id, bool defaultVal/* = false*/) const
@@ -390,6 +406,32 @@ namespace shen
             func(Serialization(_systems, element));
 
             element = element->NextSiblingElement();
+        }
+    }
+
+    void Serialization::ForAllChildren(const std::function<void(const Serialization&)>& func) const
+    {
+        auto element = _element->FirstChildElement();
+        while (element)
+        {
+            func(Serialization(_systems, element));
+
+            //ForAllChildren(element, func);
+
+            element = element->NextSiblingElement();
+        }
+    }
+
+    void Serialization::ForAllChildren(tinyxml2::XMLElement* element, const std::function<void(const Serialization&)>& func) const
+    {
+        auto childElement = element->FirstChildElement();
+        while (childElement)
+        {
+            func(Serialization(_systems, childElement));
+
+            ForAllChildren(childElement, func);
+
+            childElement = childElement->NextSiblingElement();
         }
     }
 

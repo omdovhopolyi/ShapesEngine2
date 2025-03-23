@@ -24,10 +24,13 @@ namespace shen
 
         void LoadDocument(const std::string& filename);
         void SetupElement(const std::string& id);
+        void SetupFirstElement();
 
         bool IsValid() const;
+        bool IsElementValid() const;
 
         Serialization GetElement(const std::string& id) const;
+        bool HasElement(const std::string& id) const;
 
         bool GetBool(const std::string& id, bool defaultVal = false) const;
         int GetInt(const std::string& id, int defaultVal = 0) const;
@@ -45,6 +48,8 @@ namespace shen
         sf::Transform GetTransform() const;
         void ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
         void ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
+        void ForAllChildren(const std::function<void(const Serialization&)>& func) const;
+        void ForAllChildren(tinyxml2::XMLElement* element, const std::function<void(const Serialization&)>& func) const;
 
         void SetBool(const std::string& id, bool val);
         void SetInt(const std::string& id, int val);

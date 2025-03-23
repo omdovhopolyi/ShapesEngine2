@@ -7,6 +7,7 @@
     <system type="InputCommandsCollection"/>
     <system type="MapLoaderSystem"/>
     <system type="SfmlGameWindowSystem"/>
+    <system type="TestLoadSystem"/>
 
     <system type="TimeSystem"/>
     <system type="SfmlInputSystem"/>

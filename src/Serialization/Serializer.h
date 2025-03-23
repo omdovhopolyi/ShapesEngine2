@@ -12,10 +12,10 @@ namespace shen
         : public Singleton<Collection>
     {
     public:
-        template<class SpecificLoader>
+        template<class TLoader>
         void Register(const std::string& type)
         {
-            _loaders[type] = std::make_unique<SpecificLoader>();
+            _loaders[type] = std::make_unique<TLoader>();
         }
 
         BaseLoader* GetLoader(const std::string& type) const
