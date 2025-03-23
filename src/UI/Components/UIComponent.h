@@ -19,6 +19,8 @@ namespace shen
     class IUIComponentWrapper
     {
     public:
+        virtual ~IUIComponentWrapper();
+
         std::weak_ptr<UIComponent> GetComponentPtr()
         {
             return _reference;
@@ -56,14 +58,13 @@ namespace shen
 
             return nullptr;
         }
-
-    /*private:
-        std::weak_ptr<T> _reference;*/
     };
 
     class UIComponent
     {
     public:
+        virtual ~UIComponent();
+
         virtual void Init() {};
         virtual void OnWindowOpen() {};
         virtual void RegisterReferences() {};

@@ -12,6 +12,7 @@ namespace shen
     class ConditionLoader
     {
     public:
+        virtual ~ConditionLoader() = default;
         virtual std::unique_ptr<ConditionBase> LoadCondition(const Serialization&) { return nullptr; }
     };
 }

@@ -5,6 +5,9 @@
 
 namespace shen
 {
+    IUIComponentWrapper::~IUIComponentWrapper() = default;
+    UIComponent::~UIComponent() = default;
+
     UIWindow* UIComponent::GetWindow() const
     {
         if (_node)
