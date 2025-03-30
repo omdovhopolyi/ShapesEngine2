@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Serialization/SerializableField.h"
+#include <SFML/System/Vector2.hpp>
 
 namespace shen
 {
-    class SerializableFieldString
+    class SerializableFieldVec2
         : public SerializableField
     {
     public:
-        SerializableFieldString(std::string& field, const std::string& name);
+        SerializableFieldVec2(sf::Vector2f& field, const std::string& name);
         void Load(const Serialization& element) override;
 
-    public:
-        std::string& _field;
-        std::string _name;
+    private:
+        sf::Vector2f& _field;
     };
 }

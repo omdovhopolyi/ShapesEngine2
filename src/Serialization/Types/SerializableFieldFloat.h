@@ -13,6 +13,5 @@ namespace shen
 
     public:
         float& _field;
-        std::string _name;
     };
 }

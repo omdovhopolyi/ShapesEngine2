@@ -1,11 +1,10 @@
-#include "SerializedTypeInt.h"
-#include "Serialization/Serialization.h"
+#include "SerializableFieldInt.h"
 
 namespace shen
 {
     SerializableFieldInt::SerializableFieldInt(int& field, const std::string& name)
-        : _field(field)
-        , _name(name)
+        : SerializableField(name)
+        , _field(field)
     { }
 
     void SerializableFieldInt::Load(const Serialization& element)

@@ -1,11 +1,10 @@
-#include "SerializedTypeFloat.h"
-#include "Serialization/Serialization.h"
+#include "SerializableFieldFloat.h"
 
 namespace shen
 {
     SerializableFieldFloat::SerializableFieldFloat(float& field, const std::string& name)
-        : _field(field)
-        , _name(name)
+        : SerializableField(name)
+        , _field(field)
     {}
 
     void SerializableFieldFloat::Load(const Serialization& element)

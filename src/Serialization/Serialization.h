@@ -5,7 +5,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <tinyxml2/tinyxml2.h>
 #include <string>
@@ -29,8 +28,7 @@ namespace shen
 
         bool IsValid() const;
         bool IsElementValid() const;
-
-        bool HasElemenet(const std::string& id) const;
+         
         Serialization GetElement(const std::string& id) const;
         bool HasElement(const std::string& id) const;
 
@@ -44,10 +42,10 @@ namespace shen
         sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
         sf::IntRect GetIntRect(sf::IntRect def = {}) const;
         sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const;
-        sf::Texture* GetTexturePtr(const std::string& id = "texture") const;
         std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
         std::vector<std::string> GetVecStr(const std::string& id) const;
         sf::Transform GetTransform() const;
+
         void ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
         void ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
         void ForAllChildren(const std::function<void(const Serialization&)>& func) const;

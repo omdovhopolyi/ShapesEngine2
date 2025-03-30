@@ -9,7 +9,10 @@ namespace shen
         : public SerializableField
     {
     public:
-        SerializableFieldAsset(std::shared_ptr<T>& field, const std::string& name) : _field(field), _name(name) {}
+        SerializableFieldAsset(std::shared_ptr<T>& field, const std::string& name)
+            : SerializableField(name)
+            , _field(field)
+        {}
 
         void Load(const Serialization& element) override
         {
@@ -27,6 +30,5 @@ namespace shen
 
     public:
         std::shared_ptr<T>& _field;
-        std::string _name;
     };
 }

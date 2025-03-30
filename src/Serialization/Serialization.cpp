@@ -1,6 +1,5 @@
 #include "Serialization.h"
 #include "ECS/SystemsManager.h"
-#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include "Utils/Assert.h"
 #include <format>
 
@@ -48,7 +47,7 @@ namespace shen
 
     void Serialization::SetupFirstElement()
     {
-        _element = _document.FirstChildElement();
+        _element = _document->FirstChildElement();
     }
 
     bool Serialization::IsValid() const
@@ -59,16 +58,6 @@ namespace shen
         }
         
         return false;
-    }
-
-    bool Serialization::IsElementValid() const
-    {
-        return _element != nullptr;
-    }
-
-    bool Serialization::HasElemenet(const std::string& id) const
-    {
-        return _element->FirstChildElement(id.c_str()) != nullptr;
     }
 
     bool Serialization::IsElementValid() const
@@ -293,28 +282,6 @@ namespace shen
         }
 
         return defaultVal;
-    }
-
-    sf::Texture* Serialization::GetTexturePtr(const std::string& id) const
-    {
-        if (!_systems)
-        {
-            Assert(_systems, "[Serialization::LoadTexturePtr] No systems");
-            return nullptr;
-        }
-
-        if (const auto attr = _element->FindAttribute(id.c_str()))
-        {
-            if (const auto textureId = attr->Value())
-            {
-                if (auto textures = _systems->GetSystem<SfmlTexturesCollection>())
-                {
-                    return textures->GetTexture(textureId);
-                }
-            }
-        }
-
-        return nullptr;
     }
 
     std::vector<sf::IntRect> Serialization::GetVectorIntRect(const std::string& id) const

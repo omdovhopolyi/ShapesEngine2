@@ -4,15 +4,14 @@
 
 namespace shen
 {
-    class SerializableFieldInt
+    class SerializableFieldString
         : public SerializableField
     {
     public:
-        SerializableFieldInt(int& field, const std::string& name);
+        SerializableFieldString(std::string& field, const std::string& name);
         void Load(const Serialization& element) override;
 
-    public:
-        int& _field;
-        std::string _name;
+    private:
+        std::string& _field;
     };
 }

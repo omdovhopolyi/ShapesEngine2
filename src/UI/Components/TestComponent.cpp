@@ -1,8 +1,8 @@
 #include "TestComponent.h"
-#include "Serialization/Types/SerializedTypeInt.h"
-#include "Serialization/Types/SerializedTypeFloat.h"
-#include "Serialization/Types/SerializedTypeString.h"
-#include "Serialization/Types/SerializedTypeAsset.h"
+#include "Serialization/Types/SerializableFieldInt.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
+#include "Serialization/Types/SerializableFieldString.h"
+#include "Serialization/Types/SerializableFieldAsset.h"
 
 namespace shen
 {
