@@ -13,6 +13,8 @@ namespace shen
         : public UIComponent
     {
     public:
+        void RegisterProperties() override;
+
         void SetInputPriority(int priority);
         int GetInputPriority() const;
 

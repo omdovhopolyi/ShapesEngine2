@@ -7,7 +7,7 @@ namespace shen
         , _field(field)
     {}
 
-    void SerializableFieldColor::Load(const Serialization& element)
+    void SerializableFieldColor::Load(const DataElementWrapper& element)
     {
         _field = element.GetColor(_name);
     }

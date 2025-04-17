@@ -1,7 +1,8 @@
 #include "InputCommandsCollection.h"
-#include "Commands/Loaders/InputCommandsLoadersCollection.h"
+//#include "Commands/Loaders/InputCommandsLoadersCollection.h"
+#include "Serialization/LoadersManager.h"
 #include "Commands/Loaders/InputCommandLoader.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
 
@@ -31,15 +32,15 @@ namespace shen
 
     void InputCommandsCollection::LoadFromXml()
     {
-        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/commands.xml").c_str()};
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("item", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/commands.xml"));
+        elementWrapper.ForAllChildren("item", [&](const DataElementWrapper& element)
         {
             if (const auto type = element.GetStr("type"); !type.empty())
             {
-                if (auto loader = InputCommandsLoadersCollection::Instance().GetLoader(type))
+                if (auto loader = LoadersManager::Instance().GetLoader(type))
                 {
-                    auto command = loader->LoadCommand(element);
+                    auto command = std::dynamic_pointer_cast<Command>(loader->CreateAndLoad(element));
                     auto id = command->GetId();
                     _commands[id] = std::move(command);
                 }

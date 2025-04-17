@@ -2,9 +2,15 @@
 #include "ECS/World.h"
 #include "ECS/Systems/TimeSystem.h"
 #include "ECS/Components/Common.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
 
 namespace shen
 {
+    void CameraZoomCommand::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldFloat>(_speed, "speed");
+    }
+
     void CameraZoomCommand::SetSpeed(float speed)
     {
         _speed = speed;

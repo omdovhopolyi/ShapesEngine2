@@ -1,21 +1,21 @@
 #include "Physics.h"
 #include "ECS/World.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/DataElementWrapper.h"
 
 namespace shen
 {
-    void RigidBody::Load(RigidBody& component, const Serialization& serialization)
+    void RigidBody::Load(RigidBody& component, const DataElementWrapper& elementWrapper)
     {
-        component.type = RigidBodyTypeEnum.FromString(serialization.GetStr("bodyType"));
-        component.size = serialization.GetVec2("size", component.size);
-        component.sensor = serialization.GetBool("sensor", component.sensor);
+        component.type = RigidBodyTypeEnum.FromString(elementWrapper.GetStr("bodyType"));
+        component.size = elementWrapper.GetVec2("size", component.size);
+        component.sensor = elementWrapper.GetBool("sensor", component.sensor);
     }
 
-    void RigidBody::Save(RigidBody& component, Serialization& serialization)
+    void RigidBody::Save(RigidBody& component, DataElementWrapper& elementWrapper)
     {
         const auto typeStr = RigidBodyTypeEnum.ToString(component.type);
-        serialization.SetStr("bodyType", typeStr);
-        serialization.SetVec2("size", component.size);
-        serialization.SetBool("sensor", component.sensor);
+        elementWrapper.SetStr("bodyType", typeStr);
+        elementWrapper.SetVec2("size", component.size);
+        elementWrapper.SetBool("sensor", component.sensor);
     }
 }

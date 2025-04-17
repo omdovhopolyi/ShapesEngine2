@@ -4,7 +4,8 @@
 #include "UINode.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
+#include "Serialization/LoadersManager.h"
 #include <format>
 
 namespace shen
@@ -17,26 +18,54 @@ namespace shen
     {
         std::string path = FilePath::Path("assets/ui/") + windowId + ".xml";
 
-        auto serialization = Serialization{ systems, path };
-        if (serialization.IsValid())
+        auto elementWrapper = XmlDataElementWrapper{ systems };
+        elementWrapper.LoadFile(path);
+        if (elementWrapper.IsValid())
         {
-            serialization.SetupElement("root");
             auto root = window->GetOrCreateRoot();
             root->SetWindow(window);
-            LoadNode(systems, window, root, serialization);
+            LoadNode(systems, window, root, elementWrapper);
             window->ResolveReferences();
             window->InitComponents();
         }
     }
 
-    void UIWindowLoader::LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, const Serialization& element)
+    void UIWindowLoader::LoadNode(SystemsManager* systems, UIWindow* window, std::shared_ptr<UINode> node, const DataElementWrapper& element)
     {
         if (const auto& nodeId = node->GetId(); !nodeId.empty())
         {
             window->MapNode(nodeId, node);
         }
 
-        element.ForAllChildElements(ComponentElementId, [&](const Serialization& componentElement)
+        element.ForAllChildren([&](const DataElementWrapper& element)
+        {
+            if (const auto type = element.GetStr("type"); !type.empty())
+            {
+                if (auto loader = LoadersManager::Instance().GetLoader(type))
+                {
+                    if (auto component = loader->CreateAndLoad(element))
+                    {
+                        auto uiComponent = std::dynamic_pointer_cast<UIComponent>(component);
+                        uiComponent->RegisterReferences();
+                        node->AddComponent(uiComponent);
+                    }
+                }
+            }
+        });
+
+        element.ForAllChildren("node", [&](const DataElementWrapper& nodeElement)
+        {
+            const auto name = nodeElement.GetStr("name");
+            const auto id = nodeElement.GetStr("id");
+
+            auto child = node->AddChildPtr(name);
+            child->SetWindow(window);
+            child->SetId(id);
+
+            LoadNode(systems, window, child, nodeElement);
+        });
+
+        /*element.ForAllChildren(ComponentElementId, [&](const DataElementWrapper& componentElement)
         {
             if (const auto type = componentElement.GetStr(TypeAttrId); !type.empty())
             {
@@ -54,7 +83,7 @@ namespace shen
             }
         });
 
-        element.ForAllChildElements(NodeElementId, [&](const Serialization& nodeElement)
+        element.ForAllChildren(NodeElementId, [&](const DataElementWrapper& nodeElement)
         {
             const auto name = nodeElement.GetStr("name");
             const auto id = nodeElement.GetStr("id");
@@ -64,6 +93,6 @@ namespace shen
             child->SetId(id);
             
             LoadNode(systems, window, child, nodeElement);
-        });
+        });*/
     }
 }

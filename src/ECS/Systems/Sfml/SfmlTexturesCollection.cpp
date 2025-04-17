@@ -1,7 +1,7 @@
 #include "SfmlTexturesCollection.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/../extlibs/headers/stb_image/stb_image.h>
 
@@ -84,9 +84,9 @@ namespace shen
 
     void SfmlTexturesCollection::LoadTexturesPaths(const std::string& fileName)
     {
-        auto serialization = Serialization{ _systems, fileName };
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("item", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(fileName);
+        elementWrapper.ForAllChildren("item", [&](const DataElementWrapper& element)
         {
             const auto id = element.GetStr("id");
             const auto path = element.GetStr("path");

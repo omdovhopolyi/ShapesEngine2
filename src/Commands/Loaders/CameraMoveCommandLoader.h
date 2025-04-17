@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class CameraMoveCommand;
+    /*class CameraMoveCommand;
 
     class CameraMoveCommandLoader
         : public InputCommandLoader
@@ -12,6 +12,6 @@ namespace shen
         CLASS_LOADER(InputCommandsLoadersCollection, CameraMoveCommand)
 
     public:
-        std::unique_ptr<Command> LoadCommand(const Serialization& serialization) override;
-    };
+        std::unique_ptr<Command> LoadCommand(const DataElementWrapper& elementWrapper) override;
+    };*/
 }

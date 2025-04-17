@@ -2,6 +2,11 @@
 
 namespace shen
 {
+    void AndCondition::RegisterProperties()
+    {
+
+    }
+
     bool AndCondition::Check(const ContextBase& context) const
     {
         bool result = true;

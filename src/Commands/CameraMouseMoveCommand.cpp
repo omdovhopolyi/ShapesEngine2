@@ -8,17 +8,20 @@ namespace shen
 {
     void CameraMouseMoveCommand::Execute(const CommandContext& context) const
     {
-        auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>();
-        auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
-
-        if (const auto screenDelta = context.vars.GetVar<sf::Vector2i>("delta"))
+        if (auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>())
         {
-            auto& world = context.systems->GetWorld();
-            world.Each<Camera>([&](const auto entity, Camera& camera)
+            if (auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId))
             {
-                camera.view.move(sf::Vector2f(-screenDelta->x, -screenDelta->y) * camera.scale);
-                camera.needUpdate = true;
-            });
+                if (const auto screenDelta = context.vars.GetVar<sf::Vector2i>("delta"))
+                {
+                    auto& world = context.systems->GetWorld();
+                    world.Each<Camera>([&](const auto entity, Camera& camera)
+                    {
+                        camera.view.move(sf::Vector2f(-screenDelta->x, -screenDelta->y) * camera.scale);
+                        camera.needUpdate = true;
+                    });
+                }
+            }
         }
     }
 }

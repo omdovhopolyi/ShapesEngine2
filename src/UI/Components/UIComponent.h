@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include "Serialization/Serializable.h"
 
 namespace sf
 {
@@ -36,7 +37,8 @@ namespace shen
     };
 
     template<class T>
-    class UIComponentWrapper : public IUIComponentWrapper
+    class UIComponentWrapper 
+        : public IUIComponentWrapper
     {
     public:
         std::weak_ptr<T> GetWeak()
@@ -61,9 +63,12 @@ namespace shen
     };
 
     class UIComponent
+        : public Serializable
     {
     public:
         virtual ~UIComponent();
+
+        void RegisterProperties() override;
 
         virtual void Init() {};
         virtual void OnWindowOpen() {};

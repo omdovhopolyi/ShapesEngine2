@@ -2,10 +2,12 @@
 
 #include "Context/ContextBase.h"
 #include "Utils/UsingPtrsMacro.h"
+#include "Serialization/Serializable.h"
 
 namespace shen
 {
     class ConditionBase
+        : public Serializable
     {
     public:
         USING_PTRS(ConditionBase);

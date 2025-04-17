@@ -4,12 +4,13 @@
 #include "ECS/Components/Common.h"
 #include "ECS/Components/Physics.h"
 #include "ECS/Components/Render.h"
-#include "ECS/World.h"
+#include "ECS/Systems/ObjectsAssetsCollectonSystem.h"
+//#include "ECS/World.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Common.h"
-#include "ECS/Systems/ObjectsAssetsCollectonSystem.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 
 namespace shen
 {
@@ -35,24 +36,24 @@ namespace shen
 
     void MapLoaderSystem::LoadMap(const std::string& mapId) const
     {
-        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/maps/") + mapId + ".xml" };
-        LoadMap(serialization, mapId);
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/maps/") + mapId + ".xml");
+        LoadMap(elementWrapper, mapId);
     }
 
-    void MapLoaderSystem::LoadMap(Serialization& serialization, const std::string& mapId) const
+    void MapLoaderSystem::LoadMap(DataElementWrapper& element, const std::string& mapId) const
     {
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("entity", [&](const Serialization& element)
+        element.ForAllChildren("entity", [&](const DataElementWrapper& child)
         {
-            CreateEntityAndLoadComponents(element);
+            CreateEntityAndLoadComponents(child);
         });
 
         shen::Messenger::Instance().Broadcast<MapLoadedEvent>(mapId);
     }
 
-    void MapLoaderSystem::LoadComponents(Entity entity, const Serialization& serialization) const
+    void MapLoaderSystem::LoadComponents(Entity entity, const DataElementWrapper& element) const
     {
-        serialization.ForAllChildElements("component", [&](const Serialization& componentElement)
+        element.ForAllChildren("component", [&](const DataElementWrapper& componentElement)
         {
             if (const auto type = componentElement.GetStr("type"); !type.empty())
             {
@@ -64,12 +65,12 @@ namespace shen
         });
     }
 
-    Entity MapLoaderSystem::CreateEntityAndLoadComponents(const Serialization& serialization) const
+    Entity MapLoaderSystem::CreateEntityAndLoadComponents(const DataElementWrapper& element) const
     {
         auto& world = _systems->GetWorld();
         auto entity = world.CreateEntity();
-        InstantiateAsset(entity, serialization);
-        LoadComponents(entity, serialization);
+        InstantiateAsset(entity, element);
+        LoadComponents(entity, element);
         return entity;
     }
 
@@ -77,18 +78,20 @@ namespace shen
     {
         if (auto assetsCollection = _systems->GetSystem<ObjectsAssetsCollectonSystem>())
         {
-            const auto& assetData = assetsCollection->GetData(assetId);
-            return CreateEntityAndLoadComponents(assetData);
+            if (const auto assetData = assetsCollection->GetData(assetId))
+            {
+                return CreateEntityAndLoadComponents(*assetData);
+            }
         }
 
         return {};
     }
 
-    void MapLoaderSystem::InstantiateAsset(Entity entity, const Serialization& serialization) const
+    void MapLoaderSystem::InstantiateAsset(Entity entity, const DataElementWrapper& element) const
     {
-        serialization.ForAllChildElements("asset", [&](const Serialization& assetElement)
+        element.ForAllChildren("asset", [&](const DataElementWrapper& childElement)
         {
-            if (const auto id = assetElement.GetStr("id"); !id.empty())
+            if (const auto id = childElement.GetStr("id"); !id.empty())
             {
                 InstantiateAsset(id);
             }

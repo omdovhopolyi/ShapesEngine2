@@ -1,7 +1,7 @@
 #include "SfmlSoundConfig.h"
 #include "Utils/FilePath.h"
 #include "Utils/Assert.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 
 namespace shen
 {
@@ -9,11 +9,9 @@ namespace shen
 
     void SfmlSoundConfig::Load()
     {
-        const auto path = FilePath::Path("assets/configs/sounds.xml");
-        auto serialization = Serialization{ _systems, path };
-
-        serialization.SetupElement("sounds");
-        serialization.ForAllChildElements("sound", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/sounds.xml"));
+        elementWrapper.ForAllChildren("sound", [&](const DataElementWrapper& element)
         {
             const auto id = element.GetStr("id");
             const auto resourcePath = FilePath::Path(element.GetStr("path"));
@@ -32,8 +30,7 @@ namespace shen
             _sounds[id] = sound;
         });
 
-        serialization.SetupElement("music");
-        serialization.ForAllChildElements("track", [&](const Serialization& element)
+        elementWrapper.ForAllChildren("track", [&](const DataElementWrapper& element)
         {
             const auto id = element.GetStr("id");
             const auto trackPath = FilePath::Path(element.GetStr("path"));

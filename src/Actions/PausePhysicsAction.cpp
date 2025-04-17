@@ -1,6 +1,7 @@
 #include "PausePhysicsAction.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/PhysicsBox2DSystem.h"
+#include "Serialization/Types/SerializableFieldBool.h"
 
 namespace shen
 {
@@ -8,6 +9,11 @@ namespace shen
         : ActionBase()
         , _pause(pause)
     {}
+
+    void PausePhisicsAction::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldBool>(_pause, "pause");
+    }
 
     void PausePhisicsAction::Execute(const ContextBase& context) const
     {

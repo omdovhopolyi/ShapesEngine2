@@ -8,6 +8,6 @@ namespace shen
     class Loader
     {
     public:
-        std::shared_ptr<Type> Load(const Serialization& serialization) const = 0;
+        std::shared_ptr<Type> Load(const DataElementWrapper& serialization) const = 0;
     };*/
 }

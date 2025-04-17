@@ -6,7 +6,7 @@
 
 namespace shen
 {
-    class UINode;
+    /*class UINode;
     class UIComponent;
     class SystemsManager;
     class Serialization;
@@ -14,7 +14,7 @@ namespace shen
     class UIComponentLoader
     {
     public:
-        virtual UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element) { return nullptr; }
+        virtual UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element) { return nullptr; }
         virtual ~UIComponentLoader() = default;
-    };
+    };*/
 }

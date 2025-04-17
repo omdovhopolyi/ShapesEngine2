@@ -1,7 +1,7 @@
 #include "SfmlSpritesCollection.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 
@@ -23,9 +23,9 @@ namespace shen
     {
         auto textures = _systems->GetSystem<SfmlTexturesCollection>();
 
-        auto serialization = Serialization{ _systems, fileName };
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("sprite", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(fileName);
+        elementWrapper.ForAllChildren("sprite", [&](const DataElementWrapper& element)
         {
             const auto id = element.GetStr("id");
             const auto textureId = element.GetStr("tex");

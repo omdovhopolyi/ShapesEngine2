@@ -9,8 +9,8 @@ namespace shen
         : public ConditionBase
     {
     public:
+        void RegisterProperties() override;
         bool Check(const ContextBase& context) const;
-
         void AddCondition(const ConditionBase::Ptr& condition);
 
     protected:

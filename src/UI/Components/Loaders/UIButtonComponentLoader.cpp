@@ -10,9 +10,9 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UIButtonComponentLoader)
+    /*REGISTER_CLASS_LOADER(UIButtonComponentLoader)
 
-    UIComponent* UIButtonComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
+    UIComponent* UIButtonComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element)
     {
         if (auto component = node->AddComponent<UIButtonComponent>())
         {
@@ -28,7 +28,7 @@ namespace shen
                 window->MapComponent(id, component);
             }
 
-            element.ForAllChildElements("sprite", [&](const Serialization& spriteElement)
+            element.ForAllChildren("sprite", [&](const DataElementWrapper& spriteElement)
             {
                 auto type = ButtonSpriteTypeEnum.FromString(spriteElement.GetStr("type"));
                 const auto spriteId = spriteElement.GetStr("sprite");
@@ -47,5 +47,5 @@ namespace shen
         }
 
         return nullptr;
-    }
+    }*/
 }

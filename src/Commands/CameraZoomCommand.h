@@ -10,6 +10,8 @@ namespace shen
     public:
         CameraZoomCommand() = default;
 
+        void RegisterProperties() override;
+
         void SetSpeed(float speed);
         float GetSpeed() const;
 

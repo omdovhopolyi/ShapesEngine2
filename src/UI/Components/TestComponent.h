@@ -2,13 +2,13 @@
 
 #include <vector>
 #include <memory>
-#include "Serialization/Asset.h"
+#include "Serialization/Serializable.h"
 #include "Serialization/LoaderMacro.h"
 
 namespace shen
 {
     class Component
-        : public Asset
+        : public Serializable
     {
     };
 
@@ -18,7 +18,7 @@ namespace shen
         CLASS_LOADER_TEST(UITestComponent)
 
     public:
-        UITestComponent();
+        void RegisterProperties() override;
 
     private:
 

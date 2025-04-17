@@ -7,7 +7,7 @@ namespace shen
         , _field(field)
     {}
 
-    void SerializableFieldBool::Load(const Serialization& element)
+    void SerializableFieldBool::Load(const DataElementWrapper& element)
     {
         _field = element.GetBool(_name);
     }

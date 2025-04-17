@@ -2,12 +2,20 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Logger/Logger.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
 
 namespace shen
 {
     MoveCommand::MoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     { }
+
+    void MoveCommand::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldVec2>(_direction, "direction");
+        RegisterVar<SerializableFieldFloat>(_speed, "speed");
+    }
 
     void MoveCommand::SetDirection(const sf::Vector2f& dir)
     {

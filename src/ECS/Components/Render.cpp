@@ -1,15 +1,16 @@
 #include "Render.h"
 #include "ECS/World.h"
-#include "Serialization/Serialization.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "ECS/SystemsManager.h"
+#include "Serialization/DataElementWrapper.h"
 
 namespace shen
 {
-    void Sprite::Load(Sprite& component, const Serialization& serialization)
+    void Sprite::Load(Sprite& component, const DataElementWrapper& elementWrapper)
     {
-        if (auto textureId = serialization.GetStr("texture"); !textureId.empty())
+        if (auto textureId = elementWrapper.GetStr("texture"); !textureId.empty())
         {
-            auto systems = serialization.GetSystems();
+            auto systems = elementWrapper.GetSystems();
 
             if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
             {
@@ -17,8 +18,8 @@ namespace shen
                 {   
                     auto textureSize = texture->getSize();
 
-                    auto rect = serialization.GetIntRect("rect", { 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) });
-                    auto anchor = serialization.GetVec2("anchor", { textureSize.x / 2.f, textureSize.y / 2.f });
+                    auto rect = elementWrapper.GetIntRect("rect", { 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) });
+                    auto anchor = elementWrapper.GetVec2("anchor", { textureSize.x / 2.f, textureSize.y / 2.f });
 
                     component.textureId = textureId;
                     component.sprite.setTexture(*texture);
@@ -28,53 +29,43 @@ namespace shen
             }   
         }
 
-        component.sorting = serialization.GetInt("sorting");
+        component.sorting = elementWrapper.GetInt("sorting");
     }
 
-    void Sprite::Save(Sprite& component, Serialization& serialization)
+    void Sprite::Save(Sprite& component, DataElementWrapper& elementWrapper)
     {
         if (auto texture = component.sprite.getTexture())
         {
-            serialization.SetStr("texture", component.textureId);
-            serialization.SetIntRect("rect", component.sprite.getTextureRect());
-            serialization.SetVec2("size", component.sprite.getOrigin());
-            serialization.SetInt("sorting", component.sorting);
+            elementWrapper.SetStr("texture", component.textureId);
+            elementWrapper.SetIntRect("rect", component.sprite.getTextureRect());
+            elementWrapper.SetVec2("size", component.sprite.getOrigin());
+            elementWrapper.SetInt("sorting", component.sorting);
         }
     }
 
-    void Color::Load(Color& component, const Serialization& serialization)
+    void Color::Load(Color& component, const DataElementWrapper& elementWrapper)
     {
-        component.color = serialization.GetColor("color");
+        component.color = elementWrapper.GetColor("color");
     }
 
-    void Color::Save(Color& component, Serialization& serialization)
+    void Color::Save(Color& component, DataElementWrapper& elementWrapper)
     {
-        serialization.SetColor("color", component.color);
+        elementWrapper.SetColor("color", component.color);
     }
 
-    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const Serialization& serialization)
+    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const DataElementWrapper& elementWrapper)
     {
-        component.frameTime = serialization.GetFloat("frameTime", component.frameTime);
-        component.frames = serialization.GetVectorIntRect("frames");
-        component.animType = AnimationTypeEnum.FromString(serialization.GetStr("animType"));
-        component.deleteOnDone = serialization.GetBool("deleteOnDone");
+        component.frameTime = elementWrapper.GetFloat("frameTime", component.frameTime);
+        component.frames = elementWrapper.GetVectorIntRect("frames");
+        component.animType = AnimationTypeEnum.FromString(elementWrapper.GetStr("animType"));
+        component.deleteOnDone = elementWrapper.GetBool("deleteOnDone");
     }
 
-    void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, Serialization& serialization)
+    void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, DataElementWrapper& elementWrapper)
     {
-        serialization.SetFloat("frameTime", component.frameTime);
-        serialization.SetVectorIntRect("frames", component.frames);
-        serialization.SetStr("type", AnimationTypeEnum.ToString(component.animType));
-        serialization.SetBool("deleteOnDone", component.deleteOnDone);
+        elementWrapper.SetFloat("frameTime", component.frameTime);
+        elementWrapper.SetVectorIntRect("frames", component.frames);
+        elementWrapper.SetStr("type", AnimationTypeEnum.ToString(component.animType));
+        elementWrapper.SetBool("deleteOnDone", component.deleteOnDone);
     }
-
-    /*void Sorting::Load(Sorting& component, const Serialization& serialization)
-    {
-        component.value = serialization.GetInt("value");
-    }
-
-    void Sorting::Save(Sorting& component, Serialization& serialization)
-    {
-        serialization.SetInt("value", component.value);
-    }*/
 }

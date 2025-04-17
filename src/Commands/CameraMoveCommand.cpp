@@ -2,12 +2,20 @@
 #include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "ECS/Systems/TimeSystem.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
 
 namespace shen
 {
     CameraMoveCommand::CameraMoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     {
+    }
+
+    void CameraMoveCommand::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldVec2>(_direction, "direction");
+        RegisterVar<SerializableFieldFloat>(_speed, "speed");
     }
 
     void CameraMoveCommand::SetDirection(const sf::Vector2f& dir)

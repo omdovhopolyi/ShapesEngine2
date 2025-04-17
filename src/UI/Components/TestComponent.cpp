@@ -8,7 +8,7 @@ namespace shen
 {
     REGISTER_CLASS_LOADER_TEST(UITestComponent)
 
-    UITestComponent::UITestComponent()
+    void UITestComponent::RegisterProperties()
     {
         RegisterVar<SerializableFieldInt>(_intVal, "intVal");
         RegisterVar<SerializableFieldFloat>(_floatVal, "floatVal");

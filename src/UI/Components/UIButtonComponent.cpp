@@ -11,6 +11,8 @@
 #include "Utils/Assert.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Sounds.h"
+#include "Serialization/Types/SerializableFieldString.h"
+#include "Serialization/Types/SerializableFieldSprite.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace shen
@@ -35,6 +37,20 @@ namespace shen
                 callback();
             }
         }
+    }
+
+    REGISTER_CLASS_LOADER_TEST(UIButtonComponent);
+
+    void UIButtonComponent::RegisterProperties()
+    {
+        UIInputComponent::RegisterProperties();
+
+        RegisterVar<SerializableFieldString>(_soundHover, "sound_hover");
+        RegisterVar<SerializableFieldString>(_soundPress, "sound_press");
+        RegisterVar<SerializableFieldString>(_soundRelease, "sound_release");
+        RegisterVar<SerializableFieldSprite>(_idle, "idle");
+        RegisterVar<SerializableFieldSprite>(_pressed, "pressed");
+        RegisterVar<SerializableFieldSprite>(_hovered, "hovered");
     }
 
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const

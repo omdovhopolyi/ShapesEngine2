@@ -10,7 +10,7 @@ namespace shen
     {
     public:
         SerializableFieldIntRect(sf::IntRect& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         sf::IntRect& _field;

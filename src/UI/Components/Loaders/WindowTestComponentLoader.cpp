@@ -9,5 +9,5 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(WindowTestComponentLoader)
+    //REGISTER_CLASS_LOADER(WindowTestComponentLoader)
 }

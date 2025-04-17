@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseSystems/System.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/DataElementWrapper.h"
 
 namespace shen
 {
@@ -12,12 +12,12 @@ namespace shen
 
     public:
         void Load() override;
-        const Serialization& GetData(const std::string& assetId) const;
+        const DataElementWrapper* GetData(const std::string& assetId) const;
 
     private:
         void LoadObjects();
 
     private:
-        std::map<std::string, Serialization> _assets;
+        std::map<std::string, std::unique_ptr<DataElementWrapper>> _assets;
     };
 }

@@ -4,12 +4,12 @@
 
 namespace shen
 {
-    class UIButtonComponentLoader
+    /*class UIButtonComponentLoader
         : public UIComponentLoader
     {
         CLASS_LOADER(UIWindowLoader, UIButtonComponent)
 
     public:
-        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element) override;
-    };
+        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element) override;
+    };*/
 }

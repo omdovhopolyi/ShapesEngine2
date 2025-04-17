@@ -1,5 +1,5 @@
 #include "SfmlWindowSystem.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include "Utils/FilePath.h"
 #include <SFML/Window/WindowStyle.hpp>
 
@@ -47,14 +47,14 @@ namespace shen
 
     void SfmlGameWindowSystem::Load()
     {
-        auto serialization = Serialization{ FilePath::Path("assets/configs/window.xml") };
-        serialization.SetupElement("window");
-        _size = serialization.GetIntVec2("size", sf::Vector2i(800, 640));
-        _name = serialization.GetStr("name");
-        _titlebar = serialization.GetBool("titlebar", true);
-        _resize = serialization.GetBool("resize", true);
-        _close = serialization.GetBool("close", true);
-        _fullscreen = serialization.GetBool("fullscreen", false);
+        auto elementWrapper = XmlDataElementWrapper{ GetSystems() };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/window.xml"));
+        _size = elementWrapper.GetIntVec2("size", sf::Vector2i(800, 640));
+        _name = elementWrapper.GetStr("name");
+        _titlebar = elementWrapper.GetBool("titlebar", true);
+        _resize = elementWrapper.GetBool("resize", true);
+        _close = elementWrapper.GetBool("close", true);
+        _fullscreen = elementWrapper.GetBool("fullscreen", false);
     }
 
     void SfmlGameWindowSystem::CreateSFMLWindow(unsigned int flags)

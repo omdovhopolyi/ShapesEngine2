@@ -9,6 +9,9 @@ namespace shen
     {
     public:
         PausePhisicsAction(bool pause = true);
+
+        void RegisterProperties() override;
+
         void Execute(const ContextBase& context) const override;
 
     protected:

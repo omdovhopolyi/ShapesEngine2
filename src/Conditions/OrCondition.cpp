@@ -2,6 +2,11 @@
 
 namespace shen
 {
+    void OrCondition::RegisterProperties()
+    {
+
+    }
+
     bool OrCondition::Check(const ContextBase& context) const
     {
         bool result = true;

@@ -11,12 +11,12 @@
 
 namespace shen
 {
-    template<class WindowType>
+    /*template<class WindowType>
     class WindowComponentBaseLoader
         : public UIComponentLoader
     {
     public:
-        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element) override
+        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element) override
         {
             if (auto component = node->AddComponent<WindowType>())
             {
@@ -30,7 +30,7 @@ namespace shen
                     window->MapComponent(id, component);
                 }
 
-                element.ForAllChildElements("refs", "ref", [&](const Serialization& refElement)
+                element.ForAllChildren("refs", "ref", [&](const DataElementWrapper& refElement)
                 {
                     const auto id = refElement.GetStr("id");
                     const auto compId = refElement.GetStr("compId");
@@ -43,5 +43,5 @@ namespace shen
 
             return nullptr;
         }
-    };
+    };*/
 }

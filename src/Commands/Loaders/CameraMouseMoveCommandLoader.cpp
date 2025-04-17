@@ -1,15 +1,15 @@
 #include "CameraMouseMoveCommandLoader.h"
 #include "Commands/CameraMouseMoveCommand.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(CameraMouseMoveCommandLoader)
+    /*REGISTER_CLASS_LOADER(CameraMouseMoveCommandLoader)
 
-    std::unique_ptr<Command> CameraMouseMoveCommandLoader::LoadCommand(const Serialization& serialization)
+    std::unique_ptr<Command> CameraMouseMoveCommandLoader::LoadCommand(const DataElementWrapper& elementWrapper)
     {
         auto command = std::make_unique<CameraMouseMoveCommand>();
-        LoadTypeAndId(serialization, command.get());
+        LoadTypeAndId(elementWrapper, command.get());
         return command;
-    }
+    }*/
 }

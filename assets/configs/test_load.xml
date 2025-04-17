@@ -1,17 +1,13 @@
 <?xml version = "1.0"?>
 <node>
     <component type="UITestComponent" intVal="1" floatVal="1.0" stringVal="first">
-        <componentVal type="UITestComponent" intVal="3" floatVal="3.0" stringVal="third">
-        </componentVal>
+        <componentVal type="UITestComponent" intVal="3" floatVal="3.0" stringVal="third"/>
     </component>
-    <component type="UITestComponent" intVal="2" floatVal="2.0" stringVal="second">
-    </component>
+    <component type="UITestComponent" intVal="2" floatVal="2.0" stringVal="second"/>
     <node>
         <component type="UITestComponent" intVal="1" floatVal="1.0" stringVal="childFirst">
-            <componentVal type="UITestComponent" intVal="3" floatVal="3.0" stringVal="childThird">
-            </componentVal>
+            <componentVal type="UITestComponent" intVal="3" floatVal="3.0" stringVal="childThird"/>
         </component>
-        <component type="UITestComponent" intVal="2" floatVal="2.0" stringVal="childSecond">
-        </component>
+        <component type="UITestComponent" intVal="2" floatVal="2.0" stringVal="childSecond"/>
     </node>
 </node>

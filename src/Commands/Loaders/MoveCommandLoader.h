@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class MoveCommand;
+    /*class MoveCommand;
 
     class MoveCommandLoader
         : public InputCommandLoader
@@ -12,6 +12,6 @@ namespace shen
         CLASS_LOADER(InputCommandsLoadersCollection, MoveCommand)
 
     public:
-        std::unique_ptr<Command> LoadCommand(const Serialization& serialization) override;
-    };
+        std::unique_ptr<Command> LoadCommand(const DataElementWrapper& elementWrapper) override;
+    };*/
 }

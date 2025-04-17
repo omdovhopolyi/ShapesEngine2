@@ -10,7 +10,7 @@ namespace shen
     {
     public:
         SerializableFieldVec2(sf::Vector2f& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         sf::Vector2f& _field;

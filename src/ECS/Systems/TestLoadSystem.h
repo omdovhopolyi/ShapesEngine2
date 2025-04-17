@@ -5,7 +5,7 @@
 
 namespace shen
 {
-    class Serialization;
+    class DataElementWrapper;
     class Node;
 
     class TestLoadSystem
@@ -15,6 +15,6 @@ namespace shen
 
     public:
         void Load() override;
-        void LoadNode(Node& node, const Serialization& serialization);
+        void LoadNode(Node& node, const DataElementWrapper& element);
     };
 }

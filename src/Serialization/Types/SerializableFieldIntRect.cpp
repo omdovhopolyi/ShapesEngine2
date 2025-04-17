@@ -7,7 +7,7 @@ namespace shen
         , _field(field)
     { }
 
-    void SerializableFieldIntRect::Load(const Serialization& element)
+    void SerializableFieldIntRect::Load(const DataElementWrapper& element)
     {
         _field = element.GetIntRect(_name);
     }

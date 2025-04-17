@@ -45,6 +45,8 @@ namespace shen
         const std::shared_ptr<UINode>& AddChildPtr(const std::string& name);
         const std::shared_ptr<UINode>& GetChildPtr(const std::string& name);
 
+        void AddComponent(const std::shared_ptr<UIComponent>& comp);
+
         template<class Comp>
         std::shared_ptr<Comp> AddComponent()
         {

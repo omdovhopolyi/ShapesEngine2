@@ -7,8 +7,8 @@ namespace shen
         , _field(field)
     { }
 
-    void SerializableFieldTransform::Load(const Serialization& element)
+    void SerializableFieldTransform::Load(const DataElementWrapper& element)
     {
-        _field = element.GetTransform();
+        _field = element.GetTransform(_name);
     }
 }

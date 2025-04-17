@@ -1,7 +1,7 @@
 #include "SfmlFontsCollection.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 
 namespace shen
 {
@@ -80,9 +80,9 @@ namespace shen
 
     void SfmlFontsCollection::LoadFontsPaths(const std::string& fileName)
     {
-        auto serialization = Serialization{ _systems, fileName };
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("item", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(fileName);
+        elementWrapper.ForAllChildren("item", [&](const DataElementWrapper& element)
         {
             const auto id = element.GetStr("id");
             const auto path = element.GetStr("path");

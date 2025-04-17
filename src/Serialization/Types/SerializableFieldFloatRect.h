@@ -10,7 +10,7 @@ namespace shen
     {
     public:
         SerializableFieldFloatRect(sf::FloatRect& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         sf::FloatRect& _field;

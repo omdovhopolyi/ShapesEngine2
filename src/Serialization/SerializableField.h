@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include <Serialization/Serialization.h>
+#include <Serialization/DataElementWrapper.h>
 
 namespace shen
 {
@@ -12,8 +12,8 @@ namespace shen
         SerializableField(const std::string& name);
         virtual ~SerializableField();
 
-        virtual void Load(const Serialization&) {};
-        virtual void Save(Serialization&) {}
+        virtual void Load(const DataElementWrapper&) {};
+        virtual void Save(DataElementWrapper&) {}
 
     protected:
         std::string _name;

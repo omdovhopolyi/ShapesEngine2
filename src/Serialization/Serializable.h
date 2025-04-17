@@ -1,46 +1,38 @@
 #pragma once
 
-#include <map>
-#include <string>
-#include <any>
-#include <functional>
+#include <vector>
+#include <memory>
+#include <typeindex>
+#include <Serialization/SerializableField.h>
 
 namespace shen
 {
-    class Serialization;
-
-    class Value {};
-
-    template<class T>
-    class BaseValue
-        : public Value
-    {
-    public:
-        virtual void SetValue(const T& value)
-        {
-            _value = value;
-        }
-        
-        virtual const T& GetValue() const
-        {
-            return _value;
-        }
-
-    protected:
-        T _value = {};
-    };
-
-    class BoolValue : public BaseValue<bool> {};
-    class IntValue : public BaseValue<int> {};
-    class FloatValue : public BaseValue<float> {};
-
     class Serializable
     {
     public:
-        virtual void Load(Serialization& serialization) {}
-        virtual void Save(Serialization& serialization) {}
+        virtual ~Serializable();
+
+        virtual void RegisterProperties() {}
+
+        template<class TField, class TVar>
+        void RegisterVar(TVar& var, const std::string& name = {})
+        {
+            _fields.push_back(std::make_unique<TField>(var, name));
+        }
+
+        std::vector<std::unique_ptr<SerializableField>>& GetFields();
+
+        //virtual std::string& GetTypeName() const = 0;
+        //virtual std::type_index GetTypeIndex() const = 0;
+
+        void Save(DataElementWrapper& element);
+        void Load(const DataElementWrapper& element);
+
+        virtual void AfterLoad() {}
+        virtual void BeforeSave() {}
 
     protected:
-        std::map<std::string, Value*> _variables;
+        std::vector<std::unique_ptr<SerializableField>> _fields;
     };
 }
+

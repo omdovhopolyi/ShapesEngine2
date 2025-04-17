@@ -9,7 +9,7 @@ namespace shen
     {
     public:
         SerializableFieldFloat(float& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     public:
         float& _field;

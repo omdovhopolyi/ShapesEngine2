@@ -4,7 +4,7 @@
 #include <Serialization/Serialization.h>
 #include <map>
 #include <string>
-#include "Asset.h"
+#include "Serializable.h"
 
 namespace shen
 {
@@ -12,7 +12,7 @@ namespace shen
     {
     public:
         ~LoaderBase() = default;
-        virtual std::shared_ptr<Asset> CreateAndLoad(const Serialization& serialization) = 0;
+        virtual std::shared_ptr<Serializable> CreateAndLoad(const DataElementWrapper& serialization) = 0;
     };
 
     template<class T>
@@ -20,16 +20,13 @@ namespace shen
         : public LoaderBase
     {
     public:
-        std::shared_ptr<Asset> CreateAndLoad(const Serialization& serialization) override
+        std::shared_ptr<Serializable> CreateAndLoad(const DataElementWrapper& element) override
         {
-            auto asset = std::make_shared<T>();
-
-            for (auto& field : asset->GetFields())
-            {
-                field->Load(serialization);
-            }
-
-            return asset;
+            auto serializable = std::make_shared<T>();
+            serializable->RegisterProperties();
+            serializable->Load(element);
+            serializable->AfterLoad();
+            return serializable;
         }
     };
 

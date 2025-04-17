@@ -2,6 +2,7 @@
 
 #include "UIInputComponent.h"
 #include "Enums/ButtonSpriteEnum.h"
+#include "Serialization/LoaderMacro.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <functional>
 
@@ -31,7 +32,11 @@ namespace shen
     class UIButtonComponent
         : public UIInputComponent
     {
+        CLASS_LOADER_TEST(UIButtonComponent)
+
     public:
+        void RegisterProperties() override;
+
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;
 
         void SetSprite(ButtonSpriteType type, const sf::Sprite& sprite);

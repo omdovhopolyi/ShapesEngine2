@@ -1,49 +1,49 @@
 #include "Common.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/DataElementWrapper.h"
 #include "ECS/World.h"
 
 namespace shen
 {
-    void Transform::Load(Transform& component, const Serialization& serialization)
+    void Transform::Load(Transform& component, const DataElementWrapper& elementWrapper)
     {
-        component.position = serialization.GetVec2("position");
-        component.rotation = serialization.GetFloat("rotation");
-        component.scale = serialization.GetVec2("scale", component.scale);
+        component.position = elementWrapper.GetVec2("position");
+        component.rotation = elementWrapper.GetFloat("rotation");
+        component.scale = elementWrapper.GetVec2("scale", component.scale);
     }
 
-    void Transform::Save(Transform& component, Serialization& serialization)
+    void Transform::Save(Transform& component, DataElementWrapper& elementWrapper)
     {
-        serialization.SetVec2("position", component.position);
-        serialization.SetFloat("rotation", component.rotation);
-        serialization.SetVec2("scale", component.scale);
+        elementWrapper.SetVec2("position", component.position);
+        elementWrapper.SetFloat("rotation", component.rotation);
+        elementWrapper.SetVec2("scale", component.scale);
     }
 
-    void PlayerInput::Load(PlayerInput& component, const Serialization& serialization)
+    void PlayerInput::Load(PlayerInput& component, const DataElementWrapper& elementWrapper)
     {
-        const auto types = serialization.GetVecStr("input");
+        const auto types = elementWrapper.GetVecStr("input");
         component.commandTypes = { types.begin(), types.end() };
     }
 
-    void PlayerInput::Save(PlayerInput& component, Serialization& serialization)
+    void PlayerInput::Save(PlayerInput& component, DataElementWrapper& elementWrapper)
     {
-        serialization.SetVecStr("input", { component.commandTypes.begin(), component.commandTypes.end() });
+        elementWrapper.SetVecStr("input", { component.commandTypes.begin(), component.commandTypes.end() });
     }
 
-    void Camera::Load(Camera& component, const Serialization& serialization)
+    void Camera::Load(Camera& component, const DataElementWrapper& elementWrapper)
     {
-        component.view.setCenter(serialization.GetVec2("position"));
-        component.view.setViewport(serialization.GetFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
-        component.view.setRotation(serialization.GetFloat("rotation"));
-        component.view.setSize(serialization.GetVec2("size"));
-        component.type = serialization.GetStr("cameraType");
+        component.view.setCenter(elementWrapper.GetVec2("position"));
+        component.view.setViewport(elementWrapper.GetFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
+        component.view.setRotation(elementWrapper.GetFloat("rotation"));
+        component.view.setSize(elementWrapper.GetVec2("size"));
+        component.type = elementWrapper.GetStr("cameraType");
     }
 
-    void Camera::Save(Camera& component, Serialization& serialization)
+    void Camera::Save(Camera& component, DataElementWrapper& elementWrapper)
     {
-        serialization.SetVec2("position", component.view.getCenter());
-        serialization.SetFloatRect("viewport", component.view.getViewport());
-        serialization.SetFloat("rotation", component.view.getRotation());
-        serialization.SetVec2("size", component.view.getSize());
-        serialization.SetStr("cameraType", component.type);
+        elementWrapper.SetVec2("position", component.view.getCenter());
+        elementWrapper.SetFloatRect("viewport", component.view.getViewport());
+        elementWrapper.SetFloat("rotation", component.view.getRotation());
+        elementWrapper.SetVec2("size", component.view.getSize());
+        elementWrapper.SetStr("cameraType", component.type);
     }
 }

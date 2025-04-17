@@ -9,7 +9,7 @@
 #include "ECS/Systems/Sfml/SfmlInputSystem.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 
 namespace shen
 {
@@ -175,9 +175,9 @@ namespace shen
         auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
         auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
 
-        auto serialization = Serialization{ _systems, FilePath::Path("assets/configs/input.xml") };
-        serialization.SetupElement("items");
-        serialization.ForAllChildElements("item", [&](const Serialization& element)
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/input.xml"));
+        elementWrapper.ForAllChildren("item", [&](const DataElementWrapper& element)
         {
             const bool silent = true;
 

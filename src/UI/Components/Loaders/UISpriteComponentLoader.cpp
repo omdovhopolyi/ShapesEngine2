@@ -9,9 +9,9 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UISpriteComponentLoader)
+    /*REGISTER_CLASS_LOADER(UISpriteComponentLoader)
 
-    UIComponent* UISpriteComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
+    UIComponent* UISpriteComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element)
     {
         if (auto component = node->AddComponent<UISpriteComponent>())
         {
@@ -50,5 +50,5 @@ namespace shen
         }
 
         return nullptr;
-    }
+    }*/
 }

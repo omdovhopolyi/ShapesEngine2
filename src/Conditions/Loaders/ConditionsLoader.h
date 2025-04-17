@@ -7,12 +7,12 @@
 
 namespace shen
 {
-    class Serialization;
+    /*class DataElementWrapper;
 
     class ConditionLoader
     {
     public:
         virtual ~ConditionLoader() = default;
-        virtual std::unique_ptr<ConditionBase> LoadCondition(const Serialization&) { return nullptr; }
-    };
+        virtual std::unique_ptr<ConditionBase> LoadCondition(const DataElementWrapper&) { return nullptr; }
+    };*/
 }

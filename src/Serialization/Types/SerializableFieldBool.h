@@ -9,7 +9,7 @@ namespace shen
     {
     public:
         SerializableFieldBool(bool& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         bool& _field;

@@ -6,9 +6,23 @@
 #include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/Components/Common.h"
 #include <SFML/Graphics/RenderTarget.hpp>
+#include "Serialization/Types/SerializableFieldSprite.h"
+#include "Serialization/Types/SerializableFieldBool.h"
+#include "Serialization/Types/SerializableFieldColor.h"
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(UISpriteComponent);
+
+    void UISpriteComponent::RegisterProperties()
+    {
+        UIComponent::RegisterProperties();
+
+        RegisterVar<SerializableFieldSprite>(_sprite, "sprite");
+        RegisterVar<SerializableFieldBool>(_fillScreen, "fill");
+        RegisterVar<SerializableFieldColor>(_color, "color");
+    }
+
     void UISpriteComponent::Update(float dt)
     {
         if (_fillScreen)

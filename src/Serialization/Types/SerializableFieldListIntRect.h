@@ -11,7 +11,7 @@ namespace shen
     {
     public:
         SerializableFieldListIntRect(std::vector<sf::IntRect>& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         std::vector<sf::IntRect>& _field;

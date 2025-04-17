@@ -3,7 +3,7 @@
 #include "BaseSystems/System.h"
 #include "ECS/Entity.h"
 #include "ECS/SystemsManager.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/DataElementWrapper.h"
 #include <string>
 #include <map>
 #include <functional>
@@ -12,8 +12,8 @@ namespace shen
 {
     struct LoadSaveFuncs
     {
-        std::function<void(Entity, const Serialization&)> loadFunc;
-        std::function<void(Entity, Serialization&)> saveFunc;
+        std::function<void(Entity, const DataElementWrapper&)> loadFunc;
+        std::function<void(Entity, DataElementWrapper&)> saveFunc;
     };
 
     class MapLoaderSystem
@@ -25,9 +25,9 @@ namespace shen
         void Init(SystemsManager* systems) override;
 
         void LoadMap(const std::string& mapId) const;
-        void LoadMap(Serialization& serialization, const std::string& mapId) const;
-        void LoadComponents(Entity entity, const Serialization& serialization) const;
-        Entity CreateEntityAndLoadComponents(const Serialization& serialization) const;
+        void LoadMap(DataElementWrapper& element, const std::string& mapId) const;
+        void LoadComponents(Entity entity, const DataElementWrapper& element) const;
+        Entity CreateEntityAndLoadComponents(const DataElementWrapper& element) const;
         Entity InstantiateAsset(const std::string& assetId) const;
 
         template<class T>
@@ -35,7 +35,7 @@ namespace shen
 
     private:
         void RegisterLoaders();
-        void InstantiateAsset(Entity entity, const Serialization& serialization) const;
+        void InstantiateAsset(Entity entity, const DataElementWrapper& element) const;
 
     private:
         std::unordered_map<std::string, LoadSaveFuncs> _functions;
@@ -46,7 +46,7 @@ namespace shen
     {
         auto& functions = _functions[id];
 
-        functions.loadFunc = [&](Entity entity, const Serialization& element)
+        functions.loadFunc = [&](Entity entity, const DataElementWrapper& element)
         {
             auto& world = _systems->GetWorld();
             if (auto comp = world.AddComponent<T>(entity))
@@ -55,7 +55,7 @@ namespace shen
             }
         };
 
-        functions.saveFunc = [&](Entity entity, Serialization& element)
+        functions.saveFunc = [&](Entity entity, DataElementWrapper& element)
         {
             auto& world = _systems->GetWorld();
             if (auto comp = world.GetOrCreateComponent<T>(entity))

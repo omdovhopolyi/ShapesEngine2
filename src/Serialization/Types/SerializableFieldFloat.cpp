@@ -7,7 +7,7 @@ namespace shen
         , _field(field)
     {}
 
-    void SerializableFieldFloat::Load(const Serialization& element)
+    void SerializableFieldFloat::Load(const DataElementWrapper& element)
     {
         _field = element.GetFloat(_name);
     }

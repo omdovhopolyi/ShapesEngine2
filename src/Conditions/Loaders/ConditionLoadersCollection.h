@@ -7,9 +7,9 @@
 
 namespace shen
 {
-    class ConditionLoader;
+    /*class ConditionLoader;
 
     class ConditionLoadersCollection
         : public Serializer<ConditionLoader, ConditionLoadersCollection>
-    {};
+    {};*/
 }

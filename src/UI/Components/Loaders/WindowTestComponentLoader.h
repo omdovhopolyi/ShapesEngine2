@@ -4,9 +4,9 @@
 
 namespace shen
 {
-    class WindowTestComponentLoader
+    /*class WindowTestComponentLoader
         : public WindowComponentBaseLoader<WindowTestComponent>
     {
         CLASS_LOADER(UIWindowLoader, WindowTestComponent)
-    };
+    };*/
 }

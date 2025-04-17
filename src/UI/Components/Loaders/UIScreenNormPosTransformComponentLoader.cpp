@@ -6,9 +6,9 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UIScreenNormPosTransformComponentLoader)
+    /*REGISTER_CLASS_LOADER(UIScreenNormPosTransformComponentLoader)
 
-    UIComponent* UIScreenNormPosTransformComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
+    UIComponent* UIScreenNormPosTransformComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element)
     {
         if (auto component = node->AddComponent<UIScreenNormPosTransformComponent>())
         {
@@ -30,5 +30,5 @@ namespace shen
         }
 
         return nullptr;
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-#include "SerializableFieldString.h"
+#include "SerializableFieldAsset.h"
 
 namespace shen
 {

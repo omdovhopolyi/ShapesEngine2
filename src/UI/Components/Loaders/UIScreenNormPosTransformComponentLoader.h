@@ -4,12 +4,12 @@
 
 namespace shen
 {
-    class UIScreenNormPosTransformComponentLoader
+    /*class UIScreenNormPosTransformComponentLoader
         : public UIComponentLoader
     {
         CLASS_LOADER(UIWindowLoader, UIScreenNormPosTransformComponent)
 
     public:
-        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element) override;
-    };
+        UIComponent* CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element) override;
+    };*/
 }

@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    class PauseGameCommand;
+    /*class PauseGameCommand;
 
     class PauseGameCommandLoader
         : public InputCommandLoader
@@ -12,6 +12,6 @@ namespace shen
         CLASS_LOADER(InputCommandsLoadersCollection, PauseGameCommand)
 
     public:
-        std::unique_ptr<Command> LoadCommand(const Serialization& serialization) override;
-    };
+        std::unique_ptr<Command> LoadCommand(const DataElementWrapper& serialization) override;
+    };*/
 }

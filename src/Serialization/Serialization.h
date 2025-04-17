@@ -12,7 +12,7 @@
 
 namespace shen
 {
-    class Serialization
+    /*class Serialization
     {
     public:
         Serialization() = default;
@@ -44,12 +44,12 @@ namespace shen
         sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const;
         std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
         std::vector<std::string> GetVecStr(const std::string& id) const;
-        sf::Transform GetTransform() const;
+        sf::Transform GetTransform(const std::string& id) const;
 
-        void ForAllChildElements(const std::string& id, const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
-        void ForAllChildElements(const std::string& elementId, const std::function<void(const Serialization&)>& func) const;
-        void ForAllChildren(const std::function<void(const Serialization&)>& func) const;
-        void ForAllChildren(tinyxml2::XMLElement* element, const std::function<void(const Serialization&)>& func) const;
+        void ForAllChildren(const std::string& id, const std::string& elementId, const std::function<void(const DataElementWrapper&)>& func) const;
+        void ForAllChildren(const std::string& elementId, const std::function<void(const DataElementWrapper&)>& func) const;
+        void ForAllChildren(const std::function<void(const DataElementWrapper&)>& func) const;
+        void ForAllChildren(tinyxml2::XMLElement* element, const std::function<void(const DataElementWrapper&)>& func) const;
 
         void SetBool(const std::string& id, bool val);
         void SetInt(const std::string& id, int val);
@@ -73,5 +73,5 @@ namespace shen
         SystemsManager* _systems = nullptr;
         std::shared_ptr<tinyxml2::XMLDocument> _document;
         tinyxml2::XMLElement* _element = nullptr;
-    };
+    };*/
 }

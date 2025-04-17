@@ -1,6 +1,6 @@
 #include "TestLoadSystem.h"
 #include "ECS/SystemsManager.h"
-#include "Serialization/Serialization.h"
+#include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include "Utils/FilePath.h"
 #include "Utils/Assert.h"
 #include "UI/Node.h"
@@ -13,21 +13,21 @@ namespace shen
 
     void TestLoadSystem::Load()
     {
-        auto element = Serialization{ _systems, FilePath::Path("assets/configs/test_load.xml") };
-        element.SetupFirstElement();
+        auto elementWrapper = XmlDataElementWrapper{ _systems };
+        elementWrapper.LoadFile(FilePath::Path("assets/configs/test_load.xml"));
         Node root;
-        LoadNode(root, element);
+        LoadNode(root, elementWrapper);
     }
 
-    void TestLoadSystem::LoadNode(Node& node, const Serialization& serialization)
+    void TestLoadSystem::LoadNode(Node& node, const DataElementWrapper& element)
     {
-        serialization.ForAllChildren([&](const Serialization& element)
+        element.ForAllChildren([&](const DataElementWrapper& childElement)
         {
-            if (const auto type = element.GetStr("type"); !type.empty())
+            if (const auto type = childElement.GetStr("type"); !type.empty())
             {
                 if (auto loader = LoadersManager::Instance().GetLoader(type))
                 {
-                    if (auto asset = loader->CreateAndLoad(element))
+                    if (auto asset = loader->CreateAndLoad(childElement))
                     {
                         node.AddComponent(std::dynamic_pointer_cast<Component>(asset));
                     }
@@ -35,7 +35,7 @@ namespace shen
             }
         });
 
-        serialization.ForAllChildElements("node", [&](const Serialization& nodeElement)
+        element.ForAllChildren("node", [&](const DataElementWrapper& nodeElement)
         {
             auto childNode = std::make_shared<Node>();
             LoadNode(*childNode, nodeElement);

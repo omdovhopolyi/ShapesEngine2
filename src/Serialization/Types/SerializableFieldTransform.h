@@ -10,7 +10,7 @@ namespace shen
     {
     public:
         SerializableFieldTransform(sf::Transform& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         sf::Transform& _field;

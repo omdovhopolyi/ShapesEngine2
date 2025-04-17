@@ -6,9 +6,9 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UITransformComponentLoader)
+    /*REGISTER_CLASS_LOADER(UITransformComponentLoader)
 
-    UIComponent* UITransformComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const Serialization& element)
+    UIComponent* UITransformComponentLoader::CreateAndLoad(SystemsManager* systems, const std::shared_ptr<UINode>& node, const DataElementWrapper& element)
     {
         if (auto component = node->AddComponent<UITransformComponent>())
         {
@@ -28,5 +28,5 @@ namespace shen
         }
 
         return nullptr;
-    }
+    }*/
 }

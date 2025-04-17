@@ -26,6 +26,6 @@ namespace shen
         void ClearCommands();
 
     private:
-        std::map<std::string, std::unique_ptr<Command>> _commands;
+        std::map<std::string, std::shared_ptr<Command>> _commands;
     };
 }

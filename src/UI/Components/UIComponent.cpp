@@ -1,11 +1,18 @@
 #include "UIComponent.h"
 #include "UI/UIWindow.h"
 #include "Utils/Assert.h"
+#include "Serialization/Types/SerializableFieldString.h"
 #include <format>
 
 namespace shen
 {
     IUIComponentWrapper::~IUIComponentWrapper() = default;
+
+    void UIComponent::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldString>(_id, "id");
+    }
+
     UIComponent::~UIComponent() = default;
 
     UIWindow* UIComponent::GetWindow() const

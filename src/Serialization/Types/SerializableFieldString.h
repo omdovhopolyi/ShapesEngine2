@@ -9,7 +9,7 @@ namespace shen
     {
     public:
         SerializableFieldString(std::string& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         std::string& _field;

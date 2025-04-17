@@ -12,6 +12,8 @@ namespace shen
         CameraMoveCommand() = default;
         CameraMoveCommand(const sf::Vector2f& dir);
 
+        void RegisterProperties() override;
+
         void SetDirection(const sf::Vector2f& dir);
         const sf::Vector2f& GetDirection() const;
 

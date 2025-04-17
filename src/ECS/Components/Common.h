@@ -12,7 +12,7 @@ struct b2Body;
 
 namespace shen
 {
-    class Serialization;
+    class DataElementWrapper;
 
     struct Transform
     {
@@ -20,8 +20,8 @@ namespace shen
         sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
         float rotation = 0.f;
 
-        static void Load(Transform& component, const Serialization& serialization);
-        static void Save(Transform& component, Serialization& serialization);
+        static void Load(Transform& component, const DataElementWrapper& elementWrapper);
+        static void Save(Transform& component, DataElementWrapper& elementWrapper);
     };
 
     struct Mover
@@ -40,8 +40,8 @@ namespace shen
     {
         std::set<std::string> commandTypes;
 
-        static void Load(PlayerInput& component, const Serialization& serialization);
-        static void Save(PlayerInput& component, Serialization& serialization);
+        static void Load(PlayerInput& component, const DataElementWrapper& elementWrapper);
+        static void Save(PlayerInput& component, DataElementWrapper& elementWrapper);
     };
 
     struct Camera
@@ -51,8 +51,8 @@ namespace shen
         float scale = 1.f;
         bool needUpdate = true;
 
-        static void Load(Camera& component, const Serialization& serialization);
-        static void Save(Camera& component, Serialization& serialization);
+        static void Load(Camera& component, const DataElementWrapper& elementWrapper);
+        static void Save(Camera& component, DataElementWrapper& elementWrapper);
     };
 
     struct CameraTarget

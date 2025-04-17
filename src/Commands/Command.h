@@ -1,13 +1,17 @@
 #pragma once
 
 #include "CommandContext.h"
+#include "Serialization/Serializable.h"
 
 namespace shen
 {
     class Command
+        : public Serializable
     {
     public:
         virtual ~Command() = default;
+
+        void RegisterProperties() override;
 
         void SetType(const std::string& type) { _type = type; }
         const std::string& GetType() const { return _type; }

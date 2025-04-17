@@ -7,7 +7,7 @@ namespace shen
         , _field(field)
     { }
 
-    void SerializableFieldInt::Load(const Serialization& element)
+    void SerializableFieldInt::Load(const DataElementWrapper& element)
     {
         _field = element.GetInt(_name);
     }

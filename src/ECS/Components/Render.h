@@ -9,7 +9,7 @@
 
 namespace shen
 {
-    class Serialization;
+    class DataElementWrapper;
 
     struct Sprite
     {
@@ -17,16 +17,16 @@ namespace shen
         std::string textureId;
         int sorting = 0;
 
-        static void Load(Sprite& component, const Serialization& serialization);
-        static void Save(Sprite& component, Serialization& serialization);
+        static void Load(Sprite& component, const DataElementWrapper& elementWrapper);
+        static void Save(Sprite& component, DataElementWrapper& elementWrapper);
     };
 
     struct Color
     {
         sf::Color color;
         
-        static void Load(Color& component, const Serialization& serialization);
-        static void Save(Color& component, Serialization& serialization);
+        static void Load(Color& component, const DataElementWrapper& elementWrapper);
+        static void Save(Color& component, DataElementWrapper& elementWrapper);
     };
 
     struct SpriteFrameAnimation
@@ -40,15 +40,7 @@ namespace shen
         bool done = false;
         bool deleteOnDone = false;
 
-        static void Load(SpriteFrameAnimation& component, const Serialization& serialization);
-        static void Save(SpriteFrameAnimation& component, Serialization& serialization);
+        static void Load(SpriteFrameAnimation& component, const DataElementWrapper& elementWrapper);
+        static void Save(SpriteFrameAnimation& component, DataElementWrapper& elementWrapper);
     };
-
-    /*struct Sorting
-    {
-        int value = 0;
-
-        static void Load(Sorting& component, const Serialization& serialization);
-        static void Save(Sorting& component, Serialization& serialization);
-    };*/
 }

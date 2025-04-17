@@ -11,7 +11,7 @@ namespace shen
     {
     public:
         SerializableFieldListStr(std::vector<std::string>& field, const std::string& name);
-        void Load(const Serialization& element) override;
+        void Load(const DataElementWrapper& element) override;
 
     private:
         std::vector<std::string>& _field;

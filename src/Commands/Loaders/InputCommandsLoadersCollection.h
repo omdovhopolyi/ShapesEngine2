@@ -7,9 +7,9 @@
 
 namespace shen
 {
-    class InputCommandLoader;
+    /*class InputCommandLoader;
 
     class InputCommandsLoadersCollection
         : public Serializer<InputCommandLoader, InputCommandsLoadersCollection>
-    {};
+    {};*/
 }
