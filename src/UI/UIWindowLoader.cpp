@@ -65,35 +65,5 @@ namespace shen
 
             LoadNode(systems, window, child, nodeElement);
         });
-
-        /*element.ForAllChildren(ComponentElementId, [&](const DataElementWrapper& componentElement)
-        {
-            if (const auto type = componentElement.GetStr(TypeAttrId); !type.empty())
-            {
-                if (auto loader = GetLoader(type))
-                {
-                    if (auto component = loader->CreateAndLoad(systems, node, componentElement))
-                    {
-                        component->RegisterReferences();
-                    }
-                    else
-                    {
-                        Assert(false, std::format("Can not find ui component {}", type));
-                    }
-                }
-            }
-        });
-
-        element.ForAllChildren(NodeElementId, [&](const DataElementWrapper& nodeElement)
-        {
-            const auto name = nodeElement.GetStr("name");
-            const auto id = nodeElement.GetStr("id");
-
-            auto child = node->AddChildPtr(name);
-            child->SetWindow(window);
-            child->SetId(id);
-            
-            LoadNode(systems, window, child, nodeElement);
-        });*/
     }
 }
