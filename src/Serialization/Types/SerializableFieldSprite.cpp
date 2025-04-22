@@ -15,10 +15,8 @@ namespace shen
         {
             if (const auto spritesCollection = systems->GetSystem<SfmlSpritesCollection>())
             {
-                if (const auto spriteElement = element.GetChildElement(_name)) {
-                    const auto spriteId = spriteElement->GetStr("spriteId");
-                    _field = spritesCollection->GetSprite(spriteId);
-                }
+                const auto spriteId = element.GetStr(_name);
+                _field = spritesCollection->GetSprite(spriteId);
             }
         }
     }

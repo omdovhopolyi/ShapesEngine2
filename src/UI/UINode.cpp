@@ -101,8 +101,8 @@ namespace shen
     void UINode::AddComponent(const std::shared_ptr<UIComponent>& comp)
     {
         comp->SetNode(this);
-        //const auto typeIndex = comp->GetTypeIndex();
-        //_components[typeIndex] = comp;
+        const auto typeIndex = comp->GetTypeIndex();
+        _components[typeIndex] = comp;
     }
 
     void UINode::OnDraw(sf::RenderTarget& target, const sf::Transform& transform) const

@@ -9,6 +9,8 @@ namespace shen
     class WindowTestComponent
         : public UIWindowComponent
     {
+        SERIALIZABLE(WindowTestComponent)
+
     public:
         void Init() override;
         void RegisterReferences() override;

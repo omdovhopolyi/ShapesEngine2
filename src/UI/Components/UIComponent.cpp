@@ -13,6 +13,15 @@ namespace shen
         RegisterVar<SerializableFieldString>(_id, "id");
     }
 
+    void UIComponent::AfterLoad()
+    {
+        if (!_id.empty())
+        {
+            auto window = GetWindow();
+            window->MapComponent(_id, weak_from_this());
+        }
+    }
+
     UIComponent::~UIComponent() = default;
 
     UIWindow* UIComponent::GetWindow() const
@@ -28,7 +37,8 @@ namespace shen
     void UIComponent::RegisterReference(const std::string& id, IUIComponentWrapper& component)
     {
         auto [it, isInserted] = _references.insert({ id, &component });
-        Assert(isInserted, std::format("Multiple references for id {} in window {}", id, GetWindow()->GetId()));
+        //Assert(isInserted, std::format("Multiple references for id {} in window {}", id, GetWindow()->GetId()));
+        Assert(isInserted, "[UIComponent::RegisterReference] Multiple references for id{} in window{}");
     } 
 
     void UIComponent::ClearReferencesData()
@@ -39,7 +49,8 @@ namespace shen
     void UIComponent::AddReferenceData(const std::string& id, const std::string& compId)
     {
         const auto& [it, isInserted] = _refsMap.insert({ id, compId });
-        Assert(isInserted, std::format("[UIComponent::AddReferenceData] Multiple refs data in window {}", GetWindow()->GetId()));
+        //Assert(isInserted, std::format("[UIComponent::AddReferenceData] Multiple refs data in window {}", GetWindow()->GetId()));
+        Assert(isInserted, "[UIComponent::AddReferenceData] Multiple refs data in window {}");
     }
 
     const std::string& UIComponent::GetReferenceData(const std::string& id) const

@@ -14,6 +14,7 @@ namespace shen
     {
     public:
         void RegisterProperties() override;
+        void AfterLoad() override;
 
         void SetInputPriority(int priority);
         int GetInputPriority() const;

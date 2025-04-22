@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Serialization/LoadersManager.h"
+#include <Serialization/LoadersManager.h>
 
 #define CLASS_LOADER_TEST(Type) \
     public: \
         static bool LoaderRegistered; \
         static bool RegisterLoader() \
         { \
-            LoadersManager::Instance().RegisterLoader<Type>(#Type); \
+            shen::LoadersManager::Instance().RegisterLoader<Type>(#Type); \
             return true; \
         }
 

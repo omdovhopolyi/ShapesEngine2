@@ -35,9 +35,9 @@ namespace shen
         const std::string& GetId() const;
         const std::shared_ptr<UINode>& GetOrCreateRoot();
 
-        void MapComponent(const std::string& id, const std::shared_ptr<UIComponent>& component);
-        void MapInputComponent(const std::string& id, const std::shared_ptr<UIInputComponent>& component);
-        void MapNode(const std::string& id, const std::shared_ptr<UINode>& node);
+        void MapComponent(const std::string& id, const std::weak_ptr<UIComponent>& component);
+        void MapInputComponent(const std::string& id, const std::weak_ptr<UIInputComponent>& component);
+        void MapNode(const std::string& id, const std::weak_ptr<UINode>& node);
 
         void SetComponentsDirty(bool dirty);
         bool IsComponentsDirty() const;

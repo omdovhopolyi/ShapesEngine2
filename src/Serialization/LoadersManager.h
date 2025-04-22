@@ -8,6 +8,8 @@
 
 namespace shen
 {
+    class Serializable;
+
     class LoaderBase
     {
     public:
@@ -25,7 +27,7 @@ namespace shen
             auto serializable = std::make_shared<T>();
             serializable->RegisterProperties();
             serializable->Load(element);
-            serializable->AfterLoad();
+            //serializable->AfterLoad();
             return serializable;
         }
     };

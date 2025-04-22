@@ -255,7 +255,7 @@ namespace shen
             {
                 auto wrapper = XmlDataElementWrapper{ GetSystems(), child };
                 const int angle = GetInt("angle");
-                const auto scale = wrapper.GetVec2("scale");
+                const auto scale = wrapper.GetVec2("scale", { 1.f, 1.f });
                 const auto position = wrapper.GetVec2("position");
 
                 sf::Transform transform;

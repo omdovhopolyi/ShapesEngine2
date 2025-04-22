@@ -27,10 +27,10 @@ namespace shen
             {
                 if (auto loader = LoadersManager::Instance().GetLoader(type))
                 {
-                    if (auto asset = loader->CreateAndLoad(childElement))
+                    /*if (auto asset = loader->CreateAndLoad(childElement))
                     {
                         node.AddComponent(std::dynamic_pointer_cast<Component>(asset));
-                    }
+                    }*/
                 }
             }
         });

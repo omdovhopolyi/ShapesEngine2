@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UIComponent.h"
-#include "Serialization/LoaderMacro.h"
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 
@@ -10,7 +9,7 @@ namespace shen
     class UITextComponent
         : public UIComponent
     {
-        CLASS_LOADER_TEST(UITextComponent)
+        SERIALIZABLE(UITextComponent)
 
     public:
         void RegisterProperties() override;

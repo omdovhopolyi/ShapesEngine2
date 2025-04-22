@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UIComponent.h"
-#include "Serialization/LoaderMacro.h"
 #include <SFML/Graphics/Transformable.hpp>
 
 namespace shen
@@ -9,7 +8,7 @@ namespace shen
     class UITransformComponent
         : public UIComponent
     {
-        CLASS_LOADER_TEST(UITransformComponent)
+        SERIALIZABLE(UITransformComponent)
 
     public:
         void RegisterProperties() override;

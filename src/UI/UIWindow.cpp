@@ -63,21 +63,21 @@ namespace shen
         return _root;
     }
 
-    void UIWindow::MapComponent(const std::string& id, const std::shared_ptr<UIComponent>& component)
+    void UIWindow::MapComponent(const std::string& id, const std::weak_ptr<UIComponent>& component)
     {
         const auto [it, isInserted] = _mappedComponents.insert({ id, component });
         SetComponentsDirty(true);
         Assert(isInserted, std::format("Trying add second component for node '{}' in window '{}'", id, GetId()));
     }
 
-    void UIWindow::MapInputComponent(const std::string& id, const std::shared_ptr<UIInputComponent>& component)
+    void UIWindow::MapInputComponent(const std::string& id, const std::weak_ptr<UIInputComponent>& component)
     {
         const auto [it, isInserted] = _mappedInputComponents.insert({ id, component });
         SetComponentsDirty(true);
         Assert(isInserted, std::format("Trying add second input component for node '{}' in window '{}'", id, GetId()));
     }
 
-    void UIWindow::MapNode(const std::string& id, const std::shared_ptr<UINode>& node)
+    void UIWindow::MapNode(const std::string& id, const std::weak_ptr<UINode>& node)
     {
         const auto [it, isInserted] = _mappedNodes.insert({ id, node });
         Assert(isInserted, std::format("Trying map second node '{}' in window '{}'", id, GetId()));

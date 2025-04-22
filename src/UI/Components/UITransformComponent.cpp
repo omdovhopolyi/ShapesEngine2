@@ -11,7 +11,7 @@ namespace shen
     {
         UIComponent::RegisterProperties();
 
-        RegisterVar<SerializableFieldTransform>(_transform);
+        RegisterVar<SerializableFieldTransform>(_transform, "transform");
         RegisterVar<SerializableFieldVec2>(_anchor, "anchor");
     }
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "UIComponent.h"
-#include "Serialization/LoaderMacro.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Color.hpp>
 
@@ -12,7 +11,7 @@ namespace shen
     class UISpriteComponent
         : public UIComponent
     {
-        CLASS_LOADER_TEST(UISpriteComponent)
+        SERIALIZABLE(UISpriteComponent)
 
     public:
         void RegisterProperties() override;

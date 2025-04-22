@@ -43,11 +43,12 @@ namespace shen
             {
                 if (auto loader = LoadersManager::Instance().GetLoader(type))
                 {
-                    if (auto component = loader->CreateAndLoad(element))
+                    if (auto component = std::dynamic_pointer_cast<UIComponent>(loader->CreateAndLoad(element)))
                     {
-                        auto uiComponent = std::dynamic_pointer_cast<UIComponent>(component);
-                        uiComponent->RegisterReferences();
-                        node->AddComponent(uiComponent);
+                        component->SetNode(node.get());
+                        component->AfterLoad();
+                        component->RegisterReferences();
+                        node->AddComponent(component);
                     }
                 }
             }

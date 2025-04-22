@@ -48,9 +48,15 @@ namespace shen
         RegisterVar<SerializableFieldString>(_soundHover, "sound_hover");
         RegisterVar<SerializableFieldString>(_soundPress, "sound_press");
         RegisterVar<SerializableFieldString>(_soundRelease, "sound_release");
-        RegisterVar<SerializableFieldSprite>(_idle, "idle");
-        RegisterVar<SerializableFieldSprite>(_pressed, "pressed");
-        RegisterVar<SerializableFieldSprite>(_hovered, "hovered");
+        RegisterVar<SerializableFieldSprite>(_idle, "sprite_idle");
+        RegisterVar<SerializableFieldSprite>(_pressed, "sprite_pressed");
+        RegisterVar<SerializableFieldSprite>(_hovered, "sprite_hovered");
+    }
+
+    void UIButtonComponent::AfterLoad()
+    {
+        UIInputComponent::AfterLoad();
+        SetCurrentSprite(_idle);
     }
 
     void UIButtonComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const

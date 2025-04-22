@@ -3,6 +3,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(WindowTestComponent)
+
     void WindowTestComponent::RegisterReferences()
     {
         RegisterReference("testButton", _button);

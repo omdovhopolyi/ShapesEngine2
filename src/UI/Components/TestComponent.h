@@ -3,7 +3,8 @@
 #include <vector>
 #include <memory>
 #include "Serialization/Serializable.h"
-#include "Serialization/LoaderMacro.h"
+
+// TODO delete
 
 namespace shen
 {
@@ -15,7 +16,7 @@ namespace shen
     class UITestComponent
         : public Component
     {
-        CLASS_LOADER_TEST(UITestComponent)
+        SERIALIZABLE(UITestComponent)
 
     public:
         void RegisterProperties() override;

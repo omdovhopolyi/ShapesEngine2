@@ -64,11 +64,13 @@ namespace shen
 
     class UIComponent
         : public Serializable
+        , public std::enable_shared_from_this<UIComponent>
     {
     public:
         virtual ~UIComponent();
 
         void RegisterProperties() override;
+        void AfterLoad() override;
 
         virtual void Init() {};
         virtual void OnWindowOpen() {};
