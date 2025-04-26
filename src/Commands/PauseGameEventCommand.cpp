@@ -4,6 +4,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(PauseGameEventCommand);
+
     void PauseGameEventCommand::Execute(const CommandContext& context) const
     {
         Messenger::Instance().Broadcast<PauseGameEvent>();

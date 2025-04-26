@@ -6,6 +6,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(CameraMouseMoveCommand);
+
     void CameraMouseMoveCommand::Execute(const CommandContext& context) const
     {
         if (auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>())

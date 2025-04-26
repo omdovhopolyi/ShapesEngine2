@@ -7,12 +7,16 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(MoveCommand);
+
     MoveCommand::MoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     { }
 
     void MoveCommand::RegisterProperties()
     {
+        Command::RegisterProperties();
+
         RegisterVar<SerializableFieldVec2>(_direction, "direction");
         RegisterVar<SerializableFieldFloat>(_speed, "speed");
     }

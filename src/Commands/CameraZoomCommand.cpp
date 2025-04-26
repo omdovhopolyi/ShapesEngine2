@@ -6,8 +6,12 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(CameraZoomCommand);
+
     void CameraZoomCommand::RegisterProperties()
     {
+        Command::RegisterProperties();
+
         RegisterVar<SerializableFieldFloat>(_speed, "speed");
     }
 

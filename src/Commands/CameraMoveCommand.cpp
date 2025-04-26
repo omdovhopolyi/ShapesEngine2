@@ -7,6 +7,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(CameraMoveCommand);
+
     CameraMoveCommand::CameraMoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     {
@@ -14,6 +16,8 @@ namespace shen
 
     void CameraMoveCommand::RegisterProperties()
     {
+        Command::RegisterProperties();
+
         RegisterVar<SerializableFieldVec2>(_direction, "direction");
         RegisterVar<SerializableFieldFloat>(_speed, "speed");
     }

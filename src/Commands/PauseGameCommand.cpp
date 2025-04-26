@@ -4,6 +4,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(PauseGameCommand);
+
     void PauseGameCommand::Execute(const CommandContext& context) const
     {
         auto& time = context.systems->GetTime();

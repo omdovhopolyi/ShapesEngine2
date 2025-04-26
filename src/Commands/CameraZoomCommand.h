@@ -7,6 +7,8 @@ namespace shen
     class CameraZoomCommand
         : public Command
     {
+        SERIALIZABLE(CameraZoomCommand)
+
     public:
         CameraZoomCommand() = default;
 

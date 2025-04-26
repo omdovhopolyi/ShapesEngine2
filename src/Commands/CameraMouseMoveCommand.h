@@ -8,6 +8,8 @@ namespace shen
     class CameraMouseMoveCommand
         : public Command
     {
+        SERIALIZABLE(CameraMouseMoveCommand)
+
     public:
         void Execute(const CommandContext& context) const override;
     };

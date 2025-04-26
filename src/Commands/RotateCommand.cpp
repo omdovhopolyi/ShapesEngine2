@@ -10,6 +10,8 @@
 
 namespace shen
 {
+    REGISTER_CLASS_LOADER_TEST(RotateCommand);
+
     void RotateCommand::Execute(const CommandContext& context) const
     {
         auto& time = context.systems->GetTime();

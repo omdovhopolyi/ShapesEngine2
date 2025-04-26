@@ -8,6 +8,8 @@ namespace shen
     class CameraMoveCommand
         : public Command
     {
+        SERIALIZABLE(CameraMoveCommand)
+
     public:
         CameraMoveCommand() = default;
         CameraMoveCommand(const sf::Vector2f& dir);

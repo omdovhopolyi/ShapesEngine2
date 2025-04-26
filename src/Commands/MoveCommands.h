@@ -8,6 +8,8 @@ namespace shen
     class MoveCommand
         : public Command
     {
+        SERIALIZABLE(MoveCommand)
+
     public:
         MoveCommand() = default;
         MoveCommand(const sf::Vector2f& dir);
