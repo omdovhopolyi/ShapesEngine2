@@ -31,7 +31,7 @@ namespace shen
         sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect defaultVal = {}) const override;
         sf::IntRect GetIntRect(const std::string& id, sf::IntRect defaultVal = {}) const override;
         sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const override;
-        std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const override;
+        std::vector<sf::IntRect> GetVectorIntRect(const std::string& id, const std::string& itemId = "item") const override;
         std::vector<std::string> GetVecStr(const std::string& id) const override;
         sf::Transform GetTransform(const std::string& id, const sf::Transform& defaultVal = {}) const override;
 

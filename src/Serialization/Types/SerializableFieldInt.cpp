@@ -9,6 +9,6 @@ namespace shen
 
     void SerializableFieldInt::Load(const DataElementWrapper& element)
     {
-        _field = element.GetInt(_name);
+        _field = element.GetInt(_name, _field);
     }
 }

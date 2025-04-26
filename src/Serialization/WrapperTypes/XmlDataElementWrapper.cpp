@@ -47,7 +47,9 @@ namespace shen
     {
         if (_element)
         {
-            return _element->FirstChildElement(id.c_str()) != nullptr;
+            const bool hasChild = _element->FirstChildElement(id.c_str()) != nullptr;
+            const bool hasAttr = _element->FindAttribute(id.c_str()) != nullptr;
+            return hasChild || hasAttr;
         }
         
         return false;
@@ -196,7 +198,7 @@ namespace shen
         return defaultVal;
     }
 
-    std::vector<sf::IntRect> XmlDataElementWrapper::GetVectorIntRect(const std::string& id) const
+    std::vector<sf::IntRect> XmlDataElementWrapper::GetVectorIntRect(const std::string& id, const std::string& itemId) const
     {
         std::vector<sf::IntRect> result;
 
@@ -204,7 +206,7 @@ namespace shen
         {
             if (const auto child = _element->FirstChildElement(id.c_str()))
             {
-                auto item = child->FirstChildElement("item");
+                auto item = child->FirstChildElement(itemId.c_str());
                 while (item)
                 {
                      auto wrapper = XmlDataElementWrapper{GetSystems(), item };
@@ -215,7 +217,7 @@ namespace shen
 
                      result.emplace_back(x, y, w, h);
 
-                     item = item->NextSiblingElement("item");
+                     item = item->NextSiblingElement(itemId.c_str());
                 }
             }
         }

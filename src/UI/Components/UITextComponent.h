@@ -13,6 +13,7 @@ namespace shen
 
     public:
         void RegisterProperties() override;
+        void AfterLoad() override;
 
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;
 
@@ -30,14 +31,13 @@ namespace shen
         void SetSpacing(float spacing);
         float GetSpacing() const;
 
-        void AfterLoad() override;
 
     private:
         sf::Text _text;
 
         std::string _string;
         sf::Font _font;
-        int _size = 0;
+        int _size = 14;
         sf::Color _color;
         float _spacing = 1.f;
     };

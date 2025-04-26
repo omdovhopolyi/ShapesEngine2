@@ -56,7 +56,7 @@ namespace shen
     void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const DataElementWrapper& elementWrapper)
     {
         component.frameTime = elementWrapper.GetFloat("frameTime", component.frameTime);
-        component.frames = elementWrapper.GetVectorIntRect("frames");
+        component.frames = elementWrapper.GetVectorIntRect("frames", "rect");
         component.animType = AnimationTypeEnum.FromString(elementWrapper.GetStr("animType"));
         component.deleteOnDone = elementWrapper.GetBool("deleteOnDone");
     }

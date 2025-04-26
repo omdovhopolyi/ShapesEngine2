@@ -25,7 +25,10 @@ namespace shen
 
     void UISpriteComponent::AfterLoad()
     {
-        SetColor(_color);
+        if (_color != sf::Color::Transparent)
+        {
+            SetColor(_color);
+        }
     }
 
     void UISpriteComponent::Update(float dt)

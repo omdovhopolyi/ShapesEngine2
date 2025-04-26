@@ -38,8 +38,8 @@ namespace shen
         virtual sf::Vector2i GetIntVec2(const std::string& id, sf::Vector2i defaultVal = sf::Vector2i()) const;
         virtual sf::FloatRect GetFloatRect(const std::string& id, sf::FloatRect def = {}) const;
         virtual sf::IntRect GetIntRect(const std::string& id, sf::IntRect def = {}) const;
-        virtual sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::Transparent) const;
-        virtual std::vector<sf::IntRect> GetVectorIntRect(const std::string& id) const;
+        virtual sf::Color GetColor(const std::string& id, sf::Color defaultVal = sf::Color::White) const;
+        virtual std::vector<sf::IntRect> GetVectorIntRect(const std::string& id, const std::string& itemId = "item") const;
         virtual std::vector<std::string> GetVecStr(const std::string& id) const;
         virtual sf::Transform GetTransform(const std::string& id, const sf::Transform& defaultVal = {}) const;
 

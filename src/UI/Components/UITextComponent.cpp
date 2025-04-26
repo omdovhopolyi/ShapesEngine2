@@ -21,6 +21,17 @@ namespace shen
         RegisterVar<SerializableFieldFloat>(_spacing, "spacing");
     }
 
+    void UITextComponent::AfterLoad()
+    {
+        UIComponent::AfterLoad();
+
+        _text.setString(_string);
+        _text.setFont(_font);
+        _text.setCharacterSize(_size);
+        _text.setColor(_color);
+        _text.setLetterSpacing(_spacing);
+    }
+
     void UITextComponent::Draw(sf::RenderTarget& target, const sf::Transform& transform) const
     {
         target.draw(_text, transform);
@@ -74,14 +85,5 @@ namespace shen
     float UITextComponent::GetSpacing() const
     {
         return _spacing;
-    }
-
-    void UITextComponent::AfterLoad()
-    {
-        _text.setString(_string);
-        _text.setFont(_font);
-        _text.setCharacterSize(_size);
-        _text.setColor(_color);
-        _text.setLetterSpacing(_spacing);
     }
 }

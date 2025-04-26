@@ -9,6 +9,6 @@ namespace shen
 
     void SerializableFieldFloat::Load(const DataElementWrapper& element)
     {
-        _field = element.GetFloat(_name);
+        _field = element.GetFloat(_name, _field);
     }
 }

@@ -20,6 +20,11 @@ namespace shen
 		world.Each<SpriteFrameAnimation, Sprite>(
 			[&](const auto entity, SpriteFrameAnimation& animation, Sprite& sprite)
 		{
+            if (animation.frames.empty())
+            {
+                return;
+            }
+
 			if (animation.done)
 			{
 				return;

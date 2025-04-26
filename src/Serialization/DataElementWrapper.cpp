@@ -93,7 +93,7 @@ namespace shen
         return defaultVal;
     }
 
-    std::vector<sf::IntRect> DataElementWrapper::GetVectorIntRect(const std::string& id) const
+    std::vector<sf::IntRect> DataElementWrapper::GetVectorIntRect(const std::string& id, const std::string& itemId) const
     {
         Assert(false, "");
         return {};
