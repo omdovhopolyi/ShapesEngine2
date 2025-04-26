@@ -15,6 +15,7 @@ namespace shen
 
     public:
         void RegisterProperties() override;
+        void AfterLoad() override;
 
         void Update(float dt) override;
         void Draw(sf::RenderTarget& target, const sf::Transform& transform) const override;

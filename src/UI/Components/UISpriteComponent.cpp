@@ -23,6 +23,11 @@ namespace shen
         RegisterVar<SerializableFieldColor>(_color, "color");
     }
 
+    void UISpriteComponent::AfterLoad()
+    {
+        SetColor(_color);
+    }
+
     void UISpriteComponent::Update(float dt)
     {
         if (_fillScreen)
