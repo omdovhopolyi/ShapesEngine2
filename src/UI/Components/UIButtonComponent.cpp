@@ -39,7 +39,7 @@ namespace shen
         }
     }
 
-    REGISTER_CLASS_LOADER_TEST(UIButtonComponent);
+    REGISTER_CLASS_LOADER(UIButtonComponent);
 
     void UIButtonComponent::RegisterProperties()
     {

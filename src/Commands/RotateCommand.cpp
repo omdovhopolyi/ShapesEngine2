@@ -10,7 +10,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER_TEST(RotateCommand);
+    REGISTER_CLASS_LOADER(RotateCommand);
 
     void RotateCommand::Execute(const CommandContext& context) const
     {

@@ -8,7 +8,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER_TEST(UITextComponent);
+    REGISTER_CLASS_LOADER(UITextComponent);
 
     void UITextComponent::RegisterProperties()
     {

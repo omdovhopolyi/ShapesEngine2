@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER_TEST(CameraMoveCommand);
+    REGISTER_CLASS_LOADER(CameraMoveCommand);
 
     CameraMoveCommand::CameraMoveCommand(const sf::Vector2f& dir)
         : _direction(dir)

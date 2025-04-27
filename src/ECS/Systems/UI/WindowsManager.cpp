@@ -1,6 +1,7 @@
 #include "WindowsManager.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/TimeSystem.h"
+#include "ECS/Systems/UI/WindowLoader.h"
 #include "Messenger/Events/Common.h"
 #include "Messenger/Events/UIEvents.h"
 #include "UI/UIWindow.h"
@@ -24,13 +25,16 @@ namespace shen
 
     void WindowsManager::OpenWindow(const UIWindowContext& context)
     {
-        auto window = std::make_unique<UIWindow>();
-        window->SetSystemsManager(_systems);
-        UIWindowLoader::Instance().LoadWindow(_systems, window.get(), context.windowId);
-        window->Init(context);
-        window->Open();
-        window->OnOpen();
-        _windows.push_back(std::move(window));
+        if (auto windowLoader = _systems->GetSystem<UIWindowLoader>())
+        {
+            auto window = std::make_unique<UIWindow>();
+            window->SetSystemsManager(_systems);
+            windowLoader->LoadWindow(_systems, window.get(), context.windowId);
+            window->Init(context);
+            window->Open();
+            window->OnOpen();
+            _windows.push_back(std::move(window));
+        }
     }
 
     void WindowsManager::CloseTopWindow()

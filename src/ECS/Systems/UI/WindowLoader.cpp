@@ -1,6 +1,6 @@
-#include "UIWindowLoader.h"
+#include "WindowLoader.h"
 #include "UI/UIWindow.h"
-#include "UINode.h"
+#include "UI/UINode.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
 #include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
@@ -9,6 +9,8 @@
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(UIWindowLoader)
+
     std::string UIWindowLoader::ComponentElementId = "component";
     std::string UIWindowLoader::NodeElementId = "node";
     std::string UIWindowLoader::TypeAttrId = "type";

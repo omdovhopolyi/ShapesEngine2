@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER_TEST(PauseGameEventCommand);
+    REGISTER_CLASS_LOADER(PauseGameEventCommand);
 
     void PauseGameEventCommand::Execute(const CommandContext& context) const
     {

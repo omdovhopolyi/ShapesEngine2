@@ -2,7 +2,7 @@
 
 #include <Serialization/LoadersManager.h>
 
-#define CLASS_LOADER_TEST(Type) \
+#define CLASS_LOADER(Type) \
     public: \
         static bool LoaderRegistered; \
         static bool RegisterLoader() \
@@ -11,5 +11,5 @@
             return true; \
         }
 
-#define REGISTER_CLASS_LOADER_TEST(Type) \
+#define REGISTER_CLASS_LOADER(Type) \
     bool Type::LoaderRegistered = Type::RegisterLoader();

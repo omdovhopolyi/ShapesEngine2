@@ -6,7 +6,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER_TEST(CameraZoomCommand);
+    REGISTER_CLASS_LOADER(CameraZoomCommand);
 
     void CameraZoomCommand::RegisterProperties()
     {
