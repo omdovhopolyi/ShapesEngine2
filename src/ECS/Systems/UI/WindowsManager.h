@@ -2,7 +2,6 @@
 
 #include "ECS/Systems/BaseSystems/UpdateSystem.h"
 #include "UI/UIWindow.h"
-#include "UI/UIWindowLoader.h"
 #include "Messenger/SubscriptionsContainer.h"
 #include <vector>
 #include <memory>

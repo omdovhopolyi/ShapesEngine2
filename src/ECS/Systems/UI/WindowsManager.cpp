@@ -5,7 +5,6 @@
 #include "Messenger/Events/Common.h"
 #include "Messenger/Events/UIEvents.h"
 #include "UI/UIWindow.h"
-#include "UI/UIWindowLoader.h"
 #include <SFML/Window/Keyboard.hpp>
 
 namespace shen
