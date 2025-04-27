@@ -1,10 +1,9 @@
 #include "InputCommandsCollection.h"
-//#include "Commands/Loaders/InputCommandsLoadersCollection.h"
 #include "Serialization/LoadersManager.h"
-#include "Commands/Loaders/InputCommandLoader.h"
 #include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
+#include "Commands/Command.h"
 
 namespace shen
 {

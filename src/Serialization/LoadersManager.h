@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Utils/Singleton.h>
-#include <Serialization/Serialization.h>
 #include <map>
 #include <string>
 #include "Serializable.h"
@@ -27,7 +26,6 @@ namespace shen
             auto serializable = std::make_shared<T>();
             serializable->RegisterProperties();
             serializable->Load(element);
-            //serializable->AfterLoad();
             return serializable;
         }
     };

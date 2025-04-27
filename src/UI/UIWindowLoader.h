@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "Serialization/Serializer.h"
 #include <Utils/Singleton.h>
 #include <map>
 #include <string>
@@ -16,7 +15,6 @@ namespace shen
     
     class UIWindowLoader
         : public Singleton<UIWindowLoader>
-        //: public Serializer<UIComponentLoader, UIWindowLoader>
     {
     public:
         void LoadWindow(SystemsManager* systems, UIWindow* window, const std::string& windowId);

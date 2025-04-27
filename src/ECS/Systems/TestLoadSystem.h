@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseSystems/System.h"
-#include "UI/Components/TestComponent.h"
 
 namespace shen
 {
