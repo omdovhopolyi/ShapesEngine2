@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Systems/System.h"
-#include "Systems/RenderSystem.h"
+#include "ECS/World.h"
+#include "Systems/BaseSystems/System.h"
+#include "Systems/Basesystems/RenderSystem.h"
+#include "Systems/BaseSystems/UpdateSystem.h"
+#include "Messenger/SubscriptionsContainer.h"
 #include "Logger/Logger.h"
 
 #include <memory>
@@ -9,55 +12,82 @@
 #include <map>
 #include <typeinfo>
 #include <typeindex>
+#include <format>
 
 namespace shen
 {
+    class Game;
+    class TimeSystem;
+
     class SystemsManager
     {
     public:
-        void Init();
+        void Init(Game* game);
 
-        template<class T>
-        void RegisterSystem();
-
-        template<class T>
-        void RegisterRenderSystem();
+        template<class T, class... Args>
+        void RegisterSystem(Args... args);
 
         template <class T>
         T* GetSystem() const;
 
+        void AddSystem(std::unique_ptr<System>&& system);
+
+        void Load();
         void Start();
         void Update();
         void Draw();
+        void Save();
         void Stop();
         void Clear();
 
+        World& GetWorld() { return _world; }
+        TimeSystem& GetTime() { return *_timeSystem; }
+
     private:
-        std::vector<std::unique_ptr<System>> _systems;
+        void InitSubscriptions();
+        void OnLostFocus();
+        void OnGainedFocus();
+
+    private:
+        std::vector<std::unique_ptr<System>> _simpleSystems;
+        std::vector<std::unique_ptr<UpdateSystem>> _updateSystems;
         std::vector<std::unique_ptr<RenderSystem>> _renderSystems;
-        std::map<std::type_index, BaseSystem*> _mappedSystems;
+        std::map<std::type_index, System*> _mappedSystems;
+        std::vector<System*> _registrationOrderedSystems;
+        TimeSystem* _timeSystem = nullptr;
+        World _world;
+        Game* _game = nullptr;
+
+        SubcriptionsContainer _subscriptions;
     };
 
-    template <class T>
-    void SystemsManager::RegisterSystem()
+    template <class T, class... Args>
+    void SystemsManager::RegisterSystem(Args... args)
     {
-        _systems.push_back(std::make_unique<T>());
-        _mappedSystems[std::type_index(typeid(T))] = _systems.back().get();
-        Logger::Log("Register {} system", typeid(T).name());
-    }
+        auto system = std::make_unique<T>(std::forward<Args>(args)...);
+        system->Init(this);
+        _mappedSystems[std::type_index(typeid(T))] = system.get();
+        _registrationOrderedSystems.push_back(system.get());
 
-    template<class T>
-    void SystemsManager::RegisterRenderSystem()
-    {
-        if (std::is_base_of_v<RenderSystem, T>)
+        if constexpr (std::is_base_of_v<TimeSystem, T>)
         {
-            _renderSystems.push_back(std::make_unique<T>());
-            _mappedSystems[std::type_index(typeid(T))] = _renderSystems.back().get();
-            Logger::Log("Register {} render system", typeid(T).name());
+            _timeSystem = system.get();
+        }
+
+        if constexpr (std::is_base_of_v<RenderSystem, T>)
+        {
+            _renderSystems.push_back(std::move(system));
+            Logger::Log(std::format("Register {} render system", typeid(T).name()));
+        }
+        else if constexpr (std::is_base_of_v<UpdateSystem, T>)
+        {
+            _updateSystems.push_back(std::move(system));
+            Logger::Log(std::format("Register {} update system", typeid(T).name()));
         }
         else
         {
-            // TODO assert
+            _simpleSystems.push_back(std::move(system));
+            Logger::Log(std::format("Register {} simple system", typeid(T).name()));
         }
     }
 

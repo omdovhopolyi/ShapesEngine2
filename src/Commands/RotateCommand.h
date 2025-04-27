@@ -1,14 +1,15 @@
 #pragma once
 
 #include "Command.h"
-#include <glm/glm.hpp>
 
 namespace shen
 {
     class RotateCommand
         : public Command
     {
+        SERIALIZABLE(RotateCommand)
+
     public:
-        void Execute(const Entity& entity, const CommandContext& context) const override;
+        void Execute(const CommandContext& context) const override;
     };
 }

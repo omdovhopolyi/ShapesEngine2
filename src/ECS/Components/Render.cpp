@@ -1,53 +1,71 @@
 #include "Render.h"
-#include "ECS/EcsWorld.h"
-#include "Serialization/Serialization.h"
+#include "ECS/World.h"
+#include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
+#include "ECS/SystemsManager.h"
+#include "Serialization/DataElementWrapper.h"
 
 namespace shen
 {
-    void Sprite::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Sprite::Load(Sprite& component, const DataElementWrapper& elementWrapper)
     {
-        auto comp = world->AddComponent<Sprite>(entity);
-
-        comp->texture = LoadTexturePtr("texture", element);
-        comp->mask = LoadTexturePtr("mask", element);
-        comp->texRect = LoadRect("rect", element);
-        comp->size = LoadVec2("size", element, comp->size);
-        comp->anchor = LoadVec2("anchor", element);
-        comp->shader = LoadShaderPtr("shader", element);
-
-        if (const auto typeStr = LoadStr("spriteType", element); !typeStr.empty())
+        if (auto textureId = elementWrapper.GetStr("texture"); !textureId.empty())
         {
-            comp->spriteType = SpriteTypeEnum.FromString(LoadStr("spriteType", element));
+            auto systems = elementWrapper.GetSystems();
+
+            if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
+            {
+                if (auto texture = texturesCollection->GetTexture(textureId))
+                {   
+                    auto textureSize = texture->getSize();
+
+                    auto rect = elementWrapper.GetIntRect("rect", { 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) });
+                    auto anchor = elementWrapper.GetVec2("anchor", { textureSize.x / 2.f, textureSize.y / 2.f });
+
+                    component.textureId = textureId;
+                    component.sprite.setTexture(*texture);
+                    component.sprite.setTextureRect(rect);
+                    component.sprite.setOrigin(anchor);
+                }
+            }   
+        }
+
+        component.sorting = elementWrapper.GetInt("sorting");
+    }
+
+    void Sprite::Save(Sprite& component, DataElementWrapper& elementWrapper)
+    {
+        if (auto texture = component.sprite.getTexture())
+        {
+            elementWrapper.SetStr("texture", component.textureId);
+            elementWrapper.SetIntRect("rect", component.sprite.getTextureRect());
+            elementWrapper.SetVec2("size", component.sprite.getOrigin());
+            elementWrapper.SetInt("sorting", component.sorting);
         }
     }
 
-    void Sprite::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Color::Load(Color& component, const DataElementWrapper& elementWrapper)
     {
-
+        component.color = elementWrapper.GetColor("color");
     }
 
-    void Color::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Color::Save(Color& component, DataElementWrapper& elementWrapper)
     {
-        auto comp = world->AddComponent<Color>(entity);
-
-        comp->rgba = LoadColor("color", element) / 255.f;
+        elementWrapper.SetColor("color", component.color);
     }
 
-    void Color::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const DataElementWrapper& elementWrapper)
     {
-
+        component.frameTime = elementWrapper.GetFloat("frameTime", component.frameTime);
+        component.frames = elementWrapper.GetVectorIntRect("frames", "rect");
+        component.animType = AnimationTypeEnum.FromString(elementWrapper.GetStr("animType"));
+        component.deleteOnDone = elementWrapper.GetBool("deleteOnDone");
     }
 
-    void SpriteFrameAnimation::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, DataElementWrapper& elementWrapper)
     {
-        auto comp = world->AddComponent<SpriteFrameAnimation>(entity);
-
-        comp->frameTime = LoadFloat("frameTime", element, comp->frameTime);
-        comp->frames = LoadVectorRect("frames", element);
-    }
-
-    void SpriteFrameAnimation::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
-    {
-
+        elementWrapper.SetFloat("frameTime", component.frameTime);
+        elementWrapper.SetVectorIntRect("frames", component.frames);
+        elementWrapper.SetStr("type", AnimationTypeEnum.ToString(component.animType));
+        elementWrapper.SetBool("deleteOnDone", component.deleteOnDone);
     }
 }

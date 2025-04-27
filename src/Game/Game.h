@@ -1,9 +1,13 @@
 #pragma once
 
 #include "Messenger/SubscriptionsContainer.h"
+#include "ECS/SystemsListLoader.h"
+#include <memory>
 
 namespace shen
 {
+	class SystemsManager;
+
 	class Game
 	{
 	public:
@@ -14,13 +18,23 @@ namespace shen
 		void Run();
 		void Destroy();
 
+		bool IsRunning() const;
+
 	private:
-		void Setup();
+		void InitSubscriptions();
+		bool CreateSystems();
+		void LoadSystems();
+		void InitSystems();
+		void SetupSystems();
 		void Update();
+
+		void SetRunning(bool running);
 
 	private:
 		int _lastUpdateTime = 0;
 		bool _isRunning = false;
 		SubcriptionsContainer _subscriptions;
+		std::unique_ptr<SystemsManager> _systems;
+		SystemsListLoader _systemsLoader;
 	};
 }

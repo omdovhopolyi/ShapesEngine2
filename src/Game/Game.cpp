@@ -1,47 +1,30 @@
-
 #include "Game.h"
-#include "ManagersProvider.h"
-#include "Logger/Logger.h"
-#include "Time.h"
-#include "GameWindow.h"
-#include "MapLoader.h"
-
 #include "ECS/SystemsManager.h"
-#include "ECS/EcsWorld.h"
-#include "ECS/SystemsRegistration.h"
-#include "ECS/Components/Common.h"
-#include "ECS/Components/SDLComponents.h"
-
-#include "Resources/AssetsManager.h"
-#include "Resources/OpenGLTexturesManager.h"
-#include "Resources/ShadersManager.h"
-
+#include "ECS/SystemsFactory.h"
+#include "Logger/Logger.h"
 #include "Messenger/Events/Common.h"
-
-#include <sstream>
-#include <fstream>
 
 namespace shen
 {
-	Game::Game()
-	{
-		Logger::Log("Game constructor");
-	}
-
-	Game::~Game()
-	{
-		Logger::Log("Game destructor");
-	}
+	Game::Game() = default;
+	Game::~Game() = default;
 
 	void Game::Initialize()
 	{
-		_isRunning = ManagersProvider::Instance().Init();
+		InitSubscriptions();
+		const bool loaded = CreateSystems();
+		SetRunning(loaded);
+
+		if (IsRunning())
+		{
+			LoadSystems();
+			InitSystems();
+			SetupSystems();
+		}
 	}
 
 	void Game::Run()
 	{
-		Setup();
-
 		while (_isRunning)
 		{
 			Update();
@@ -50,41 +33,61 @@ namespace shen
 
 	void Game::Destroy()
 	{
-		ManagersProvider::Instance().Clear();
+		_systems->Clear();
 	}
 
-	void Game::Setup()
+	bool Game::IsRunning() const
 	{
-		RegisterSystems();
+		return _isRunning;
+	}
 
-		/*_subscriptions.Subscribe<KeyEvent>([this](const auto& event)
-		{
-			if (event.type == KeyEventType::Up)
-			{
-				if (event.code == SDLK_ESCAPE)
-				{
-					_isRunning = false;
-				}
-			}
-		});*/
-
+	void Game::InitSubscriptions()
+	{
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
-			_isRunning = false;
+			SetRunning(false);
 		});
+	}
 
-		auto texturesManager = ManagersProvider::Instance().GetOrCreateAssetsManager<OpenGLTexturesManager>();
+	bool Game::CreateSystems()
+	{
+		const bool loaded = _systemsLoader.Load();
+		if (loaded)
+		{
+			_systems = std::make_unique<SystemsManager>();
 
-		auto mapLoader = ManagersProvider::Instance().GetMapLoader();
-		mapLoader->LoadMap("map_test");
+			for (const auto& systemType : _systemsLoader.GetSystemsList())
+			{
+				_systems->AddSystem(SystemsFactory::Instance().Get(systemType));
+			}
+		}
 
-		auto systems = ManagersProvider::Instance().GetSystemsManager();
-		systems->Start();
+		return loaded;
+	}
+
+	void Game::LoadSystems()
+	{
+		_systems->Load();
+	}
+
+	void Game::InitSystems()
+	{
+		_systems->Init(this);
+	}
+
+	void Game::SetupSystems()
+	{
+		_systems->Start();
 	}
 
 	void Game::Update()
 	{
-		ManagersProvider::Instance().Update();
-		ManagersProvider::Instance().Draw();
+		_systems->Update();
+		_systems->Draw();
+	}
+
+	void Game::SetRunning(bool running)
+	{
+		_isRunning = running;
 	}
 }

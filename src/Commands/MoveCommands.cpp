@@ -1,22 +1,32 @@
 #include "MoveCommands.h"
-
-#include "Game/ManagersProvider.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
 #include "Logger/Logger.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
 
 namespace shen
 {
-    MoveCommand::MoveCommand(const glm::vec3& dir)
+    REGISTER_CLASS_LOADER(MoveCommand);
+
+    MoveCommand::MoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     { }
 
-    void MoveCommand::SetDirection(const glm::vec3& dir)
+    void MoveCommand::RegisterProperties()
+    {
+        Command::RegisterProperties();
+
+        RegisterVar<SerializableFieldVec2>(_direction, "direction");
+        RegisterVar<SerializableFieldFloat>(_speed, "speed");
+    }
+
+    void MoveCommand::SetDirection(const sf::Vector2f& dir)
     {
         _direction = dir;
     }
 
-    const glm::vec3 MoveCommand::GetDirection() const
+    const sf::Vector2f MoveCommand::GetDirection() const
     {
         return _direction;
     }
@@ -31,10 +41,11 @@ namespace shen
         return _speed;
     }
 
-    void MoveCommand::Execute(const Entity& entity, const CommandContext&) const
+    void MoveCommand::Execute(const CommandContext& context) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
-        if (auto rb = world->GetComponent<Mover>(entity))
+        auto& world = context.systems->GetWorld();
+
+        if (auto rb = world.GetOrCreateComponent<Mover>(context.entity))
         {
             rb->velocity += _direction * _speed;
         }

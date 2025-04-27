@@ -1,22 +1,36 @@
 #include "CameraFollowSystem.h"
-
-#include "Game/ManagersProvider.h"
-#include "Game/Camera.h"
-#include "ECS/EcsWorld.h"
-
+#include "ECS/SystemsManager.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 
 namespace shen
 {
+    REGISTER_SYSTEMS_FACTORY(CameraFollowSystem)
+
     void CameraFollowSystem::Update()
     {
-        auto world = ManagersProvider::Instance().GetWorld();
-        //auto camera = ManagersProvider::Instance().GetCamera();
+        auto& world = _systems->GetWorld();
 
-        world->Each<CameraTarget, Transform>(
-            [&](auto entity, const Transform& transform)
+        Camera* camera = nullptr;
+
+        std::optional<sf::Vector2f> viewSize;
+
+        world.Each<Camera>([&](const auto entity, Camera& cameraComp)
         {
-            //camera->LookAt(transform.position);
+            if (cameraComp.type == SfmlRenderTargetsSystem::WorldTargetId)
+            {
+                camera = &cameraComp;
+            }
         });
+
+        if (camera)
+        {
+            world.Each<CameraTarget, Transform>(
+                [&](auto entity, const Transform& transform)
+            {
+                camera->view.setCenter(transform.position);
+            });
+        }
     }
 }

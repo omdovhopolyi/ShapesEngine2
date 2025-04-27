@@ -1,12 +1,14 @@
 #pragma once
 
-#include "System.h"
+#include "BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
     class CleanupSystem
-        : public System
+        : public UpdateSystem
     {
+        SYSTEMS_FACTORY(CleanupSystem)
+
     public:
         void Update() override;
     };

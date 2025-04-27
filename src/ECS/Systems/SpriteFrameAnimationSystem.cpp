@@ -1,26 +1,40 @@
 #include "SpriteFrameAnimationSystem.h"
-#include "Game/ManagersProvider.h"
-#include "Game/Time.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/TimeSystem.h"
+#include "ECS/Components/Common.h"
 #include "ECS/Components/Render.h"
 #include "Messenger/Messenger.h"
 #include "Messenger/Events/Rendering.h"
+#include "Enums/AnimationTypeEnum.h"
 
 namespace shen
 {
+	REGISTER_SYSTEMS_FACTORY(SpriteFrameAnimationSystem)
+
     void SpriteFrameAnimationSystem::Update()
     {
-		auto world = ManagersProvider::Instance().GetWorld();
-		const float dt = ManagersProvider::Instance().GetTime()->Dt();
+		auto& world = _systems->GetWorld();
+		auto time = _systems->GetSystem<TimeSystem>();
 
-		world->Each<SpriteFrameAnimation, Sprite>(
+		world.Each<SpriteFrameAnimation, Sprite>(
 			[&](const auto entity, SpriteFrameAnimation& animation, Sprite& sprite)
 		{
-			animation.dt += dt;
+            if (animation.frames.empty())
+            {
+                return;
+            }
+
+			if (animation.done)
+			{
+				return;
+			}
+
+			animation.dt += time->GameDt();
 			const int framesForward = static_cast<int>(animation.dt / animation.frameTime);
 			if (framesForward > 0)
 			{
-				animation .dt = 0.f;
+				animation.dt = 0.f;
 			}
 
 			const auto prevFrame = animation.curFrame;
@@ -30,9 +44,16 @@ namespace shen
 
 			if (animation.curFrame != prevFrame)
 			{
-				sprite.texRect = animation.frames[animation.curFrame];
+				sprite.sprite.setTextureRect(animation.frames[animation.curFrame]);
+			}
 
-				ManagersProvider::Instance().GetMessenger()->Broadcast<UpdateTexRect>(entity, sprite.texRect);
+			animation.totalPlayedFrames += framesForward;
+
+			animation.done = (animation.animType == AnimationType::OneShow && animation.totalPlayedFrames >= static_cast<int>(animation.frames.size()));
+
+			if (animation.deleteOnDone && animation.done)
+			{
+				world.AddOrReplaceComponent<Destroy>(entity);
 			}
 		});
     }

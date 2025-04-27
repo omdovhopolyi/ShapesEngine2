@@ -1,22 +1,33 @@
 #include "CameraMoveCommand.h"
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
 #include "ECS/Components/Common.h"
-#include "Game/ManagersProvider.h"
-#include "Game/Time.h"
+#include "ECS/Systems/TimeSystem.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
 
 namespace shen
 {
-    CameraMoveCommand::CameraMoveCommand(const glm::vec3& dir)
+    REGISTER_CLASS_LOADER(CameraMoveCommand);
+
+    CameraMoveCommand::CameraMoveCommand(const sf::Vector2f& dir)
         : _direction(dir)
     {
     }
 
-    void CameraMoveCommand::SetDirection(const glm::vec3& dir)
+    void CameraMoveCommand::RegisterProperties()
+    {
+        Command::RegisterProperties();
+
+        RegisterVar<SerializableFieldVec2>(_direction, "direction");
+        RegisterVar<SerializableFieldFloat>(_speed, "speed");
+    }
+
+    void CameraMoveCommand::SetDirection(const sf::Vector2f& dir)
     {
         _direction = dir;
     }
 
-    const glm::vec3 CameraMoveCommand::GetDirection() const
+    const sf::Vector2f& CameraMoveCommand::GetDirection() const
     {
         return _direction;
     }
@@ -31,15 +42,17 @@ namespace shen
         return _speed;
     }
 
-    void CameraMoveCommand::Execute(const Entity& entity, const CommandContext&) const
+    void CameraMoveCommand::Execute(const CommandContext& context) const
     {
-        auto time = ManagersProvider::Instance().GetTime();
+        auto& world = context.systems->GetWorld();
+        auto& time = context.systems->GetTime();
 
-        auto world = ManagersProvider::Instance().GetWorld();
-        world->Each<Camera>([&](const auto entity, Camera& camera)
-            {
-                camera.position += (_direction * _speed * time->Dt());
-            });
+        world.Each<Camera>([&](const auto entity, Camera& camera)
+        {
+            const auto offset = _direction * _speed * time.GameDt();
+            camera.view.move(offset);
+            camera.needUpdate = true;
+        });
     }
 }
 

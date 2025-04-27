@@ -1,33 +1,27 @@
 #include "CameraSystem.h"
-
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
+#include "ECS/SystemsManager.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
 #include "ECS/Components/Common.h"
-
-#include "Game/ManagersProvider.h"
-#include "Game/GameWindow.h"
-
-#include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
+#include <SFML/Graphics/View.hpp>
 
 namespace shen
 {
-    void CameraSystem::Start()
-    {
-        auto window = ManagersProvider::Instance().GetGameWindow();
-        _viewportSize = { window->GetWidth(), window->GetHeight() };
-    }
+    REGISTER_SYSTEMS_FACTORY(CameraSystem)
 
     void CameraSystem::Update()
     {
-        auto world = ManagersProvider::Instance().GetWorld();
+        auto& world = _systems->GetWorld();
+        auto renderTargets = _systems->GetSystem<SfmlRenderTargetsSystem>();
+        auto worldTarget = renderTargets->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId);
 
-        world->Each<Camera>([&](auto entity, Camera& camera)
+        world.Each<Camera>([&](auto entity, Camera& camera)
         {
-            camera.target.x = camera.position.x;
-            camera.target.y = camera.position.y;
-
-            camera.view = glm::lookAt(camera.position, camera.target, camera.up);
-            camera.projection = glm::perspective(glm::radians(camera.fov), _viewportSize.x / _viewportSize.y, camera.nearPlane, camera.farPlane);
+            if (camera.needUpdate)
+            {
+                camera.needUpdate = false;
+                worldTarget->setView(camera.view);
+            }
         });
     }
 }

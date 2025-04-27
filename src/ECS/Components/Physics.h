@@ -2,24 +2,26 @@
 
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
+#include "Enums/RigidBodyType.h"
 #include <tinyxml2/tinyxml2.h>
+#include <SFML/System/Vector2.hpp>
 
 struct b2Body;
 
 namespace shen
 {
-    class EcsWorld;
+    class DataElementWrapper;
 
     struct RigidBody
     {
-        int type = 0; // TODO type enum
-        glm::vec2 size = glm::vec2(1.f);
+        RigidBodyType type = RigidBodyType::DynamicBody;
+        sf::Vector2f size = sf::Vector2f(1.f, 1.f);
         bool sensor = false;
 
         b2Body* body = nullptr;
 
-        static void Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element);
-        static void Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element);
+        static void Load(RigidBody& component, const DataElementWrapper& elementWrapper);
+        static void Save(RigidBody& component, DataElementWrapper& elementWrapper);
     };
 
     struct Collision

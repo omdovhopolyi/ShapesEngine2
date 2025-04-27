@@ -1,12 +1,14 @@
 #pragma once
 
-#include "ECS/Systems/System.h"
+#include "BaseSystems/UpdateSystem.h"
 
 namespace shen
 {
     class SpriteFrameAnimationSystem
-        : public System
+        : public UpdateSystem
     {
+        SYSTEMS_FACTORY(SpriteFrameAnimationSystem)
+
     public:
         void Update() override;
     };

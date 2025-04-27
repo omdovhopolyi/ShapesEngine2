@@ -1,34 +1,42 @@
 #include "RotateCommand.h"
-
-#include "ECS/EcsWorld.h"
+#include "ECS/World.h"
+#include "ECS/SystemsManager.h"
 #include "ECS/Components/Common.h"
-#include "Game/ManagersProvider.h"
+#include "ECS/Systems/Sfml/SfmlRenderTargetsSystem.h"
+#include "ECS/Systems/TimeSystem.h"
 #include "Logger/Logger.h"
 #include "Utils/Coords.h"
-
-#include <glm/gtx/vector_angle.hpp>
+#include "Utils/Math.h"
 
 namespace shen
 {
-    void RotateCommand::Execute(const Entity& entity, const CommandContext& context) const
+    REGISTER_CLASS_LOADER(RotateCommand);
+
+    void RotateCommand::Execute(const CommandContext& context) const
     {
-        auto world = ManagersProvider::Instance().GetWorld();
-        auto rotator = world->GetOrCreateComponent<Rotator>(entity);
+        auto& time = context.systems->GetTime();
+        if (time.IsGamePaused())
+        {
+            return;
+        }
 
-        auto mouseScreenPos = glm::vec2(context.x, context.y);
-        glm::vec3 mouseWorldPos = ScreenToWorld(mouseScreenPos);
+        auto& world = context.systems->GetWorld();
 
-        Logger::Log("Mouse world pos {} {} {}", mouseWorldPos.x, mouseWorldPos.y, mouseWorldPos.z);
+        auto renderTextures = context.systems->GetSystem<SfmlRenderTargetsSystem>();
+        auto target = renderTextures->GetRenderTexture(SfmlRenderTargetsSystem::WorldTargetId); // TODO check target
 
-        glm::vec2 mouseWorldPos2D = mouseWorldPos;
+        auto transform = world.GetOrCreateComponent<Transform>(context.entity);
 
-        auto objectWorldPos = ObjectWorldPosition2D(entity);
-        auto direction = glm::normalize(mouseWorldPos2D - objectWorldPos);
+        if (auto screenPos = context.vars.GetVar<sf::Vector2i>("pos"))
+        {
+            auto worldPos = target->mapPixelToCoords(*screenPos);
+            auto direction = worldPos - transform->position;
+            direction = Normalize(direction);
 
-        static glm::vec3 up{ 0.f, 0.f, 1.f };
-        static glm::vec2 right{ 1.f, 0.f };
-
-        const float angle = glm::degrees(glm::orientedAngle(right, direction));
-        rotator->rotation = glm::angleAxis(glm::radians(angle), up);        
+            if (auto rotator = world.GetOrCreateComponent<Rotator>(context.entity))
+            {
+                rotator->rotation = Degrees(OrientedAngle(direction));
+            }
+        }
     }
 }

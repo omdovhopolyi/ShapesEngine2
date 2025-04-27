@@ -1,20 +1,21 @@
 #include "Physics.h"
-#include "ECS/EcsWorld.h"
-#include "Serialization/Serialization.h"
+#include "ECS/World.h"
+#include "Serialization/DataElementWrapper.h"
 
 namespace shen
 {
-    void RigidBody::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void RigidBody::Load(RigidBody& component, const DataElementWrapper& elementWrapper)
     {
-        auto comp = world->AddComponent<RigidBody>(entity);
-
-        comp->type = LoadInt("type", element);
-        comp->size = LoadVec2("size", element, comp->size);
-        comp->sensor = LoadBool("sensor", element, comp->sensor);
+        component.type = RigidBodyTypeEnum.FromString(elementWrapper.GetStr("bodyType"));
+        component.size = elementWrapper.GetVec2("size", component.size);
+        component.sensor = elementWrapper.GetBool("sensor", component.sensor);
     }
 
-    void RigidBody::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void RigidBody::Save(RigidBody& component, DataElementWrapper& elementWrapper)
     {
-
+        const auto typeStr = RigidBodyTypeEnum.ToString(component.type);
+        elementWrapper.SetStr("bodyType", typeStr);
+        elementWrapper.SetVec2("size", component.size);
+        elementWrapper.SetBool("sensor", component.sensor);
     }
 }

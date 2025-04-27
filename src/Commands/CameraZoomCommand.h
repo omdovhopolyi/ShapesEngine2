@@ -1,23 +1,26 @@
 #pragma once
 
 #include "Command.h"
-#include <glm/glm.hpp>
 
 namespace shen
 {
     class CameraZoomCommand
         : public Command
     {
+        SERIALIZABLE(CameraZoomCommand)
+
     public:
         CameraZoomCommand() = default;
+
+        void RegisterProperties() override;
 
         void SetSpeed(float speed);
         float GetSpeed() const;
 
-        void Execute(const Entity& entity, const CommandContext& context) const override;
+        void Execute(const CommandContext& context) const override;
 
     protected:
-        float _speed = 1.f;
+        float _speed = 0.1f;
     };
 }
 

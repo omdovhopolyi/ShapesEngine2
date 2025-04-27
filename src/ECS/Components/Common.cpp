@@ -1,71 +1,49 @@
 #include "Common.h"
-#include "Serialization/Serialization.h"
-#include "ECS/EcsWorld.h"
+#include "Serialization/DataElementWrapper.h"
+#include "ECS/World.h"
 
 namespace shen
 {
-    float Transform::GetEulerAngleZ() const
+    void Transform::Load(Transform& component, const DataElementWrapper& elementWrapper)
     {
-        return glm::degrees(glm::eulerAngles(rotation).z);
+        component.position = elementWrapper.GetVec2("position");
+        component.rotation = elementWrapper.GetFloat("rotation");
+        component.scale = elementWrapper.GetVec2("scale", component.scale);
     }
 
-    void Transform::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void Transform::Save(Transform& component, DataElementWrapper& elementWrapper)
     {
-        auto comp = world->AddComponent<Transform>(entity);
-
-        comp->position = LoadVec3("position", element);
-        
-        const float angle = LoadFloat("rotation", element);
-        comp->rotation = glm::angleAxis(glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
-
-        comp->scale = LoadVec3("scale", element, comp->scale);
-        
+        elementWrapper.SetVec2("position", component.position);
+        elementWrapper.SetFloat("rotation", component.rotation);
+        elementWrapper.SetVec2("scale", component.scale);
     }
 
-    void Transform::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void PlayerInput::Load(PlayerInput& component, const DataElementWrapper& elementWrapper)
     {
-
+        const auto types = elementWrapper.GetVecStr("input");
+        component.commandTypes = { types.begin(), types.end() };
     }
 
-    void Mover::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
+    void PlayerInput::Save(PlayerInput& component, DataElementWrapper& elementWrapper)
     {
-        world->AddComponent<Mover>(entity);
+        elementWrapper.SetVecStr("input", { component.commandTypes.begin(), component.commandTypes.end() });
     }
 
-    void Mover::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
+    void Camera::Load(Camera& component, const DataElementWrapper& elementWrapper)
     {
-
+        component.view.setCenter(elementWrapper.GetVec2("position"));
+        component.view.setViewport(elementWrapper.GetFloatRect("viewport", sf::FloatRect(0.f, 0.f, 1.f, 1.f)));
+        component.view.setRotation(elementWrapper.GetFloat("rotation"));
+        component.view.setSize(elementWrapper.GetVec2("size"));
+        component.type = elementWrapper.GetStr("cameraType");
     }
 
-    float Rotator::GetEulerAngleZ() const
+    void Camera::Save(Camera& component, DataElementWrapper& elementWrapper)
     {
-        return glm::degrees(glm::eulerAngles(rotation).z);
-    }
-
-    void PlayerInput::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
-    {
-        auto comp = world->AddComponent<PlayerInput>(entity);
-
-        comp->commandTypes = LoadVecStr("array", element);
-    }
-
-    void PlayerInput::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
-    {
-
-    }
-
-    void Camera::Load(Entity entity, EcsWorld* world, const tinyxml2::XMLElement* element)
-    {
-        auto comp = world->AddComponent<Camera>(entity);
-
-        comp->position = LoadVec3("position", element);
-        comp->target = LoadVec3("target", element);
-        comp->up = LoadVec3("up", element, glm::vec3(0.f, 1.f, 0.f));
-        comp->fov = LoadFloat("fov", element, comp->fov);
-    }
-
-    void Camera::Save(Entity entity, EcsWorld* world, tinyxml2::XMLElement* element)
-    {
-
+        elementWrapper.SetVec2("position", component.view.getCenter());
+        elementWrapper.SetFloatRect("viewport", component.view.getViewport());
+        elementWrapper.SetFloat("rotation", component.view.getRotation());
+        elementWrapper.SetVec2("size", component.view.getSize());
+        elementWrapper.SetStr("cameraType", component.type);
     }
 }

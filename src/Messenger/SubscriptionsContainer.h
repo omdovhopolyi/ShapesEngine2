@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Game/ManagersProvider.h"
 #include "Messenger.h"
 
 #include <vector>
@@ -24,6 +23,7 @@ namespace shen
 
         template<class TEvent>
         void Subscribe(const std::function<void(const TEvent&)>& callback);
+        void Reset();
 
     private:
         std::vector<SubscriptionData> _subscriptions;
@@ -40,6 +40,6 @@ namespace shen
         };
 
         _subscriptions.push_back(std::move(subscriptionData));
-        ManagersProvider::Instance().GetMessenger()->Subscribe<TEvent>(_subscriptions.back().subscription);
+        Messenger::Instance().Subscribe<TEvent>(_subscriptions.back().subscription);
     }
 }

@@ -6,13 +6,15 @@ namespace shen
 {
     class Entity
     {
-        friend class EcsWorld;
+        friend class World;
 
     public:
         Entity() = default;
         Entity(const entt::entity& entity);
+        Entity(std::uint32_t index);
 
         std::uint32_t GetId() const;
+        int GetIdInt() const;
 
         bool operator == (const Entity& other) { return _entity == other._entity; }
         bool operator != (const Entity& other) { return _entity != other._entity; }
