@@ -3,7 +3,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(WindowTestComponent)
+    REGISTER_LOADER(WindowTestComponent)
 
     void WindowTestComponent::RegisterReferences()
     {

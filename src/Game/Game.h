@@ -10,6 +10,8 @@ namespace shen
 
 	class Game
 	{
+		friend class GameFacade;
+
 	public:
 		Game();
 		~Game();

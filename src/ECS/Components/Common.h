@@ -3,6 +3,7 @@
 #include "ECS/Entity.h"
 #include "Utils/Types.h"
 #include "Enums/EnumUtils.h"
+#include "Serialization/Serializable.h"
 #include <tinyxml2/tinyxml2.h>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -15,13 +16,15 @@ namespace shen
     class DataElementWrapper;
 
     struct Transform
+        : public Serializable
     {
+        SERIALIZABLE_COMP(Transform)
+
         sf::Vector2f position;
         sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
         float rotation = 0.f;
 
-        static void Load(Transform& component, const DataElementWrapper& elementWrapper);
-        static void Save(Transform& component, DataElementWrapper& elementWrapper);
+        void RegisterProperties() override;
     };
 
     struct Mover
@@ -37,22 +40,26 @@ namespace shen
     };
 
     struct PlayerInput
+        : public Serializable
     {
+        SERIALIZABLE_COMP(PlayerInput)
+
         std::set<std::string> commandTypes;
 
-        static void Load(PlayerInput& component, const DataElementWrapper& elementWrapper);
-        static void Save(PlayerInput& component, DataElementWrapper& elementWrapper);
+        void RegisterProperties() override;
     };
 
     struct Camera
+        : public Serializable
     {
+        SERIALIZABLE_COMP(Camera)
+
         sf::View view;
         std::string type;
         float scale = 1.f;
         bool needUpdate = true;
 
-        static void Load(Camera& component, const DataElementWrapper& elementWrapper);
-        static void Save(Camera& component, DataElementWrapper& elementWrapper);
+        void RegisterProperties() override;
     };
 
     struct CameraTarget

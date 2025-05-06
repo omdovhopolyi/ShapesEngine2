@@ -1,21 +1,41 @@
 #include "Physics.h"
 #include "ECS/World.h"
 #include "Serialization/DataElementWrapper.h"
+#include "Serialization/Types/SerializableFieldString.h"
+#include "Serialization/Types/SerializableFieldBool.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
 
 namespace shen
 {
-    void RigidBody::Load(RigidBody& component, const DataElementWrapper& elementWrapper)
+    REGISTER_LOADER(RigidBody)
+
+    void RigidBody::RegisterProperties()
     {
-        component.type = RigidBodyTypeEnum.FromString(elementWrapper.GetStr("bodyType"));
-        component.size = elementWrapper.GetVec2("size", component.size);
-        component.sensor = elementWrapper.GetBool("sensor", component.sensor);
+        RegisterVar<SerializableFieldString>(_typeStr, "bodyType");
+        RegisterVar<SerializableFieldVec2>(size, "size");
+        RegisterVar<SerializableFieldBool>(sensor, "sensor");
     }
 
-    void RigidBody::Save(RigidBody& component, DataElementWrapper& elementWrapper)
+    void RigidBody::AfterLoad()
     {
-        const auto typeStr = RigidBodyTypeEnum.ToString(component.type);
-        elementWrapper.SetStr("bodyType", typeStr);
-        elementWrapper.SetVec2("size", component.size);
-        elementWrapper.SetBool("sensor", component.sensor);
+        SetType(_typeStr);
+    }
+
+    RigidBodyType RigidBody::GetType() const
+    {
+        return _type;
+    }
+
+    void RigidBody::SetType(RigidBodyType type)
+    {
+        _type = type;
+        _typeStr = RigidBodyTypeEnum.ToString(_type);
+        
+    }
+
+    void RigidBody::SetType(const std::string& typeStr)
+    {
+        _typeStr = typeStr;
+        _type = RigidBodyTypeEnum.FromString(_typeStr);
     }
 }

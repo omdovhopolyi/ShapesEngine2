@@ -24,24 +24,29 @@ namespace shen
     public:
         void Init(SystemsManager* systems) override;
 
-        void LoadMap(const std::string& mapId) const;
-        void LoadMap(DataElementWrapper& element, const std::string& mapId) const;
+        void LoadMap(const std::string& mapId);
+        void LoadMap(DataElementWrapper& element, const std::string& mapId);
         void LoadComponents(Entity entity, const DataElementWrapper& element) const;
-        Entity CreateEntityAndLoadComponents(const DataElementWrapper& element) const;
-        Entity InstantiateAsset(const std::string& assetId) const;
+        Entity CreateEntityAndLoadComponents(const DataElementWrapper& element);
+        Entity InstantiateAsset(const std::string& assetId);
 
-        template<class T>
-        void RegisterLoader(const std::string& id);
+        Entity GetCurrentLoadingEntity() const;
+        void ResetCurrentLoadingEntity();
+        void SetCurrentLoadingEntity(Entity entity);
+
+        /*template<class T>
+        void RegisterLoader(const std::string& id);*/
 
     private:
         void RegisterLoaders();
-        void InstantiateAsset(Entity entity, const DataElementWrapper& element) const;
+        void InstantiateAsset(Entity entity, const DataElementWrapper& element);
 
     private:
         std::unordered_map<std::string, LoadSaveFuncs> _functions;
+        Entity _currentLoadingEntity;
     };
 
-    template<class T>
+    /*template<class T>
     void MapLoaderSystem::RegisterLoader(const std::string& id)
     {
         auto& functions = _functions[id];
@@ -63,5 +68,5 @@ namespace shen
                 T::Save(*comp, element);
             }  
         };
-    }
+    }*/
 }

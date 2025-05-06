@@ -12,7 +12,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UISpriteComponent);
+    REGISTER_LOADER(UISpriteComponent);
 
     void UISpriteComponent::RegisterProperties()
     {

@@ -4,7 +4,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(PauseGameCommand);
+    REGISTER_LOADER(PauseGameCommand);
 
     void PauseGameCommand::Execute(const CommandContext& context) const
     {

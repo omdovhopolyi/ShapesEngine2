@@ -12,5 +12,5 @@
 //            return true; \
 //        }
 //
-//#define REGISTER_CLASS_LOADER(Type) \
+//#define REGISTER_LOADER(Type) \
 //    bool Type::registered = Type::RegisterFactory();

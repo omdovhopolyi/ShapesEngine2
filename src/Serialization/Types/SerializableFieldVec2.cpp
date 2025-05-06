@@ -9,6 +9,6 @@ namespace shen
 
     void SerializableFieldVec2::Load(const DataElementWrapper& element)
     {
-        _field = element.GetVec2(_name);
+        _field = element.GetVec2(_name, _field);
     }
 }

@@ -2,7 +2,36 @@
 
 namespace shen
 {
+    Serializable::Serializable() = default;
+
+    Serializable::Serializable(const Serializable& other)
+    {
+        if (this != &other)
+        {
+            ClearProperties();
+        }
+    }
+
+    Serializable::Serializable(Serializable&& other) = default;
+
     Serializable::~Serializable() = default;
+
+    Serializable& Serializable::operator = (const Serializable& other)
+    {
+        if (this != &other)
+        {
+            ClearProperties();
+        }
+
+        return *this;
+    }
+
+    Serializable& Serializable::operator = (Serializable&& other) = default;
+
+    void Serializable::ClearProperties()
+    {
+        _fields.clear();
+    }
 
     std::vector<std::unique_ptr<SerializableField>>& Serializable::GetFields()
     {

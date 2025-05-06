@@ -5,7 +5,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(UITransformComponent);
+    REGISTER_LOADER(UITransformComponent);
 
     void UITransformComponent::RegisterProperties()
     {

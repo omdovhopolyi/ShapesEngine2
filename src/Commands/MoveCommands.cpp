@@ -7,7 +7,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(MoveCommand);
+    REGISTER_LOADER(MoveCommand);
 
     MoveCommand::MoveCommand(const sf::Vector2f& dir)
         : _direction(dir)

@@ -1,71 +1,88 @@
 #include "Render.h"
+#include "Game/GameFacade.h"
 #include "ECS/World.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include "ECS/SystemsManager.h"
 #include "Serialization/DataElementWrapper.h"
+#include "Serialization/Types/SerializableFieldString.h"
+#include "Serialization/Types/SerializableFieldIntRect.h"
+#include "Serialization/Types/SerializableFieldVec2.h"
+#include "Serialization/Types/SerializableFieldInt.h"
+#include "Serialization/Types/SerializableFieldBool.h"
+#include "Serialization/Types/SerializableFieldColor.h"
+#include "Serialization/Types/SerializableFieldFloat.h"
+#include "Serialization/Types/SerializableFieldListIntRect.h"
+#include "Utils/Math.h"
 
 namespace shen
 {
-    void Sprite::Load(Sprite& component, const DataElementWrapper& elementWrapper)
-    {
-        if (auto textureId = elementWrapper.GetStr("texture"); !textureId.empty())
-        {
-            auto systems = elementWrapper.GetSystems();
+    REGISTER_LOADER(Sprite)
 
+    void Sprite::RegisterProperties()
+    {
+        RegisterVar<SerializableFieldString>(textureId, "texture");
+        RegisterVar<SerializableFieldIntRect>(rect, "rect");
+        RegisterVar<SerializableFieldVec2>(anchor, "anchor");
+        RegisterVar<SerializableFieldInt>(sorting, "sorting");
+        RegisterVar<SerializableFieldBool>(autoRect, "autoRect");
+        RegisterVar<SerializableFieldBool>(autoAnchor, "autoAnchor");
+    }
+
+    void Sprite::AfterLoad()
+    {
+        if (auto systems = GameFacade::GetSystemsManager())
+        {
             if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
             {
                 if (auto texture = texturesCollection->GetTexture(textureId))
-                {   
+                {
+                    sprite.setTexture(*texture);
+                    
                     auto textureSize = texture->getSize();
 
-                    auto rect = elementWrapper.GetIntRect("rect", { 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) });
-                    auto anchor = elementWrapper.GetVec2("anchor", { textureSize.x / 2.f, textureSize.y / 2.f });
+                    if (autoRect)
+                    {
+                        auto texRect = sf::IntRect{ 0, 0, static_cast<int>(textureSize.x), static_cast<int>(textureSize.y) };
+                        sprite.setTextureRect(texRect);
+                    }
+                    else
+                    {
+                        sprite.setTextureRect(rect);
+                    }
 
-                    component.textureId = textureId;
-                    component.sprite.setTexture(*texture);
-                    component.sprite.setTextureRect(rect);
-                    component.sprite.setOrigin(anchor);
+                    if (autoAnchor)
+                    {
+                        auto textMidAnchor = sf::Vector2f{ textureSize.x / 2.f, textureSize.y / 2.f };
+                        sprite.setOrigin(textMidAnchor);
+                    }
+                    else
+                    {
+                        sprite.setOrigin(anchor);
+                    }
                 }
-            }   
-        }
-
-        component.sorting = elementWrapper.GetInt("sorting");
-    }
-
-    void Sprite::Save(Sprite& component, DataElementWrapper& elementWrapper)
-    {
-        if (auto texture = component.sprite.getTexture())
-        {
-            elementWrapper.SetStr("texture", component.textureId);
-            elementWrapper.SetIntRect("rect", component.sprite.getTextureRect());
-            elementWrapper.SetVec2("size", component.sprite.getOrigin());
-            elementWrapper.SetInt("sorting", component.sorting);
+            }
         }
     }
 
-    void Color::Load(Color& component, const DataElementWrapper& elementWrapper)
+    REGISTER_LOADER(Color)
+
+    void Color::RegisterProperties()
     {
-        component.color = elementWrapper.GetColor("color");
+        RegisterVar<SerializableFieldColor>(color, "color");
     }
 
-    void Color::Save(Color& component, DataElementWrapper& elementWrapper)
+    REGISTER_LOADER(SpriteFrameAnimation)
+
+    void SpriteFrameAnimation::RegisterProperties()
     {
-        elementWrapper.SetColor("color", component.color);
+        RegisterVar<SerializableFieldFloat>(frameTime, "frameTime");
+        RegisterVar<SerializableFieldListIntRect>(frames, "frames", "rect");
+        RegisterVar<SerializableFieldString>(animTypeStr, "animType");
+        RegisterVar<SerializableFieldBool>(deleteOnDone, "deleteOnDone");
     }
 
-    void SpriteFrameAnimation::Load(SpriteFrameAnimation& component, const DataElementWrapper& elementWrapper)
+    void SpriteFrameAnimation::AfterLoad()
     {
-        component.frameTime = elementWrapper.GetFloat("frameTime", component.frameTime);
-        component.frames = elementWrapper.GetVectorIntRect("frames", "rect");
-        component.animType = AnimationTypeEnum.FromString(elementWrapper.GetStr("animType"));
-        component.deleteOnDone = elementWrapper.GetBool("deleteOnDone");
-    }
-
-    void SpriteFrameAnimation::Save(SpriteFrameAnimation& component, DataElementWrapper& elementWrapper)
-    {
-        elementWrapper.SetFloat("frameTime", component.frameTime);
-        elementWrapper.SetVectorIntRect("frames", component.frames);
-        elementWrapper.SetStr("type", AnimationTypeEnum.ToString(component.animType));
-        elementWrapper.SetBool("deleteOnDone", component.deleteOnDone);
+        animType = AnimationTypeEnum.FromString(animTypeStr);
     }
 }

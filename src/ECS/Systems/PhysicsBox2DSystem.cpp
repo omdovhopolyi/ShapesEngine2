@@ -70,7 +70,7 @@ namespace shen
             if (!rb.body)
             {
                 b2BodyDef bodyDef;
-                bodyDef.type = static_cast<b2BodyType>(rb.type);
+                bodyDef.type = static_cast<b2BodyType>(rb.GetType());
                 bodyDef.position.Set(transform.position.x / PxlPerMeter, transform.position.y / PxlPerMeter);
                 bodyDef.angle = Radians(transform.rotation);
 
@@ -101,7 +101,7 @@ namespace shen
         if (rb && transform)
         {
             b2BodyDef bodyDef;
-            bodyDef.type = static_cast<b2BodyType>(rb->type);
+            bodyDef.type = static_cast<b2BodyType>(rb->GetType());
             bodyDef.position.Set(transform->position.x / PxlPerMeter, transform->position.y / PxlPerMeter);
             bodyDef.angle = Radians(transform->rotation);
 

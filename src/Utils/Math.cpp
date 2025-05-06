@@ -22,6 +22,11 @@ namespace shen
         return std::abs(val1 - val2) < epsilon;
     }
 
+    bool FloatZero(float val, float epsilon)
+    {
+        return FloatEqual(val, 0.f, epsilon);
+    }
+
     /*glm::vec3 PlaneVectorIntersect(const glm::vec3& planePoint, const glm::vec3& planeNorm, const glm::vec3& rayOrigin, const glm::vec3& rayDirection)
     {
         glm::vec3 worldPos = glm::vec3(0.f);

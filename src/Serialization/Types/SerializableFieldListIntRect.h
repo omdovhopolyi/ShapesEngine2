@@ -10,10 +10,11 @@ namespace shen
         : public SerializableField
     {
     public:
-        SerializableFieldListIntRect(std::vector<sf::IntRect>& field, const std::string& name);
+        SerializableFieldListIntRect(std::vector<sf::IntRect>& field, const std::string& name, const std::string& itemId = "item");
         void Load(const DataElementWrapper& element) override;
 
     private:
         std::vector<sf::IntRect>& _field;
+        std::string _itemId;
     };
 }

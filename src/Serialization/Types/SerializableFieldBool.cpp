@@ -9,6 +9,6 @@ namespace shen
 
     void SerializableFieldBool::Load(const DataElementWrapper& element)
     {
-        _field = element.GetBool(_name);
+        _field = element.GetBool(_name, _field);
     }
 }

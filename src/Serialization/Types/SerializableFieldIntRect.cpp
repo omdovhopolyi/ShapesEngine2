@@ -9,6 +9,6 @@ namespace shen
 
     void SerializableFieldIntRect::Load(const DataElementWrapper& element)
     {
-        _field = element.GetIntRect(_name);
+        _field = element.GetIntRect(_name, _field);
     }
 }

@@ -8,6 +8,7 @@ namespace shen
     float Length(const sf::Vector2f& vec);
     float SquareLength(const sf::Vector2f& vec);
     bool FloatEqual(float val1, float val2, float epsilon = std::numeric_limits<float>::epsilon());
+    bool FloatZero(float val, float epsilon = std::numeric_limits<float>::epsilon());
     float Radians(float degrees);
     float Degrees(float radians);
     sf::Vector2f Normalize(const sf::Vector2f& vector);

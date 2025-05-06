@@ -8,12 +8,21 @@
 
 namespace shen
 {
+    class SystemsManager;
+
     class Serializable
     {
     public:
+        Serializable();
+        Serializable(const Serializable& other);
+        Serializable(Serializable&& other);
         virtual ~Serializable();
 
+        Serializable& operator = (const Serializable& other);
+        Serializable& operator = (Serializable&& other);
+
         virtual void RegisterProperties() {}
+        void ClearProperties();
 
         template<class TField, class TVar, class... Args>
         void RegisterVar(TVar& var, const std::string& name, Args... args)

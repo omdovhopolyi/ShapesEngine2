@@ -6,7 +6,7 @@
 
 namespace shen
 {
-    REGISTER_CLASS_LOADER(CameraMouseMoveCommand);
+    REGISTER_LOADER(CameraMouseMoveCommand);
 
     void CameraMouseMoveCommand::Execute(const CommandContext& context) const
     {
