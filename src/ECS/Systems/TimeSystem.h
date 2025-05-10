@@ -19,9 +19,6 @@ namespace shen
         float GameDt() const;
         int GameDtMs() const;
 
-        void AppActivated() override;
-        void AppDeactivated() override;
-
         void PauseGame(bool pause);
         bool IsGamePaused() const;
 
@@ -39,8 +36,6 @@ namespace shen
         float _gameDt = 0.f;
         float _uiDt = 0.f;
         float _gameTimeScale = 1.f;
-        int _gameDtMs = 0;
-        int _dtMs = 0;
         int _gamePausedCounter = 0;
         std::chrono::steady_clock::time_point _lastUpdateTime;
     };
