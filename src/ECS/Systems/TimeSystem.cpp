@@ -22,9 +22,19 @@ namespace shen
 		return _dt;
 	}
 
+	int TimeSystem::DtMs() const
+	{
+		return _dtMs;
+	}
+
 	float TimeSystem::GameDt() const
 	{
 		return _gameDt;
+	}
+
+	int TimeSystem::GameDtMs() const
+	{
+		return _gameDtMs;
 	}
 
 	void TimeSystem::AppActivated()
@@ -75,12 +85,15 @@ namespace shen
 	void TimeSystem::CalculateDt()
 	{
 		auto now = std::chrono::high_resolution_clock::now();
-		_dt = std::chrono::duration_cast<std::chrono::microseconds>(now - _lastUpdateTime).count() / (1000.f * 1000.f);
+		_dtMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - _lastUpdateTime).count();
+		_dt = _dtMs / 1000.f;
 		_lastUpdateTime = now;
 	}
 
 	void TimeSystem::UpdateGameTime()
 	{
-		_gameDt = IsGamePaused() ? 0.f : (_dt * _gameTimeScale);
+		_gameDtMs = IsGamePaused() ? 0 : static_cast<int>(_dtMs * _gameTimeScale);
+		_gameDt = _gameDtMs / 1000.f;
+		//_gameDt = IsGamePaused() ? 0.f : (_dt * _gameTimeScale);
 	}
 }

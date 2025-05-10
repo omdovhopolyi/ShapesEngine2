@@ -4,7 +4,7 @@
 #include "Game/Game.h"
 #include "Game/GameFacade.h"
 
-#if defined(_WIN32) || defined(_WIN64)
+#if (defined(_WIN32) || defined(_WIN64)) && defined(SHEN_WIN_MAIN)
 #include <windows.h>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else

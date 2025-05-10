@@ -25,17 +25,22 @@ namespace shen
 
     bool UIInputSystem::OnMouseButtonEvent(const MouseButtonEvent& event)
     {
-        InputType inputEvent;
-        inputEvent.mouseButton = event.button;
-        inputEvent.type = event.type;
-        inputEvent.alt = event.alt;
-        inputEvent.shift = event.shift;
-        inputEvent.ctrl = event.ctrl;
+        if (_windows)
+        {
+            InputType inputEvent;
+            inputEvent.mouseButton = event.button;
+            inputEvent.type = event.type;
+            inputEvent.alt = event.alt;
+            inputEvent.shift = event.shift;
+            inputEvent.ctrl = event.ctrl;
 
-        CommandContext context;
-        context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
+            CommandContext context;
+            context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
 
-        return _windows->ProcessInput(inputEvent, context);
+            return _windows->ProcessInput(inputEvent, context);
+        }
+
+        return false;
     }
 
     bool UIInputSystem::OnMouseMoveEvent(const MouseMoveEvent& event)
