@@ -251,6 +251,10 @@ namespace shen
 		_charKeyMap[{ '-' }] = sf::Keyboard::Dash;
 		_charKeyMap[{ '=' }] = sf::Keyboard::Equal;
 		_charKeyMap[{ '`' }] = sf::Keyboard::Tilde;
+		_charKeyMap["Left"] = sf::Keyboard::Left;
+		_charKeyMap["Right"] = sf::Keyboard::Right;
+		_charKeyMap["Up"] = sf::Keyboard::Up;
+		_charKeyMap["Down"] = sf::Keyboard::Down;
 
 		for (int i = 1; i <= 24; ++i)
 		{
@@ -286,6 +290,10 @@ namespace shen
 		_keyCharMap[sf::Keyboard::Dash] = '-';
 		_keyCharMap[sf::Keyboard::Equal] = '=';
 		_keyCharMap[sf::Keyboard::Tilde] = '`';
+		_keyCharMap[sf::Keyboard::Left] = "Left";
+		_keyCharMap[sf::Keyboard::Right] = "Right";
+		_keyCharMap[sf::Keyboard::Up] = "Up";
+		_keyCharMap[sf::Keyboard::Down] = "Down";
 
 		for (int i = 1; i <= 24; ++i)
 		{

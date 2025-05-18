@@ -29,6 +29,11 @@ namespace shen
         return nullptr;
     }
 
+    void InputCommandsCollection::AddCommand(const std::string& id, const std::shared_ptr<Command>& command)
+    {
+        _commands[id] = command;
+    }
+
     void InputCommandsCollection::LoadFromXml()
     {
         auto elementWrapper = XmlDataElementWrapper{ _systems };

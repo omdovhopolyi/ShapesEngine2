@@ -21,6 +21,8 @@ namespace shen
 
         Command* GetCommandById(const std::string& commandId) const;
 
+        void AddCommand(const std::string& id, const std::shared_ptr<Command>& command);
+
     private:
         void LoadFromXml();
         void ClearCommands();
