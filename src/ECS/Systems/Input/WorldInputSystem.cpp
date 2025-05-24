@@ -119,9 +119,12 @@ namespace shen
         inputEvent.shift = event.shift;
         inputEvent.ctrl = event.ctrl;
 
+        CommandContext context;
+        context.vars.SetVar("pos", sf::Vector2i(event.x, event.y));
+
         if (auto it = _actions.find(inputEvent); it != _actions.end())
         {
-            _toProcess.push_back({ it->second, {} });
+            _toProcess.push_back({ it->second, context });
             return true;
         }
 
