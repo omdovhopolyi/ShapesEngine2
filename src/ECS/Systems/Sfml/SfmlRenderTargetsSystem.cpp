@@ -30,7 +30,8 @@ namespace shen
 
         for (const auto& texData : _renderTextures)
         {
-            const auto& texture = texData->texture.getTexture();
+            texData->texture.display();
+            auto& texture = texData->texture.getTexture();
             window->draw(sf::Sprite(texture));
         }
     }
