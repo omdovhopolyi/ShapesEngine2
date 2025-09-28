@@ -39,7 +39,17 @@ namespace shen
         auto [it, isInserted] = _references.insert({ id, &component });
         //Assert(isInserted, std::format("Multiple references for id {} in window {}", id, GetWindow()->GetId()));
         Assert(isInserted, "[UIComponent::RegisterReference] Multiple references for id{} in window{}");
-    } 
+    }
+
+    std::weak_ptr<UIComponent> UIComponent::GetReference(const std::string& id) const
+    {
+        if (auto it = _references.find(id); it != _references.end())
+        {
+            return it->second->GetComponentPtr();
+        }
+
+        return {};
+    }
 
     void UIComponent::ClearReferencesData()
     {

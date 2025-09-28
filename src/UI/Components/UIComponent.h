@@ -88,19 +88,7 @@ namespace shen
 
         void RegisterReference(const std::string& id, IUIComponentWrapper& component);
         
-        template<class Comp>
-        const std::weak_ptr<Comp>& GetReference(const std::string& id) const
-        {
-            if (auto it = _references.find(id); it != _references.end())
-            {
-                if (auto compPtr = it->second.lock())
-                {
-                    return std::dynamic_pointer_cast<Comp>(compPtr);
-                }
-            }
-
-            return nullptr;
-        }
+        std::weak_ptr<UIComponent> GetReference(const std::string& id) const;
 
         void ClearReferencesData();
         void AddReferenceData(const std::string& id, const std::string& compId);
