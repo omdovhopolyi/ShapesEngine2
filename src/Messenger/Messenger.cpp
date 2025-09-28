@@ -1,4 +1,5 @@
 #include "Messenger.h"
+#include <algorithm>
 
 namespace shen
 {

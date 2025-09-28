@@ -25,7 +25,7 @@ namespace shen
         void SetGameTimeScale(float scale);
         float GetGameTimeScale() const;
 
-        const std::chrono::steady_clock::time_point& GetLastUpdateTime() { return _lastUpdateTime; }
+        const std::chrono::time_point<std::chrono::high_resolution_clock>& GetLastUpdateTime() { return _lastUpdateTime; }
 
     private:
         void CalculateDt();
@@ -37,6 +37,6 @@ namespace shen
         float _uiDt = 0.f;
         float _gameTimeScale = 1.f;
         int _gamePausedCounter = 0;
-        std::chrono::steady_clock::time_point _lastUpdateTime;
+        std::chrono::time_point<std::chrono::high_resolution_clock> _lastUpdateTime;
     };
 }

@@ -19,7 +19,7 @@ namespace shen
         {
             if (auto listElement = element.GetChildElement(_name))
             {
-                listElement->ForAllChildren([](const DataElementWrapper& itemElement)
+                listElement->ForAllChildren([this](const DataElementWrapper& itemElement)
                 {
                     _field = std::make_shared<T>();
                     _field->RegisterProperties();
