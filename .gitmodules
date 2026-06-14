@@ -28,3 +28,9 @@
 [submodule "submodules/SFML"]
 	path = submodules/SFML
 	url = https://github.com/SFML/SFML.git
+[submodule "submodules/glew/glew-cmake"]
+	path = submodules/glew/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "submodules/glfw/glfw"]
+	path = submodules/glfw/glfw
+	url = https://github.com/glfw/glfw.git
