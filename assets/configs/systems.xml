@@ -9,6 +9,8 @@
     <system type="SfmlGameWindowSystem"/>
     <!--<system type="TestLoadSystem"/>-->
 
+    <system type="GLEWSystem"/>
+
     <system type="TimeSystem"/>
     <system type="SfmlInputSystem"/>
     <system type="PlayerInputSystem"/>
