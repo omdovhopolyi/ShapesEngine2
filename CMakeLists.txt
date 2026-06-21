@@ -53,11 +53,11 @@ set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
   
 set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
-add_subdirectory(submodules/glfw/glfw)
-target_link_libraries(${TARGET_NAME} glfw)
+add_subdirectory(submodules/SDL)
+target_link_libraries(${TARGET_NAME} SDL3-static)
 
-add_subdirectory(submodules/glew/glew-cmake)
-target_link_libraries(${TARGET_NAME} libglew_static)
+add_subdirectory(external/glad)
+target_link_libraries(${TARGET_NAME} glad)
 
 add_subdirectory(submodules/SFML)
 target_link_libraries(${TARGET_NAME} sfml-graphics sfml-audio)
@@ -76,6 +76,8 @@ target_link_libraries(${TARGET_NAME} bezier)
 
 include_directories(src)
 
+include_directories(submodules/SDL/include)
+include_directories(external/glad/include)
 include_directories(submodules/SFML)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)
