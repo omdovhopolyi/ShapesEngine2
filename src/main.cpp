@@ -1,8 +1,8 @@
 
 #ifndef SHEN_NO_MAIN
 
-#include "Game/Game.h"
-#include "Game/GameFacade.h"
+#include "Engine/Engine.h"
+#include "Engine/EngineFacade.h"
 
 #if (defined(_WIN32) || defined(_WIN64)) && defined(SHEN_WIN_MAIN)
 #include <windows.h>
@@ -11,12 +11,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 int main(int argc, char* argv[])
 #endif
 {
-    shen::Game game;
-    shen::GameFacade::SetGamePtr(&game);
+    shen::Engine engine;
+    shen::EngineFacade::SetEnginePtr(&engine);
 
-    game.Initialize();
-    game.Run();
-    game.Destroy();
+    engine.Initialize();
+    engine.Run();
+    engine.Destroy();
 
     return 0;
 }

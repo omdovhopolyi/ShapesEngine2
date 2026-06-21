@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Engine.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/SystemsFactory.h"
 #include "Logger/Logger.h"
@@ -6,10 +6,10 @@
 
 namespace shen
 {
-	Game::Game() = default;
-	Game::~Game() = default;
+	Engine::Engine() = default;
+	Engine::~Engine() = default;
 
-	void Game::Initialize()
+	void Engine::Initialize()
 	{
 		InitSubscriptions();
 		const bool loaded = CreateSystems();
@@ -23,7 +23,7 @@ namespace shen
 		}
 	}
 
-	void Game::Run()
+	void Engine::Run()
 	{
 		while (_isRunning)
 		{
@@ -31,17 +31,17 @@ namespace shen
 		}
 	}
 
-	void Game::Destroy()
+	void Engine::Destroy()
 	{
 		_systems->Clear();
 	}
 
-	bool Game::IsRunning() const
+	bool Engine::IsRunning() const
 	{
 		return _isRunning;
 	}
 
-	void Game::InitSubscriptions()
+	void Engine::InitSubscriptions()
 	{
 		_subscriptions.Subscribe<Quit>([this](const auto& event)
 		{
@@ -49,7 +49,7 @@ namespace shen
 		});
 	}
 
-	bool Game::CreateSystems()
+	bool Engine::CreateSystems()
 	{
 		const bool loaded = _systemsLoader.Load();
 		if (loaded)
@@ -65,28 +65,28 @@ namespace shen
 		return loaded;
 	}
 
-	void Game::LoadSystems()
+	void Engine::LoadSystems()
 	{
 		_systems->Load();
 	}
 
-	void Game::InitSystems()
+	void Engine::InitSystems()
 	{
 		_systems->Init(this);
 	}
 
-	void Game::SetupSystems()
+	void Engine::SetupSystems()
 	{
 		_systems->Start();
 	}
 
-	void Game::Update()
+	void Engine::Update()
 	{
 		_systems->Update();
 		_systems->Draw();
 	}
 
-	void Game::SetRunning(bool running)
+	void Engine::SetRunning(bool running)
 	{
 		_isRunning = running;
 	}

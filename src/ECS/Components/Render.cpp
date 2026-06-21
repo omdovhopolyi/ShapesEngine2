@@ -1,5 +1,5 @@
 #include "Render.h"
-#include "Game/GameFacade.h"
+#include "Engine/EngineFacade.h"
 #include "ECS/World.h"
 #include "ECS/Systems/Sfml/SfmlTexturesCollection.h"
 #include "ECS/SystemsManager.h"
@@ -30,7 +30,7 @@ namespace shen
 
     void Sprite::AfterLoad()
     {
-        if (auto systems = GameFacade::GetSystemsManager())
+        if (auto systems = EngineFacade::GetSystemsManager())
         {
             if (auto texturesCollection = systems->GetSystem<SfmlTexturesCollection>())
             {

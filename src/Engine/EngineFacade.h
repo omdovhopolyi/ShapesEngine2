@@ -2,16 +2,16 @@
 
 namespace shen
 {
-    class Game;
+    class Engine;
     class SystemsManager;
 
-    class GameFacade
+    class EngineFacade
     {
     public:
         static SystemsManager* GetSystemsManager();
-        static void SetGamePtr(Game* game);
+        static void SetEnginePtr(Engine* engine);
 
     private:
-        static Game* _game;
+        static Engine* _engine;
     };
 }

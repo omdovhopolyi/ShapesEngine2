@@ -8,13 +8,13 @@ namespace shen
 {
 	class SystemsManager;
 
-	class Game
+	class Engine
 	{
-		friend class GameFacade;
+		friend class EngineFacade;
 
 	public:
-		Game();
-		~Game();
+		Engine();
+		~Engine();
 
 		void Initialize();
 		void Run();

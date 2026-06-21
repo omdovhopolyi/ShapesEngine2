@@ -6,9 +6,9 @@
 
 namespace shen
 {
-    void SystemsManager::Init(Game* game)
+    void SystemsManager::Init(Engine* engine)
     {
-        _game = game;
+        _engine = engine;
         InitSubscriptions();
     }
 

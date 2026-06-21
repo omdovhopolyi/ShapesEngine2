@@ -16,13 +16,13 @@
 
 namespace shen
 {
-    class Game;
+    class Engine;
     class TimeSystem;
 
     class SystemsManager
     {
     public:
-        void Init(Game* game);
+        void Init(Engine* engine);
 
         template<class T, class... Args>
         void RegisterSystem(Args... args);
@@ -56,7 +56,7 @@ namespace shen
         std::vector<System*> _registrationOrderedSystems;
         TimeSystem* _timeSystem = nullptr;
         World _world;
-        Game* _game = nullptr;
+        Engine* _engine = nullptr;
 
         SubcriptionsContainer _subscriptions;
     };
