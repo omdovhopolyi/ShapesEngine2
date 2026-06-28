@@ -2,6 +2,7 @@
 #include "Systems/Basesystems/RenderSystem.h"
 #include "Systems/BaseSystems/UpdateSystem.h"
 #include "Systems/TimeSystem.h"
+#include <ECS/Systems/BaseSystems/PlayerWindowInputSystem.h>
 #include "Messenger/Events/Common.h"
 
 namespace shen
@@ -19,9 +20,12 @@ namespace shen
         _mappedSystems[system->GetTypeIndex()] = system.get();
         _registrationOrderedSystems.push_back(system.get());
 
-        if (auto timeSystem = dynamic_cast<TimeSystem*>(system.get()))
-        {
+        if (auto timeSystem = dynamic_cast<TimeSystem*>(system.get())) {
             _timeSystem = timeSystem;
+        }
+
+        if (auto playerInputSystem = dynamic_cast<PlayerWindowInputSystem*>(system.get())) {
+            _playerInputSystem = playerInputSystem;
         }
 
         if (dynamic_cast<RenderSystem*>(system.get()))

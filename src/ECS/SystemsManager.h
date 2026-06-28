@@ -18,6 +18,7 @@ namespace shen
 {
     class Engine;
     class TimeSystem;
+    class PlayerWindowInputSystem;
 
     class SystemsManager
     {
@@ -42,6 +43,7 @@ namespace shen
 
         World& GetWorld() { return _world; }
         TimeSystem& GetTime() { return *_timeSystem; }
+        const PlayerWindowInputSystem* GetInput() { return _playerInputSystem; }
 
     private:
         void InitSubscriptions();
@@ -55,6 +57,7 @@ namespace shen
         std::map<std::type_index, System*> _mappedSystems;
         std::vector<System*> _registrationOrderedSystems;
         TimeSystem* _timeSystem = nullptr;
+        PlayerWindowInputSystem* _playerInputSystem = nullptr;
         World _world;
         Engine* _engine = nullptr;
 

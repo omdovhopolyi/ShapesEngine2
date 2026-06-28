@@ -6,7 +6,7 @@
 #include "ECS/Components/Common.h"
 #include "ECS/SystemsManager.h"
 #include "ECS/Systems/Input/InputCommandsCollection.h"
-#include "ECS/Systems/Sfml/SfmlInputSystem.h"
+#include <ECS/Systems/BaseSystems/PlayerWindowInputSystem.h>
 #include "Utils/Assert.h"
 #include "Utils/FilePath.h"
 #include "Serialization/WrapperTypes/XmlDataElementWrapper.h"
@@ -148,7 +148,7 @@ namespace shen
     void WorldInputSystem::LoadConfig()
     {
         auto inputCommandsCollection = _systems->GetSystem<InputCommandsCollection>();
-        auto sfmlInputSystem = _systems->GetSystem<SfmlInputSystem>();
+        auto inputSystem = _systems->GetInput();
 
         auto elementWrapper = XmlDataElementWrapper{ _systems };
         elementWrapper.LoadFile(FilePath::Path("assets/configs/input.xml"));
@@ -157,7 +157,7 @@ namespace shen
             const bool silent = true;
 
             InputType inputType;
-            inputType.keyCode = static_cast<int>(sfmlInputSystem->GetKeyByChar(element.GetStr("key"), silent));
+            inputType.keyCode = static_cast<int>(inputSystem->GetKeyByChar(element.GetStr("key"), silent));
             inputType.mouseButton = MouseButtonEnum.FromString(element.GetStr("mouseBtn", MouseButtonEnum.ToString(MouseButton::None)));
             inputType.type = InputEventTypeEnum.FromString(element.GetStr("inputEventType", InputEventTypeEnum.ToString(InputEventType::Undefined)));
             inputType.alt = element.GetBool("alt");

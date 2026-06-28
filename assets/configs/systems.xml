@@ -1,7 +1,15 @@
 <?xml version = "1.0"?>
 <systems>
-    <system type="SDLSystem"/>
     <system type="TimeSystem"/>
+    <system type="SDLWindowSystem"/>
+    <system type="SDLInputSystem"/>
+
+    <system type="SDLBeginFrameSystem"/>
+    <system type="SDLRenderSystem"/>
+    <!--<system type="SfmlSpriteRenderSystem"/>-->
+    <!--<system type="WindowsRenderSystem"/>-->
+    <!--<system type="SfmlRenderTargetsSystem"/>-->
+    <system type="SDLEndFrameSystem"/>
 
     <!--<system type="WindowsManager"/>-->
     <!--<system type="SfmlTexturesCollection"/>-->

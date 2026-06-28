@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS/Systems/BaseSystems/UpdateSystem.h"
+#include <ECS/Systems/BaseSystems/RenderSystem.h>
 
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
@@ -15,15 +15,14 @@ namespace shen
         float y = 0.f;
     };
 
-    class SDLSystem
-        : public UpdateSystem
+    class SDLRenderSystem
+        : public RenderSystem
     {
-        SYSTEMS_FACTORY(SDLSystem)
+        SYSTEMS_FACTORY(SDLRenderSystem)
 
     public:
-        void Init(SystemsManager* systems) override;
         void Start() override;
-        void Update() override;
+        void Draw() override;
 
     private:
         void InitVertexShader();
@@ -31,7 +30,7 @@ namespace shen
         void InitShaderProgram();
         void ClearShaders();
 
-        void ProcessInput();
+        //void ProcessInput();
 
     private:
         SDL_Window* _window = nullptr;

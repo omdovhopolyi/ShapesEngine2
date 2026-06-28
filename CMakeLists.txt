@@ -59,6 +59,9 @@ target_link_libraries(${TARGET_NAME} SDL3-static)
 add_subdirectory(external/glad)
 target_link_libraries(${TARGET_NAME} glad)
 
+add_subdirectory(submodules/glm)
+target_link_libraries(${TARGET_NAME} glm)
+
 add_subdirectory(submodules/SFML)
 target_link_libraries(${TARGET_NAME} sfml-graphics sfml-audio)
 
@@ -78,6 +81,7 @@ include_directories(src)
 
 include_directories(submodules/SDL/include)
 include_directories(external/glad/include)
+include_directories(submodules/glm)
 include_directories(submodules/SFML)
 include_directories(submodules/lua)
 include_directories(submodules/sol2)

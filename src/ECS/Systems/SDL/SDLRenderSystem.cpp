@@ -1,4 +1,4 @@
-#include "SDLSystem.h"
+#include <ECS/Systems/SDL/SDLRenderSystem.h>
 
 #include <Logger/Logger.h>
 
@@ -11,9 +11,9 @@
 
 namespace shen
 {
-    REGISTER_SYSTEMS_FACTORY(SDLSystem)
+    REGISTER_SYSTEMS_FACTORY(SDLRenderSystem)
 
-    void SDLSystem::ProcessInput()
+    /*void SDLRenderSystem::ProcessInput()
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -40,40 +40,9 @@ namespace shen
                 }
             }
         }
-    }
+    }*/
 
-    void SDLSystem::Init(SystemsManager* systems)
-    {
-        UpdateSystem::Init(systems);
-
-        SDL_Init(SDL_INIT_VIDEO);
-
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-        _window = SDL_CreateWindow(
-            "Shapes Engine",
-            1280,
-            720,
-            SDL_WINDOW_OPENGL
-        );
-
-        SDL_GLContext context = SDL_GL_CreateContext(_window);
-
-        if (!context) {
-            Logger::Err("Failed to create GL context");
-            return;
-        }
-
-        SDL_GL_MakeCurrent(_window, context);
-
-        if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-            Logger::Err("GLAD init failed");
-        }
-    }
-
-    void SDLSystem::Start()
+    void SDLRenderSystem::Start()
     {
         _vertices = {
             0.5f, 0.5f, 0.f,        1.f, 0.f, 0.f,
@@ -117,24 +86,16 @@ namespace shen
         _uOffset = glGetUniformLocation(_shaderProgram, "uOffset");
     }
 
-    void SDLSystem::Update()
+    void SDLRenderSystem::Draw()
     {
-        ProcessInput();
-
-        glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
         glUseProgram(_shaderProgram);
         glBindVertexArray(_vao);
         glUniform4f(_uColor, 0.f, 1.f, 0.f, 1.f);
         glUniform2f(_uOffset, _offset.x, _offset.y);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        SDL_GL_SwapWindow(_window);
     }
 
-    void SDLSystem::InitVertexShader()
+    void SDLRenderSystem::InitVertexShader()
     {
         _vertexShader = R"(
             #version 330 core
@@ -164,7 +125,7 @@ namespace shen
         }
     }
 
-    void SDLSystem::InitFragmentShader()
+    void SDLRenderSystem::InitFragmentShader()
     {
         _fragmentShader = R"(
             #version 330 core
@@ -192,7 +153,7 @@ namespace shen
         }
     }
 
-    void SDLSystem::InitShaderProgram()
+    void SDLRenderSystem::InitShaderProgram()
     {
         _shaderProgram = glCreateProgram();
         glAttachShader(_shaderProgram, _vertexShaderID);
@@ -208,7 +169,7 @@ namespace shen
         }
     }
 
-    void SDLSystem::ClearShaders()
+    void SDLRenderSystem::ClearShaders()
     {
         glDeleteShader(_vertexShaderID);
         glDeleteShader(_fragmentShaderID);
