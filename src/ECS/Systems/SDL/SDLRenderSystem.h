@@ -2,6 +2,8 @@
 
 #include <ECS/Systems/BaseSystems/RenderSystem.h>
 
+#include <Messenger/SubscriptionsContainer.h>
+
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
 
@@ -30,7 +32,7 @@ namespace shen
         void InitShaderProgram();
         void ClearShaders();
 
-        //void ProcessInput();
+        void InitSubscriptions();
 
     private:
         SDL_Window* _window = nullptr;
@@ -49,5 +51,7 @@ namespace shen
 
         GLint _uColor = -1;
         GLint _uOffset = -1;
+
+        SubcriptionsContainer _subscriptions;
     };
 }

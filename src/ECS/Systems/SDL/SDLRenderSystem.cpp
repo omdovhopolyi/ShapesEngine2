@@ -1,4 +1,6 @@
 #include <ECS/Systems/SDL/SDLRenderSystem.h>
+#include <ECS/Systems/BaseSystems/PlayerWindowInputSystem.h>
+#include <ECS/SystemsManager.h>
 
 #include <Logger/Logger.h>
 
@@ -6,44 +8,17 @@
 #include <SDL3/SDL_keyboard.h>
 #include <SDL3/SDL_scancode.h>
 
-#include "Messenger/Messenger.h"
-#include "Messenger/Events/Common.h"
+#include <Messenger/Messenger.h>
+#include <Messenger/Events/Common.h>
 
 namespace shen
 {
     REGISTER_SYSTEMS_FACTORY(SDLRenderSystem)
 
-    /*void SDLRenderSystem::ProcessInput()
-    {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_EVENT_QUIT) {
-                Messenger::Instance().Broadcast<Quit>();
-            }
-            if (event.type == SDL_EVENT_KEY_UP) {
-                if (event.key.key == SDLK_UP) {
-                    _offset.y += 0.01f;
-                    Logger::Log("KEY_UP");
-                }
-                if (event.key.key == SDLK_DOWN) {
-                    _offset.y -= 0.01f;
-                    Logger::Log("KEY_DOWN");
-                }
-                if (event.key.key == SDLK_RIGHT) {
-                    _offset.x += 0.01f;
-                    Logger::Log("KEY_RIGHT");
-                }
-                if (event.key.key == SDLK_LEFT) {
-                    _offset.x -= 0.01;
-                    Logger::Log("KEY_LEFT");
-                }
-            }
-        }
-    }*/
-
     void SDLRenderSystem::Start()
     {
+        InitSubscriptions();
+
         _vertices = {
             0.5f, 0.5f, 0.f,        1.f, 0.f, 0.f,
             -0.5f, 0.5f, 0.f,       0.f, 1.f, 0.f,
@@ -173,5 +148,31 @@ namespace shen
     {
         glDeleteShader(_vertexShaderID);
         glDeleteShader(_fragmentShaderID);
+    }
+
+    void SDLRenderSystem::InitSubscriptions()
+    {
+        _subscriptions.Subscribe<KeyEvent>([this](const auto& event) {
+            auto inputSystem = _systems->GetInput();
+
+            if (event.type == InputEventType::Up) {
+                if (inputSystem->GetCharByKey(event.code) == "Up") {
+                    _offset.y += 0.01f;
+                    Logger::Log("KEY_UP");
+                }
+                if (inputSystem->GetCharByKey(event.code) == "Down") {
+                    _offset.y -= 0.01f;
+                    Logger::Log("KEY_DOWN");
+                }
+                if (inputSystem->GetCharByKey(event.code) == "Right") {
+                    _offset.x += 0.01f;
+                    Logger::Log("KEY_RIGHT");
+                }
+                if (inputSystem->GetCharByKey(event.code) == "Left") {
+                    _offset.x -= 0.01f;
+                    Logger::Log("KEY_LEFT");
+                }
+            }
+        });
     }
 }

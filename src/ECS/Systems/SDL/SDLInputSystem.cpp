@@ -190,6 +190,10 @@ namespace shen
     
     std::string SDLInputSystem::GetCharByKey(int key) const
     {
+        auto it = _keyCharMap.find(key);
+        if (it != _keyCharMap.end()) {
+            return it->second;
+        }
         return {};
     }
 
