@@ -20,20 +20,10 @@ namespace shen
     void MapLoaderSystem::Init(SystemsManager* systems)
     {
         System::Init(systems);
-        //RegisterLoaders();
-        // TODO subscriptions
-        //LoadMap("map_test");
     }
 
     void MapLoaderSystem::RegisterLoaders()
     {
-        /*RegisterLoader<Sprite>("sprite");
-        RegisterLoader<Camera>("camera");
-        RegisterLoader<Transform>("transform");
-        RegisterLoader<SpriteFrameAnimation>("spriteFrameAnimation");
-        RegisterLoader<Color>("color");
-        RegisterLoader<PlayerInput>("playerInput");
-        RegisterLoader<RigidBody>("rigidBody");*/
     }
 
     void MapLoaderSystem::LoadMap(const std::string& mapId)
