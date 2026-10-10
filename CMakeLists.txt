@@ -42,7 +42,11 @@ foreach(source IN LISTS SRC_FILES)
     source_group("${source_path}" FILES "${source}")
 endforeach()
 
+target_compile_options(${TARGET_NAME} PUBLIC /utf-8)
+
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
+
+set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 
 set(ENTT_INCLUDE_NATVIS ON CACHE BOOL "" FORCE)
 
@@ -51,7 +55,7 @@ set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "" FORCE)
 
 set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
   
-set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
+#set(BEZIER_TESTS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(submodules/SFML)
 target_link_libraries(${TARGET_NAME} sfml-graphics sfml-audio)
@@ -65,8 +69,11 @@ target_link_libraries(${TARGET_NAME} sol2)
 add_subdirectory(submodules/box2d)
 target_link_libraries(${TARGET_NAME} box2d)
 
-add_subdirectory(submodules/bezier)
-target_link_libraries(${TARGET_NAME} bezier)
+add_subdirectory(submodules/spdlog)
+target_link_libraries(${TARGET_NAME} spdlog)
+
+#add_subdirectory(submodules/bezier)
+#target_link_libraries(${TARGET_NAME} bezier)
 
 include_directories(src)
 
@@ -76,6 +83,9 @@ include_directories(submodules/sol2)
 include_directories(submodules/spdlog/include)
 include_directories(submodules/entt/src)
 include_directories(submodules/box2d/include)
-include_directories(submodules/bezier)
+#include_directories(submodules/bezier)
 
 add_compile_definitions(_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
+
+get_target_property(SPDLOG_TYPE spdlog::spdlog TYPE)
+message(STATUS "spdlog type: ${SPDLOG_TYPE}")

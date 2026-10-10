@@ -22,6 +22,7 @@ namespace shen
         System::Init(systems);
         //RegisterLoaders();
         // TODO subscriptions
+        //LoadMap("map_test");
     }
 
     void MapLoaderSystem::RegisterLoaders()
@@ -84,11 +85,6 @@ namespace shen
 
     Entity MapLoaderSystem::InstantiateAsset(const std::string& assetId)
     {
-        if (assetId == "hit_1")
-        {
-            bool check = true;
-        }
-
         if (auto assetsCollection = _systems->GetSystem<ObjectsAssetsCollectonSystem>())
         {
             if (const auto assetData = assetsCollection->GetData(assetId))
